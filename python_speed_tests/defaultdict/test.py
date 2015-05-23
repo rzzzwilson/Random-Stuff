@@ -6,8 +6,11 @@ Compare relative speeds of dict and defaultdict in various uses.
 
 import time
 import collections
+import platform
 
 string = 'The quick brown fox jumps over the lazy dog'*1000000
+
+print('Using Python %s on %s' % (platform.python_version(), platform.platform()))
 
 # compare methods
 accum_setdefault = {}

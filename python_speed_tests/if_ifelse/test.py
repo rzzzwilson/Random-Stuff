@@ -10,10 +10,14 @@ against:
 """
 
 import time
+import platform
 
 
 LOOPS = 100000000
 flag = False
+
+print('Using Python %s on %s for %d operations'
+        % (platform.python_version(), platform.platform(), LOOPS))
 
 start = time.time()
 for _ in xrange(LOOPS):
