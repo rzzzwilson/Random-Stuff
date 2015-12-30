@@ -68,4 +68,8 @@ method if you can spare the memory. If you can't, use the stringio method.
 If you aren't in a tight loop and you can use the slightly less general
 comprehension method then do that if memory is not a concern, else use stringio.
 
-
+The take-away conclusion: If you are doing a lot of string concatenation work
+and you make an assumption about relative speeds, expect this to change with
+python updates and codebase changes.  So TEST YOUR ASSUMPTIONS and possibly
+build those assumptions into a unittest case.  And test your actual application
+speed, possibly in another unittest case.
