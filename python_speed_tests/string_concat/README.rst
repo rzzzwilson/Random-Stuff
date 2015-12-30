@@ -54,7 +54,7 @@ does show the expected pathological behaviour.
 A memory profile of test.py is eye-opening! The array, join and
 comprehension methods use a lot of memory, much more than expected.
 
-.. image:: Random-Stuff/blob/master/python_speed_tests/string_concat/results.png
+.. image:: results.png
 
 Conclusions
 -----------
