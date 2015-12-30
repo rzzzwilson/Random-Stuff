@@ -5,14 +5,17 @@ Methods
 =======
 
 If you read the Python programming blogs or google for
-"python string concatenation" you find statements that the naive 'a += b' method
-of concatenating strings is horribly slow and uses too much memory.
+"python string concatenation" you find statements that the naive
+
+    'a += b'
+    
+method of concatenating strings is horribly slow and uses too much memory.
 
 Well, it's not that simple with newer Pythons. The code here tests various
 methods of concatenating strings:
 
 +=============+======================================+
-|Method       |                                      |
+|Method       |Description                           |
 +-------------+--------------------------------------+
 |naive        |the old 'a += b' method               |
 |array        |using the array module .join() method |
@@ -24,11 +27,11 @@ methods of concatenating strings:
 An additional method using mutable strings was tried, but it was so slow it
 wasn't tested.
 
-The general method used in test.py is a tight loop over a large range appending
-a numeric string. The printed results shows that the naive method is the
-preferred method: it uses less memory and runs more quickly. This is contrary to
-the general sentiment on the web which probably came about because older Pythons
-were slow doing 'a += b'.
+The general method used in **test.py** is a tight loop over a large range
+appending a numeric string. The printed results shows that the naive method is
+the preferred method: it uses less memory and runs more quickly. This is
+contrary to the general sentiment on the web which probably came about because
+older Pythons were slow doing 'a += b'.
 
 Using Python 2.7.3 and 50000000 concatenations the times were:
 
@@ -48,8 +51,10 @@ objects concatenated in a tight loop. **test.py** tests code of this form.
 small function in an attempt to defeat the above optimization. The naive method
 does show the expected pathological behaviour.
 
-A memory profile of test.py is eye-opening! The array, join and comprehension
-methods use a lot of memory, much more than expected.
+A memory profile of test.py is eye-opening! The array, join and
+comprehension methods use a lot of memory, much more than expected.
+
+.. image:: Random-Stuff/blob/master/python_speed_tests/string_concat/results.png
 
 Conclusions
 -----------
