@@ -8,21 +8,21 @@ If you read the Python programming blogs or google for
 "python string concatenation" you find statements that the naive
 
     'a += b'
-    
+
 method of concatenating strings is horribly slow and uses too much memory.
 
 Well, it's not that simple with newer Pythons. The code here tests various
 methods of concatenating strings:
 
-+=============+======================================+
-|Method       |Description                           |
-+-------------+--------------------------------------+
-|naive        |the old 'a += b' method               |
-|array        |using the array module .join() method |
-|join         |using the list object .join() method  |
-|stringio     |concatenating with a StringIO object  |
-|comprehension|creating a string with comprehension  |
-+-------------+--------------------------------------+
+=============  =====================================
+Method         Description
+=============  =====================================
+naive          the old 'a += b' method
+array          using the array module .join() method
+join           using the list object .join() method
+stringio       concatenating with a StringIO object
+comprehension  creating a string with comprehension
+=============  =====================================
 
 An additional method using mutable strings was tried, but it was so slow it
 wasn't tested.
@@ -35,15 +35,15 @@ older Pythons were slow doing 'a += b'.
 
 Using Python 2.7.3 and 50000000 concatenations the times were:
 
-+=============+=======+
-|Method       |Time   |
-+-------------+-------+
-|naive        |13.02s |
-|array        |31.39s |
-|join         |15.99s |
-|stringio     |19.17s |
-|comprehension|12.20s |
-+-------------+-------+
+=============  ======
+Method         Time
+=============  ======
+naive          13.02s 
+array          31.39s 
+join           15.99s 
+stringio       19.17s 
+comprehension  12.20s 
+=============  ======
 
 New Pythons, possibly 2.5 and later, apparently have an optimization for string
 objects concatenated in a tight loop. **test.py** tests code of this form.
