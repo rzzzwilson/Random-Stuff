@@ -14,7 +14,7 @@ that there were three types of students:
 2. The average students who learnt a bit but were average
 3. Those who were going to be good despite being at university
 
-You need to be something like type 3 above if you have any hope of doing this
+You need to be something like type 3 if you have any hope of doing this
 yourself.  How do you become type 3?  I don't know.  Certainly curiosity is part
 of a good programmer.  Patience and lack of patience, at the appropriate time,
 is another.  `Larry Wall <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_
@@ -32,7 +32,8 @@ acceptable on-time solution but always be thinking about better solutions,
 easier long-term maintenance, more adaptable code, etc.
 
 A computer language is just the basic tool used to tell a computer what to do.
-You have to know what to do first, before you tell the computer!
+You have to know what to do first, before you tell the computer!  And that's
+**really** what being a programmer is all about.
 
 Paradigms, database, network, gui, ...
 --------------------------------------
