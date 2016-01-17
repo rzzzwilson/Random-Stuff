@@ -116,6 +116,15 @@ good way to learn your second language!
 You must write code to learn to program, and then analyse the code, tear it
 apart and rewrite it.  Get your hands dirty.
 
+There is no better way to learn than by solving your own problems.  Have a
+problem with iTunes mangling your playlists?  Write some code that creates
+playlists the way you want them.  It's time to change passwords for the hundred
+or so sites you use?  Write a little program to generate strong memorable
+passwords that you will use, with configurable lengths and characters used.
+Solving your own personal problems makes your learning more interesting, you
+get closer to real-world programming and you get pushed into areas you might
+not have been before.
+
 Communication
 -------------
 
@@ -130,7 +139,9 @@ good English is important.
 
 For example, I wrote the first draught of this in vim into a text file.  But I
 copied it into OpenOffice so I could spell-check it before I committed it.  I
-hope that all my mistakes were caught, but alas, probably not.
+hope that all my mistakes were caught, but probably not.
+
+PS: Alas, after committing I found some grammar errors.  Grammar is hard.
 
 Summary
 -------
@@ -145,8 +156,9 @@ the way to knowledge can be smoother if you choose a language that doesn't
 clutter your path with initially unnecessary complications.  You are really
 learning how to solve problems with a computer.  The language is incidental.
 
-Ruby is a good first language, as is Python.  Either of those will help you get
-started.  If you are going to learn by yourself look at the support communities
-for your language of choice, on-line tutorials, etc.
+Python is a good first language, as is Ruby.  Either of those will help you get
+started by teaching you the fundamentals.  If you are going to learn by yourself
+look at the support communities for your language of choice, on-line tutorials,
+etc.
 
 Good luck!
