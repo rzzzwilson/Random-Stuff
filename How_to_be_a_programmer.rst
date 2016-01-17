@@ -38,8 +38,8 @@ There's a lot more to programming than the language you use.  Being able to use
 a particular language well is just the very beginning.  If you want to solve
 problems (which is really what a computer is used for) then you need to get into
 a myriad other things, such as databases, GUI libraries, etc.  While I don't
-agree with everything said, `this overview <http://www.wikihow.com/Become-a-Programmer>`_
-might be useful.
+agree with everything said,
+`this overview <http://www.wikihow.com/Become-a-Programmer>`_ might be useful.
 
 There are different paradigms in languages, such as procedural programming,
 object-oriented programming, functional programming and logic programming.
@@ -52,7 +52,7 @@ Operating system
 ----------------
 
 In the beginning it really doesn't matter what operating system you use.  Later,
-though, it's important that you get exposed to the big three OSs: Windows, OSX
+though, it's important that you get exposed to the three big OSs: Windows, OSX
 and Linux.  OSX and Linux are sort of the same, but Windows is very different.
 If you can, start learning on both Windows and Linux.  If you don't want to
 spend money, learn on Linux.  You really need Apple hardware to run OSX, but you
@@ -63,7 +63,7 @@ Resources
 
 You will use a lot of online resources while learning and when a working
 programmer.  So an internet connection is required.  Not necessarily a reliable
-connection while _learning_, but when working you need a reliable connection.
+connection while *learning*, but when working you need a reliable connection.
 
 When you get some experience try to help others in your language or framework
 of choice.  You don't really know something until you've tried to teach someone
@@ -73,36 +73,36 @@ GitHub
 ------
 
 While I'm not a great fan of `GitHub <https://github.com/>`_
-you should create an account and develop
-any code you write in it.  For better or worse it's a good place to show your
-portfolio of code.  People can look at the quality and how often you update.
-Plus it's a good way to backup your code and get experience using a distributed
-version control system and an issues tracker.  There are other, similar,
-repositories, but GitHub is the 800 pound gorilla at the moment.
+you should create an account and develop any code you write in it.  For better
+or worse it's a good place to show your portfolio of code.  People can look at
+the quality and how often you update.  Plus it's a good way to backup your code
+and get experience using a distributed version control system and an issues
+tracker.  There are other, similar, repositories, but GitHub is the 800 pound
+gorilla at the moment.
 
 Broadening experience
 ---------------------
 
 When you know one language reasonably well you should try another DIFFERENT
-language.  Even the best language constrains the way you think and solve a
+language.  Even the best language constrains the way you think about and solve a
 problem, so exposing yourself to a very different language helps to broaden your
 view.  Languages like C, Python, Java, Forth or even an assembly language are
 useful in this respect.  I would even go so far as to recommend installing
-Scheme and plowing through the first few chapters of `SICP <https://mitpress.mit.edu/sicp/>`_.
-You will be
-exposed to a very different approach to problem solving.
+Scheme and plowing through the first few chapters of
+`SICP <https://mitpress.mit.edu/sicp/>`_.  You will be exposed to a very
+different approach to problem solving.
 
 Side projects
 -------------
 
 You won't get anywhere if all you do is follow an online tutorial and do the
 exercises.  Even if it a really good tutorial.  You have to take a solution
-(yours, or the tutorial one if one is given) and try to critique the code: is
-that a good way?  Could it be more readable?  Would a different algorithm be faster or
-more clear?  Try to solve a more generalised problem than that given in the
-tutorial.  I have found that the early `Google Code Jam <https://code.google.com/codejam>`_
-problems to be very
-good at making you sweat, particularly those that have time and memory
+(yours, or the tutorial one if one is given) and try to critique the code.  Is
+that a good way?  Could it be more readable?  Would a different algorithm be
+faster or more clear?  Try to solve a more generalised problem than that given
+in the tutorial.  I have found the early
+`Google Code Jam <https://code.google.com/codejam>`_ problems to be very good at
+making you think and sweat, particularly those that have time and memory
 constraints.  There are other sites that have problems you can try.
 
 Even better, try to solve the exercise in a different language.  That's a really
@@ -120,8 +120,8 @@ a native speaker then you have to do even more work.
 
 When you work with programming languages you have to be very precise, and this
 carries over into the written English language.
-`This <http://www.catb.org/esr/faqs/hacker-howto.html#skills4>`_
-explains why good English is important.
+`This <http://www.catb.org/esr/faqs/hacker-howto.html#skills4>`_ explains why
+good English is important.
 
 For example, I wrote the first draught of this in vim into a text file.  But I
 copied it into OpenOffice so I could spell-check it before I committed it.  I
@@ -137,8 +137,8 @@ After all that, I haven't yet answered the original question:
 I hope you can see now that your first language doesn't really matter as you
 will go on to learn many others if you become a working programmer.  However,
 the way to knowledge can be smoother if you choose a language that doesn't
-clutter your path with unnecessary complications.  You are really learning how
-to solve problems with a computer.  The language is incidental.
+clutter your path with initially unnecessary complications.  You are really
+learning how to solve problems with a computer.  The language is incidental.
 
 Ruby is a good first language, as is Python.  Either of those will help you get
 started.  If you are going to learn by yourself look at the support communities
