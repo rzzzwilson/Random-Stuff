@@ -25,7 +25,7 @@ trying a different approach or algorithm.  Because there might be a better way.
 
 To learn to be a programmer by yourself you have to become what I call a
 "hacker".  The modern definition of the word "hacker" is rather negative.  The
-`older definition <http://www.catb.org/esr/faqs/hacker-howto.html#what_is>`_
+`older definition <http://www.catb.org/jargon/html/H/hacker.html>`_
 is what you should aim at.  I would add to that definition
 the attributes of curiosity and inventiveness.  You should always try for an
 acceptable on-time solution but always be thinking about better solutions,
