@@ -110,8 +110,9 @@ in the tutorial.  I have found the early
 making you think and sweat, particularly those that have time and memory
 constraints.  There are other sites that have problems you can try.
 
-Even better, try to solve the exercise in a different language.  That's a really
-good way to learn your second language!
+Even better, after getting your first solution try to solve the exercise again
+in a different language.  That's a really good way to learn your second
+language!
 
 You must write code to learn to program, and then analyse the code, tear it
 apart and rewrite it.  Get your hands dirty.
