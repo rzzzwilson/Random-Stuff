@@ -1,4 +1,7 @@
-I wrote this when replying to the umpteenth "What language should I learn"
+Why write this?
+===============
+
+I wrote this when replying to the umpteenth "What language should I learn?"
 post.
 
 Programming is not about the language
@@ -29,7 +32,7 @@ acceptable on-time solution but always be thinking about better solutions,
 easier long-term maintenance, more adaptable code, etc.
 
 A computer language is just the basic tool used to tell a computer what to do.
-You have to know what to do first, then tell the computer!
+You have to know what to do first, before you tell the computer!
 
 Paradigms, database, network, gui, ...
 --------------------------------------
@@ -89,8 +92,10 @@ problem, so exposing yourself to a very different language helps to broaden your
 view.  Languages like C, Python, Java, Forth or even an assembly language are
 useful in this respect.  I would even go so far as to recommend installing
 Scheme and plowing through the first few chapters of
-`SICP <https://mitpress.mit.edu/sicp/>`_.  You will be exposed to a very
-different approach to problem solving.
+`SICP <https://mitpress.mit.edu/sicp/>`_.  The
+`videos <http://groups.csail.mit.edu/mac/classes/6.001/abelson-sussman-lectures/>`_
+are also good value.  You will be exposed to a very different approach to
+problem solving.
 
 Side projects
 -------------
