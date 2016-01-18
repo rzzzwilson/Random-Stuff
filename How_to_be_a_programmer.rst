@@ -2,7 +2,8 @@ Why write this?
 ===============
 
 I wrote this when replying to the umpteenth "What language should I learn?"
-post.
+post.  My posts to that sort of question were inevitably long screeds, so I
+wrote this document which will get referenced in any future posts of mine.
 
 Programming is not about the language
 -------------------------------------
@@ -14,8 +15,8 @@ that there were three types of students:
 2. The average students who learnt a bit but were average
 3. Those who were going to be good despite being at university
 
-You need to be something like type 3 if you have any hope of doing this
-yourself.  How do you become type 3?  I don't know.  Certainly curiosity is part
+You need to be something like type 3 if you have any hope of learning to be a
+programmer by yourself.  How do you become type 3?  I don't know.  Certainly curiosity is part
 of a good programmer.  Patience and lack of patience, at the appropriate time,
 is another.  `Larry Wall <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_
 has a great quote along these lines.
@@ -26,7 +27,7 @@ trying a different approach or algorithm.  Because there might be a better way.
 To learn to be a programmer by yourself you have to become what I call a
 "hacker".  The modern definition of the word "hacker" is rather negative.  The
 `older definition <http://www.catb.org/jargon/html/H/hacker.html>`_
-is what you should aim at.  I would add to that definition
+describes the good programmer personality.  I would add to that definition
 the attributes of curiosity and inventiveness.  You should always try for an
 acceptable on-time solution but always be thinking about better solutions,
 easier long-term maintenance, more adaptable code, etc.
@@ -41,8 +42,8 @@ Paradigms, database, network, gui, ...
 There's a lot more to programming than the language you use.  Being able to use
 a particular language well is just the very beginning.  If you want to solve
 problems (which is really what a computer is used for) then you need to get into
-a myriad other things, such as databases, GUI libraries, etc.  While I don't
-agree with everything said,
+a myriad other things, such as databases, GUI libraries, data structures, etc.
+While I don't agree with everything said,
 `this overview <http://www.wikihow.com/Become-a-Programmer>`_ might be useful.
 
 There are different paradigms in languages, such as procedural programming,
@@ -60,7 +61,7 @@ though, it's important that you get exposed to the three big OSs: Windows, OSX
 and Linux.  OSX and Linux are sort of the same, but Windows is very different.
 If you can, start learning on both Windows and Linux.  If you don't want to
 spend money, learn on Linux.  You really need Apple hardware to run OSX, but you
-don't need to learn on OSX, so leave that until you need that platform.
+don't need to *learn* on OSX, so leave that OS until you need that platform.
 
 Resources
 ---------
@@ -68,6 +69,8 @@ Resources
 You will use a lot of online resources while learning and when a working
 programmer.  So an internet connection is required.  Not necessarily a reliable
 connection while *learning*, but when working you need a reliable connection.
+`Google <https://www.google.com>`_ is your friend!
+Or `DuckDuckGo <https://duckduckgo.com/>`_, etc.
 
 When you get some experience try to help others in your language or framework
 of choice.  You don't really know something until you've tried to teach someone
@@ -102,7 +105,7 @@ Side projects
 -------------
 
 You won't get anywhere if all you do is follow an online tutorial and do the
-exercises.  Even if it a really good tutorial.  You have to take a solution
+exercises.  Even if it's a really good tutorial.  You have to take a solution
 (yours, or the tutorial one if one is given) and try to critique the code.  Is
 that a good way?  Could it be more readable?  Would a different algorithm be
 faster or more clear?  Try to solve a more generalised problem than that given
@@ -162,5 +165,12 @@ Python is a good first language, as is Ruby.  Either of those will help you get
 started by teaching you the fundamentals.  If you are going to learn by yourself
 look at the support communities for your language of choice, on-line tutorials,
 etc.
+
+If you start with another language that's fine.  Just be sure to expose yourself
+to other languages later.  If you don't get some exposure to other ideas and
+approaches you can get a distorted view of what is possible in any solution you
+write.  Paul Graham talked about this in his essay
+`Beating the Averages <http://www.paulgraham.com/avg.html>`_ in the section
+*The Blub Paradox*.
 
 Good luck!
