@@ -145,13 +145,6 @@ It's important that you can communicate freely and well.  Even if you are a
 native English speaker you need to work on your presentation.  If you are not
 a native speaker then you have to do even more work.
 
-This applies even to the code you write.  You spent a lot of time and effort on
-your code, so why doesn't it look like it?  The first edition of SICP has this
-quote:
-
-    Programs must be written for people to read,
-    and only incidentally for machines to execute. 
-
 When you work with programming languages you have to be very precise, and this
 carries over into the written English language.
 `This <http://www.catb.org/esr/faqs/hacker-howto.html#skills4>`_ explains why
@@ -159,9 +152,14 @@ good English is important.
 
 For example, I wrote the first draught of this in vim into a text file.  But I
 copied it into OpenOffice so I could spell-check it before I committed it.  I
-hope that all my mistakes were caught, but probably not.
+hope that all my mistakes were caught, but probably not. [#]_
 
-PS: Alas, after committing I found some grammar errors.  Grammar is hard.
+This applies even to the code you write.  You spent a lot of time and effort on
+your code, didn't you?  So why doesn't it look like it?  The first edition of
+`SICP <https://mitpress.mit.edu/sicp/>`_ has this quote:
+
+    Programs must be written for people to read,
+    and only incidentally for machines to execute. 
 
 Summary
 -------
@@ -259,5 +257,6 @@ http://www.catb.org/esr/faqs/hacker-howto.html
 
 
 
+.. [#] Alas, after committing I found some grammar errors.  Grammar is hard.
 .. [#] A good training language, like a good training aircraft, should be easy to use, but difficult to use well.
 .. [#] Maybe a good small exercise would be to write code to manage linked lists.  Revisit this subject later when touching on API design and unit testing.
