@@ -16,10 +16,11 @@ that there were three types of students:
 3. Those who were going to be good despite being at university
 
 You need to be something like type 3 if you have any hope of learning to be a
-programmer by yourself.  How do you become type 3?  I don't know.  Certainly curiosity is part
-of a good programmer.  Patience and lack of patience, at the appropriate time,
-is another.  `Larry Wall <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_
-has a great quote along these lines.
+programmer by yourself.  How do you become type 3?  I don't know.  Certainly
+curiosity is part of a good programmer.  Patience and lack of patience, at the
+appropriate time, is another.  Larry Wall has a
+`great quote <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_ along these
+lines.
 
 The type 3 students were the ones who worked late hours trying things out,
 trying a different approach or algorithm.  Because there might be a better way.
@@ -49,7 +50,7 @@ While I don't agree with everything said,
 There are different paradigms in languages, such as procedural programming,
 object-oriented programming, functional programming and logic programming.
 There are many other words used, many marketing driven.  You should get exposed
-to them all, or at least a large subset.  This is why I like Python for
+to them all, or at least a large subset.  This is why I like python for
 beginners: it's simple to start but you can get into some really advanced usage
 when you are ready.  Ruby is probably like that, but I don't really know.
 
@@ -93,7 +94,7 @@ Broadening experience
 When you know one language reasonably well you should try another DIFFERENT
 language.  Even the best language constrains the way you think about and solve a
 problem, so exposing yourself to a very different language helps to broaden your
-view.  Languages like C, Python, Java, Forth or even an assembly language are
+view.  Languages like C, python, Java, Forth or even an assembly language are
 useful in this respect.  I would even go so far as to recommend installing
 Scheme and plowing through the first few chapters of
 `SICP <https://mitpress.mit.edu/sicp/>`_.  The
@@ -173,4 +174,54 @@ write.  Paul Graham talked about this in his essay
 `Beating the Averages <http://www.paulgraham.com/avg.html>`_ in the section
 *The Blub Paradox*.
 
+The Recommendation
+------------------
+
+After saying above that the first language you learn doesn't really matter, I'm
+going to go ahead and put in a recommendation for a first language.  Why would I
+do that?
+
+Some people just need a shove to get going.
+
+Most programmers of my era describe started with something like BASIC on an 8-bit
+microcomputer.  This brain-damaging experience didn't seem to put many off then,
+and that leads many to assume that Basic (or Java, or C++) is fine to start with
+now.  I disagree.
+
+Modern computer languages are *much* more complicated now than they were.  I
+remember taking
+`Kernighan & Ritchie <https://en.wikipedia.org/wiki/C_(programming_language)#K.26R_C>`_
+home one Friday night and starting to write moderately complicated C code on
+Monday.  That's a lot harder to do now when every language comes with an IDE and
+massive library.  Why burden beginners with all the minutiae of modern languages
+when they don't even know what a **while** loop is?
+
+Better to start simple and progress into more complicated things later.  Start
+with procedural programming, learn about loops, functions and all that.  Then
+advanced data structures, external to the language if possible.  It's better to
+write your own code to handle linked lists, for example, because when you get
+to a language that has them built in or provided by a library you actually know
+what is going on and why some things are slow and others are fast.
+
+So my recommended starting language is: **python**.  Yes, I am bigoted, but I
+accept that other languages like Ruby may be just as good.
+
+Python is a relatively simple language to start with, but it is powerful.  Much
+of that power is hidden away but available when you need it.
+
+Python has too many good data structures built-in to be a *really* good teaching
+language. [#]_  To learn the bones of linked lists and hash tables you 
+really should implement them in something like C or assembler.  You *can*
+implement them in python, of course, but most students aren't shown that.
+
+So python is simple.  But that doesn't mean it's limiting like other simple
+languages, such as Basic.  With python you have a pretty good object-oriented
+environment.  You just aren't forced to use it as you are with Java.  The
+language also has limited functional programming features.
+
+Once you can handle all that python offers a large library of modules that
+allow you to do just about anything you want to do.
+
 Good luck!
+
+.. [#] A training language, like a training aircraft, should be easy to use, but difficult to use well.
