@@ -243,7 +243,9 @@ object-oriented environment.  You just aren't forced to use it as you are with
 Java.  The language also has limited functional programming features.
 
 Once you can handle all that python itself offers there is a large library of
-built-in modules that allow you to do just about anything you want to do.
+built-in modules that allow you to do just about anything you want to do.  And
+after that there is the even larger library of modules in
+`the CheeseShop <https://pypi.python.org/pypi>`_.
 
 Good luck!
 
