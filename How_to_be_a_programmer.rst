@@ -255,8 +255,10 @@ http://norvig.com/21-days.html
 
 http://www.catb.org/esr/faqs/hacker-howto.html
 
+http://www.linuxjournal.com/article/3882
+
 
 
 .. [#] Alas, after committing I found some grammar errors.  Grammar is hard.
 .. [#] A good training language, like a good training aircraft, should be easy to use, but difficult to use well.
-.. [#] Maybe a good small exercise would be to write code to manage linked lists.  Revisit this subject later when touching on API design and unit testing.
+.. [#] Maybe a good small exercise would be to write code to manage linked lists.  Revisit this subject later when touching on API design, unit testing and object-oriented classes.
