@@ -96,7 +96,7 @@ at the moment.
 Broadening experience
 ---------------------
 
-When you know one language reasonably well you should try another DIFFERENT
+When you know one language reasonably well you should try another, different,
 language.  Even the best language constrains the way you think about and solve a
 problem, so exposing yourself to a very different language helps to broaden your
 view.  Languages like C, python, Java, Forth or even an assembly language are
@@ -144,6 +144,13 @@ Communication
 It's important that you can communicate freely and well.  Even if you are a
 native English speaker you need to work on your presentation.  If you are not
 a native speaker then you have to do even more work.
+
+This applies even to the code you write.  You spent a lot of time and effort on
+your code, so why doesn't it look like it?  The first edition of SICP has this
+quote:
+
+    Programs must be written for people to read,
+    and only incidentally for machines to execute. 
 
 When you work with programming languages you have to be very precise, and this
 carries over into the written English language.
