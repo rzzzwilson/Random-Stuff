@@ -5,6 +5,10 @@ I wrote this when replying to the umpteenth "What language should I learn?"
 post.  My posts to that sort of question were inevitably long screeds, so I
 wrote this document which will get referenced in any future posts of mine.
 
+If I had posted something different to each "how do I ..." post, each post
+would just have been a collection of quick half-formed thoughts.  At least this
+way I will finally have a collection of **considered** half-formed thoughts!
+
 Programming is not about the language, it's about you
 -----------------------------------------------------
 
@@ -12,7 +16,7 @@ When I was at university trying to learn how to be a programmer it was clear
 that there were three types of students:
 
 1. Those who would never be good even though they studied hard
-2. The average students who learnt a bit but were average
+2. The average students who learnt a bit but were still average
 3. Those who were going to be good despite being at university
 
 You need to be something like type 3 if you have any hope of learning to be a
@@ -42,7 +46,7 @@ Paradigms, database, network, gui, ...
 
 There's a lot more to programming than the language you use.  Being able to use
 a particular language well is just the very beginning.  If you want to solve
-problems (which is really what a computer is used for) then you need to get into
+problems (which is what a computer is used for) then you need to get into
 a myriad other things, such as databases, GUI libraries, data structures, etc.
 While I don't agree with everything said,
 `this overview <http://www.wikihow.com/Become-a-Programmer>`_ might be useful.
@@ -121,7 +125,9 @@ in a different language.  That's a really good way to learn your second
 language!
 
 You must write code to learn to program, and then analyse the code, tear it
-apart and rewrite it.  Get your hands dirty.
+apart and rewrite it.  Get your hands dirty.  It also helps if you read other
+people's code.  Be critical if the code can be improved, and steal ideas if
+the code is better than you would have written.
 
 There is no better way to learn than by solving your own problems.  Have a
 problem with iTunes mangling your playlists?  Write some code that creates
@@ -175,16 +181,17 @@ write.  Paul Graham talked about this in his essay
 `Beating the Averages <http://www.paulgraham.com/avg.html>`_ in the section
 *The Blub Paradox*.
 
-The Recommendation
-------------------
+My Recommendation for a First Language
+--------------------------------------
 
 After saying above that the first language you learn doesn't really matter, I'm
 going to go ahead and put in a recommendation for a first language.  Why would I
 do that?
 
-Some people just need a shove to get going.
+Some people just need a shove to get going.  They won't just pick a language and
+start, so I recommend one that I think is useful as a training language.
 
-Most programmers of my era describe started with something like BASIC on an 8-bit
+Most programmers of my era often started with something like BASIC on an 8-bit
 microcomputer.  This brain-damaging experience didn't seem to put many off then,
 and that leads many to assume that Basic (or Java, or C++) is fine to start with
 now.  I disagree.
@@ -206,7 +213,7 @@ what is going on and why some things are slow and others are fast.
 
 And that means starting with a language with a language with a
 `REPL <https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop>`_.
-It's simpler to do that than start talking about file and editors and make and
+It's simpler to do that than start talking about files and editors and make and
 compilers and linkers and whatever.  Using a heavyweight IDE like VisualStudio
 or Eclipse is not correct at the beginning either.  Yes, they *help* the student
 but that's because the student really needs help with the massive language
@@ -214,21 +221,21 @@ structure.
 
 So my recommended starting language is: **python**.  Yes, I am bigoted, but I
 accept that other languages like Ruby may be just as good.   Javascript, in my
-opinion, is too unnecessarily hard for beginners with too many special cases
+opinion, is unnecessarily hard for beginners with too many special cases
 and `wat! <https://www.destroyallsoftware.com/talks/wat>`_ moments.
 
 Python is a relatively simple language to start with, but it is powerful.  Much
-of that power is hidden away but available when you need it.
+of that power is hidden away but is available when you need it.
 
 Python has too many good data structures built-in to be a *really* good teaching
 language. [#]_  To learn the bones of linked lists and hash tables you 
 really should implement them in something like C or assembler.  You can
-implement them in python, of course, but most students aren't shown that.
+implement them in python, of course, but most students aren't shown that. [#]_
 
 So python is simple.  But that doesn't mean it's limiting like other simple
-languages, such as Basic.  With python you have a pretty good object-oriented
-environment.  You just aren't forced to use it as you are with Java.  The
-language also has limited functional programming features.
+languages such as Basic.  With python you also have a pretty good
+object-oriented environment.  You just aren't forced to use it as you are with
+Java.  The language also has limited functional programming features.
 
 Once you can handle all that python itself offers there is a large library of
 built-in modules that allow you to do just about anything you want to do.
@@ -246,3 +253,4 @@ http://www.catb.org/esr/faqs/hacker-howto.html
 
 
 .. [#] A good training language, like a good training aircraft, should be easy to use, but difficult to use well.
+.. [#] Maybe a good small exercise would be to write code to manage linked lists.  Revisit this subject later when touching on API design and unit testing.
