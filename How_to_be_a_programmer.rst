@@ -16,7 +16,7 @@ that there were three types of students:
 3. Those who were going to be good despite being at university
 
 You need to be something like type 3 if you have any hope of learning to be a
-programmer by yourself.  How do you become type 3?  I don't know.  Certainly
+programmer **by yourself**.  How do you become type 3?  I don't know.  Certainly
 curiosity is part of a good programmer.  Patience and lack of patience, at the
 appropriate time, is another.  Larry Wall has a
 `great quote <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_ along these
@@ -30,7 +30,7 @@ To learn to be a programmer by yourself you have to become what I call a
 `older definition <http://www.catb.org/jargon/html/H/hacker.html>`_
 describes the good programmer personality.  I would add to that definition
 the attributes of curiosity and inventiveness.  You should always try for an
-acceptable on-time solution but always be thinking about better solutions,
+acceptable on-time solution, but always be thinking about better solutions,
 easier long-term maintenance, more adaptable code, etc.
 
 A computer language is just the basic tool used to tell a computer what to do.
@@ -85,8 +85,9 @@ you should create an account and develop any code you write in it.  For better
 or worse it's a good place to show your portfolio of code.  People can look at
 the quality and how often you update.  Plus it's a good way to backup your code
 and get experience using a distributed version control system and an issues
-tracker.  There are other, similar, repositories, but GitHub is the 800 pound
-gorilla at the moment.
+tracker.  There are other, similar, repositories, but GitHub is the
+`800 pound gorilla <https://en.wikipedia.org/wiki/800-pound_gorilla>`_
+at the moment.
 
 Broadening experience
 ---------------------
@@ -233,5 +234,15 @@ Once you can handle all that python itself offers there is a large library of
 built-in modules that allow you to do just about anything you want to do.
 
 Good luck!
+
+
+Further Reading
+---------------
+
+http://norvig.com/21-days.html
+
+http://www.catb.org/esr/faqs/hacker-howto.html
+
+
 
 .. [#] A good training language, like a good training aircraft, should be easy to use, but difficult to use well.
