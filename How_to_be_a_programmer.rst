@@ -205,14 +205,15 @@ what is going on and why some things are slow and others are fast.
 
 And that means starting with a language with a language with a
 `REPL <https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop>`_.
-It's simpler to do that than start talking about editors and make and compilers
-and linkers and ..., etc.  Using a heavyweight IDE like VisualStudio or Eclipse
-is not correct at the beginning either.  Yes, they *help* the student but that's
-because the student really needs help with the massive language structure.
+It's simpler to do that than start talking about file and editors and make and
+compilers and linkers and whatever.  Using a heavyweight IDE like VisualStudio
+or Eclipse is not correct at the beginning either.  Yes, they *help* the student
+but that's because the student really needs help with the massive language
+structure.
 
 So my recommended starting language is: **python**.  Yes, I am bigoted, but I
 accept that other languages like Ruby may be just as good.   Javascript, in my
-opinion, is too unnecessarily hard for beginners, with too many special cases
+opinion, is too unnecessarily hard for beginners with too many special cases
 and `wat! <https://www.destroyallsoftware.com/talks/wat>`_ moments.
 
 Python is a relatively simple language to start with, but it is powerful.  Much
@@ -220,7 +221,7 @@ of that power is hidden away but available when you need it.
 
 Python has too many good data structures built-in to be a *really* good teaching
 language. [#]_  To learn the bones of linked lists and hash tables you 
-really should implement them in something like C or assembler.  You *can*
+really should implement them in something like C or assembler.  You can
 implement them in python, of course, but most students aren't shown that.
 
 So python is simple.  But that doesn't mean it's limiting like other simple
@@ -228,9 +229,9 @@ languages, such as Basic.  With python you have a pretty good object-oriented
 environment.  You just aren't forced to use it as you are with Java.  The
 language also has limited functional programming features.
 
-Once you can handle all that python offers a large library of modules that
-allow you to do just about anything you want to do.
+Once you can handle all that python itself offers there is a large library of
+built-in modules that allow you to do just about anything you want to do.
 
 Good luck!
 
-.. [#] A training language, like a training aircraft, should be easy to use, but difficult to use well.
+.. [#] A good training language, like a good training aircraft, should be easy to use, but difficult to use well.
