@@ -203,8 +203,17 @@ write your own code to handle linked lists, for example, because when you get
 to a language that has them built in or provided by a library you actually know
 what is going on and why some things are slow and others are fast.
 
+And that means starting with a language with a language with a
+`REPL <https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop>`_.
+It's simpler to do that than start talking about editors and make and compilers
+and linkers and ..., etc.  Using a heavyweight IDE like VisualStudio or Eclipse
+is not correct at the beginning either.  Yes, they *help* the student but that's
+because the student really needs help with the massive language structure.
+
 So my recommended starting language is: **python**.  Yes, I am bigoted, but I
-accept that other languages like Ruby may be just as good.
+accept that other languages like Ruby may be just as good.   Javascript, in my
+opinion, is too unnecessarily hard for beginners, with too many special cases
+and `wat! <https://www.destroyallsoftware.com/talks/wat>`_ moments.
 
 Python is a relatively simple language to start with, but it is powerful.  Much
 of that power is hidden away but available when you need it.
