@@ -5,8 +5,8 @@ I wrote this when replying to the umpteenth "What language should I learn?"
 post.  My posts to that sort of question were inevitably long screeds, so I
 wrote this document which will get referenced in any future posts of mine.
 
-Programming is not about the language
--------------------------------------
+Programming is not about the language, it's about you
+-----------------------------------------------------
 
 When I was at university trying to learn how to be a programmer it was clear
 that there were three types of students:
