@@ -1,0 +1,37 @@
+One possible pruning algoritmm is to notice an impossible
+situation and stop at that point.
+
+Every time we place a piece:
+. Examine every 'connected' empty square around the placed piece
+. Look for a hole that has size less than minimum size of remaining pieces
+. If found, prune the current path (ie, ABORT)
+
+We only look at the connected empty squares around the just-placed
+piece since we don't want to look at the entire board.
+
+We can precompute connected _possibly_ empty squares around each shape.
+
+So for every possibly empty square call big_hole(square, min_size).  This
+function will return False if hole and too small, ie, need to ABORT.
+
+----------------------
+
+Some effort has been made to make this run at reasonable speeds:
+
+* Doesn't use piece shapes that are the same as previous shapes (isomorphs)
+* Precalculate what can be precalculated
+
+What remains to be done:
+
+* Handle isomorph *pieces*, not just isomorph shapes for the same piece
+  (not sure this will speed things up though)
+* Recognize 'impossible' situations and backtrack immediately
+  (eg, single empty square in filled pieces and no single square piece)
+
+Optimization
+============
+
+Simple changes, like replacing p.isInUse() with p.inUse == True, do make
+solver faster, such as reducing runtime for test3.dat from 9m19.6s to
+8m33.5s.  These changes aren't in the latest version.
+
