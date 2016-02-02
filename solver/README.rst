@@ -18,5 +18,5 @@ A simple run would be:
 
     solver -g test.dat
 
-There are more details
-`in the wiki <https://github.com/rzzzwilson/Random-Stuff/wiki/puzzle-solver`_.
+There are more details in the wiki:
+<https://github.com/rzzzwilson/Random-Stuff/wiki/puzzle-solver>.
