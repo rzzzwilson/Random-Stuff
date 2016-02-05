@@ -190,13 +190,13 @@ My Recommendation for a First Language
 --------------------------------------
 
 After saying above that the first language you learn doesn't really matter, I'm
-going to go ahead and put in a recommendation for a first language.  Why would I
-do that?
+going to go ahead and give you a recommendation for a first language.  Why would
+I do that?
 
 Some people just need a shove to get going.  They won't just pick a language and
 start, so I recommend one that I think is useful as a training language.
 
-Most programmers of my era often started with something like BASIC on an 8-bit
+Most programmers of my era started with something like BASIC on an 8-bit
 microcomputer.  This brain-damaging experience didn't seem to put many off then,
 and that leads many to assume that Basic (or Java, or C++) is fine to start with
 now.  I disagree.
