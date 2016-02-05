@@ -1,7 +1,7 @@
 Why write this?
 ===============
 
-I wrote this when replying to the umpteenth "What language should I learn?"
+I wrote this when replying to the umpteenth "What language should I learn first?"
 post.  My posts to that sort of question were inevitably long screeds, so I
 wrote this document which will get referenced in any future posts of mine.
 
