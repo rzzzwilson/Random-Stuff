@@ -11,9 +11,11 @@ Proposed methods I found on the 'net:
 
 Running the test program produces:
 
-    Using Python 2.7.11 on Darwin-15.3.0-x86_64-i386-64bit
-     dict: took 14.46s
-      get: took 13.04s
-    ddict: took 6.50s
-      try: took 8.09s
-    All methods produce identical dictionaries
+```
+Using Python 2.7.11 on Darwin-15.3.0-x86_64-i386-64bit
+ dict: took 14.46s
+  get: took 13.04s
+ddict: took 6.50s
+  try: took 8.09s
+All methods produce identical dictionaries
+```
