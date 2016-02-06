@@ -56,17 +56,16 @@ DataFile = None
 Images = {}
 
 
-######
-# Shape
-#
-# Holds squares for one shape.
-# Only interesting method is rotate90() which creates a new shape.
-# We calculate the images for each 1/4 tile image here (once).
-#
-# 'self.placement' holds the square coordinates and 4 images for each square.
-# The self.idtags holds the ID tags for the placed images (empty at this point).
-######
 class Shape(object):
+    """Holds squares for one shape.
+
+    Only interesting method is rotate90() which creates a new shape.
+    We calculate the images for each 1/4 tile image here (once).
+
+    'self.placement' holds the square coordinates and 4 images for each square.
+    The self.idtags holds the ID tags for the placed images (empty at this point).
+    """
+
     def __init__(self, squares):
         def getId(shape, x, y):
             if (x, y) in squares: return '1'
@@ -75,7 +74,6 @@ class Shape(object):
         self.idtags = []
         self.placement = []
 
-        global GraphicsFlag
         if GraphicsFlag:
             global Images
             for (x, y) in squares:
@@ -140,16 +138,15 @@ class Shape(object):
         for ((dx, dy), t) in self.placement:
             newx = x + dx
             newy = y + dy
-            if newx < 0 or newx >= board.xsize or \
-                    newy < 0 or newy >= board.ysize or \
-                    board.isSet(newx, newy):
+            if (newx < 0 or newx >= board.xsize or
+                    newy < 0 or newy >= board.ysize or
+                    board.isSet(newx, newy)):
                 return False
 
         for ((dx, dy), t) in self.placement:
             board.set(x+dx, y+dy, number)
 
         # if doing graphics, place the 4 1/4 tiles for each square
-        global GraphicsFlag
         if GraphicsFlag:
             self.idtags = []
             for ((dx, dy), (nw, ne, se, sw)) in self.placement:
@@ -181,7 +178,6 @@ class Shape(object):
             board.unSet(x+dx, y+dy)
 
         # if doing graphics, remove all shape 1/4 tiles
-        global GraphicsFlag
         if GraphicsFlag:
             for tag in self.idtags:
                 board.canvas.delete(tag)
@@ -189,30 +185,27 @@ class Shape(object):
             board.root.update()
 
 
-######
-# Piece
-#
-# Holds the four shapes of a piece (remove isomorphic shapes).
-######
 class Piece(object):
+    """Piece - Holds the unique shapes of a piece."""
+
     def __init__(self, number, shape):
         self.inUse = False
         self.number = number
         self.shapes = []
         self.numsquares = len(shape.getSquares())
-        # 90 degrees right orientation
-        # we throw away first shape as it isn't canonical
+        # generate all four possible rotations
+        # we throw away a shape if it isn't unique
         shape = shape.rotate90()
         self.shapes.append(shape)
-        # 180 degrees right orientation
+
         shape = shape.rotate90()
         if shape not in self.shapes:        # ie, is same as previous shape?
             self.shapes.append(shape)
-        # 270 degrees right orientation
+
         shape = shape.rotate90()
         if shape not in self.shapes:
             self.shapes.append(shape)
-        # 360 degrees right orientation
+
         shape = shape.rotate90()
         if shape not in self.shapes:
             self.shapes.append(shape)
@@ -236,16 +229,14 @@ class Piece(object):
         return self.numsquares
 
 
-######
-# Board
-#
-# Holds values of squares on the board.
-######
 class Board(object):
+    """Holds values of squares on the board."""
+
     def __init__(self, xsize, ysize):
         self.xsize=xsize
         self.ysize=ysize
         self.seensigs = []
+
         # create empty board grid
         self.board = []
         for y in range(ysize):
@@ -255,7 +246,6 @@ class Board(object):
             self.board.append(row)
 
         # if doing graphics, get 1/4 tile images
-        global GraphicsFlag
         if GraphicsFlag:
             global Images
             # start Tkinter up
@@ -286,9 +276,9 @@ class Board(object):
             if y != 0:
                 for x in range(self.xsize):
                     if x > 0:
-                        if self.board[y][x] == self.board[y-1][x-1] and \
-                           self.board[y][x] == self.board[y-1][x] and \
-                           self.board[y][x] == self.board[y][x-1]:
+                        if (self.board[y][x] == self.board[y-1][x-1] and
+                                self.board[y][x] == self.board[y-1][x] and
+                                self.board[y][x] == self.board[y][x-1]):
                             result = result + show[self.board[y][x]]
                         else:
                             result = result + ' '
@@ -424,7 +414,6 @@ def solve(board, pieces, x, y, numsolns=0):
             print "Solution %d:" % numsolns
             print board
             board.saveSig()
-            global GraphicsFlag, DataFile
             if GraphicsFlag:
                 board.snapSolution("%s.solution%02d.eps" % (DataFile, numsolns))
     else:
@@ -498,8 +487,8 @@ def main():
         numsquares += p.getNumSquares()
 
     if numsquares != xsize * ysize:
-        print "ERROR: Board has %d squares, shapes add up to %d squares!?" % \
-                        (xsize * ysize, numsquares)
+        print ('ERROR: Board has %d squares, shapes add up to %d squares!?'
+               % (xsize * ysize, numsquares))
         return 2
 
     ######
