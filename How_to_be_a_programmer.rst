@@ -79,6 +79,11 @@ connection while *learning*, but when working you need a reliable connection.
 `Google <https://www.google.com>`_ is your friend!
 Or `DuckDuckGo <https://duckduckgo.com/>`_, etc.
 
+The user community associated with a language is very important.  It must be
+welcoming, helpful and large enough.  Some languages (no names given) have
+communities with the reputation of being extremely pedantic and dismissive
+of beginners.  This doesn't help you; avoid these communities.
+
 When you get some experience try to help others in your language or framework
 of choice.  You don't really know something until you've tried to teach someone
 else, and that's when your own learning accelerates!
@@ -86,14 +91,14 @@ else, and that's when your own learning accelerates!
 GitHub
 ------
 
-While I'm not a great fan of `GitHub <https://github.com/>`_
+While I'm not a great fan of `GitHub <https://github.com/>`_,
 you should create an account and develop any code you write in it.  For better
 or worse it's a good place to show your portfolio of code.  People can look at
 the quality and how often you update.  Plus it's a good way to backup your code
 and get experience using a distributed version control system and an issues
 tracker.  There are other, similar, repositories, but GitHub is the
 `800 pound gorilla <https://en.wikipedia.org/wiki/800-pound_gorilla>`_
-at the moment.
+at the moment.  Other repositories can be as good as (better than?) GitHub.
 
 Broadening experience
 ---------------------
@@ -103,8 +108,8 @@ language.  Even the best language constrains the way you think about and solve a
 problem, so exposing yourself to a very different language helps to broaden your
 view.  Languages like C, Python, Java, Forth or even an assembly language are
 useful in this respect.  I would even go so far as to recommend installing
-Scheme and plowing through the first few chapters of
-`SICP <https://mitpress.mit.edu/sicp/>`_.  The
+`Scheme <https://www.gnu.org/software/mit-scheme/>`_ and plowing through the
+first few chapters of `SICP <https://mitpress.mit.edu/sicp/>`_.  The
 `videos <http://groups.csail.mit.edu/mac/classes/6.001/abelson-sussman-lectures/>`_
 are also good value.  You will be exposed to a very different approach to
 problem solving.
@@ -138,11 +143,12 @@ apart and rewrite it.  Get your hands dirty.  It also helps if you read other
 people's code.  Be critical if the code can be improved, and steal ideas if
 the code is better than you would have written.
 
-There is no better way to learn than by solving your own problems.  Have a
-problem with iTunes mangling your playlists?  Write some code that creates
-playlists the way you want them.  It's time to change passwords for the hundred
-or so sites you use?  Write a little program to generate strong memorable
+There is no better way to learn than by solving your own problems.  iTunes
+mangling your playlists?  Write some code that creates
+playlists the way you want them.  It's time to change passwords for the hundreds
+of web sites that you use?  Write a little program to generate strong memorable
 passwords that you will use, with configurable lengths and characters used.
+
 Solving your own personal problems makes your learning more interesting, you
 get closer to real-world programming and you get pushed into areas you might
 not have been before.
@@ -156,11 +162,11 @@ a native speaker then you have to do even more work.
 
 When you work with programming languages you have to be very precise, and this
 carries over into the written English language.
-`This <http://www.catb.org/esr/faqs/hacker-howto.html#skills4>`_ explains why
-good English is important.
+`Eric Raymond <http://www.catb.org/esr/faqs/hacker-howto.html#skills4>`_
+explains why good English is important.
 
 For example, I wrote the first draught of this in vim into a text file.  But I
-copied it into OpenOffice so I could spell-check it before I committed it.  I
+copied it into OpenOffice so I could spellcheck it before I committed it.  I
 hope that all my mistakes were caught, but probably not. [#]_
 
 This applies even to the code you write.  You spent a lot of time and effort on
@@ -187,15 +193,12 @@ the way to knowledge can be smoother if you choose a language that doesn't
 clutter your path with initially unnecessary complications.  You are really
 learning how to solve problems with a computer.  The language is incidental.
 
-Python is a good first language, as is Ruby.  Either of those will help you get
-started by teaching you the fundamentals.  If you are going to learn by yourself
-look at the support communities for your language of choice, on-line tutorials,
-etc.
+If you are going to learn by yourself look at the support communities for your
+language of choice, on-line tutorials, etc.
 
-If you start with another language that's fine.  Just be sure to expose yourself
-to other languages later.  If you don't get some exposure to other ideas and
-approaches you can get a distorted view of what is possible in any solution you
-write.  Paul Graham talked about this in his essay
+Be sure to expose yourself to other languages later on.  If you don't get some
+exposure to other ideas and approaches you can get a distorted view of what is
+possible in any solution you write.  Paul Graham talked about this in his essay
 `Beating the Averages <http://www.paulgraham.com/avg.html>`_ in the section
 *The Blub Paradox*.
 
@@ -211,8 +214,8 @@ start, so I recommend one that I think is useful as a training language.
 
 Most programmers of my era started with something like BASIC on an 8-bit
 microcomputer.  This brain-damaging experience didn't seem to put many off then,
-and that leads many to assume that Basic (or Java, or C++) is fine to start with
-now.  I disagree.
+and that leads many to assume that Javascript (or Java, or C++) is fine to start
+with now.  I disagree.
 
 Modern computer languages are *much* more complicated now than they were.  I
 remember taking
