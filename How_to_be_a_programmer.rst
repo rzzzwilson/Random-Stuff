@@ -16,18 +16,19 @@ When I was at university trying to learn how to be a programmer it was clear
 that there were three types of students:
 
 1. Those who would never be good even though they studied hard
-2. The average students who learnt a bit but were still average
+2. The average students who learnt a bit but were still average [#]_
 3. Those who were going to be good despite being at university
 
 You need to be something like type 3 if you have any hope of learning to be a
 programmer **by yourself**.  How do you become type 3?  I don't know.  Certainly
-curiosity is part of a good programmer.  Patience and lack of patience, at the
+curiosity is part of a good programmer.  Patience or lack of patience, at the
 appropriate time, is another.  Larry Wall has a
 `great quote <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_ along these
 lines.
 
 The type 3 students were the ones who worked late hours trying things out,
-trying a different approach or algorithm.  Because there might be a better way.
+trying a different approach or algorithm.  Because there were other ways that
+might be better.
 
 To learn to be a programmer by yourself you have to become what I call a
 "hacker".  The modern definition of the word "hacker" is rather negative.  The
@@ -45,16 +46,17 @@ Paradigms, database, network, gui, ...
 --------------------------------------
 
 There's a lot more to programming than the language you use.  Being able to use
-a particular language well is just the very beginning.  If you want to solve
-problems (which is what a computer is used for) then you need to get into
-a myriad other things, such as databases, GUI libraries, data structures, etc.
-While I don't agree with everything said,
-`this overview <http://www.wikihow.com/Become-a-Programmer>`_ might be useful.
+a particular language well is just the very beginning, or rather, the *end* of
+the problem-solving process.  If you want to solve problems (which is what a
+computer is used for) then you need to get into a myriad other things, such as
+databases, GUI libraries, data structures, etc.  While I don't agree with
+everything said, `this overview <http://www.wikihow.com/Become-a-Programmer>`_
+might be useful.
 
 There are different paradigms in languages, such as procedural programming,
 object-oriented programming, functional programming and logic programming.
 There are many other words used, many marketing driven.  You should get exposed
-to them all, or at least a large subset.  This is why I like python for
+to them all, or at least a large subset.  This is why I like Python for
 beginners: it's simple to start but you can get into some really advanced usage
 when you are ready.  Ruby is probably like that, but I don't really know.
 
@@ -99,13 +101,20 @@ Broadening experience
 When you know one language reasonably well you should try another, different,
 language.  Even the best language constrains the way you think about and solve a
 problem, so exposing yourself to a very different language helps to broaden your
-view.  Languages like C, python, Java, Forth or even an assembly language are
+view.  Languages like C, Python, Java, Forth or even an assembly language are
 useful in this respect.  I would even go so far as to recommend installing
 Scheme and plowing through the first few chapters of
 `SICP <https://mitpress.mit.edu/sicp/>`_.  The
 `videos <http://groups.csail.mit.edu/mac/classes/6.001/abelson-sussman-lectures/>`_
 are also good value.  You will be exposed to a very different approach to
 problem solving.
+
+A broad view of computer solutions is helpful as you really shouldn't be
+thinking about the language you will eventually use while designing your
+solution.  Rather, you should be thinking about algorithms and data structures
+in the most abstract way.  When you come to put your solution into a computer
+language you may have to change your approach in minor details.  Any major
+hiccups may mean you've chosen the wrong computer language.
 
 Side projects
 -------------
@@ -158,6 +167,8 @@ This applies even to the code you write.  You spent a lot of time and effort on
 your code, didn't you?  So why doesn't it look like it?  The first edition of
 `SICP <https://mitpress.mit.edu/sicp/>`_ has this quote:
 
+::
+
     Programs must be written for people to read,
     and only incidentally for machines to execute. 
 
@@ -165,6 +176,8 @@ Summary
 -------
 
 After all that, I haven't yet answered the original question:
+
+::
 
     What language should I learn first?
 
@@ -216,7 +229,7 @@ write your own code to handle linked lists, for example, because when you get
 to a language that has them built in or provided by a library you actually know
 what is going on and why some things are slow and others are fast.
 
-And that means starting with a language with a language with a
+And that means starting with a language with a
 `REPL <https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop>`_.
 It's simpler to do that than start talking about files and editors and make and
 compilers and linkers and whatever.  Using a heavyweight IDE like VisualStudio
@@ -224,9 +237,9 @@ or Eclipse is not correct at the beginning either.  Yes, they *help* the student
 but that's because the student really needs help with the massive language
 structure.
 
-So my recommended starting language is: **python**.  Yes, I am bigoted, but I
-accept that other languages like Ruby may be just as good.   Javascript, in my
-opinion, is unnecessarily hard for beginners with too many special cases
+So my recommended starting language is: **Python**.  Yes, I am bigoted, but I
+accept that other languages like Ruby may be just as good.   Javascript, for
+instance, is unnecessarily hard for beginners with too many special cases
 and `wat! <https://www.destroyallsoftware.com/talks/wat>`_ moments.
 
 Python is a relatively simple language to start with, but it is powerful.  Much
@@ -235,17 +248,23 @@ of that power is hidden away but is available when you need it.
 Python has too many good data structures built-in to be a *really* good teaching
 language. [#]_  To learn the bones of linked lists and hash tables you 
 really should implement them in something like C or assembler.  You can
-implement them in python, of course, but most students aren't shown that. [#]_
+implement them in Python, of course, but most students aren't shown that because
+the language has perfectly good built-in lists and dictionaries. [#]_
 
-So python is simple.  But that doesn't mean it's limiting like other simple
-languages such as Basic.  With python you also have a pretty good
+So Python is simple.  But that doesn't mean it's limiting like other simple
+languages such as Basic.  With Python you also have a pretty good
 object-oriented environment.  You just aren't forced to use it as you are with
 Java.  The language also has limited functional programming features.
 
-Once you can handle all that python itself offers there is a large library of
+Once you can handle all that Python itself offers there is a large library of
 built-in modules that allow you to do just about anything you want to do.  And
 after that there is the even larger library of modules in
 `the CheeseShop <https://pypi.python.org/pypi>`_.
+
+The other reason for choosing Python is the user community.  This is where you
+can get questions answered, pick up ideas and generally wallow in the
+experience!  You should start in
+`/r/learnpython <https://www.reddit.com/r/learnpython>`_, of course.
 
 Good luck!
 
@@ -260,7 +279,7 @@ http://www.catb.org/esr/faqs/hacker-howto.html
 http://www.linuxjournal.com/article/3882
 
 
-
+.. [#] I'm not putting down the 'average' majority.  Despite almost 40 years of programming experience I still consider myself average.
 .. [#] Alas, after committing I found some grammar errors.  Grammar is hard.
-.. [#] A good training language, like a good training aircraft, should be easy to use, but difficult to use well.
+.. [#] A good training language, like a good training aircraft, should be easy to use, but demanding to use well.  In the computer language context, this means the beginner can get started and make satisfying progress initially, without being constrained later on after progressing to more advanced usage.
 .. [#] Maybe a good small exercise would be to write code to manage linked lists.  Revisit this subject later when touching on API design, unit testing and object-oriented classes.
