@@ -292,5 +292,5 @@ http://www.linuxjournal.com/article/3882
 
 .. [#] I'm not putting down the 'average' majority.  Despite almost 40 years of programming experience I still consider myself average.
 .. [#] Alas, after committing I found some grammar errors.  Grammar is hard.
-.. [#] A good training language, like a good training aircraft, should be easy to use, but demanding to use well.  In the computer language context, this means the beginner can get started and make satisfying progress initially, without being constrained later on after progressing to more advanced usage.
+.. [#] A good training language, like a good training aircraft, should be easy to use, but demanding to use well.  In the computer training language context, this means the beginner should be able to get started and make satisfying progress initially, without being constrained later on after progressing to more advanced usage.
 .. [#] Maybe a good small exercise would be to write code to manage linked lists.  Revisit this subject later when touching on API design, unit testing and object-oriented classes.
