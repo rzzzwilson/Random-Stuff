@@ -31,7 +31,7 @@ trying a different approach or algorithm.  Because there were other ways that
 might be better.
 
 To learn to be a programmer by yourself you have to become what I call a
-"hacker".  The modern definition of the word "hacker" is rather negative.  The
+"hacker".  The modern definition of hacker is rather negative.  This
 `older definition <http://www.catb.org/jargon/html/H/hacker.html>`_
 describes the good programmer personality.  I would add to that definition
 the attributes of curiosity and inventiveness.  You should always try for an
@@ -67,8 +67,9 @@ In the beginning it really doesn't matter what operating system you use.  Later,
 though, it's important that you get exposed to the three big OSs: Windows, OSX
 and Linux.  OSX and Linux are sort of the same, but Windows is very different.
 If you can, start learning on both Windows and Linux.  If you don't want to
-spend money, learn on Linux.  You really need Apple hardware to run OSX, but you
-don't need to *learn* on OSX, so leave that OS until you need that platform.
+spend money, learn on what you have now.  You really need Apple hardware to run
+OSX, but you don't need to *learn* on OSX, so leave that OS until you need that
+platform.
 
 Resources
 ---------
@@ -125,11 +126,15 @@ Side projects
 -------------
 
 You won't get anywhere if all you do is follow an online tutorial and do the
-exercises.  Even if it's a really good tutorial.  You have to take a solution
+exercises.  Even if it's a really good tutorial.
+
+You have to take a solution
 (yours, or the tutorial one if one is given) and try to critique the code.  Is
 that a good way?  Could it be more readable?  Would a different algorithm be
 faster or more clear?  Try to solve a more generalised problem than that given
-in the tutorial.  I have found the early
+in the tutorial.
+
+I have found the early
 `Google Code Jam <https://code.google.com/codejam>`_ problems to be very good at
 making you think and sweat, particularly those that have time and memory
 constraints.  There are other sites that have problems you can try.
@@ -147,7 +152,7 @@ There is no better way to learn than by solving your own problems.  iTunes
 mangling your playlists?  Write some code that creates
 playlists the way you want them.  It's time to change passwords for the hundreds
 of web sites that you use?  Write a little program to generate strong memorable
-passwords that you will use, with configurable lengths and characters used.
+passwords with configurable password lengths and character sets used.
 
 Solving your own personal problems makes your learning more interesting, you
 get closer to real-world programming and you get pushed into areas you might
@@ -241,7 +246,9 @@ but that's because the student really needs help with the massive language
 structure.
 
 So my recommended starting language is: **Python**.  Yes, I am bigoted, but I
-accept that other languages like Ruby may be just as good.   Javascript, for
+accept that other languages like Ruby may be just as good.
+
+Many other beginner languages are recommended by others. Javascript, for
 instance, is unnecessarily hard for beginners with too many special cases
 and `wat! <https://www.destroyallsoftware.com/talks/wat>`_ moments.
 
@@ -257,7 +264,8 @@ the language has perfectly good built-in lists and dictionaries. [#]_
 So Python is simple.  But that doesn't mean it's limiting like other simple
 languages such as Basic.  With Python you also have a pretty good
 object-oriented environment.  You just aren't forced to use it as you are with
-Java.  The language also has limited functional programming features.
+Java.  Python also has limited functional programming features, though
+other languages are better in this respect.
 
 Once you can handle all that Python itself offers there is a large library of
 built-in modules that allow you to do just about anything you want to do.  And
