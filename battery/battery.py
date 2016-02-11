@@ -49,7 +49,7 @@ class PowerApp(rumps.App):
         print('voltage=%d, remaining=%d, charging=%s' % (voltage, remaining, str(charging)))
 
         # if empty, alert
-        if voltage <= MinimumVoltage:
+        if voltage <= MinimumVoltage and not charging:
             rumps.alert(title='Power %s' % Version,
                         message="The battery is empty, please plug in.",
                         ok='OK')
