@@ -6,8 +6,13 @@ import rumps
 
 
 Version = '0.1'
+
+# check battery period
 TimerPeriod = 30
-LastChargeState = None
+
+# charge/discharge arrows
+UpArrow = u'\u21E7'
+DownArrow = u'\u21E9'
 
 #MinimumVoltage = 10500
 MinimumVoltage = 12000
@@ -21,8 +26,8 @@ class PowerApp(rumps.App):
 
     @rumps.clicked('About')
     def prefs(self, _):
-        rumps.alert(title='Power %s' % Version,
-                    message="Power is a system tray appliction that monitors the battery state.",
+        rumps.alert(title='Battery %s' % Version,
+                    message='Battery is a system tray application that monitors the battery state.',
                     ok='OK')
 
     @rumps.timer(TimerPeriod)
@@ -32,7 +37,6 @@ class PowerApp(rumps.App):
         # get battery percent charge
         cmd = 'pmset -g batt | grep "InternalBattery" | awk \'{ print $2 }\' | sed "s/\;//"'
         percent = os.popen(cmd).read().strip()
-        self.title = 'Battery %s' % percent
 
         # get battery voltage
         cmd = 'system_profiler SPPowerDataType | grep "Voltage" | awk \'{print $3}\''
@@ -47,6 +51,10 @@ class PowerApp(rumps.App):
         remaining = int(os.popen(cmd).read().strip())
 
         print('voltage=%d, remaining=%d, charging=%s' % (voltage, remaining, str(charging)))
+
+        # update the tray title
+        title = 'Battery %s%s' % (percent, UpArrow if charging else DownArrow)
+        self.title = title
 
         # if empty, alert
         if voltage <= MinimumVoltage and not charging:
