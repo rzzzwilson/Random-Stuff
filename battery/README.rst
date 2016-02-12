@@ -34,5 +34,5 @@ And you may also need to install **pyobc** via pip.
 Caveats
 =======
 
-I've tried using the **rumps** notification() method, but it usually doesn't
-work.
+The **rumps** notification() method doesn't seem to reliable, often failing
+to raise a notification?
