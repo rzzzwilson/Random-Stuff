@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-System tray application to monitor and warn on low battery.
-For OSX only!
+System tray application to monitor and warn on low battery.  For OSX only!
 
 The Apple application showing battery capacity in the menu bar is pretty much
 useless.  My Macbook Pro (2.5 years old) has a battery that shows as 'Normal'
@@ -12,6 +11,8 @@ without *any* warning, losing data.
 
 Usage:
     battery
+
+Designed to run in the system tray.
 """
 
 import os
@@ -21,7 +22,7 @@ import rumps
 Version = '1.0'
 
 # True if debugging
-Debug = True
+Debug = False
 
 # global warning message
 WarnMessage = 'The battery is empty, please plug in.'
@@ -47,10 +48,10 @@ MinimumVoltage = 10500
 MinimumPercent = 25
 
 # threshold charge remaining, warn if below this
-MinimumCharge = 1200
+MinimumCharge = 1150
 
 # warning voice
-# do 'say -v ?' to get a list of voices available
+# do '$ say -v ?' to get a list of voices available
 Voice = 'Zarvox'
 
 
@@ -65,7 +66,9 @@ class PowerApp(rumps.App):
     def prefs(self, _):
         # raise an alert() with 'OK' dismissal button
         rumps.alert(title='Battery %s' % Version,
-                    message='Battery is a system tray application that monitors the battery state.',
+                    message=('This is a system tray application that '
+                             'monitors the battery state and warns when the '
+                             'battery is empty.'),
                     ok='OK')
 
     @rumps.timer(TimerPeriod)
@@ -126,8 +129,8 @@ class PowerApp(rumps.App):
                         rumps.notification('Battery %s' % Version, WarnMessage, extra)
                     else:
                         rumps.notification('Battery %s' % Version, WarnMessage, ' ')
-            else:
-                NextWarn = WarnPeriod
+        else:
+            NextWarn = 0    # next warning will be immediate
 
 
 if __name__ == '__main__':
