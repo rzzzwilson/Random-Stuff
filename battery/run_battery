@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/Users/r-w/bin/battery >>/Users/r-w/battery_remaining.log &
