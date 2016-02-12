@@ -13,7 +13,7 @@ Using
 =====
 
 Once you copy the **battery** file to your special place, modify **run_battery**
-to start **battery** from that place.  Then throug
+to start **battery** from that place.  Then through
 "System Preferences|Users & Groups"
 start **run_battery** as a terminal program.
 
