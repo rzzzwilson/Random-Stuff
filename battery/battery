@@ -1,0 +1,134 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+System tray application to monitor and warn on low battery.
+For OSX only!
+
+The Apple application showing battery capacity in the menu bar is pretty much
+useless.  My Macbook Pro (2.5 years old) has a battery that shows as 'Normal'
+but the MBP does a hard shutdown at battery capacities somewhere below 30%
+without *any* warning, losing data.
+
+Usage:
+    battery
+"""
+
+import os
+import rumps
+
+
+Version = '1.0'
+
+# True if debugging
+Debug = True
+
+# global warning message
+WarnMessage = 'The battery is empty, please plug in.'
+
+# check battery period in seconds
+TimerPeriod = 5
+
+# time between warnings in seconds
+WarnPeriod = 60
+
+# time to next warning
+NextWarn = 0                # immediate warning initially
+
+# power icon strings
+BatteryPower = u'\U0001F50B'
+ACPower = u'\U0001F50C'
+PowerIcon = ACPower
+
+# threshold voltage, warn if below this
+MinimumVoltage = 10500
+
+# threshold percentage, warn if below this
+MinimumPercent = 25
+
+# threshold charge remaining, warn if below this
+MinimumCharge = 1200
+
+# warning voice
+# do 'say -v ?' to get a list of voices available
+Voice = 'Zarvox'
+
+
+class PowerApp(rumps.App):
+
+    def __init__(self):
+        super(PowerApp, self).__init__(PowerIcon)
+        # we get 'Quit' for free, whether we want it or not
+        self.menu = ['About']
+
+    @rumps.clicked('About')
+    def prefs(self, _):
+        # raise an alert() with 'OK' dismissal button
+        rumps.alert(title='Battery %s' % Version,
+                    message='Battery is a system tray application that monitors the battery state.',
+                    ok='OK')
+
+    @rumps.timer(TimerPeriod)
+    def repeating_function(self, sender):
+        """Periodically check battery state."""
+
+        global PowerIcon
+        global NextWarn
+
+        # get battery percent charge
+        cmd = """pmset -g batt | grep "InternalBattery" | awk '{ print $2 }'"""
+        percent = os.popen(cmd).read().strip()
+        percent = int(percent[:-2])      # strip trailing '%;', convert to int
+
+        # get battery voltage
+        cmd = """system_profiler SPPowerDataType | grep "Voltage" | awk '{print $3}'"""
+        voltage = int(os.popen(cmd).read().strip())
+
+        # get 'charging' state
+        PowerIcon = BatteryPower
+        cmd = """pmset -g batt | grep "Now drawing from" | grep "AC Power" """
+        charging = (len(os.popen(cmd).read().strip()) > 0)
+        if charging:
+            PowerIcon = ACPower
+
+        # get remaining power left
+        cmd = """system_profiler SPPowerDataType | grep "Charge Remaining" | awk '{print $4}'"""
+        charge = int(os.popen(cmd).read().strip())
+
+        # update the tray title
+        title = '%d%%%s' % (percent, PowerIcon)
+        self.title = title
+
+        if Debug:
+            print('voltage=%dmV, charge=%dmWh, percent=%d%%, charging=%s, NextWarn=%ds'
+                  % (voltage, charge, percent, str(charging), NextWarn))
+
+        # if empty, alert
+        if (voltage < MinimumVoltage
+                or percent < MinimumPercent
+                or charge < MinimumCharge):
+            # maybe warn
+            if not charging:
+                NextWarn -= TimerPeriod
+                if NextWarn < 0:
+                    os.system('say -v "%s" "battery"' % Voice)
+                    NextWarn += WarnPeriod
+
+                    if Debug:
+                        extra = []
+                        if voltage < MinimumVoltage:
+                            extra.append('voltage %d < %d' % (voltage, MinimumVoltage))
+                        if percent < MinimumPercent:
+                            extra.append('percent %d < %d' % (percent, MinimumPercent))
+                        if charge < MinimumCharge:
+                            extra.append('charge %d < %d' % (charge, MinimumCharge))
+                        extra = ', '.join(extra)
+                        rumps.notification('Battery %s' % Version, WarnMessage, extra)
+                    else:
+                        rumps.notification('Battery %s' % Version, WarnMessage, ' ')
+            else:
+                NextWarn = WarnPeriod
+
+
+if __name__ == '__main__':
+    PowerApp().run()
