@@ -9,6 +9,14 @@ Apple states that there should be a warning that battery capacity is low,
 but I found that doesn't happen on my machine.  It's about 2.5 years old
 but the battery is in good shape, according to the Apple diagnostics.
 
+Using
+=====
+
+Once you copy the **battery** file to your special place, modify **run_battery**
+to start **battery** from that place.  Then throug
+"System Preferences|Users & Groups"
+start **run_battery** as a terminal program.
+
 Dependencies
 ============
 
