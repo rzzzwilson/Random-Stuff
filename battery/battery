@@ -22,7 +22,7 @@ import rumps
 Version = '1.0'
 
 # True if debugging
-Debug = False
+Debug = True
 
 # global warning message
 WarnMessage = 'The battery is empty, please plug in.'
@@ -42,7 +42,7 @@ ACPower = u'\U0001F50C'
 PowerIcon = ACPower
 
 # threshold voltage, warn if below this
-MinimumVoltage = 10500
+MinimumVoltage = 10200
 
 # threshold percentage, warn if below this
 MinimumPercent = 25
