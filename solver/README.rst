@@ -41,5 +41,4 @@ Not bad for greater than 10 year old code!
 
 I think part of the reason for so little change over that time is partly due
 to me having a lot of experience prior to that point in time and also to
-python having such a simple syntac that there is really **only one way to do it™**.
-formatting is so 
+python having such a simple syntax that there is really **only one way to do it™**.
