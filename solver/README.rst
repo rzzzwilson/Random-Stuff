@@ -28,3 +28,18 @@ Postscript
 On reflection, this is probably the first *real* graphics program I ever wrote
 in python.  Looking at the code I see that my style is sort of similar to my
 current style so I had been using python for a while already.
+
+My oldest archived copy of *solver* is **solver.archive**.  The main substantive
+changes are:
+
+* Moved pre-function block comments into the function doc string
+* Removed unnecessary *global* statements (I hadn't yet learned that they are
+  necessary only if changing the global)
+* Removing backslash line continuations and using () enclosing instead
+
+Not bad for greater than 10 year old code!
+
+I think part of the reason for so little change over that time is partly due
+to me having a lot of experience prior to that point in time and also to
+python having such a simple syntac that there is really **only one way to do it™**.
+formatting is so 
