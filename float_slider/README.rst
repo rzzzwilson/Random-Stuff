@@ -27,3 +27,8 @@ Dependencies
 
 Just wxPython.
 
+Improvements
+------------
+
+I just threw this together while working on a project one day.  There's probably
+better ways to do this.  Constructive criticism welcome!
