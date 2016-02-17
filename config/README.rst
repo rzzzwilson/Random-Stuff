@@ -24,12 +24,13 @@ manner:
     import config
 
     cfg = config.get_config('test.cfg')
+
     port = cfg.main.port
     for directory in cfg.serve.directory:
         # do something
 
 Note that ALL config attributes are strings or lists of strings, so user
-code must convert integer strings to integers, etc.  Similarly, User code
+code must convert integer strings to integers, etc.  Similarly, user code
 must fill in default values if a value is missing.  All this can be done
 as a separate phase before using the config object.
 
