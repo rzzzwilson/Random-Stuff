@@ -42,13 +42,13 @@ ACPower = u'\U0001F50C'
 PowerIcon = ACPower
 
 # threshold voltage, warn if below this
-MinimumVoltage = 10200
+MinimumVoltage = 10800
 
 # threshold percentage, warn if below this
-MinimumPercent = 25
+MinimumPercent = 31
 
 # threshold charge remaining, warn if below this
-MinimumCharge = 1150
+MinimumCharge = 1350
 
 # warning voice
 # do '$ say -v ?' to get a list of voices available
