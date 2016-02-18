@@ -16,6 +16,7 @@ Designed to run in the system tray.
 """
 
 import os
+import sys
 import rumps
 
 
@@ -42,13 +43,14 @@ ACPower = u'\U0001F50C'
 PowerIcon = ACPower
 
 # threshold voltage, warn if below this
-MinimumVoltage = 10800
+#MinimumVoltage = 10800
+MinimumVoltage = 0
 
 # threshold percentage, warn if below this
-MinimumPercent = 31
+MinimumPercent = 40
 
 # threshold charge remaining, warn if below this
-MinimumCharge = 1350
+MinimumCharge = 1700
 
 # warning voice
 # do '$ say -v ?' to get a list of voices available
@@ -105,6 +107,7 @@ class PowerApp(rumps.App):
         if Debug:
             print('voltage=%dmV, charge=%dmWh, percent=%d%%, charging=%s, NextWarn=%ds'
                   % (voltage, charge, percent, str(charging), NextWarn))
+            sys.stdout.flush()
 
         # if empty, alert
         if (voltage < MinimumVoltage
