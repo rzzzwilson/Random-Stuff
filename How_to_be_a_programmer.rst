@@ -58,7 +58,8 @@ object-oriented programming, functional programming and logic programming.
 There are many other words used, many marketing driven.  You should get exposed
 to them all, or at least a large subset.  This is why I like Python for
 beginners: it's simple to start but you can get into some really advanced usage
-when you are ready.  Ruby is probably like that, but I don't really know.
+when you are ready.  Ruby is probably like that, but I haven't used it enough
+to be sure.
 
 Operating system
 ----------------
