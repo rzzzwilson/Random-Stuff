@@ -95,11 +95,13 @@ GitHub
 While I'm not a great fan of `GitHub <https://github.com/>`_,
 you should create an account and develop any code you write in it.  For better
 or worse it's a good place to show your portfolio of code.  People can look at
-the quality and how often you update.  Plus it's a good way to backup your code
-and get experience using a distributed version control system and an issues
-tracker.  There are other, similar, repositories, but GitHub is the
+the quality and how often you update.  I know some recruiters use GitHub as a
+place to find people with appropriate skills.  Plus it's a good way to backup
+your code and get experience using a distributed version control system and an
+issues tracker.  There are other, similar, repositories, but GitHub is the
 `800 pound gorilla <https://en.wikipedia.org/wiki/800-pound_gorilla>`_
-at the moment.  Other repositories can be as good as (better than?) GitHub.
+at the moment.  Other repositories can be as good as or even better than
+GitHub [#]_ but may have less visibility.
 
 Broadening experience
 ---------------------
@@ -129,7 +131,7 @@ You won't get anywhere if all you do is follow an online tutorial and do the
 exercises.  Even if it's a really good tutorial.
 
 You have to take a solution
-(yours, or the tutorial one if one is given) and try to critique the code.  Is
+(yours, or the tutorial one if given) and try to critique the code.  Is
 that a good way?  Could it be more readable?  Would a different algorithm be
 faster or more clear?  Try to solve a more generalised problem than that given
 in the tutorial.
@@ -249,14 +251,15 @@ So my recommended starting language is: **Python**.  Yes, I am bigoted, but I
 accept that other languages like Ruby may be just as good.
 
 Many other beginner languages are recommended by others. Javascript, for
-instance, is unnecessarily hard for beginners with too many special cases
-and `wat! <https://www.destroyallsoftware.com/talks/wat>`_ moments.
+instance, is often recommended but I believe it unnecessarily hard for beginners
+with too many special cases and
+`wat! <https://www.destroyallsoftware.com/talks/wat>`_ moments.
 
 Python is a relatively simple language to start with, but it is powerful.  Much
 of that power is hidden away but is available when you need it.
 
 Python has too many good data structures built-in to be a *really* good teaching
-language. [#]_  To learn the bones of linked lists and hash tables you 
+language [#]_.  To learn the bones of linked lists and hash tables you 
 really should implement them in something like C or assembler.  You can
 implement them in Python, of course, but most students aren't shown that because
 the language has perfectly good built-in lists and dictionaries. [#]_
@@ -291,6 +294,7 @@ http://www.linuxjournal.com/article/3882
 
 
 .. [#] I'm not putting down the 'average' majority.  Despite almost 40 years of programming experience I still consider myself average.
+.. [#] One I want to try is `GitLab <https://about.gitlab.com>`_.
 .. [#] Alas, after committing I found some grammar errors.  Grammar is hard.
 .. [#] A good training language, like a good training aircraft, should be easy to use, but demanding to use well.  In the computer training language context, this means the beginner should be able to get started and make satisfying progress initially, without being constrained later on after progressing to more advanced usage.
 .. [#] Maybe a good small exercise would be to write code to manage linked lists.  Revisit this subject later when touching on API design, unit testing and object-oriented classes.
