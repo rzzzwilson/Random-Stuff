@@ -44,10 +44,10 @@ PowerIcon = ACPower
 
 # threshold voltage, warn if below this
 #MinimumVoltage = 10800
-MinimumVoltage = 0
+MinimumVoltage = 0      # turn off voltage warning
 
 # threshold percentage, warn if below this
-MinimumPercent = 40
+MinimumPercent = 50
 
 # threshold charge remaining, warn if below this
 MinimumCharge = 1700
