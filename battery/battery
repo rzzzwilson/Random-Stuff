@@ -17,6 +17,8 @@ Designed to run in the system tray.
 
 import os
 import sys
+import datetime
+
 import rumps
 
 
@@ -39,7 +41,8 @@ NextWarn = 0                # immediate warning initially
 
 # power icon strings
 BatteryPower = u'\U0001F50B'
-ACPower = u'\U0001F50C'
+#ACPower = u'\U0001F50C'
+ACPower = u'\U000026A1'
 PowerIcon = ACPower
 
 # threshold voltage, warn if below this
@@ -63,6 +66,9 @@ class PowerApp(rumps.App):
         super(PowerApp, self).__init__(PowerIcon)
         # we get 'Quit' for free, whether we want it or not
         self.menu = ['About']
+        if Debug:
+            timestamp = datetime.datetime.now()
+            print('%s|%s' % (timestamp, ('='*60)))
 
     @rumps.clicked('About')
     def prefs(self, _):
@@ -79,6 +85,9 @@ class PowerApp(rumps.App):
 
         global PowerIcon
         global NextWarn
+
+        # get timestamp string
+        timestamp = datetime.datetime.now()
 
         # get battery percent charge
         cmd = """pmset -g batt | grep "InternalBattery" | awk '{ print $2 }'"""
@@ -105,8 +114,8 @@ class PowerApp(rumps.App):
         self.title = title
 
         if Debug:
-            print('voltage=%dmV, charge=%dmWh, percent=%d%%, charging=%s, NextWarn=%ds'
-                  % (voltage, charge, percent, str(charging), NextWarn))
+            print('%s|voltage=%dmV, charge=%dmWh, percent=%d%%, charging=%s, NextWarn=%ds'
+                  % (timestamp, voltage, charge, percent, str(charging), NextWarn))
             sys.stdout.flush()
 
         # if empty, alert
