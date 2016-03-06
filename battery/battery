@@ -31,7 +31,7 @@ Debug = True
 WarnMessage = 'The battery is empty, please plug in.'
 
 # check battery period in seconds
-TimerPeriod = 5
+TimerPeriod = 30
 
 # time between warnings in seconds
 WarnPeriod = 60
@@ -46,14 +46,13 @@ ACPower = u'\U000026A1'
 PowerIcon = ACPower
 
 # threshold voltage, warn if below this
-#MinimumVoltage = 10800
-MinimumVoltage = 0      # turn off voltage warning
+MinimumVoltage = 10350
 
 # threshold percentage, warn if below this
-MinimumPercent = 50
+MinimumPercent = 25
 
 # threshold charge remaining, warn if below this
-MinimumCharge = 1700
+MinimumCharge = 1100
 
 # warning voice
 # do '$ say -v ?' to get a list of voices available
@@ -89,14 +88,23 @@ class PowerApp(rumps.App):
         # get timestamp string
         timestamp = datetime.datetime.now()
 
+        # assume 'out-of-range' flags are all OK
+        under_percent = ' '
+        under_voltage = ' '
+        under_charge = ' '
+
         # get battery percent charge
         cmd = """pmset -g batt | grep "InternalBattery" | awk '{ print $2 }'"""
         percent = os.popen(cmd).read().strip()
         percent = int(percent[:-2])      # strip trailing '%;', convert to int
+        if percent < MinimumPercent:
+            under_percent = '*'
 
         # get battery voltage
         cmd = """system_profiler SPPowerDataType | grep "Voltage" | awk '{print $3}'"""
         voltage = int(os.popen(cmd).read().strip())
+        if voltage < MinimumVoltage:
+            under_voltage = '*'
 
         # get 'charging' state
         PowerIcon = BatteryPower
@@ -108,14 +116,18 @@ class PowerApp(rumps.App):
         # get remaining power left
         cmd = """system_profiler SPPowerDataType | grep "Charge Remaining" | awk '{print $4}'"""
         charge = int(os.popen(cmd).read().strip())
+        if charge < MinimumCharge:
+            under_charge = '*'
 
         # update the tray title
         title = '%d%%%s' % (percent, PowerIcon)
         self.title = title
 
         if Debug:
-            print('%s|voltage=%dmV, charge=%dmWh, percent=%d%%, charging=%s, NextWarn=%ds'
-                  % (timestamp, voltage, charge, percent, str(charging), NextWarn))
+            print('%s|%svoltage=%dmV, %scharge=%dmWh, %spercent=%d%%, charging=%s, NextWarn=%ds'
+                  % (timestamp, under_voltage, voltage,
+                     under_charge, charge, under_percent, percent,
+                     str(charging), NextWarn))
             sys.stdout.flush()
 
         # if empty, alert
