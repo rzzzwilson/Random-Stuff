@@ -33,15 +33,23 @@ attributes of my solution against Keith's solution, which I haven't looked at ye
 Basic idea
 ----------
 
-It seems to me that a simple 'hill-climbing' approach might work.  We need a stack.
+It seems to me that a simple 'hill-climbing' approach might work.  We need a stack:
 
-0. Set the current position to the top-left cell (must be the lowest value cell)
-1. Note the value of the current cell
-2. If current value is required, return True
-3. Compare the current value with the values to the right, lower-right and lower cells.
-4. If any of those values equals the required value, return True
-5. If right-lower cell has a value less than the required, push current location to the stack and use the new cell as current
-6. Move current cell to the right
-7. If still within the row, goto step 1
-8. If the stack is not empty, pop stack, increment X coord and goto step 1
-9. Return False
+0. Set current position to (0, 0), the top-left cell (must be the lowest value cell)
+1. If the current position is on the matrix, goto step 4
+2. If the stack is empty, return False
+3. Pop the stack to current
+4. If M(current) == required, return T
+5. Push current (x+=1), current <- (X,Y=1), goto 1
+
+How does it perform?
+--------------------
+
+From a test suite of ONE, matrix_find.py works!
+
+My solution is about the same size as Keith's, but because it uses an explicit stack
+it takes longer: for a million executions, 2.6s versus 1.4s for mf.py.
+
+I'm sure I could make this faster, possibly by using the python stack rather than the
+explicit stack, but I don't care.  It works and it's a bit shorter than I thoughht it
+would be.  Intellectual itch scratched!

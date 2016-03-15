@@ -8,7 +8,7 @@ The MatrixFind problem.  Read README.rst for the details.
 1. If the current position is on the matrix, goto step 4
 2. If the stack is empty, return False
 3. Pop the stack to current
-4. If M(current) == required, return T
+4. If matrix(current) == required, return T
 5. Push current (x+=1), current <- (X,Y=1), goto 1
 """
 
@@ -52,6 +52,7 @@ def matrix_find(matrix, required):
             # step 3
             (x, y) = stack.pop()
             log('step 3: pop stack, x=%d, y=%d' % (x, y))
+            continue
 
         # step 4
         if matrix[x][y] == required:
@@ -62,24 +63,3 @@ def matrix_find(matrix, required):
         stack.append((x+1, y))
         y += 1
         log('step 5: push current onto stack, new x=%d, y=%d' % (x, y))
-
-
-
-
-def test_matrix_find():
-    #          ---> Y
-    matrix = [[1, 1, 3, 4],	# .
-              [2, 2, 4, 5],	# .
-              [2, 3, 4, 6],	# V
-              [2, 3, 4, 7],	# 
-              [3, 4, 4, 8],	# X
-              [4, 5, 6, 9]]
-
-    result = matrix_find(matrix, 7)
-    if result:
-        print('Value 7 was found in matrix')
-    else:
-        print('Value 7 was NOT found in matrix')
-
-test_matrix_find() 
-
