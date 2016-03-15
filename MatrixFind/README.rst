@@ -48,8 +48,8 @@ How does it perform?
 From a test suite of ONE, matrix_find.py works!
 
 My solution is about the same size as Keith's, but because it uses an explicit stack
-it takes longer: for a million executions, 2.6s versus 1.4s for mf.py.
+it takes longer: for a million executions, mf.py takes 6.2s versus 149.7s for matrix_find.py.
 
 I'm sure I could make this faster, possibly by using the python stack rather than the
-explicit stack, but I don't care.  It works and it's a bit shorter than I thoughht it
+explicit stack, but I don't care.  It works and it's a bit shorter than I thought it
 would be.  Intellectual itch scratched!

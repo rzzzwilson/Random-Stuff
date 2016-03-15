@@ -43,7 +43,7 @@ def test_matrix_find2(required):
     else:
         print('Value %d was NOT found in matrix' % required)
 
-for _ in range(10000):
+for _ in range(1000000):
     test_matrix_find(7) 
     test_matrix_find(17) 
     test_matrix_find2(2) 
