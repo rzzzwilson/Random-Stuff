@@ -12,7 +12,9 @@ The MatrixFind problem.  Read README.rst for the details.
 5. Push current (x+=1), current <- (X,Y=1), goto 1
 """
 
-import matrix_find
+#import matrix_find
+#import matrix_find2 as matrix_find
+import matrix_find3 as matrix_find
 
 
 def test_matrix_find(required):
