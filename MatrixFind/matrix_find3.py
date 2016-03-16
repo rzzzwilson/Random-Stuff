@@ -4,7 +4,7 @@
 """
 The MatrixFind problem.  Read README.rst for the details.
 
-This version runs down the diagonal fro (0, 0) looking for a value matrix(x+1,y+1)
+This version runs down the diagonal from (0, 0) looking for a value matrix(x+1,y+1)
 that is greater than the required value.  If we find required, we stop of course.
 
 Once we stop runing down the diagonal we scan horizontally in X until found or end.
@@ -26,12 +26,40 @@ def matrix_find(matrix, required):
         if x >= max_x or y >= max_y:
             return False
 
-        if  (x+1) < max_x and (y+1) < max+y:
-            if 
-    while y < max_y:
-        if matrix[scan_x][y] <= required:
-            if matrix[scan_x][y] == required:
-                return True
+        value = matrix[x][y]
+
+        if value == required:
+            return True
+
+        if value > required:
+            # step back to previous diag square
+            x -= 1
+            y -= 1
+
+            # scan horizontally for required
+            xx = x
+            while xx < max_x:
+                scan_value = matrix[xx][y]
+                if scan_value == required:
+                    return True
+                if scan_value > required:
+                    break
+                xx += 1
+
+            # scan vertically for required
+            yy = y
+            while yy < max_y:
+                scan_value = matrix[x][yy]
+                if scan_value == required:
+                    return True
+                if scan_value > required:
+                    return False
+                yy += 1
+
+        x += 1
         y += 1
+
+    return False
+
 
     return mf(x, y, matrix, required, max_x, max_y)
