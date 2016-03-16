@@ -36,9 +36,9 @@ Basic idea
 It seems to me that a simple 'hill-climbing' approach might work.  We need a stack:
 
 0. Set current position to (0, 0), the top-left cell (must be the lowest value cell)
-1. If the current position is on the matrix, goto step 4
+1. If the current position is on the matrix, goto 4
 2. If the stack is empty, return False
-3. Pop the stack to current
+3. Pop the stack to current, goto 1
 4. If M(current) == required, return T
 5. Push current (x+=1), current <- (X,Y=1), goto 1
 
