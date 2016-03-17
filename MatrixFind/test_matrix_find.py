@@ -2,50 +2,120 @@
 # -*- coding: utf-8 -*-
 
 """
-The MatrixFind problem.  Read README.rst for the details.
-
-0. Set current position to (0, 0), the top-left cell (must be the lowest value cell)
-1. If the current position is on the matrix, goto step 4
-2. If the stack is empty, return False
-3. Pop the stack to current
-4. If M(current) == required, return T
-5. Push current (x+=1), current <- (X,Y=1), goto 1
+Test the solution(s) to the MatrixFind problem.
 """
+
+import unittest
 
 #import matrix_find
 #import matrix_find2 as matrix_find
-import matrix_find3 as matrix_find
+#import matrix_find3 as matrix_find
 
 
-def test_matrix_find(required):
-    #          ---> Y
-    matrix = [[1, 1, 3, 4],	# .
-              [2, 2, 4, 5],	# .
-              [2, 3, 4, 6],	# V
-              [2, 3, 4, 7],	# 
-              [3, 4, 4, 8],	# X
-              [4, 5, 6, 9]]
+class TestMatrixFind(unittest.TestCase):
 
-    if matrix_find.matrix_find(matrix, required):
-        print('Value %d was found in matrix' % required)
-    else:
-        print('Value %d was NOT found in matrix' % required)
+    def test_simple_find(self):
+        #          ---> Y
+        matrix = [[1, 1, 3, 4],	# .
+                  [2, 2, 4, 5],	# .
+                  [2, 3, 4, 6],	# V
+                  [2, 3, 4, 7],	# 
+                  [3, 4, 4, 8],	# X
+                  [4, 5, 6, 9]]
 
-def test_matrix_find2(required):
-    #          ---> Y
-    matrix = [[1, 1, 3, 4],	# .
-              [3, 3, 4, 5],	# .
-              [3, 3, 4, 6],	# V
-              [3, 3, 4, 7],	# 
-              [3, 4, 4, 8],	# X
-              [4, 5, 6, 9]]
+        msg = '%s: Expected to find 7 in the matrix, did not?' % ModuleName
+        result = Module.matrix_find(matrix, 7)
+        self.assertTrue(result, msg)
 
-    if matrix_find.matrix_find(matrix, required):
-        print('Value %d was found in matrix' % required)
-    else:
-        print('Value %d was NOT found in matrix' % required)
+    def test_simple_nofind(self):
+        #          ---> Y
+        matrix = [[1, 1, 3, 4],	# .
+                  [2, 2, 4, 5],	# .
+                  [2, 3, 4, 6],	# V
+                  [2, 3, 4, 7],	# 
+                  [3, 4, 4, 8],	# X
+                  [4, 5, 6, 9]]
 
-for _ in range(1000000):
-    test_matrix_find(7) 
-    test_matrix_find(17) 
-    test_matrix_find2(2) 
+        msg = '%s: Value 10 is not in the matrix, but found it?' % ModuleName
+        result = Module.matrix_find(matrix, 10)
+        self.assertFalse(result, msg)
+
+    def test_simple_nofind2(self):
+        #          ---> Y
+        matrix = [[1, 1, 3, 4],	# .
+                  [2, 2, 4, 5],	# .
+                  [2, 3, 4, 6],	# V
+                  [2, 3, 4, 7],	# 
+                  [3, 4, 4, 8],	# X
+                  [4, 5, 6, 9]]
+
+        msg = '%s: Value 0 is not in the matrix, but found it?' % ModuleName
+        result = Module.matrix_find(matrix, 0)
+        self.assertFalse(result, msg)
+
+    def test_simple_nofind3(self):
+        #          ---> Y
+        matrix = [[0, 0, 3, 4],	# .
+                  [2, 2, 4, 5],	# .
+                  [2, 3, 4, 6],	# V
+                  [2, 3, 4, 7],	# 
+                  [3, 4, 4, 8],	# X
+                  [4, 5, 6, 9]]
+
+        msg = '%s: Value 1 is not in the matrix, but found it?' % ModuleName
+        result = Module.matrix_find(matrix, 1)
+        self.assertFalse(result, msg)
+
+    def test_notsimple_find(self):
+        #          ---> Y
+        matrix = [[0, 0, 0, 0, 1, 1, 1, 2],	# .
+                  [0, 0, 1, 1, 2, 3, 7, 8],	# .
+                  [1, 1, 2, 3, 4, 6, 8, 8],	# .
+                  [2, 3, 3, 6, 6, 6, 8, 9],	# v
+                  [2, 3, 3, 8, 8, 8, 8, 9],	# 
+                  [2, 3, 4, 8, 8, 8, 8, 9],	# 
+                  [2, 3, 5, 8, 8, 8, 9, 10],	# X
+                  [2, 3, 6, 8, 9, 9, 9, 10]]
+
+        msg = '%s: Value 7 is in the matrix, but not found?' % ModuleName
+        result = Module.matrix_find(matrix, 7)
+        self.assertFalse(result, msg)
+
+    def test_notsimple_find2(self):
+        #          ---> Y
+        matrix = [[0, 0, 0, 0, 1, 1, 1, 2],	# .
+                  [0, 0, 1, 1, 2, 3, 7, 8],	# .
+                  [1, 1, 2, 3, 4, 6, 8, 8],	# .
+                  [2, 3, 3, 6, 6, 6, 8, 9],	# v
+                  [2, 3, 3, 8, 8, 8, 8, 9],	# 
+                  [2, 3, 4, 8, 8, 8, 8, 9],	# 
+                  [2, 3, 5, 8, 8, 8, 9, 10],	# X
+                  [2, 3, 6, 8, 9, 9, 9, 10]]
+
+        msg = '%s: Value 5 is in the matrix, but not found?' % ModuleName
+        result = Module.matrix_find(matrix, 5)
+        self.assertFalse(result, msg)
+
+################################################################################
+
+if __name__ == '__main__':
+    global Module, ModuleName
+
+    import matrix_find
+    import matrix_find2
+    import matrix_find3
+
+    suite = unittest.makeSuite(TestMatrixFind, 'test')
+    runner = unittest.TextTestRunner()
+
+    Module = matrix_find
+    ModuleName = 'matrix_find'
+    runner.run(suite)
+
+    Module = matrix_find2
+    ModuleName = 'matrix_find2'
+    runner.run(suite)
+
+    Module = matrix_find3
+    ModuleName = 'matrix_find3'
+    runner.run(suite)

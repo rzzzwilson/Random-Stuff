@@ -53,3 +53,12 @@ it takes longer: for a million executions, mf.py takes 6.2s versus 149.7s for ma
 I'm sure I could make this faster, possibly by using the python stack rather than the
 explicit stack, but I don't care.  It works and it's a bit shorter than I thought it
 would be.  Intellectual itch scratched!
+
+More
+----
+
+Of course I couldn't leave it at that, as I thought of a better approach.  The python
+stack approach is in matrix_find2.py.  Unfortunately, the algorithm is broken as some
+test cases show.  Do 'make test' to run the test cases.
+
+
