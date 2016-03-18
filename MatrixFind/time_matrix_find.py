@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-TIme the solution(s) to the MatrixFind problem.
+Time the solution(s) to the MatrixFind problem.
 """
 
 import time
@@ -22,7 +22,7 @@ def time_simple_find(required):
 
     start = time.time()
     for _ in xrange(LOOP):
-        Module.matrix_find(matrix, 7)
+        Module.matrix_find(matrix, required)
     delta = time.time() - start
     print('%13s:   find %d, %d times took %7.3fs' % (ModuleName, required, LOOP, delta))
 
@@ -39,7 +39,7 @@ def time_notsimple_find(required):
 
     start = time.time()
     for _ in xrange(LOOP):
-        Module.matrix_find(matrix, 7)
+        Module.matrix_find(matrix, required)
     delta = time.time() - start
     print('%13s:   find %d, %d times took %7.3fs' % (ModuleName, required, LOOP, delta))
 

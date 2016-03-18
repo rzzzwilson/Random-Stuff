@@ -104,23 +104,23 @@ if __name__ == '__main__':
     import matrix_find
     Module = matrix_find
     ModuleName = 'matrix_find'
-    print('\n%s %s' % (ModuleName, '~'*80))
+    print('\n%s %s' % (ModuleName, '.oOo. '*14))
     runner.run(suite)
 
     import matrix_find2
     Module = matrix_find2
     ModuleName = 'matrix_find2'
-    print('\n%s %s' % (ModuleName, '~'*80))
+    print('\n%s %s' % (ModuleName, '.oOo. '*14))
     runner.run(suite)
 
     import matrix_find3
     Module = matrix_find3
     ModuleName = 'matrix_find3'
-    print('\n%s %s' % (ModuleName, '~'*80))
+    print('\n%s %s' % (ModuleName, '.oOo. '*14))
     runner.run(suite)
 
     import matrix_find4
     Module = matrix_find4
     ModuleName = 'matrix_find4'
-    print('\n%s %s' % (ModuleName, '~'*80))
+    print('\n%s %s' % (ModuleName, '.oOo. '*14))
     runner.run(suite)
