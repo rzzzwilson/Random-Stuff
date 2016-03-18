@@ -7,10 +7,6 @@ Test the solution(s) to the MatrixFind problem.
 
 import unittest
 
-#import matrix_find
-#import matrix_find2 as matrix_find
-#import matrix_find3 as matrix_find
-
 
 class TestMatrixFind(unittest.TestCase):
 
@@ -77,9 +73,10 @@ class TestMatrixFind(unittest.TestCase):
                   [2, 3, 5, 8, 8, 8, 9, 10],	# X
                   [2, 3, 6, 8, 9, 9, 9, 10]]
 
+        m_str = str(matrix)
         msg = '%s: Value 7 is in the matrix, but not found?' % ModuleName
         result = Module.matrix_find(matrix, 7)
-        self.assertFalse(result, msg)
+        self.assertTrue(result, msg)
 
     def test_notsimple_find2(self):
         #          ---> Y
@@ -94,28 +91,36 @@ class TestMatrixFind(unittest.TestCase):
 
         msg = '%s: Value 5 is in the matrix, but not found?' % ModuleName
         result = Module.matrix_find(matrix, 5)
-        self.assertFalse(result, msg)
+        self.assertTrue(result, msg)
 
 ################################################################################
 
 if __name__ == '__main__':
     global Module, ModuleName
 
-    import matrix_find
-    import matrix_find2
-    import matrix_find3
-
     suite = unittest.makeSuite(TestMatrixFind, 'test')
     runner = unittest.TextTestRunner()
 
+    import matrix_find
     Module = matrix_find
     ModuleName = 'matrix_find'
+    print('\n%s %s' % (ModuleName, '~'*80))
     runner.run(suite)
 
+    import matrix_find2
     Module = matrix_find2
     ModuleName = 'matrix_find2'
+    print('\n%s %s' % (ModuleName, '~'*80))
     runner.run(suite)
 
+    import matrix_find3
     Module = matrix_find3
     ModuleName = 'matrix_find3'
+    print('\n%s %s' % (ModuleName, '~'*80))
+    runner.run(suite)
+
+    import matrix_find4
+    Module = matrix_find4
+    ModuleName = 'matrix_find4'
+    print('\n%s %s' % (ModuleName, '~'*80))
     runner.run(suite)
