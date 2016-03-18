@@ -61,4 +61,6 @@ Of course I couldn't leave it at that, as I thought of a better approach.  The p
 stack approach is in matrix_find2.py.  Unfortunately, the algorithm is broken as some
 test cases show.  Do 'make test' to run the test cases.
 
-
+Also note that the solutions before the brute-force solution matrix_find4.py are
+**broken**!.  The brute-force solution must work, of course, but it's twice as slow
+as the original solution.
