@@ -63,4 +63,58 @@ test cases show.  Do 'make test' to run the test cases.
 
 Also note that the solutions before the brute-force solution matrix_find4.py are
 **broken**!.  The brute-force solution must work, of course, but it's twice as slow
-as the original solution.
+as Keith's solution.
+
+A solution?
+===========
+
+Another approach (with more thought!) is:
+
+As before, start at the top-left element and proceed down the diagonal until we either:
+1. Find the value we want, the result is FOUND,
+2. We run off the bottom or right of the matrix, see below, or
+3. We find a value greater than the required value.
+
+If we find a greater value than required, we step back to the previous diagonal element.
+If we *can't* do that without stepping off the matrix, the result is NOT FOUND.
+The element that is current defines four sub-matrices:
+1. The sub-matrix defined by the (0,0) and current element corners.  This sub-matrix cannot
+   contain the required value because the maximum values must occur in the right or bottom
+   edges, and thay are all less than the required value.
+2. All elements to the right and below the element containing the value greateer than the
+   required value.  Since the top-left element of that sub-matrix is greater than required,
+   *all* elements must be greater than required.
+3. The sub-matrix above and to the right of the current element may contain the required value.
+4. The sub-matrix below and to the left of the current element may contain the required value.
+
+The sub-matrices defined in 3 and 4 above are searched in the same way as the original matrix.
+
+If we run off the bottom of the original matrix, the last element scanned on the diagonal
+defines a sub-matrix above and to the right of the last element.  Scan this sub-matrix the
+same way as the original.
+
+Similarly, if the diagonal scan runs off the right side of the original matrix, the last
+element scanned defines a sub-matrix to the left and below the last scanned element.  Scan
+this sub-matrix the same way as the original matrix.
+
+To implement this we define a function that searches a sub-matrix of an original matrix.  We
+must define this function in such a way that we can start with the search of the original
+matrix.  Something like:
+
+::
+
+    matrix_find(matrix, start_x, start_y, max_x, max_y, value)
+
+where the **start_x** and **start_y** coordinates define the top-left element in the matrix
+that we start searching from, and the **max_x** and **max_y** values define the coordinates
+of the bottom-right corner of the sub-matrix (inclusive).
+
+After reading Keith's solution
+==============================
+
+TBD
+
+Summary
+=======
+
+TBD
