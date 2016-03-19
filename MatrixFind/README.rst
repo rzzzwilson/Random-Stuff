@@ -83,7 +83,7 @@ The element that is current defines four sub-matrices:
 1. The sub-matrix defined by the (0,0) and current element corners.  This sub-matrix cannot
    contain the required value because the maximum values must occur in the right or bottom
    edges, and they are all less than the required value.
-2. All elements to the right and below the element containing the value greateer than the
+2. All elements to the right and below the element containing the value greater than the
    required value.  Since the top-left element of that sub-matrix is greater than required,
    *all* elements must be greater than required.
 3. The sub-matrix above and to the right of the current element may contain the required value.
@@ -110,6 +110,22 @@ matrix.  Something like:
 where the **start_x** and **start_y** coordinates define the top-left element in the matrix
 that we start searching from, and the **max_x** and **max_y** values define the coordinates
 of the bottom-right corner of the sub-matrix (inclusive).
+
+The special case when we find a value greater than the required value at the extreme right-
+and/or bottom-most cell in the sub-matrix is still handled by the above algorithm, but this
+just results in an inefficient linear search.  Optionally, this could be handled as a special
+case and just search linearly.  Note that this won't change the "big O" time.
+
+We implement this in **matrix_find5.py**.
+
+Testing
+-------
+
+The file **test_matrix_find.py** tests each implementation one after the other.  The file
+**time_matrix_find.py** times execution of a simple test case for a large number of times
+for each implementation.
+
+Keith's solution is tested and timed in **test_mf.py** abd **time_mf.py** respectively.
 
 After reading Keith's solution
 ==============================

@@ -124,3 +124,9 @@ if __name__ == '__main__':
     ModuleName = 'matrix_find4'
     print('\n%s %s' % (ModuleName, '.oOo. '*14))
     runner.run(suite)
+
+    import matrix_find5
+    Module = matrix_find5
+    ModuleName = 'matrix_find5'
+    print('\n%s %s' % (ModuleName, '.oOo. '*14))
+    runner.run(suite)
