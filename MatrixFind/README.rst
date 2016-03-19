@@ -62,8 +62,8 @@ stack approach is in matrix_find2.py.  Unfortunately, the algorithm is broken as
 test cases show.  Do 'make test' to run the test cases.
 
 Also note that the solutions before the brute-force solution matrix_find4.py are
-**broken**!.  The brute-force solution must work, of course, but it's twice as slow
-as Keith's solution.
+**broken**!.  Yay for testing!!  The brute-force solution must work, of course, but
+it's twice as slow as Keith's solution.
 
 A solution?
 ===========
@@ -82,7 +82,7 @@ The element that is current defines four sub-matrices:
 
 1. The sub-matrix defined by the (0,0) and current element corners.  This sub-matrix cannot
    contain the required value because the maximum values must occur in the right or bottom
-   edges, and thay are all less than the required value.
+   edges, and they are all less than the required value.
 2. All elements to the right and below the element containing the value greateer than the
    required value.  Since the top-left element of that sub-matrix is greater than required,
    *all* elements must be greater than required.
