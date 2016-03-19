@@ -71,6 +71,7 @@ A solution?
 Another approach (with more thought!) is:
 
 As before, start at the top-left element and proceed down the diagonal until we either:
+
 1. Find the value we want, the result is FOUND,
 2. We run off the bottom or right of the matrix, see below, or
 3. We find a value greater than the required value.
@@ -78,6 +79,7 @@ As before, start at the top-left element and proceed down the diagonal until we 
 If we find a greater value than required, we step back to the previous diagonal element.
 If we *can't* do that without stepping off the matrix, the result is NOT FOUND.
 The element that is current defines four sub-matrices:
+
 1. The sub-matrix defined by the (0,0) and current element corners.  This sub-matrix cannot
    contain the required value because the maximum values must occur in the right or bottom
    edges, and thay are all less than the required value.
