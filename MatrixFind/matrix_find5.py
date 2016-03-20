@@ -69,6 +69,6 @@ def matrix_find(matrix, required):
     max_y = len(matrix[0]) - 1
 
     result = sub_matrix_find(matrix, 0, 0,  max_x, max_y, required)
-    print('Count=%d, M=%d, N=%d' % (Count, max_x, max_y))
+#    print('Count=%d, M=%d, N=%d' % (Count, max_x, max_y))
     return result
 
