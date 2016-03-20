@@ -146,8 +146,8 @@ A more general algorithm might be:
     Given a view:
     1. scan the top row from the left and remove columns starting with a value > required
     2. scan the bottom row from the right and remove columns ending with a value < required
-    3. scan the left column from the bottom and remove rows starting with a value > required
-    4. scan the right column from the top and remove rows ending with a value < required
+    3. scan the left column from the top and remove rows starting with a value > required
+    4. scan the right column from the bottom and remove rows ending with a value < required
 
 Of course, if we find the required value during a scan we immediately terminate.
 
