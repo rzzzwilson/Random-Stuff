@@ -130,3 +130,15 @@ if __name__ == '__main__':
     ModuleName = 'matrix_find5'
     print('\n%s %s' % (ModuleName, '.oOo. '*14))
     runner.run(suite)
+
+    import matrix_find6
+    Module = matrix_find6
+    ModuleName = 'matrix_find6'
+    print('\n%s %s' % (ModuleName, '.oOo. '*14))
+    runner.run(suite)
+
+    import matrix_find7
+    Module = matrix_find7
+    ModuleName = 'matrix_find7'
+    print('\n%s %s' % (ModuleName, '.oOo. '*14))
+    runner.run(suite)

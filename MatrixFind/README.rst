@@ -156,7 +156,13 @@ It is not clear if there is anything to be gained by scanning in one direction o
 Between each step modify the view limits.  That is, don't do all 4 steps on the *original* view
 and then update the view limits.
 
-This algorithm will be implemented in *matrix_find6.py*.
+This algorithm is implemented in *matrix_find6.py* (recursive) and *matrix_find7.py*
+(iterative).
+
+Testing shows that the iterative version is slightly faster than the recursive version,
+of course.  But this is still half the speed of *mf.py*.  I'll have to read the code to
+see what is happening in *mf.py*.
+
 
 Summary
 =======

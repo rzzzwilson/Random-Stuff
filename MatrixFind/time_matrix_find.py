@@ -77,3 +77,15 @@ Module = matrix_find5
 ModuleName = 'matrix_find5'
 time_simple_find(7)
 time_notsimple_find(7)
+
+import matrix_find6
+Module = matrix_find6
+ModuleName = 'matrix_find6'
+time_simple_find(7)
+time_notsimple_find(7)
+
+import matrix_find7
+Module = matrix_find7
+ModuleName = 'matrix_find7'
+time_simple_find(7)
+time_notsimple_find(7)
