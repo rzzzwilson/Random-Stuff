@@ -130,7 +130,33 @@ Keith's solution is tested and timed in **test_mf.py** abd **time_mf.py** respec
 After reading Keith's solution
 ==============================
 
-TBD
+I have now (20 Mar 2016) read the source of Keith's **mf.py**.  The idea there is very simple
+and I kick myself for not thinking of it.  But even that still doesn't use all the information
+from the matrix.
+
+First, the **mf.py** explanation (note I still haven't read the *code* of mf.py) talks about
+"deleting" rows and columns.  I think that's a little misleading.  What you should do is
+have a "view" onto the original matrix and the algorithm incrementally constricts the view by
+removing areas where the required value cannot be.
+
+A more general algorithm might be:
+
+::
+
+    Given a view:
+    1. scan the top row from the left and remove columns starting with a value > required
+    2. scan the bottom row from the right and remove columns ending with a value < required
+    3. scan the left column from the bottom and remove rows starting with a value > required
+    4. scan the right column from the top and remove rows ending with a value < required
+
+Of course, if we find the required value during a scan we immediately terminate.
+
+It is not clear if there is anything to be gained by scanning in one direction or the other.
+
+Between each step modify the view limits.  That is, don't do all 4 steps on the *original* view
+and then update the view limits.
+
+This algorithm will be implemented in *matrix_find6.py*.
 
 Summary
 =======
