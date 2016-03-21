@@ -179,7 +179,7 @@ explains why good English is important.
 
 For example, I wrote the first draught of this in vim into a text file.  But I
 copied it into LibreOffice so I could spellcheck it before I committed it.  I
-hope that all my mistakes were caught, but probably not. [#]_
+hope that all my mistakes were caught, but probably not [#]_.
 
 This applies even to the code you write.  You spent a lot of time and effort on
 your code, didn't you?  So why doesn't it look like it?  The first edition of
@@ -237,7 +237,7 @@ code on Monday.  That's a lot harder to do now when every language comes with
 an `IDE <https://en.wikipedia.org/wiki/Integrated_development_environment>`_ 
 and massive library.  Why burden beginners with all the minutiae of
 modern languages *plus* a heavyweight IDE when they don't even know what a
-**while** loop is?
+*while* loop is?
 
 And that means starting with a language with a
 `REPL <https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop>`_.
@@ -247,10 +247,10 @@ means you don't have to know all that, but I believe it's overly demanding at
 the beginning.  Yes, IDEs *help* the student but that's because the student
 really needs help with the massive language structure.
 
-Learning computing using a language a REPL makes it easy to experiment with
-small bits of code, see the results immediately and see the result of errors.
-I suspect that's why BASIC was successful back in the dawn of personal
-computing.  Besides being just about the only language available!
+Learning computing using a language with a REPL makes it easy to experiment
+with small bits of code, see the results immediately and see the result of
+errors.  I suspect that's why BASIC was successful back in the dawn of personal
+computing, besides being just about the only language available.
 
 It's better to start simple and progress into more complicated things later.
 Start with procedural programming, learn about loops, functions and all that.
@@ -275,7 +275,7 @@ Python has too many good data structures built-in to be a *really* good teaching
 language [#]_.  To learn the bones of linked lists and hash tables you 
 really should implement them in something like C or assembler.  You can
 implement them in Python, of course, but most students aren't shown that because
-the language has perfectly good built-in lists and dictionaries. [#]_
+the language has perfectly good built-in lists and dictionaries [#]_.
 
 So Python is simple.  But that doesn't mean it's limiting like other simple
 languages such as BASIC.  With Python you also have a pretty good
