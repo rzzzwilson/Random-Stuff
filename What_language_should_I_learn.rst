@@ -231,7 +231,8 @@ remember taking
 `Kernighan & Ritchie <https://en.wikipedia.org/wiki/C_(programming_language)#K.26R_C>`_
 home one Friday night and starting to write moderately complicated production C
 code on Monday.  That's a lot harder to do now when every language comes with
-an IDE and massive library.  Why burden beginners with all the minutiae of
+an `IDE <https://en.wikipedia.org/wiki/Integrated_development_environment>`_ 
+and massive library.  Why burden beginners with all the minutiae of
 modern languages *plus* a heavyweight IDE when they don't even know what a
 **while** loop is?
 
@@ -240,7 +241,7 @@ And that means starting with a language with a
 It's simpler to do that than start talking about files and editors and make and
 compilers and linkers and whatever.  Using an IDE like VisualStudio or Eclipse
 means you don't have to know all that, but I believe it's not correct at the
-beginning.  Yes, IRDs *help* the student but that's because the student really
+beginning.  Yes, IDEs *help* the student but that's because the student really
 needs help with the massive language structure.
 
 Learning computing using a language a REPL makes it easy to experiment with
