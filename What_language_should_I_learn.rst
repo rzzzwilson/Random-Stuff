@@ -22,9 +22,7 @@ that there were three types of students:
 You need to be something like type 3 if you have any hope of learning to be a
 programmer **by yourself**.  How do you become type 3?  I don't know.  Certainly
 curiosity is part of a good programmer.  Patience or lack of patience, at the
-appropriate time, is another.  Larry Wall has a
-`great quote <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_ along these
-lines.
+appropriate time, is another.  Larry Wall has a great quote along these lines [#]_.
 
 The type 3 students were the ones who worked late hours trying things out,
 trying a different approach or algorithm.  Because there were other ways that
@@ -82,7 +80,7 @@ connection while *learning*, but when working you need a reliable connection.
 Or `DuckDuckGo <https://duckduckgo.com/>`_, etc.
 
 The user community associated with a language is very important.  It must be
-welcoming, helpful and large enough.  Some languages (no names given) have
+welcoming, helpful and large enough.  Some languages (no names ...) have
 communities with the reputation of being extremely pedantic and dismissive
 of beginners.  This doesn't help you; avoid these communities.
 
@@ -123,7 +121,8 @@ thinking about the language you will eventually use while designing your
 solution.  Rather, you should be thinking about algorithms and data structures
 in the most abstract way.  When you come to put your solution into a computer
 language you may have to change your approach in minor details.  Any major
-hiccups may mean you've chosen the wrong computer language.
+hiccups in the actual implementation may mean you've chosen the wrong computer
+language.
 
 Side projects
 -------------
@@ -138,9 +137,10 @@ faster or more clear?  Try to solve a more generalised problem than that given
 in the tutorial.
 
 I have found the early
-`Google Code Jam <https://code.google.com/codejam>`_ problems to be very good at
-making you think and sweat, particularly those that have time and memory
-constraints.  There are other sites that have problems you can try.
+`Google Code Jam <https://code.google.com/codejam/contests.html>`_ problems to
+be very good at making you think and sweat, particularly those that have time
+and memory constraints.  There are other sites that have problems you can try
+[#]_.
 
 Even better, after getting your first solution try to solve the exercise again
 in a different language.  That's a really good way to learn your second
@@ -155,7 +155,8 @@ There is no better way to learn than by solving your own problems.  iTunes
 mangling your playlists?  Write some code that creates
 playlists the way you want them.  It's time to change passwords for the hundreds
 of web sites that you use?  Write a little program to generate strong memorable
-passwords with configurable password lengths and character sets used.
+and *pronouncable* passwords with configurable password lengths and character
+sets used.
 
 Solving your own personal problems makes your learning more interesting, you
 get closer to real-world programming and you get pushed into areas you might
@@ -295,7 +296,9 @@ http://www.linuxjournal.com/article/3882
 
 
 .. [#] I'm not putting down the 'average' majority.  Despite almost 40 years of programming experience I still consider myself average.
+.. [#] We will encourage you to develop the three great virtues of a programmer: *laziness*, *impatience*, and *hubris*. `-- Larry Wall <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_
 .. [#] One I want to try is `GitLab <https://about.gitlab.com>`_.
+.. [#] For instance, `/r/dailyprogrammer <https://www.reddit.com/r/dailyprogrammer>`_.
 .. [#] Alas, after committing I found some grammar errors.  Grammar is hard.
 .. [#] A good training language, like a good training aircraft, should be easy to use, but demanding to use well.  In the computer training language context, this means the beginner should be able to get started and make satisfying progress initially, without being constrained later on after progressing to more advanced usage.
 .. [#] Maybe a good small exercise would be to write code to manage linked lists.  Revisit this subject later when touching on API design, unit testing and object-oriented classes.
