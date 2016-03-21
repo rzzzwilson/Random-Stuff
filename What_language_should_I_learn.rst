@@ -229,25 +229,31 @@ with now.  I disagree.
 Modern computer languages are *much* more complicated now than they were.  I
 remember taking
 `Kernighan & Ritchie <https://en.wikipedia.org/wiki/C_(programming_language)#K.26R_C>`_
-home one Friday night and starting to write moderately complicated C code on
-Monday.  That's a lot harder to do now when every language comes with an IDE and
-massive library.  Why burden beginners with all the minutiae of modern languages
-when they don't even know what a **while** loop is?
-
-Better to start simple and progress into more complicated things later.  Start
-with procedural programming, learn about loops, functions and all that.  Then
-advanced data structures, external to the language if possible.  It's better to
-write your own code to handle linked lists, for example, because when you get
-to a language that has them built in or provided by a library you actually know
-what is going on and why some things are slow and others are fast.
+home one Friday night and starting to write moderately complicated production C
+code on Monday.  That's a lot harder to do now when every language comes with
+an IDE and massive library.  Why burden beginners with all the minutiae of
+modern languages *plus* a heavyweight IDE when they don't even know what a
+**while** loop is?
 
 And that means starting with a language with a
 `REPL <https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop>`_.
 It's simpler to do that than start talking about files and editors and make and
-compilers and linkers and whatever.  Using a heavyweight IDE like VisualStudio
-or Eclipse is not correct at the beginning either.  Yes, they *help* the student
-but that's because the student really needs help with the massive language
-structure.
+compilers and linkers and whatever.  Using an IDE like VisualStudio or Eclipse
+means you don't have to know all that, but I believe it's not correct at the
+beginning.  Yes, IRDs *help* the student but that's because the student really
+needs help with the massive language structure.
+
+Learning computing using a language a REPL makes it easy to experiment with
+small bits of code.  I suspect that's why BASIC was successful back in the
+dawn of personal computing.  Besides being just about the only languagae
+available!
+
+It's better to start simple and progress into more complicated things later.
+Start with procedural programming, learn about loops, functions and all that.
+Then advanced data structures, external to the language if possible.  It's
+better to write your own code to handle linked lists, for example, because when
+you get to a language that has them built in or provided by a library you
+actually know what is going on and why some things are slow and others are fast.
 
 So my recommended starting language is: **Python**.  Yes, I am bigoted, but I
 accept that other languages like Ruby may be just as good.
@@ -273,8 +279,8 @@ Java.  Python also has limited functional programming features, though
 other languages are better in this respect.
 
 Once you can handle all that Python itself offers there is a large library of
-built-in modules that allow you to do just about anything you want to do.  And
-after that there is the even larger library of modules in
+built-in standard library modules that allow you to do just about anything you
+want to do.  And after that there is the even larger library of modules in
 `the CheeseShop <https://pypi.python.org/pypi>`_.
 
 The other reason for choosing Python is the user community.  This is where you
