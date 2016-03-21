@@ -3,7 +3,7 @@ Why write this?
 
 I wrote this when replying to the umpteenth "What language should I learn first?"
 post.  My posts to that sort of question were inevitably long screeds, so I
-wrote this document which will get referenced in any future posts of mine.
+wrote this document which will get referenced in any future replies of mine.
 
 If I had posted something different to each "how do I ..." post, each post
 would just have been a collection of quick half-formed thoughts.  At least this
@@ -69,6 +69,9 @@ different.  If you can, start learning on both Windows and Linux.  If you don't
 want to spend money, learn on what you have now.  You really need Apple hardware
 to run OSX, but you don't need to *learn* on OSX, so leave that OS until you
 need that platform.
+
+If you don't have an operating system, choose any Linux distribution.  They are
+free and have all the tools you will need to get started.
 
 Resources
 ---------
