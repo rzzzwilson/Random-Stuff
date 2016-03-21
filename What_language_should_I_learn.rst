@@ -279,7 +279,7 @@ the language has perfectly good built-in lists and dictionaries [#]_.
 
 So Python is simple.  But that doesn't mean it's limiting like other simple
 languages such as BASIC.  With Python you also have a pretty good
-object-oriented environment.  You just aren't forced to use it as you are with
+object-oriented environment, you just aren't forced to use it as you are with
 Java.  Python also has limited functional programming features, though
 other languages are better in this respect.
 
