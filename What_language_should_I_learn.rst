@@ -16,7 +16,7 @@ When I was at university trying to learn how to be a programmer it was clear
 that there were three types of students:
 
 1. Those who would never be good even though they studied hard
-2. The average students who learnt a bit but were still average [#]_
+2. The average students who learned a bit but were still average [#]_
 3. Those who were going to be good despite being at university
 
 You need to be something like type 3 if you have any hope of learning to be a
@@ -40,7 +40,7 @@ A computer language is just the basic tool used to tell a computer what to do.
 You have to know what to do first, before you tell the computer!  And that's
 **really** what being a programmer is all about.
 
-Paradigms, database, network, gui, ...
+Paradigms, database, network, GUI, ...
 --------------------------------------
 
 There's a lot more to programming than the language you use.  Being able to use
@@ -63,12 +63,12 @@ Operating system
 ----------------
 
 In the beginning it really doesn't matter what operating system you use.  Later,
-though, it's important that you get exposed to the three big OSs: Windows, OSX
-and Linux.  OSX and Linux are sort of the same, but Windows is very different.
-If you can, start learning on both Windows and Linux.  If you don't want to
-spend money, learn on what you have now.  You really need Apple hardware to run
-OSX, but you don't need to *learn* on OSX, so leave that OS until you need that
-platform.
+though, it's important that you get exposed to the three big operating systems:
+Windows, OSX and Linux.  OSX and Linux are sort of the same, but Windows is very
+different.  If you can, start learning on both Windows and Linux.  If you don't
+want to spend money, learn on what you have now.  You really need Apple hardware
+to run OSX, but you don't need to *learn* on OSX, so leave that OS until you
+need that platform.
 
 Resources
 ---------
@@ -175,7 +175,7 @@ carries over into the written English language.
 explains why good English is important.
 
 For example, I wrote the first draught of this in vim into a text file.  But I
-copied it into OpenOffice so I could spellcheck it before I committed it.  I
+copied it into LibreOffice so I could spellcheck it before I committed it.  I
 hope that all my mistakes were caught, but probably not. [#]_
 
 This applies even to the code you write.  You spent a lot of time and effort on
@@ -240,14 +240,14 @@ And that means starting with a language with a
 `REPL <https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop>`_.
 It's simpler to do that than start talking about files and editors and make and
 compilers and linkers and whatever.  Using an IDE like VisualStudio or Eclipse
-means you don't have to know all that, but I believe it's not correct at the
-beginning.  Yes, IDEs *help* the student but that's because the student really
-needs help with the massive language structure.
+means you don't have to know all that, but I believe it's overly demanding at
+the beginning.  Yes, IDEs *help* the student but that's because the student
+really needs help with the massive language structure.
 
 Learning computing using a language a REPL makes it easy to experiment with
-small bits of code.  I suspect that's why BASIC was successful back in the
-dawn of personal computing.  Besides being just about the only languagae
-available!
+small bits of code, see the results immediately and see the result of errors.
+I suspect that's why BASIC was successful back in the dawn of personal
+computing.  Besides being just about the only language available!
 
 It's better to start simple and progress into more complicated things later.
 Start with procedural programming, learn about loops, functions and all that.
@@ -262,7 +262,8 @@ accept that other languages like Ruby may be just as good.
 Many other beginner languages are recommended by others. Javascript, for
 instance, is often recommended but I believe it unnecessarily hard for beginners
 with too many special cases and
-`wat! <https://www.destroyallsoftware.com/talks/wat>`_ moments.
+`wat! <https://www.destroyallsoftware.com/talks/wat>`_ moments, plus its
+non-mainstream prototyping system.
 
 Python is a relatively simple language to start with, but it is powerful.  Much
 of that power is hidden away but is available when you need it.
@@ -274,7 +275,7 @@ implement them in Python, of course, but most students aren't shown that because
 the language has perfectly good built-in lists and dictionaries. [#]_
 
 So Python is simple.  But that doesn't mean it's limiting like other simple
-languages such as Basic.  With Python you also have a pretty good
+languages such as BASIC.  With Python you also have a pretty good
 object-oriented environment.  You just aren't forced to use it as you are with
 Java.  Python also has limited functional programming features, though
 other languages are better in this respect.
@@ -308,4 +309,4 @@ http://www.linuxjournal.com/article/3882
 .. [#] For instance, `/r/dailyprogrammer <https://www.reddit.com/r/dailyprogrammer>`_.
 .. [#] Alas, after committing I found some grammar errors.  Grammar is hard.
 .. [#] A good training language, like a good training aircraft, should be easy to use, but demanding to use well.  In the computer training language context, this means the beginner should be able to get started and make satisfying progress initially, without being constrained later on after progressing to more advanced usage.
-.. [#] Maybe a good small exercise would be to write code to manage linked lists.  Revisit this subject later when touching on API design, unit testing and object-oriented classes.
+.. [#] Maybe a good small python exercise would be to write code to create, use and destroy linked lists.  Revisit this subject later when touching on API design, unit testing and object-oriented classes.
