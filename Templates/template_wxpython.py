@@ -3,14 +3,13 @@
 
 """
 This is a wxPython program template.
-
-This comments describes the use of the code/module below.
-It may be printed if a 'usage' option is implemented.
 """
 
 import wx
+import wx.html
 
-TemplateName = 'Python wxPython Template'
+
+TemplateName = 'wxPython Template'
 TemplateVersion = '0.1'
 
 TileSources = [
@@ -21,7 +20,46 @@ TileSources = [
 
 DefaultAppSize = (800, 600)
 
-# if wxPython, we start with a Frame()
+AboutText = """<p>This is the %(name)s program, version %(version)s. It is
+running on version %(wxpy)s of <b>wxPython</b> and %(python)s of <b>Python</b>.
+See <a href="http://wiki.wxpython.org">wxPython Wiki</a></p>"""
+
+######
+# The About dialog
+######
+
+class HtmlWindow(wx.html.HtmlWindow):
+    def __init__(self, parent, id, size=(600,400)):
+        wx.html.HtmlWindow.__init__(self,parent, id, size=size)
+        if 'gtk2' in wx.PlatformInfo:
+            self.SetStandardFonts()
+
+    def OnLinkClicked(self, link):
+        wx.LaunchDefaultBrowser(link.GetHref())
+
+class AboutBox(wx.Dialog):
+     def __init__(self):
+         wx.Dialog.__init__(self, None, -1, 'About <<template>>',
+                            style=wx.DEFAULT_DIALOG_STYLE|wx.THICK_FRAME|wx.RESIZE_BORDER|wx.TAB_TRAVERSAL)
+         hwin = HtmlWindow(self, -1, size=(400,200))
+         vers = {}
+         vers['python'] = sys.version.split()[0]
+         vers['wxpy'] = wx.VERSION_STRING
+         vers['name'] = TemplateName
+         vers['version'] = TemplateVersion
+         hwin.SetPage(AboutText % vers)
+         btn = hwin.FindWindowById(wx.ID_OK)
+         irep = hwin.GetInternalRepresentation()
+         hwin.SetSize((irep.GetWidth()+25, irep.GetHeight()+10))
+         self.SetClientSize(hwin.GetSize())
+         self.CentreOnParent(wx.BOTH)
+         self.SetFocus()
+
+
+######
+# The main class
+######
+
 class AppFrame(wx.Frame):
     def __init__(self):
         wx.Frame.__init__(self, None, size=DefaultAppSize,
@@ -33,22 +71,41 @@ class AppFrame(wx.Frame):
 
         # create tileset menuitems
         menuBar = wx.MenuBar()
+
         tile_menu = wx.Menu()
-
         self.default_tileset_name = None
+        self.tile_menu_data = {}
         for (name, module_name) in TileSources:
-            new_id = wx.NewId()
-            tile_menu.Append(new_id, name, name, wx.ITEM_RADIO)
-            self.Bind(wx.EVT_MENU, self.onMenuSelect)
+            menu_id = tile_menu.Append(wx.ID_ANY, name, name, wx.ITEM_RADIO)
+            self.Bind(wx.EVT_MENU, self.onMenuSelect, menu_id)
+            self.tile_menu_data[menu_id.Id] = name
+        menuBar.Append(tile_menu, '&Tileset')
 
-        menuBar.Append(tile_menu, "&Tileset")
+        quit_menu = wx.Menu()
+        about_id = quit_menu.Append(wx.ID_ANY, 'About', 'About the application')
+        self.Bind(wx.EVT_MENU, self.onAbout, about_id)
+        quit_id = quit_menu.Append(wx.ID_EXIT, 'Quit', 'Quit the application')
+        self.Bind(wx.EVT_MENU, self.onQuit, quit_id)
+        menuBar.Append(quit_menu, '&File')
+
         self.SetMenuBar(menuBar)
 
         # finally, set up application window position
         self.Centre()
 
     def onMenuSelect(self, event):
-        pass
+        menu_id = event.Id
+        tileset_name = self.tile_menu_data[menu_id]
+        print('Tileset %s selected' % tileset_name)
+
+    def onAbout(self, event):
+        dlg = AboutBox()
+        dlg.ShowModal()
+        dlg.Destroy()  
+
+    def onQuit(self, event):
+        print('Quit selected')
+        self.Close()
 
 ##############################################################################
 
