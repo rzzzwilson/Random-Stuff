@@ -13,6 +13,12 @@ import wx
 TemplateName = 'Python wxPython Template'
 TemplateVersion = '0.1'
 
+TileSources = [
+               ('Source 1', 'source_1'),
+               ('Source 2', 'source_2'),
+               ('Source 3', 'source_3'),
+              ]
+
 DefaultAppSize = (800, 600)
 
 # if wxPython, we start with a Frame()
@@ -29,53 +35,20 @@ class AppFrame(wx.Frame):
         menuBar = wx.MenuBar()
         tile_menu = wx.Menu()
 
-        # initialise tileset handling
-        self.tile_source = None
-        # a dict of "gui_id: (name, module_name, object)" tuples
-        self.id2tiledata = {}
-        # a dict of "name: gui_id"
-        self.name2guiid = {}
-
         self.default_tileset_name = None
         for (name, module_name) in TileSources:
             new_id = wx.NewId()
             tile_menu.Append(new_id, name, name, wx.ITEM_RADIO)
-            self.Bind(wx.EVT_MENU, self.onTilesetSelect)
-            self.id2tiledata[new_id] = (name, module_name, None)
-            self.name2guiid[name] = new_id
-            if name == DefaultTileset:
-                self.default_tileset_name = name
-
-        if self.default_tileset_name is None:
-            raise Exception('Bad DefaultTileset (%s) or TileSources (%s)'
-                            % (DefaultTileset, str(TileSources)))
+            self.Bind(wx.EVT_MENU, self.onMenuSelect)
 
         menuBar.Append(tile_menu, "&Tileset")
         self.SetMenuBar(menuBar)
 
-        self.tile_source = tiles.Tiles()
-
-        # build the GUI
-        self.make_gui(self.panel)
-
-        # do initialisation stuff - all the application stuff
-        self.init()
-
         # finally, set up application window position
         self.Centre()
 
-        # create select event dispatch directory
-        self.demo_select_dispatch = {}
-
-        # finally, bind events to handlers
-        self.pyslip.Bind(pyslip.EVT_PYSLIP_SELECT, self.handle_select_event)
-        self.pyslip.Bind(pyslip.EVT_PYSLIP_BOXSELECT, self.handle_select_event)
-        self.pyslip.Bind(pyslip.EVT_PYSLIP_POSITION, self.handle_position_event)
-        self.pyslip.Bind(pyslip.EVT_PYSLIP_LEVEL, self.handle_level_change)
-
-        # select the required tileset
-        item_id = self.name2guiid[self.default_tileset_name]
-        tile_menu.Check(item_id, True)
+    def onMenuSelect(self, event):
+        pass
 
 ##############################################################################
 
@@ -96,7 +69,7 @@ if __name__ == '__main__':
         msg += '\nUncaught exception:\n'
         msg += ''.join(traceback.format_exception(type, value, tb))
         msg += '=' * 80 + '\n'
-        log(msg)
+        print(msg)
         tkinter_error(msg)
         sys.exit(1)
 
@@ -134,8 +107,4 @@ if __name__ == '__main__':
         wx.lib.inspection.InspectionTool().Show()
 
     app.MainLoop()
-
-    # alternatively, start a CLI program
-    result = main(debug)
-    sys.exit(result)
 
