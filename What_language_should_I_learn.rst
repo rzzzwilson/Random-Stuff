@@ -5,9 +5,10 @@ I wrote this when replying to the umpteenth "What language should I learn first?
 post.  My posts to that sort of question were inevitably long screeds, so I
 wrote this document which will get referenced in any future replies of mine.
 
-If I had posted something different to each "how do I ..." post, each post
-would just have been a collection of quick half-formed thoughts.  At least this
-way I will finally have a collection of **considered** half-formed thoughts!
+If I had posted something different to each "which language ..." question, each
+post would just have been a collection of quick half-formed thoughts.  At least
+this way I will finally have a collection of **considered** half-formed
+thoughts!
 
 Programming is not about the language, it's about you
 -----------------------------------------------------
