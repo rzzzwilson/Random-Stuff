@@ -32,8 +32,7 @@ def pwgen():
         yield random.choice(Consonants) + random.choice(Vowels)
 
 def main(length, numbers, upper):
-    print('main() called, length=%d, numbers=%s, upper=%s'
-          % (length, str(numbers), str(upper)))
+    """Generate a pronouncable password."""
 
     pw = ''
     pwgen_series = pwgen()
