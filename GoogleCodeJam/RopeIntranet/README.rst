@@ -15,7 +15,10 @@ The small practice input file from the Code Jam page.
 
 The large practice input file from the Code Jam page.
 
-rope_intranet.py
+::
+
+    rope_intranet.py
+
 Hopefully a solution to the problem.
 
 The problem, from the web page
