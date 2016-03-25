@@ -3,10 +3,16 @@ This is the puzzle **Rope Intranet** from the Google Code Jam
 
 The files:
 
-A-small-practice.in
+::
+
+    A-small-practice.in
+
 The small practice input file from the Code Jam page.
 
-A-large-practice.in
+::
+
+    A-large-practice.in
+
 The large practice input file from the Code Jam page.
 
 rope_intranet.py
