@@ -15,6 +15,11 @@ where -h           prints help and the stops,
 The password is prnted to standard output.
 """
 
+# Note that we don't include 'special' characters like '.', etc, as some sites
+# don't allow them (for some unknown reason, perhaps incompetence?).
+
+
+import string
 import random
 
 
@@ -25,19 +30,58 @@ DefaultLength = 14
 Vowels = 'aeiou'
 Consonants = 'bdfghklmnprstvwyz'
 
+# the vowels+consonants we might uppercase
+# we have this because we don't want the user to confuse O and 0, etc,
+# so we exclude 'o', for instance
+MakeUpper = 'aeubdfghklmnprstvwyz'
+
+# the alpha to numeric mapping
+Alpha2Number = {
+                'a': '4',
+                'e': '3',
+                'i': '1',
+                'o': '0',
+                'b': '6',
+                'g': '8',
+                's': '5',
+               }
+
+
 def pwgen():
     """a generator that creates consonant+vowel... output."""
 
     while True:
         yield random.choice(Consonants) + random.choice(Vowels)
 
+
 def main(length, numbers, upper):
     """Generate a pronouncable password."""
 
+    # first, generate a password that is long enough
     pw = ''
     pwgen_series = pwgen()
     while len(pw) < length:
         pw += pwgen_series.next()
+
+    # if numbers desired, choose some random alphas
+    if numbers:
+        num_pw = ''
+        for c in pw:
+            if random.randrange(1, 10) < 3:
+                if c in Alpha2Number:
+                    c = Alpha2Number[c]
+            num_pw += c
+        pw = num_pw
+
+    # if we want to uppercase some letters
+    if upper:
+        upper_pw = ''
+        for c in pw:
+            if random.randrange(1, 10) < 3:
+                if c in MakeUpper:
+                    c = c.upper()
+            upper_pw += c
+        pw = upper_pw
 
     print(pw[:length])
 
