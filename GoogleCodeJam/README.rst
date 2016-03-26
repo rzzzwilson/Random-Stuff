@@ -5,6 +5,10 @@ and memory constraints.
 
 Here are some of the puzzles I've tried.
 
+**NOTE: You should attempt the puzzles before reading the code here.  You will
+learn much more that way.  Plus you may find a better solution than mine!  If
+you do, please let me know.***
+
 In each directory here there is one problem from the Code Jam practice page.
 Included is something that might be useful - a **Discussion** file that
 contains design thoughts, trade-offs taken, dead-ends hit, etc.  This sort
