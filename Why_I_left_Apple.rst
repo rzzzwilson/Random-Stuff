@@ -121,8 +121,8 @@ What other Apple behaviour has me wondering what's in the water over there?
 The Apple Watch?  What is that for?  If it *replaced* some of the iPhone
 functionality I could see a use, but not as something that only works *with* an
 iPhone.  The iPad Pro?  Time will tell, but I suspect that's another lemon,
-unless my developer bias for grunty laptops with a muse and keyboard is showing.
-An iPad stylus?  I know what Steve thought of that!
+unless my developer bias for grunty laptops with a mouse and keyboard is
+showing.  An iPad stylus?  I know what Steve thought of that!
 
 Pity Apple doesn't make insanely great hardware *and* software anymore.
 They have all the hallmarks of a company that has lost its way, and is just
