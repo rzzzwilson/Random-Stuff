@@ -33,7 +33,7 @@ A directory is uniquely identified by its name and its parent directory (the
 directory it is directly contained in). This is usually encoded in a path, which
 consists of several parts each preceded by a forward slash ('/'). The final
 part is the name of the directory, and everything else gives the path of its
-parent directory. For example, consider the path: 
+parent directory. For example, consider the path:
 
 ::
 
@@ -118,20 +118,20 @@ Large dataset
 Sample
 ------
 
-+------------------+------------+
-| Input            | Output     |
-+==================+============+
-| 3                | Case #1: 4 |
-| 0 2              | Case #2: 0 |
-| /home/gcj/finals | Case #3: 4 |
-| /home/gcj/quals  |            |
-| 2 1              |            |
-| /chicken         |            |
-| /chicken/egg     |            |
-| /chicken         |            |
-| 1 3              |            |
-| /a               |            |
-| /a/b             |            |
-| /a/c             |            |
-| /b/b             |            |
-+------------------+------------+
+::
+
+     Input               Output
+
+     3                   Case #1: 4
+     0 2                 Case #2: 0
+     /home/gcj/finals    Case #3: 4
+     /home/gcj/quals
+     2 1
+     /chicken
+     /chicken/egg
+     /chicken
+     1 3
+     /a
+     /a/b
+     /a/c
+     /b/b
