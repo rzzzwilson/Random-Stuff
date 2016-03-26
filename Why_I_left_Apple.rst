@@ -10,10 +10,11 @@ At the moment I have:
 * An iPod Nano 6th generation
 
 I'm not one of the blind Apple fan-boys.  I was aware I was buying into a
-culture that tried to lock me into a walled-garden.  But I've been using and
+culture that tried to lock me into a walled-garden.  I've been using and
 working with computers since 1977.  I write software for Windows, Linux as
 well as Mac.  I have another laptop that dual-boots Windows 7 and XUbuntu.
-So why have I decided to turn away from Apple?
+I thought I could handle the lock-in tendency.  So why have I decided to turn
+away from Apple?
 
 I grew tired of the perceived attitude of "we know best" and the inscrutable
 face Apple presents to the world.  Apple is successful, no doubt about that,
@@ -33,7 +34,7 @@ USB port was dangerous then I would do that infrequently.  I updated the
 music on it once and it lasted for years.  So I think Apple service, in this
 instance, was first rate.
 
-My complaint since then is the entire system surrounnding music on my iPod
+My complaint since then is the entire system surrounding music on my iPod
 Touch.  iTunes is the absolute worst piece of software I use, whether on
 Windows, Linux, OSX or iOS.  If I try to put new music on my iPod I first have
 to figure out how in the hell to get iTunes to do that, with it's interminable
@@ -42,7 +43,8 @@ hurdle I end up with my music on the iPod but not really usable as the wonderful
 software has decided to 'organize' my music.  I end up with the first movement
 of a symphony followed by something unrelated.  This is so bad I have written
 software to fiddle with the ID3 tags on all my music files so I can predict
-where the hell my pieces go.
+where the hell my pieces go.  It's not pretty or perfect, but it's better
+than iTunes.
 
 Apple might well say that their software is designed to help inexperienced
 users and not to allow experienced users do whatever odd thing they may want,
@@ -58,9 +60,9 @@ backward step in usability.  Yes, it *looks* prettier, but it makes using the
 damned thing harder.  Apple is actually saying that the iPad should be used
 only in landscape mode, not portrait.  Strange, because the retina iPad has
 so many pixels that it can reasonably used in portrait mode.  It is so
-infuriating when, for the umpteenth time, my right wrist touches the screen
+infuriating when, for the umpteenth time, my right palm touches the screen
 just a little forcing a change in YouTube video.  This is so bad that it's
-the primme reason why I will look elsewhere when the time comes to replace
+the prime reason why I will look elsewhere when the time comes to replace
 the Air.
 
 On to my iPhone 6.  I though I would try Apple after a less than satisfying
@@ -85,7 +87,8 @@ though that displaying a new window the user just caused to be raised **behind**
 other windows was a good idea?  Things like that and the apparently decreasing
 stability of OSX leads me to look elsewhere.  Apple has spoiled me for hardware
 quality so I have to find that sort of quality along with a high resolution
-screen.
+screen.  Maybe I'll try installing Linux on it.  Battery life may suffer, but
+if it means less aggravation, bring it on.
 
 On the plus side, my rMBP has decided to have battery problems.  I'll be
 without it for four weeks while Apple does whatever it does, at a cost of
@@ -98,9 +101,15 @@ disk containing my music was reformatted a while back to use the Apple
 filesystem and isn't safely accessible from Linux.  The external disk *used*
 to be ExFat format so I could access it from both Mac, Windows and Linux, but
 I had so many problems with OSX reporting uncorrectable errors (which Windows
-fixed in a trice) that I moved to Apple filesystem.  Which solved my persistent
-filesystem errors but trapped me just a little more in the walled garden.
+fixed in a trice) that I moved to the Apple filesystem.  Which solved my
+persistent filesystem errors but trapped me just a little more in the walled
+garden.
 
-No more!
+Trouble is, Android isn't a slam dunk certainty either.  One thing Apple does
+well is to keep iThings updated constantly.  Well, sometimes there's a little
+glitch, but Apple is still ahead of the curve here as most Android manufacturers
+drop there device like a hot rock after you buy it.
+
+Pity Apple doesn't make insanely great hardware *and* software anymore.
 
 
