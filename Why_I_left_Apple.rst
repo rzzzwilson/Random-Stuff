@@ -23,6 +23,8 @@ to continue producing "insanely great" products without him?  Let me give you
 a few examples.
 
 I have no complaints about my iPod Nano.  Probably because I don't use it.
+Don't get me wrong, it's a jewel of a thing, but it no longer fits into the
+way I live.
 
 Instead I use an iPod Touch.  It's a good piece of kit and
 has lasted well.  Before that I had one of the last hard-disk video iPods.
@@ -65,6 +67,11 @@ just a little forcing a change in YouTube video.  This is so bad that it's
 the prime reason why I will look elsewhere when the time comes to replace
 the Air.
 
+That and the unsatisfactory experience with two Smart Cases.  These look good
+and I really liked them, when new.  Unhappily, after four or five months the
+case relaxed and the iPad started falling out when I used it in bed.  It
+wasn't just a bad case either, as I bought another.  Same result, but quicker.
+
 On to my iPhone 6.  I though I would try Apple after a less than satisfying
 experience with a couple of other 'phones.  It really is a good piece of kit
 but the "Apple knows best" shows through here too.
@@ -73,9 +80,9 @@ I often browse the 'net in bed.  Anyone who does this knows that you want to
 lock the screen so that when you roll onto your side the screen stays put
 rather than switching display orientations.  Anyone remember when Apple thought
 you didn't a screen lock and had to retro-fit it?  Well, they still haven't got
-it right, as you can only lock the display orientation into portrait.  That's
-right, even though iOS on the iPad can lock in either orientation and even
-though an iOS application works in landscape orientation, Apple has decided
+it right, as you can only lock the display orientation into **portrait**.
+That's right, even though iOS on the iPad can lock in either orientation and
+even though an iOS application works in landscape orientation, Apple has decided
 that you don't *really* need to lock the display in landscape orientation,
 despite there being a lot fewer pixels in screen width with portrait.  For me,
 this is a deal breaker.  I write software for a living and I fail to comprehend
