@@ -6,7 +6,7 @@ At the moment I have:
 * A 13" MacBook Pro retina
 * An iPad Air
 * An iPhone 6
-* An iPod Touch
+* An iPod Touch 4th generation
 * An iPod Nano 6th generation
 
 I'm not one of the blind Apple fan-boys.  I was aware I was buying into a
