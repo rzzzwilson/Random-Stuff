@@ -108,7 +108,7 @@ garden.
 Trouble is, Android isn't a slam dunk certainty either.  One thing Apple does
 well is to keep iThings updated constantly.  Well, sometimes there's a little
 glitch, but Apple is still ahead of the curve here as most Android manufacturers
-drop there device like a hot rock after you buy it.
+drop their device like a hot rock after you buy it.
 
 Pity Apple doesn't make insanely great hardware *and* software anymore.
 
