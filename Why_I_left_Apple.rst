@@ -11,8 +11,8 @@ At the moment I have:
 
 I'm not one of the blind Apple fan-boys.  I was aware I was buying into a
 culture that tried to lock me into a walled-garden.  I've been using and
-working with computers since 1977.  I write software for Windows, Linux as
-well as Mac.  I have another laptop that dual-boots Windows 7 and XUbuntu.
+working with computers since 1977.  I write software for Windows, Linux and
+Mac.  I have another laptop that dual-boots Windows 7 and XUbuntu.
 I thought I could handle the lock-in tendency.  So why have I decided to turn
 away from Apple?
 
@@ -118,10 +118,11 @@ glitch, but Apple is still ahead of the curve here as most Android manufacturers
 drop their device support like a hot rock after you buy it.
 
 What other Apple behaviour has me wondering what's in the water over there?
-The Apple Watch?  What is that for?  If it *replaced* the iPhone I could see
-a use, but not as something that only works *with* an iPhone.  The iPad Pro?
-Time will tell, but I suspect that's another lemon, unless my developer bias
-for laptops is showing.  An iPad stylus?  I know what Steve thought of that!
+The Apple Watch?  What is that for?  If it *replaced* some of the iPhone
+functionality I could see a use, but not as something that only works *with* an
+iPhone.  The iPad Pro?  Time will tell, but I suspect that's another lemon,
+unless my developer bias for grunty laptops is showing.  An iPad stylus?  I
+know what Steve thought of that!
 
 Pity Apple doesn't make insanely great hardware *and* software anymore.
 They have all the hallmarks of a company that has lost its way, and is just
