@@ -90,12 +90,12 @@ how *anyone* can think not providing landscape lock is anything but a fail.
 
 And now the MacBook Pro.  It too is a good piece of hardware.  The software is
 a little strange.  Apple has its way of doing things, for sure, but whoever
-though that displaying a new window the user just caused to be raised **behind**
+thought that displaying a new window the user just caused to be raised **behind**
 other windows was a good idea?  Things like that and the apparently decreasing
 stability of OSX leads me to look elsewhere.  Apple has spoiled me for hardware
 quality so I have to find that sort of quality along with a high resolution
-screen.  Maybe I'll try installing Linux on it.  Battery life may suffer, but
-if it means less aggravation, bring it on.
+screen.  Maybe I'll just try installing Linux on it.  Battery life may suffer,
+but if it means less aggravation, bring it on.
 
 On the plus side, my rMBP has decided to have battery problems.  I'll be
 without it for four weeks while Apple does whatever it does, at a cost of
