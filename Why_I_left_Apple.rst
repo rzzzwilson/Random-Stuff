@@ -71,8 +71,8 @@ but the "Apple knows best" shows through here too.
 
 I often browse the 'net in bed.  Anyone who does this knows that you want to
 lock the screen so that when you roll onto your side the screen stays put
-rather than switching display modes.  Anyone remember when Apple thought you
-didn't a screen lock and had to retro-fit it?  Well, they still haven't got
+rather than switching display orientations.  Anyone remember when Apple thought
+you didn't a screen lock and had to retro-fit it?  Well, they still haven't got
 it right, as you can only lock the display orientation into portrait.  That's
 right, even though iOS on the iPad can lock in either orientation and even
 though an iOS application works in landscape orientation, Apple has decided
