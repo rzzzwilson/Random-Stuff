@@ -126,5 +126,5 @@ know what Steve thought of that!
 
 Pity Apple doesn't make insanely great hardware *and* software anymore.
 They have all the hallmarks of a company that has lost its way, and is just
-humming along, hoping to remember the words, hoping they remember how to
+humming along, hoping to remember the words, trying to remember how to
 be great again.
