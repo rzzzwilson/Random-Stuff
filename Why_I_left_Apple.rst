@@ -95,12 +95,12 @@ without it for four weeks while Apple does whatever it does, at a cost of
 about AUD$400.  Gives me a chance to get reacquainted with my Windows/XUbuntu
 laptop.
 
-But it also reminds me that I have become trapped in the walled garden as my
-rMBP time machine backup isn't accessible from Win/Linux.  Also, my external
-disk containing my music was reformatted a while back to use the Apple
-filesystem and isn't safely accessible from Linux.  The external disk *used*
-to be ExFat format so I could access it from both Mac, Windows and Linux, but
-I had so many problems with OSX reporting uncorrectable errors (which Windows
+Yes, it's a plus since it reminds me that I have become trapped in the walled
+garden as my rMBP time machine backup isn't accessible from Win/Linux.  Also,
+my external disk containing my music was reformatted a while back to use the
+Apple filesystem and isn't safely accessible from Linux.  The external disk
+*used* to be ExFat format so I could access it from both Mac, Windows and Linux,
+but I had so many problems with OSX reporting uncorrectable errors (which Windows
 fixed in a trice) that I moved to the Apple filesystem.  Which solved my
 persistent filesystem errors but trapped me just a little more in the walled
 garden.
@@ -108,8 +108,15 @@ garden.
 Trouble is, Android isn't a slam dunk certainty either.  One thing Apple does
 well is to keep iThings updated constantly.  Well, sometimes there's a little
 glitch, but Apple is still ahead of the curve here as most Android manufacturers
-drop their device like a hot rock after you buy it.
+drop their device support like a hot rock after you buy it.
+
+What other Apple behaviour has me wondering what's in the water over there?
+The Apple Watch?  What is that for?  If it *replaced* the iPhone I could see
+a use, but not as something that only works *with* an iPhone.  The iPad Pro?
+Time will tell, but I suspect that's another lemon, unless my developer bias
+for laptops is showing.  An iPad stylus?  I know what Steve thought of that!
 
 Pity Apple doesn't make insanely great hardware *and* software anymore.
-
-
+They have all the hallmarks of a company that has lost its way, and is just
+humming along, hoping to remember the words, hoping they remember how to
+be great again.
