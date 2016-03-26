@@ -17,3 +17,7 @@ new to *exploratory* programming.  This will be embarrassing as I will **not**
 go back and edit the discussion, so my mistakes will be apparent to all the
 world.  We all make mistakes, the trick is to find them early and correct them.
 
+In each puzzle directory there is a complete problem definition (in README.rst)
+as well as the two test datasets Google provides.  I do this as over time the
+Google practice pages tend to disappear and I want to keep the connection
+between the puzzle, code and test data.
