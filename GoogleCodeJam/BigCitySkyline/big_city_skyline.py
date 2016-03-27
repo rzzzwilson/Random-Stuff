@@ -8,6 +8,27 @@ This is a program to solve the Google Code Jam "Big City Skyline" puzzle:
 Usage: big_city_skyline <input_file>
 """
 
+import copy
+
+
+
+#  class for an active block
+class Block(object):
+    def __init__(self, start, width, height):
+        """Start a new block.
+
+        start   is the start coordinate of this block
+        height  is the height of the block
+        """
+
+        self.start = start              # left-most column of block
+        self.height = height            # height of block
+        self.area = None                # used only when block is closed
+
+    def __str__(self):
+        return 's=%d, h=%d, a=%s' % (self.start, self.height, str(self.area))
+
+
 def build_city(width_height):
     """Solve the Big City Skyline problem.
 
@@ -16,9 +37,108 @@ def build_city(width_height):
     Return the area of the largest block.
     """
 
-    print('build_city: width_height=%s' % str(width_height))
+#    print('build_city: width_height=%s' % str(width_height))
 
-    return 0
+    # a list holding all open blocks
+    open_blocks = []
+
+    # a reference to the single closed block
+    closed_block = None
+
+    #height of last buiding added
+    last_height = None
+
+    # current column number
+    current_column = None
+
+    for (w, h) in width_height:
+#        print('Adding block: width=%d, height=%d' % (w, h))
+        if last_height is None:
+#            print('First block')
+            # first building, initialize
+            new_block = Block(0, w, h)
+            open_blocks.append(new_block)
+            last_height = h
+            current_column = w
+        else:
+            if h > last_height:
+#                print('Bigger height block')
+                # start a new open block
+                new_block = Block(current_column, w, h)
+                open_blocks.append(new_block)
+                # extend all open blocks (nothing to do)
+                # update state
+                last_height = h
+                current_column += w
+            elif h == last_height:
+#                print('Same height block')
+                # extend all open blocks (nothing to do)
+                # update state
+                current_column += w
+            else:       # h < last_height
+#                print('Smaller height block')
+                # put copy of open blocks > h into a closed list
+                closed = []     # list of blocks that will be closed
+                for b in open_blocks:
+#                    print('looking at b: %s, h=%s' % (str(b), h))
+                    if b.height > h:
+#                        print('1. closing block %s' % str(b))
+                        new_closed = copy.deepcopy(b)
+                        new_closed.area = (current_column - b.start) * b.height
+                        closed.append(new_closed)
+#                        print('1. closed=%s' % str([str(x) for x in closed]))
+
+                # ensure largest closed is referred to by 'closed_block'
+                for b in closed:
+                    if closed_block is None:
+                        closed_block = b
+                    elif b.area > closed_block.area:
+                        closed_block = b
+                closed = []             # flush the refs in 'closed'
+
+                # modify open blocks to new lower height, keep only largest
+                delete = []
+                largest = None
+                for b in open_blocks:
+#                    print('looking at b: %s, h=%s' % (str(b), h))
+                    if b.height > h:
+#                        print('2. lowering block %s' % str(b))
+                        b.height = h
+                        area = (current_column - b.start) * b.height
+                        if largest is None:
+                            largest = b
+                        else:
+                            if area > (current_column - largest.start) * largest.height:
+                                delete.append(largest)
+                                largest = b
+                            else:
+                                delete.append(b)
+
+                # now delete all in 'delete' from open_blocks
+                for b in delete:
+                    open_blocks.remove(b)
+
+                # update state
+                last_height = h
+                current_column += w
+
+#        print('After:\n\tcurrent_column=%d\n\topen_blocks=%s\n\tclosed_block=%s'
+#              % (current_column, str([str(x) for x in open_blocks]), str(closed_block)))
+
+    # return area of largest block
+    result = 0
+    for b in open_blocks:
+        b_area = (current_column - b.start) * b.height
+#        print('3. looking at open_blocks b: %s, area=%d' % (str(b), b_area))
+        if b_area > result:
+#            print('3. new largest area=%d' % b_area)
+            result = b_area
+    if closed_block and closed_block.area > result:
+#        print('3. closed_block is greater, area=%d' % closed_block.area)
+        result = closed_block.area
+
+    return result
+
 
 def main(input_file):
     """Solve the Big City Skyline problem.
@@ -60,7 +180,6 @@ def main(input_file):
     result = build_city(width_height)
 
     print('%d' % result)
-#    print('-'*80)
 
     return 0
 
