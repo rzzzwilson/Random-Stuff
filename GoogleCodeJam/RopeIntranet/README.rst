@@ -49,11 +49,14 @@ How many intersection points do you see?
 Input
 -----
 
-The first line of the input gives the number of test cases, T. T test cases
-follow. Each case begins with a line containing an integer N, denoting the
-number of wires you see.
+The first line of the input gives the number of test cases, **T**. **T** test
+cases follow. Each case begins with a line containing an integer **N**, denoting
+the number of wires you see.
 
-The next N lines each describe one wire with two integers Ai and Bi. These describe the windows that this wire connects: Ai is the height of the window on the left building, and Bi is the height of the window on the right building.
+The next **N** lines each describe one wire with two integers **Ai** and **Bi**.
+hese describe the windows that this wire connects: **Ai** is the height of the
+window on the left building, and **Bi** is the height of the window on the right
+building.
 
 Output
 ------
@@ -65,12 +68,36 @@ see.
 Limits
 ------
 
-1 <= T <= 15.
-1 <= Ai <= 104.
-1 <= Bi <= 104.
+1 <= **T** <= 15.
+1 <= **Ai** <= 104.
+1 <= **Bi** <= 104.
 
-Within each test case, all Ai are different.
+Within each test case, all **Ai** are different.
 
-Within each test case, all Bi are different.
+Within each test case, all **Bi** are different.
 
 No three wires intersect at the same point.
+
+Small dataset
+
+1 <= **N** <= 2.
+
+Large dataset
+
+1 <= **N** <= 1000.
+
+Sample
+
+::
+
+    Input            Output 
+     
+    2                Case #1: 2
+    3                Case #2: 0
+    1 10
+    5 5
+    7 7
+    2
+    1 1
+    2 2
+
