@@ -11,6 +11,12 @@ is the data shown in the problem definition.
 
 ::
 
+    Google_CodeJam_Practice.pdf
+
+is the original Google statement of the problem.
+
+::
+
     big_city_skyline.py
 
 is, hopefully, a solution to the problem.
