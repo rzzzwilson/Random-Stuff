@@ -5,6 +5,11 @@ The files:
 
 ::
 
+    0-small.in
+
+The given dataset in the problem definition.  We know the answers for this!
+::
+
     A-small-practice.in
 
 The small practice input file from the Code Jam page.
