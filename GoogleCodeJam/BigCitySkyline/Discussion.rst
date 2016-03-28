@@ -62,3 +62,32 @@ the answer it gives is correct.
 Generate a smaller test dataset that we know the answer for (by hand).  Debug
 the current program to ensure we are deleting things we expect to be deleted,
 like closed blocks with small areas.
+
+**test1.in** is a small test file used to test:
+
+* adding larger blocks
+* adding smaller blocks
+
+The aim is to test the addition of new open blocks and the subsequent lowering
+and discarding of smaller closed blocks.  Examining the debug output shows the
+algorithm in **big_city_skyline.py** is working as expected.  It prints 36.
+
+**test2.in** is a small test file used to test:
+
+* adding larger blocks
+* adding smaller blocks
+* adding larger blocks again
+
+It extends **test1.in** and is designed to test the flushing of the
+*closed_block* value if an open block is larger.  Testing shows that the
+addition of the 6x6 building produces an open block of size 54 but the 
+*closed_block* value still references a block of size 36.  This is a bug!
+Not surprising, as the code handling this is too complex.  Simplify.
+The program does produce the correct result: 54.
+
+**test3.in** is a copy of **test1.in** with a zero height building near the
+end.  The problem statement doesn't rule this possibility out.  This test case
+produces the correct result, 30, which is the large closed block at the
+beginnning.
+
+

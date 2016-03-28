@@ -21,6 +21,14 @@ is the original Google statement of the problem.
 
 is, hopefully, a solution to the problem.
 
+The test input data files:
+
+::
+
+    test?.in
+
+are used to test the program(s).  They are small hand-generated test cases.
+
 The problem, from the web page
 ==============================
 
