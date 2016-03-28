@@ -101,3 +101,44 @@ After debugging for *test2.in* and changing the code a little, the *test3.in*
 test gets the wrong result.  Put the test cases into a unittest program.  Need
 to control the *Debug* value from the command line for this to work properly.
 Now we can do **make test** to test results.
+
+While thinking about the memory usage, it became apparent that the first
+solution in **big_city_skyline.py** will always blow the memory allowed limit
+of 512MB.  Since each block is remembered in a Block class and each instance of
+Block uses 64 bytes, the maximum possible number of blocks would use 10,000,000
+times 64 bytes - about 640MB.  There has to be another way.
+
+We keep a dictionary of open blocks.  The dictionary looks like this:
+
+::
+
+    {<height>: <start_column>, ...}
+
+Even when the maximum possible number of blocks are put into the dictionary
+it only uses less than 400MB.
+
+We also need to remember the *area* of the largest closed block.  This new code
+is in **big_city_skyline2.py**.  Using the new algorithm results in simpler
+code and the Makefile tests shows the code getting the correct answers for the
+small test cases.
+
+Generate a large test file with:
+
+::
+
+    python make_data.py 10000000 >large.in
+
+Running this through **big_city_skyline2.py** gets:
+
+::
+
+    $ time python big_city_skyline2.py large.in
+    858104795130
+
+    real        2m38.276s
+    user        2m37.516s
+    sys 0m0.888s
+
+which is good for time, but I don't know if the answer is correct.
+Unfortunately, memory usage still appears to be at about 2GB.  I'll have to
+dig up my old **memprof** utility to really check memory usage.

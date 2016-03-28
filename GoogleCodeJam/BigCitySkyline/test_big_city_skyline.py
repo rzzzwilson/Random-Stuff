@@ -6,7 +6,8 @@ Test the solution(s) to the BigCitySkyline problem.
 """
 
 import unittest
-import big_city_skyline
+#import big_city_skyline
+import big_city_skyline2 as big_city_skyline
 
 
 class TestBigCitySkyline(unittest.TestCase):

@@ -50,14 +50,19 @@ input size we specify.
 
 Input:
 
-The city is made out of rectangular buildings, all next to each other. The input will consist of an integer N,
-the number of buildings, followed by a series of N number pairs w i h i , indicating the width and height of each
-building in order from left to right. The buildings' heights will be less than 100,000,000, and their widths will
-be less than 1000.
-Easy: 0 < N < 1,000
-Hard: 0 < N < 10,000,000
+The city is made out of rectangular buildings, all next to each other. The input
+will consist of an integer **N**, the number of buildings, followed by a series
+of **N** number pairs **Wi Hi** , indicating the width and height of each
+building in order from left to right. The buildings' heights will be less than
+100,000,000, and their widths will be less than 1000.
+
+Easy: 0 < **N** < 1,000
+Hard: 0 < **N** < 10,000,000
+
 Output:
-A single number: the area of the largest possible block. (Here's the beautiful skyline of the Big City.)
+
+A single number: the area of the largest possible block. (Here's the beautiful
+skyline of the Big City.)
 
 .. image:: big_city_skyline.png
 
