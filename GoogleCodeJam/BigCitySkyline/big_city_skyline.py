@@ -5,14 +5,16 @@
 This is a program to solve the Google Code Jam "Big City Skyline" puzzle:
     http://static.googleusercontent.com/media/services.google.com/en//blog_resources/Google_CodeJam_Practice.pdf
 
-Usage: big_city_skyline <input_file>
+Usage: big_city_skyline [-d] <input_file>
+
+where the -d option turns on debugging pribts.
 """
 
 import copy
 
 
 # global flag - debug prints if True
-Debug = True
+Debug = False
 
 
 #  class for an active block
@@ -150,10 +152,11 @@ def build_city(width_height):
     return result
 
 
-def main(input_file):
+def main(input_file, debug=False):
     """Solve the Big City Skyline problem.
 
     input_file  the input data file
+    debug       True if debugging prints happen
 
     The solution is written to standard output:
         y
@@ -164,6 +167,9 @@ def main(input_file):
     Because python makes this easy, we allow newlines anywhere in the input
     except within a number.
     """
+
+    global Debug
+    Debug = debug
     
     # read file into memory, removing trailing '\n'
     with open(input_file, 'rb') as handle:
@@ -187,11 +193,7 @@ def main(input_file):
         sys.exit(10)
     width_height = zip(numbers[0::2], numbers[1::2])
 
-    result = build_city(width_height)
-
-    print('%d' % result)
-
-    return 0
+    return build_city(width_height)
 
 ##############################################################################
 
@@ -222,15 +224,19 @@ if __name__ == '__main__':
     argv = sys.argv[1:]
 
     try:
-        (opts, args) = getopt.getopt(argv, 'h', ['help'])
+        (opts, args) = getopt.getopt(argv, 'dh', ['debug', 'help'])
     except getopt.error:
         usage()
         sys.exit(1)
+
+    debug = False
 
     for (opt, param) in opts:
         if opt in ['-h', '--help']:
             usage()
             sys.exit(0)
+        elif opt in ['-d', '--debug']:
+            debug = True
 
     # check for the input file
     if len(args) != 1:
@@ -239,6 +245,7 @@ if __name__ == '__main__':
     input_file = args[0]
 
     # run the program code
-    result = main(input_file)
-    sys.exit(result)
+    result = main(input_file, debug)
+    print(str(result))
+    sys.exit(0)
 

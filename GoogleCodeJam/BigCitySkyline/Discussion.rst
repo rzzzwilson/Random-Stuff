@@ -97,4 +97,7 @@ end.  The problem statement doesn't rule this possibility out.  This test case
 produces the correct result, 30, which is the large closed block at the
 beginnning.
 
-
+After debugging for *test2.in* and changing the code a little, the *test3.in*
+test gets the wrong result.  Put the test cases into a unittest program.  Need
+to control the *Debug* value from the command line for this to work properly.
+Now we can do **make test** to test results.
