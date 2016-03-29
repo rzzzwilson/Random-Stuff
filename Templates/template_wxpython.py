@@ -3,6 +3,12 @@
 
 """
 This is a wxPython program template.
+
+Usage: template_wxpython.py [-d <number>] [-h] [-x]
+
+Where -d <number>  sets the debug level
+      -h           prints this help and then stops
+      -x           starts the wxPython object inspector
 """
 
 import wx
@@ -61,13 +67,15 @@ class AboutBox(wx.Dialog):
 ######
 
 class AppFrame(wx.Frame):
-    def __init__(self):
+    def __init__(self, debug):
         wx.Frame.__init__(self, None, size=DefaultAppSize,
                           title='%s %s' % (TemplateName, TemplateVersion))
         self.SetMinSize(DefaultAppSize)
         self.panel = wx.Panel(self, wx.ID_ANY)
         self.panel.SetBackgroundColour(wx.WHITE)
         self.panel.ClearBackground()
+
+        print('AppFrame: debug=%d' % debug)
 
         # create tileset menuitems
         menuBar = wx.MenuBar()
@@ -147,7 +155,11 @@ if __name__ == '__main__':
 
     for (opt, param) in opts:
         if opt in ['-d', '--debug']:
-            debug = param
+            try:
+                debug = int(param)
+            except ValueError:
+                usage("-d must be followed by an integer, got '%s'" % param)
+                sys.exit(1)
         elif opt in ['-h', '--help']:
             usage()
             sys.exit(0)
@@ -156,7 +168,7 @@ if __name__ == '__main__':
 
     # start wxPython app
     app = wx.App()
-    app_frame = AppFrame()
+    app_frame = AppFrame(debug)
     app_frame.Show()
 
     if inspector:
