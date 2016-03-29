@@ -4,11 +4,11 @@
 """
 This is a python CLI program template.
 
-This comments describes the use of the code/module below.
+This comment describes the use of the code/module below.
 It may be printed if a 'usage' option is implemented.
 """
 
-# CLI code goes here
+# the main code goes here
 def main(debug):
     print('main() called, debug=%s' % str(debug))
     return 0
@@ -49,7 +49,6 @@ if __name__ == '__main__':
         sys.exit(1)
 
     debug = 10              # no logging
-    inspector = False
 
     for (opt, param) in opts:
         if opt in ['-d', '--debug']:
@@ -57,8 +56,6 @@ if __name__ == '__main__':
         elif opt in ['-h', '--help']:
             usage()
             sys.exit(0)
-        elif opt == '-x':       # use this for wxPython programs
-            inspector = True
 
     # run the program code
     result = main(debug)
