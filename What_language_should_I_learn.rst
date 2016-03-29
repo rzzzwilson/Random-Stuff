@@ -86,7 +86,7 @@ Or `DuckDuckGo <https://duckduckgo.com/>`_, etc.
 The user community associated with a language is very important.  It must be
 welcoming, helpful and large enough.  Some languages (no names ...) have
 communities with the reputation of being extremely pedantic and dismissive
-of beginners.  This doesn't help you; avoid these communities.
+of beginners, even hostile.  This doesn't help you; avoid these communities.
 
 When you get some experience try to help others in your language or framework
 of choice.  You don't really know something until you've tried to teach someone
@@ -308,7 +308,7 @@ http://www.linuxjournal.com/article/3882
 
 
 .. [#] I'm not putting down the 'average' majority.  Despite almost 40 years of programming experience I still consider myself average.
-.. [#] We will encourage you to develop the three great virtues of a programmer: *laziness*, *impatience*, and *hubris*.  `Larry Wall <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_
+.. [#] We will encourage you to develop the three great virtues of a programmer: *laziness*, *impatience*, and *hubris*.  `Larry Wall <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_, *Programming Perl* (1st edition), OreillyAndAssociates
 .. [#] One I want to try is `GitLab <https://about.gitlab.com>`_.
 .. [#] For instance, `/r/dailyprogrammer <https://www.reddit.com/r/dailyprogrammer>`_.
 .. [#] Alas, after committing I found some grammar errors.  Grammar is hard.
