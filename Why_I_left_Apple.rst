@@ -14,7 +14,7 @@ culture that tried to lock me into a walled-garden.  I've been using and
 working with computers since 1977.  I write software for Windows, Linux and
 Mac.  I have another laptop that dual-boots Windows 7 and XUbuntu.
 I thought I could handle the lock-in tendency.  So why have I decided to turn
-away from Apple?
+away from Apple now?
 
 I grew tired of the perceived attitude of "we know best" and the inscrutable
 face Apple presents to the world.  Apple is successful, no doubt about that,
@@ -63,7 +63,7 @@ damned thing harder.  Apple is actually saying that the iPad should be used
 only in landscape mode, not portrait.  Strange, because the retina iPad has
 so many pixels that it can reasonably used in portrait mode.  It is so
 infuriating when, for the umpteenth time, my right palm touches the screen
-just a little forcing a change in YouTube video.  This is so bad that it's
+just a little forcing a change in YouTube video.  This is so annoying that it's
 the prime reason why I will look elsewhere when the time comes to replace
 the Air.
 
@@ -79,8 +79,8 @@ but the "Apple knows best" shows through here too.
 I often browse the 'net in bed.  Anyone who does this knows that you want to
 lock the screen so that when you roll onto your side the screen stays put
 rather than switching display orientations.  Anyone remember when Apple thought
-you didn't a screen lock and had to retro-fit it?  Well, they still haven't got
-it right, as you can only lock the display orientation into **portrait**.
+you didn't need a screen lock and had to retro-fit it?  Well, they still haven't
+got it right, as you can only lock the display orientation into **portrait**.
 That's right, even though iOS on the iPad can lock in either orientation and
 even though an iOS application works in landscape orientation, Apple has decided
 that you don't *really* need to lock the display in landscape orientation,
