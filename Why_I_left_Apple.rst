@@ -10,7 +10,7 @@ At the moment I have:
 * An iPod Nano 6th generation
 
 I'm not one of the blind Apple fan-boys.  I was aware I was buying into a
-culture that tried to lock me into a walled-garden.  I've been using and
+culture that tried to lock me into a walled-garden.  I've been seriously
 working with computers since 1977.  I write software for Windows, Linux and
 Mac.  I have another laptop that dual-boots Windows 7 and XUbuntu.
 I thought I could handle the lock-in tendency.  So why have I decided to turn
@@ -83,19 +83,21 @@ you didn't need a screen lock and had to retro-fit it?  Well, they still haven't
 got it right, as you can only lock the display orientation into **portrait**.
 That's right, even though iOS on the iPad can lock in either orientation and
 even though an iOS application works in landscape orientation, Apple has decided
-that you don't *really* need to lock the display in landscape orientation,
-despite there being a lot fewer pixels in screen width with portrait.  For me,
-this is a deal breaker.  I write software for a living and I fail to comprehend
-how *anyone* can think not providing landscape lock is anything but a fail.
+that you don't *really* need to lock the display on the iPhone in landscape
+orientation, despite there being a lot fewer pixels in screen width with
+portrait.  For me, this is a deal breaker.  I write software for a living and I
+fail to comprehend how *anyone* can think not providing landscape lock is
+anything but a fail.
 
 And now the MacBook Pro.  It too is a good piece of hardware, despite the highly
 shiny screen.  The software is a little strange.  Apple has its way of doing
 things, for sure, but whoever thought that displaying a new window the user just
 caused to be raised **behind** other windows was a good idea?  Things like that
 and the apparently decreasing stability of OSX leads me to look elsewhere.
-Apple has spoiled me for hardware quality so I have to find that sort of quality
-along with a high resolution screen.  Maybe I'll just try installing Linux on
-it.  Battery life may suffer, but if it means less aggravation, bring it on.
+Apple has spoiled me for hardware quality, so I have to find that sort of
+quality along with a high resolution screen.  Maybe I'll just try installing
+Linux on it.  Battery life may suffer, but if it means less aggravation, bring
+it on.
 
 On the plus side, my rMBP has decided to have battery problems.  I'll be
 without it for four weeks while Apple does whatever it does, at a cost of
