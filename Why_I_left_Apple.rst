@@ -72,7 +72,7 @@ and I really liked them, when new.  Unhappily, after four or five months the
 case relaxed and the iPad started falling out when I used it in bed.  It
 wasn't just a bad case either, as I bought another.  Same result, but quicker.
 
-On to my iPhone 6.  I though I would try Apple after a less than satisfying
+On to my iPhone 6.  I thought I would try Apple after a less than satisfying
 experience with a couple of other 'phones.  It really is a good piece of kit
 but the "Apple knows best" shows through here too.
 
@@ -110,9 +110,9 @@ my external disk containing my music was reformatted a while back to use the
 Apple filesystem and isn't safely accessible from Linux.  The external disk
 *used* to be ExFat format so I could access it from both Mac, Windows and Linux,
 but I had so many problems with OSX reporting uncorrectable errors (which Windows
-fixed in a trice) that I moved to the Apple filesystem.  Which solved my
-persistent filesystem errors but trapped me just a little more in the walled
-garden.
+either never found or fixed in a trice) that I moved to the Apple filesystem.
+Which solved my persistent filesystem errors but trapped me just a little more
+in the walled garden.
 
 Trouble is, Android isn't a slam dunk certainty either.  One thing Apple does
 well is to keep iThings updated constantly.  Well, sometimes there's a little
@@ -128,5 +128,5 @@ showing.  An iPad stylus?  I know what Steve thought of that!
 
 Pity Apple doesn't make insanely great hardware *and* software anymore.
 They have all the hallmarks of a company that has lost its way, and is just
-humming along, hoping to remember the words, trying to remember how to
-be great again.
+humming along, running on inertia, hoping to remember the words, trying to
+remember how to be great again.
