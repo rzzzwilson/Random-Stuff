@@ -43,4 +43,14 @@ And we would create the linked list above in this way:
                   SSL(20,
                       SSL('q',
                           SSL('M'))))
- 
+
+We could have done it this way, which may be easier to read:
+
+::
+
+    my_list = SSL('M')
+    my_list = SSL('q', my_list)
+    my_list = SSL(20, my_list)
+    my_list = SSL('A', my_list)
+
+
