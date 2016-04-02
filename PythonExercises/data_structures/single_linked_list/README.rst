@@ -5,7 +5,8 @@ This tutorial designs and tests python code that iplements a *singly-linked
 list* data structure (SLL).  An SLL is usually drawn like this in the typical
 'box and arrow' form:
 
-.. image:: ssl.png :alt: A singly-linked list
+.. image:: ssl.png
+    :alt: A singly-linked list
 
 This example shows a list that is referred to by a variable *my_list*.  The
 first element of the list consists of two parts: the value ('A' in this case)
@@ -16,7 +17,8 @@ use the *None* value.  When drawing this special reference on a whiteboard or
 in a picture we often use the electical earth symbol, but sometimes you may see
 it drawn like this:
 
-.. image:: end_of_list.png :alt: An alternate way of drawing the 'null' reference
+.. image:: end_of_list.png
+    :alt: An alternate way of drawing the 'null' reference
 
 Implementation
 ==============
