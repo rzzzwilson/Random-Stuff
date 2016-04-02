@@ -37,6 +37,25 @@ class TestSSL(unittest.TestCase):
 
         self.assertEqual(ssl.ssl2list(my_list), ssl.ssl2list(my_list2))
 
+    def test_ssl_length(self):
+        """Check that ssl2list() works."""
+
+        my_list = ssl.SSL('M')
+        my_list = ssl.SSL('q', my_list)
+        my_list = ssl.SSL(20, my_list)
+        my_list = ssl.SSL('A', my_list)
+        expected_len = 4
+
+        self.assertEqual(ssl.ssl_len(my_list), expected_len)
+
+    def test_ssl_length2(self):
+        """Check that ssl2list() works on an empty list."""
+
+        my_list = None
+        expected_len = 0
+
+        self.assertEqual(ssl.ssl_len(my_list), expected_len)
+
 
 if __name__ == '__main__':
     suite = unittest.makeSuite(TestSSL,'test')

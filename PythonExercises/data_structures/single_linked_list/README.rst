@@ -78,7 +78,7 @@ We create a function that returns the count of elements in a given list:
 
 ::
 
-    def len_list(ssl):
+    def ssl_len(ssl):
         """Return the count of elements in list 'ssl'."""
 
         count = 0
@@ -185,3 +185,31 @@ function:
         self.assertEqual(ssl.ssl2list(my_list), ssl.ssl2list(my_list2))
 
 The above test code works perfectly.
+
+Now we can test the *ssl_len()* function:
+
+::
+
+    def test_ssl_length(self):
+        """Check that ssl2list() works."""
+        
+        my_list = ssl.SSL('M')
+        my_list = ssl.SSL('q', my_list)
+        my_list = ssl.SSL(20, my_list)
+        my_list = ssl.SSL('A', my_list)
+        expected_len = 4
+        
+        self.assertEqual(ssl.ssl_len(my_list), expected_len)
+        
+    def test_ssl_length2(self):
+        """Check that ssl2list() works on an empty list."""
+        
+        my_list = None
+        expected_len = 0
+        
+        self.assertEqual(ssl.ssl_len(my_list), expected_len)
+
+And that all works fine.
+
+You get the idea.  Look in the *test_ssl.py* file for all the test code.
+

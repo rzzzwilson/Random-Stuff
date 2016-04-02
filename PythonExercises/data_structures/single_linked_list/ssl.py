@@ -15,7 +15,7 @@ class SSL(object):
         self.next = next
 
 
-def len_list(ssl):
+def ssl_len(ssl):
     """Return the count of elements in list 'ssl'."""
 
     count = 0
