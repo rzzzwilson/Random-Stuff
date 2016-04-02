@@ -35,4 +35,12 @@ reference:
             self.value = value
             self.next = next
 
+And we would create the linked list above in this way:
 
+::
+
+    my_list = SSL('A',
+                  SSL(20,
+                      SSL('q',
+                          SSL('M'))))
+ 
