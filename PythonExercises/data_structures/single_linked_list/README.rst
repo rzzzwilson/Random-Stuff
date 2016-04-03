@@ -8,7 +8,7 @@ list* data structure (SLL).  An SSL is a special case of a
 An SLL is usually drawn like this in the typical
 'box and arrow' form (from Wikipedia):
 
-.. image:: Singly-linked-list.png
+.. image:: ssl.png
     :alt: A singly-linked list
 
 We keep a reference to the first element of the list in some variable.  The
