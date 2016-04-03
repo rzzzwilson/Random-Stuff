@@ -2,7 +2,7 @@ Single-Linked List
 ==================
 
 This tutorial designs and tests python code that iplements a *singly-linked
-list* data structure (SLL).  Ain SSL is a special case of
+list* data structure (SLL).  An SSL is a special case of a
 `Linked Lists <https://en.wikipedia.org/wiki/Linked_list>`_.
 
 An SLL is usually drawn like this in the typical
