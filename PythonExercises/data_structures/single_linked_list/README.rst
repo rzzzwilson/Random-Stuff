@@ -1,9 +1,9 @@
 Single-Linked List
 ==================
 
-This tutorial designs and tests python code that iplements a *singly-linked
-list* data structure (SLL).  An SSL is a special case of a
-`Linked Lists <https://en.wikipedia.org/wiki/Linked_list>`_.
+This tutorial designs and tests python code that implements a *singly-linked
+list* data structure (SLL).  An SSL is a special case of a generalized
+`Linked List <https://en.wikipedia.org/wiki/Linked_list>`_.
 
 An SLL is usually drawn like this in the typical
 'box and arrow' form:
@@ -18,6 +18,11 @@ until the last element which contains a 'null' *next* reference which is just a
 special value that cannot be a pointer or reference to another element.  In
 python we use the *None* value.  When drawing this special reference on a
 whiteboard or in a picture we often just draw a large 'X' as shown above.
+Sometimes we might only draw one line of the 'X' or even use the electrical
+'earth' symbol:
+
+.. image:: end_of_list.png
+    :alt: Examples of different styles for end-of-list
 
 SSL Operations
 ==============
