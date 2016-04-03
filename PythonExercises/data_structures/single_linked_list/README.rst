@@ -5,8 +5,12 @@ This tutorial designs and tests python code that implements a *singly-linked
 list* data structure (SLL).  An SSL is a special case of a generalized
 `Linked List <https://en.wikipedia.org/wiki/Linked_list>`_.
 
-An SLL is usually drawn like this in the typical
-'box and arrow' form:
+Of course, we *could* implenent an SSL simply as a python list, but that
+defeats the purpose of this tutorial, which is to show one or more ways to
+actually implement a singly-linked list.  Doing this shows the student just
+*why* some list operations are expensive and why some are cheap.
+
+An SLL is usually drawn like this in the typical 'box and arrow' form:
 
 .. image:: ssl.png
     :alt: A singly-linked list
@@ -37,14 +41,6 @@ Once we have an SSL there are lots of things we want to do with it:
 * add a new element after a found element
 * remove the first element in the list
 * remove the last element in the list
-
-Why not just use a python 'list'?
----------------------------------
-
-Of course, we *could* implenent an SSL simply as a python list, but that
-defeats the purpose of this tutorial, which is to show one or more ways to
-actually implement a singly-linked list.  Doing this shows the student just
-*why* some list operations ate expensive and why some are cheap.
 
 Implementation
 ==============
@@ -81,7 +77,7 @@ Or we could have done it this way, which may (or may not) be easier to read:
 Use a tuple as a list element
 -----------------------------
 
-Another way would be to use a 2-tuple in this way:
+Another way would be to just use a 2-tuple:
 
 ::
 
