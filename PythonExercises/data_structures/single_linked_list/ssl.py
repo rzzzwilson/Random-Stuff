@@ -24,6 +24,46 @@ def ssl_len(ssl):
         ssl = ssl.next
     return count
 
+def ssl_find(ssl, find):
+    """Find element value 'find' in an SSL.
+
+    ssl   the SSL to search in
+    find  the element value to find
+
+    Returns a reference to the element containing 'find'.  Return None if
+    not found.
+    """
+
+    while ssl is not None:
+        if ssl.value == find:
+            return ssl
+        ssl = ssl.next
+    return None
+
+def ssl_remove(ssl, find):
+    """Find and remove element with value 'find' in an SSL.
+
+    ssl   the SSL to search in
+    find  the element value to find and remove
+
+    Returns a reference to the removed element containing 'find'.  Returns None
+    if not found.
+    """
+
+    # a reference to the previous element before the 'ssl' element
+    last = None
+
+    while ssl is not None:
+        if ssl.value == find:
+            if last is not None:
+                last.next = ssl
+            else:
+
+            return
+        last = ssl
+        ssl = ssl.next
+    return None
+
 def ssl2list(ssl):
     """Convert an SSL into a list."""
 

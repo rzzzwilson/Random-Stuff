@@ -2,32 +2,51 @@ Single-Linked List
 ==================
 
 This tutorial designs and tests python code that iplements a *singly-linked
-list* data structure (SLL).  An SLL is usually drawn like this in the typical
-'box and arrow' form:
+list* data structure (SLL).  Ain SSL is a special case of
+`Linked Lists <https://en.wikipedia.org/wiki/Linked_list>`_.
 
-.. image:: ssl.png
+An SLL is usually drawn like this in the typical
+'box and arrow' form (from Wikipedia):
+
+.. image:: Singly-linked-list.png
     :alt: A singly-linked list
 
-This example shows a list that is referred by a variable *my_list*.  The
-first element of the list consists of two parts: the value ('A' in this case)
+We keep a reference to the first element of the list in some variable.  The
+first element of the list consists of two parts: the value (12 in this case)
 and a reference to the *next* element in the list.  This continues to the right
 until the last element which contains a 'null' reference which is just a special
 value that cannot be a pointer or reference to another element.  In python we
 use the *None* value.  When drawing this special reference on a whiteboard or
-in a picture we often use the electical earth symbol, but sometimes you may see
-it drawn like this:
+in a picture we often just draw a large 'X' as shown above.
 
-.. image:: end_of_list.png
-    :alt: An alternate way of drawing the 'null' reference
+SSL Operations
+==============
 
-Of course, we *could* implenent an SSL simple as a python list, but that
+Once we have an SSL there are lots of things we want to do with it:
+
+* get the length of the list
+* add a new element at the front
+* add a new element at the end
+* find an element in the list
+* remove a found element in the list
+* add a new element after a found element
+* remove the first element in the list
+* remove the last element in the list
+
+Why not just use a python 'list'?
+---------------------------------
+
+Of course, we *could* implenent an SSL simply as a python list, but that
 defeats the purpose of this tutorial, which is to show one or more ways to
 actually implement a singly-linked list.
 
 Implementation
 ==============
 
-So, how are we going to do this in python?
+So, how are we going to do this in python?  Here are a few ways.
+
+Use a class as a list element
+-----------------------------
 
 One obvious way is to define a class *SSL* that contains a *value* and *next*
 reference:
@@ -43,38 +62,88 @@ And we would create the linked list above in this way:
 
 ::
 
-    my_list = SSL('A',
-                  SSL(20,
-                      SSL('q',
-                          SSL('M'))))
+    my_list = SSL(12, SSL(99, SSL(37))))
 
-We could have done it this way, which may (or may not) be easier to read:
+Or we could have done it this way, which may (or may not) be easier to read:
 
 ::
 
-    my_list = SSL('M')
-    my_list = SSL('q', my_list)
-    my_list = SSL(20, my_list)
-    my_list = SSL('A', my_list)
+    my_list = SSL(12)
+    my_list = SSL(99, my_list)
+    my_list = SSL(37, my_list)
 
-List Operations
-===============
+Use a tuple as a list element
+-----------------------------
 
-Once we have a list, we want to perform certain operations on it.  Things like:
+Another way would be to use a 2-tuple in this way:
 
-* get the length of a list
-* find an element in a list
-* remove a found element in a list
-* add a new element after a found element
-* remove the first element in the list
-* remove the last element in the list
+::
 
-and many others.
+    my_list = (37, None)
+    my_list = (99, my_list)
+    my_list = (12, my_list)
+
+Foolowing on from the SSL approach above, we could have written this as:
+
+::
+
+    my_list = (12, (99, (37, None)))
+
+which is shorter and brings some joy to the heart of an old Lisp programmer!
+
+Define a List class
+-------------------
+
+We could also go full OOP and define an SSL class that has lots of state
+and methods:
+
+::
+
+    class SSL(object):
+    
+        class elem(object(object)):
+            def __init__(self, value, next=None):
+                self.value = value
+                self.next = next
+    
+        def __init__(self):
+            # some sort of initialization
+            self.ssl = None
+    
+        def add_at front(self, value):
+            self.ssl = elem(value, self.ssl)
+    
+        # etc
+    
+    my_list = SSL()
+    my_list.add_at_end(12)
+    my_list.add_at_end(99)
+    my_list.add_at_end(37)
+
+There are many other ways of implementing an SSL.  We will only examine the
+three above.
+
+All the *element* code is in the file **ssl_element.py**.  The *tuple* code
+is in **ssl_tuple.py**, and the *class* code is in **ssl_class.py**.
 
 List Length
 -----------
 
-We create a function that returns the count of elements in a given list:
+For the *element* approach we create a function that returns the count of
+elements in a given list:
+
+::
+
+    def ssl_len(ssl):
+        """Return the count of elements in list 'ssl'."""
+    
+        count = 0
+        while ssl is not None:
+            count += 1
+            ssl = ssl.next
+        return count
+
+The *tuple* approach requires slightly different code:
 
 ::
 
@@ -84,13 +153,60 @@ We create a function that returns the count of elements in a given list:
         count = 0
         while ssl is not None:
             count += 1
+            ssl = ssl[1]
+        return count
+
+The *class* approach does look simpler:
+
+::
+
+    my_list.len()
+
+but we need to implement the *len()* method in the class:
+
+::
+
+    def len(self):
+        """"""Return the count of elements in this list."""
+
+        count = 0
+        ssl = self.ssl
+        while ssl is not None:
+            count += 1
             ssl = ssl.next
         return count
 
-This code is in file *ssl.py*.
 
-Once we write something like this the immediate thought that should occur to
-you is "how do I test this?".  We use the python *unittest* module:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ::
 
@@ -160,28 +276,28 @@ function:
 
     def test_ssl2list(self):
         """Check that ssl2list() works."""
-    
+
         my_list = ssl.SSL('M')
         my_list = ssl.SSL('q', my_list)
         my_list = ssl.SSL(20, my_list)
         my_list = ssl.SSL('A', my_list)
         expected = ['M', 'q', 20, 'A']
-    
+
         self.assertEqual(ssl.ssl2list(my_list), expected)
-    
+
     def test_ssl_create(self):
         """Check a simple SSL creation."""
-    
+
         my_list = ssl.SSL('M')
         my_list = ssl.SSL('q', my_list)
         my_list = ssl.SSL(20, my_list)
         my_list = ssl.SSL('A', my_list)
-    
+
         my_list2 = ssl.SSL('A',
                            ssl.SSL(20,
                                    ssl.SSL('q',
                                            ssl.SSL('M'))))
-    
+
         self.assertEqual(ssl.ssl2list(my_list), ssl.ssl2list(my_list2))
 
 The above test code works perfectly.
@@ -192,21 +308,21 @@ Now we can test the *ssl_len()* function:
 
     def test_ssl_length(self):
         """Check that ssl2list() works."""
-        
+
         my_list = ssl.SSL('M')
         my_list = ssl.SSL('q', my_list)
         my_list = ssl.SSL(20, my_list)
         my_list = ssl.SSL('A', my_list)
         expected_len = 4
-        
+
         self.assertEqual(ssl.ssl_len(my_list), expected_len)
-        
+
     def test_ssl_length2(self):
         """Check that ssl2list() works on an empty list."""
-        
+
         my_list = None
         expected_len = 0
-        
+
         self.assertEqual(ssl.ssl_len(my_list), expected_len)
 
 And that all works fine.
