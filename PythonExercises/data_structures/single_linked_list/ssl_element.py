@@ -15,16 +15,18 @@ class SSL(object):
         self.next = next
 
 
-def ssl_len(ssl):
-    """Return the count of elements in list 'ssl'."""
+def length(ssl):
+    """Return the count of elements in 'ssl'."""
 
     count = 0
+
     while ssl is not None:
         count += 1
         ssl = ssl.next
+
     return count
 
-def ssl_find(ssl, find):
+def find(ssl, find):
     """Find element value 'find' in an SSL.
 
     ssl   the SSL to search in
@@ -38,6 +40,7 @@ def ssl_find(ssl, find):
         if ssl.value == find:
             return ssl
         ssl = ssl.next
+
     return None
 
 def ssl_remove(ssl, find):
@@ -62,14 +65,17 @@ def ssl_remove(ssl, find):
             return
         last = ssl
         ssl = ssl.next
+
     return None
 
-def ssl2list(ssl):
-    """Convert an SSL into a list."""
+def __str__(ssl):
+    """Convert an SSL into a 'list' string."""
 
     result = []
+
     while ssl is not None:
         result.append(ssl.value)
         ssl = ssl.next
     result.reverse()
-    return result
+
+    return str(result)

@@ -31,7 +31,7 @@ Sometimes we might only draw one line of the 'X' or even use the electrical
 SSL Operations
 ==============
 
-Once we have an SSL there are lots of things we want to do with it:
+Once we have an SSL there are many things we might do with it:
 
 * get the length of the list
 * add a new element at the front
@@ -60,7 +60,7 @@ reference:
             self.value = value
             self.next = next
 
-And we would create the linked list above in this way:
+And we would create the example linked list above in this way:
 
 ::
 
@@ -85,7 +85,7 @@ Another way would be to just use a 2-tuple:
     my_list = (99, my_list)
     my_list = (12, my_list)
 
-Foolowing on from the SSL approach above, we could have written this as:
+Following on from the SSL approach above, we could have written this as:
 
 ::
 
@@ -164,7 +164,7 @@ The *class* approach does look simpler:
 
     my_list.length()
 
-but we need to implement the *len()* method in the class:
+but we need to implement the *length()* method in the class:
 
 ::
 
@@ -181,7 +181,26 @@ but we need to implement the *len()* method in the class:
 
 
 
+Testing Implementations
+=======================
 
+Being good little programmers, we start thinking about testing our code, of
+course!  Here we will use the python *unittest* module.
+
+Our test code, like all test code, should really test the implementation of an
+abstract singly-linked list.  Exactly how the SSL is implemented is of no
+concern.  The test code could be written by someone other than the SSL
+implementor.  This means that if we are clever enough, the same test code should
+be able to test all three implementations.
+
+One thing we want to do in testing is to ensure that an SSL we create has the
+form we expect.  We could step through the list, but that requires knowledge
+of how the list is implemented.  Another approach is to implement a method or
+function that converts an SSL to a textual form.  This is what we will do.  In
+a nod to the *python-way*, we implement a method or function *__str__()* which
+returns a string indicating the structure of the SSL expressed as a python list.
+This method/function is part of the implementation of each type of SSL and hides
+the implementation details.
 
 Which implementation should I use?
 ==================================
