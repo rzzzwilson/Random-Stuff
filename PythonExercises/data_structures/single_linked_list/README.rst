@@ -6,7 +6,7 @@ list* data structure (SLL).  An SSL is a special case of a
 `Linked Lists <https://en.wikipedia.org/wiki/Linked_list>`_.
 
 An SLL is usually drawn like this in the typical
-'box and arrow' form (from Wikipedia):
+'box and arrow' form:
 
 .. image:: ssl.png
     :alt: A singly-linked list
@@ -14,10 +14,10 @@ An SLL is usually drawn like this in the typical
 We keep a reference to the first element of the list in some variable.  The
 first element of the list consists of two parts: the value (12 in this case)
 and a reference to the *next* element in the list.  This continues to the right
-until the last element which contains a 'null' reference which is just a special
-value that cannot be a pointer or reference to another element.  In python we
-use the *None* value.  When drawing this special reference on a whiteboard or
-in a picture we often just draw a large 'X' as shown above.
+until the last element which contains a 'null' *next* reference which is just a
+special value that cannot be a pointer or reference to another element.  In
+python we use the *None* value.  When drawing this special reference on a
+whiteboard or in a picture we often just draw a large 'X' as shown above.
 
 SSL Operations
 ==============
@@ -38,7 +38,8 @@ Why not just use a python 'list'?
 
 Of course, we *could* implenent an SSL simply as a python list, but that
 defeats the purpose of this tutorial, which is to show one or more ways to
-actually implement a singly-linked list.
+actually implement a singly-linked list.  Doing this shows the student just
+*why* some list operations ate expensive and why some are cheap.
 
 Implementation
 ==============
@@ -89,13 +90,13 @@ Foolowing on from the SSL approach above, we could have written this as:
 
     my_list = (12, (99, (37, None)))
 
-which is shorter and brings some joy to the heart of an old Lisp programmer!
+which is shorter and brings some joy to the hearts of old Lisp programmers!
 
 Define a List class
 -------------------
 
 We could also go full OOP and define an SSL class that has lots of state
-and methods:
+and methods.  Everything is hidden away in the class:
 
 ::
 
@@ -134,7 +135,7 @@ elements in a given list:
 
 ::
 
-    def ssl_len(ssl):
+    def length(ssl):
         """Return the count of elements in list 'ssl'."""
     
         count = 0
@@ -147,7 +148,7 @@ The *tuple* approach requires slightly different code:
 
 ::
 
-    def ssl_len(ssl):
+    def length(ssl):
         """Return the count of elements in list 'ssl'."""
 
         count = 0
@@ -160,14 +161,14 @@ The *class* approach does look simpler:
 
 ::
 
-    my_list.len()
+    my_list.length()
 
 but we need to implement the *len()* method in the class:
 
 ::
 
-    def len(self):
-        """"""Return the count of elements in this list."""
+    def length(self):
+        """Return the count of elements in this list."""
 
         count = 0
         ssl = self.ssl
@@ -180,6 +181,19 @@ but we need to implement the *len()* method in the class:
 
 
 
+
+Which implementation should I use?
+==================================
+
+In python you wouldn't use *any* of the above approaches.  Python has good data
+structures which already includes a *list* you can use.  But if your language
+doesn't provide nice data structures and you need to implement an SSL (C, for
+example) then you need to choose.
+
+We choose the implementation method depending on the relative costs in:
+
+* time, and
+* space
 
 
 
@@ -328,4 +342,5 @@ Now we can test the *ssl_len()* function:
 And that all works fine.
 
 You get the idea.  Look in the *test_ssl.py* file for all the test code.
+
 
