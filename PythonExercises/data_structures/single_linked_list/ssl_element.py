@@ -74,38 +74,46 @@ def add_end(ssl, value):
     last.next = SSL(value)
     return ssl
 
-def find(ssl, find):
-    """Find element value 'find' in an SSL.
+def find(ssl, val):
+    """Find element value 'val' in an SSL.
 
     ssl   the SSL to search in
-    find  the element value to find
+    val   the element value to find
 
-    Returns a reference to the element containing 'find'.  Return None if
+    Returns a reference to the element containing 'val'.  Return None if
     not found.
+
+    The SSL is not assumed to be sorted.
     """
 
     while ssl is not None:
-        if ssl.value == find:
+        if ssl.value == val:
             return ssl
         ssl = ssl.next
 
     return None
 
-def add_after(ssl, find, value):
-    """Add an element containing 'value' after the element containing 'find'.
-   
-    If the element containing 'find' is not found, do nothing.
+def add_after(ssl, find_value, value):
+    """Add an element containing 'value' after the element containing 'find_value'.
+  
+    Return a reference to the found element.
+    If the element containing 'find_value' is not found, return None.
+
+    Adds after the first element found, not any subsequent elements with the
+    same value.
     """
 
-    f = find(ssl)
+    f = find(ssl, find_value)
     if f is not None:
         f.next = SSL(value, f.next)
+        return f
+    return None
 
-def remove(ssl, find):
-    """Find and remove element with value 'find' in an SSL.
+def remove(ssl, find_value):
+    """Find and remove element with value 'find_value' in an SSL.
 
     ssl   the SSL to search in
-    find  the element value to find and remove
+    find_value  the element value to find and remove
 
     Returns a reference to the possibly modified SSL.  This may be different
     from the original 'ssl' reference as the first element may be removed.
@@ -116,7 +124,7 @@ def remove(ssl, find):
     scan = ssl
 
     while scan is not None:
-        if scan.value == find:
+        if scan.value == find_value:
             if last is None:
                 # found at the first element
                 return scan.next
@@ -138,7 +146,7 @@ def remove_first(ssl):
     if ssl is None:
         return None
 
-    # return refeence to second element reference
+    # return reference to second element reference
     return ssl.next
 
 def remove_last(ssl):

@@ -161,7 +161,74 @@ class TestSSL(unittest.TestCase):
     def test_find(self):
         """Check that find() works on an empty SSL."""
 
-        pass
+        my_ssl = None
+        find = ssl.find(my_ssl, 20)
+        msg = "Expected to not find 20 in SSL '%s', failed" % ssl.__str__(my_ssl)
+        self.assertFalse(find is not None, msg)
+
+    def test_find2(self):
+        """Check that find() works on an non-empty SSL."""
+
+        my_ssl = ssl.SSL('A', ssl.SSL(20, ssl.SSL('q', ssl.SSL('M'))))
+        find = ssl.find(my_ssl, 20)
+        msg = "Expected to find 20 in SSL '%s', failed" % ssl.__str__(my_ssl)
+        self.assertTrue(find is not None, msg)
+
+        # check the sub-SSL returned is correct
+        expected = ssl.SSL(20, ssl.SSL('q', ssl.SSL('M')))
+        msg = ("find('%s', 20) returned '%s', expected '%s'"
+               % (ssl.__str__(my_ssl), ssl.__str__(find), ssl.__str__(expected)))
+        self.assertTrue(ssl.__str__(find) == ssl.__str__(expected), msg)
+
+    def test_find3(self):
+        """Check that find() works on an non-empty SSL with multiple finds."""
+
+        my_ssl = ssl.SSL('A', ssl.SSL(20, ssl.SSL('q', ssl.SSL(20, ssl.SSL('M')))))
+        find = ssl.find(my_ssl, 20)
+        msg = "Expected to find 20 in SSL '%s', failed" % ssl.__str__(my_ssl)
+        self.assertTrue(find is not None, msg)
+
+        # check returned sub-SSL is as expected
+        expected = ssl.SSL(20, ssl.SSL('q', ssl.SSL(20, ssl.SSL('M'))))
+        msg = ("find('%s', 20) returned '%s', expected '%s'"
+               % (ssl.__str__(my_ssl), ssl.__str__(find), ssl.__str__(expected)))
+        self.assertTrue(ssl.__str__(find) == ssl.__str__(expected), msg)
+
+    def test_find4(self):
+        """Check that find() works on an non-empty SSL with NO FIND."""
+
+        my_ssl = ssl.SSL('A', ssl.SSL(20, ssl.SSL('q', ssl.SSL(20, ssl.SSL('M')))))
+        find = ssl.find(my_ssl, 'X')
+        msg = "Expected to not find 'X' in SSL '%s', succeeded?" % ssl.__str__(my_ssl)
+        self.assertTrue(find is None, msg)
+
+    def test_add_after(self):
+        """Check that add_after() works on an empty SSL."""
+
+        my_ssl = None
+        result = ssl.add_after(my_ssl, 20, 100)
+        msg = "Expected add_after(None, 20, 100) to fail, didn't, got '%s'" % str(result)
+        self.assertTrue(result is None, msg)
+
+    def test_add_after2(self):
+        """Check that add_after() works on an SSL with found value."""
+
+        my_ssl = ssl.SSL('A', ssl.SSL(20, ssl.SSL('q', ssl.SSL(20, ssl.SSL('M')))))
+        result = ssl.add_after(my_ssl, 20, 100)
+        expected = ssl.SSL(20, ssl.SSL(100, ssl.SSL('q', ssl.SSL(20, ssl.SSL('M')))))
+        msg = ("Expected add_after('%s', 20, 100) to return '%s', got '%s'"
+               % (ssl.__str__(my_ssl), ssl.__str__(expected), ssl.__str__(result)))
+        self.assertTrue(ssl.__str__(result) == ssl.__str__(expected), msg)
+
+    def test_add_after3(self):
+        """Check that add_after() works on an SSL with NO found value."""
+
+        my_ssl = ssl.SSL('A', ssl.SSL(20, ssl.SSL('q', ssl.SSL(20, ssl.SSL('M')))))
+        result = ssl.add_after(my_ssl, 21, 100)
+        expected = None
+        msg = ("Expected add_after('%s', 21, 100) to return None, got '%s'"
+               % (ssl.__str__(my_ssl), ssl.__str__(result)))
+        self.assertTrue(ssl.__str__(result) == ssl.__str__(expected), msg)
 
 if __name__ == '__main__':
     suite = unittest.makeSuite(TestSSL,'test')
