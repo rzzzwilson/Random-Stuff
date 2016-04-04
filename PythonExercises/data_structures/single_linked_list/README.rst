@@ -37,10 +37,10 @@ Once we have an SSL there are many things we might do with it:
 * add a new element at the front
 * add a new element at the end
 * find an element in the list
-* remove a found element in the list
 * add a new element after a found element
-* remove the first element in the list
-* remove the last element in the list
+* remove and return a found element in the list
+* remove and return the first element in the list
+* remove and return the last element in the list
 
 Implementation
 ==============

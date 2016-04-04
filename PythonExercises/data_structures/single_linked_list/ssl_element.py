@@ -5,15 +5,37 @@
 Procedural implementation of a singly-linked list.
 
 We say 'procedural' above as the code **is** procedural.  We use a class only
-to represent an element.
+to store the 'value' and 'next' data.
 """
 
+######
+# Define an element object holding a value and a reference to the next element.
+######
 
 class SSL(object):
     def __init__(self, value, next=None):
         self.value = value
         self.next = next
 
+    def __str__(self):
+        return '<SSL: .value=%s, .next=%s>' % (str(self.value), str(self.next))
+
+######
+# Functions to manipulate an SSL.
+######
+
+def _find_last(ssl):
+    """Internal function to find last element in an SSL.
+
+    Returns a reference to the last element in the given SSL.
+    Returns None if the SSL is empty.
+    """
+
+    if ssl is None:
+        return None
+    while ssl.next is not None:
+        ssl = ssl.next
+    return ssl
 
 def length(ssl):
     """Return the count of elements in 'ssl'."""
@@ -25,6 +47,32 @@ def length(ssl):
         ssl = ssl.next
 
     return count
+
+def add_front(ssl, value):
+    """Add a new element containing 'value' at the front of an SSL.
+    
+    Returns a reference to the new head of the SSL.
+    """
+
+    new_ssl = SSL(value, ssl)
+    return new_ssl
+
+def add_end(ssl, value):
+    """Add a new element containing 'value' at the end of an SSL.
+    
+     Returns a reference to the head of the SSL.
+     Just to be the same as add_front().
+     """
+
+    # find last element of the SSL
+    last = _find_last(ssl)
+    if last is None:
+        # SSL is empty
+        return SSL(value)
+
+    # add new element to end
+    last.next = SSL(value)
+    return ssl
 
 def find(ssl, find):
     """Find element value 'find' in an SSL.
@@ -43,39 +91,85 @@ def find(ssl, find):
 
     return None
 
-def ssl_remove(ssl, find):
+def add_after(ssl, find, value):
+    """Add an element containing 'value' after the element containing 'find'.
+   
+    If the element containing 'find' is not found, do nothing.
+    """
+
+    f = find(ssl)
+    if f is not None:
+        f.next = SSL(value, f.next)
+
+def remove(ssl, find):
     """Find and remove element with value 'find' in an SSL.
 
     ssl   the SSL to search in
     find  the element value to find and remove
 
-    Returns a reference to the removed element containing 'find'.  Returns None
-    if not found.
+    Returns a reference to the possibly modified SSL.  This may be different
+    from the original 'ssl' reference as the first element may be removed.
     """
 
     # a reference to the previous element before the 'ssl' element
     last = None
+    scan = ssl
 
-    while ssl is not None:
-        if ssl.value == find:
-            if last is not None:
-                last.next = ssl
-            else:
-
-            return
-        last = ssl
-        ssl = ssl.next
+    while scan is not None:
+        if scan.value == find:
+            if last is None:
+                # found at the first element
+                return scan.next
+            # found within SSL, remove & return original 'ssl'
+            last.next = scan.next
+            return ssl
+        last = scan
+        ssl = scan.next
 
     return None
 
+def remove_first(ssl):
+    """Remove the first element of an SSL.
+    
+    Return the new SSL head reference.
+    """
+
+    # if SSL is empty, do nothing
+    if ssl is None:
+        return None
+
+    # return refeence to second element reference
+    return ssl.next
+
+def remove_last(ssl):
+    """Remove the last element of an SSL.
+    
+    Returns a reference to the modified SSL.  Note that SSL may only
+    contain one element to begin with.
+    """
+
+    # find last and second-last elements in SSL
+    prev = None
+    scan = ssl
+
+    while scan is not None:
+        if scan.next is None:
+            if prev is None:
+                # only one element in SSL
+                return None
+            # remove last element & return original 'ssl'
+            prev.next = None
+            return ssl
+        prev = scan
+        ssl = scan.next
+
 def __str__(ssl):
-    """Convert an SSL into a 'list' string."""
+    """Convert an SSL into a 'list' string representation."""
 
     result = []
 
     while ssl is not None:
         result.append(ssl.value)
         ssl = ssl.next
-    result.reverse()
 
     return str(result)
