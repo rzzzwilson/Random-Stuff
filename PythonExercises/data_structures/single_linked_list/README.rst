@@ -128,6 +128,13 @@ three above.
 All the *element* code is in the file **ssl_element.py**.  The *tuple* code
 is in **ssl_tuple.py**, and the *class* code is in **ssl_class.py**.
 
+Element Implementation
+======================
+
+We now write the python code to implement the *element* approach.  All this
+code is in the **ssl_element.py** file.  We will put the test code into
+**test_ssl.py**.
+
 List Length
 -----------
 
@@ -137,49 +144,98 @@ elements in a given list:
 ::
 
     def length(ssl):
-        """Return the count of elements in list 'ssl'."""
+        """Return the count of elements in 'ssl'."""
+     
+        count = 0
+     
+        while ssl is not None:
+            count += 1
+            ssl = ssl.next
+     
+        return count
+
+Of course, after we implement each function we write test cases in
+**test_ssl.py**.  For the *length()* function we have:
+
+::
+
+    def test_length(self):
+        """Check that length() works."""
     
-        count = 0
-        while ssl is not None:
-            count += 1
-            ssl = ssl.next
-        return count
+        my_ssl = ssl.SSL('M')
+        my_ssl = ssl.SSL('q', my_ssl)
+        my_ssl = ssl.SSL(20, my_ssl)
+        my_ssl = ssl.SSL('A', my_ssl)
+        expected_len = 4
+    
+        self.assertEqual(ssl.length(my_ssl), expected_len)
+    
+    def test_length2(self):
+        """Check that len() works on an empty list."""
+    
+        my_ssl = None
+        expected_len = 0
+    
+        self.assertEqual(ssl.length(my_ssl), expected_len)
+    
+    def test_length3(self):
+        """Check that length() works."""
+    
+        my_ssl = ssl.SSL('M')
+        expected_len = 1
+    
+        self.assertEqual(ssl.length(my_ssl), expected_len)
 
-The *tuple* approach requires slightly different code:
+We won't show any further testing code until we implement the *tuple*
+approach unless there is some interesting point.
+
+ssl = add_front(ssl, value)
+---------------------------
+
+This function adds a new element containing *value* at the front of an SSL.
+The implementation code shows us how simple this is:
 
 ::
 
-    def length(ssl):
-        """Return the count of elements in list 'ssl'."""
+    def add_front(ssl, value):
+        """Add a new element containing 'value' at the front of an SSL.
+     
+        Returns a reference to the new head of the SSL.
+        """
+    
+        new_ssl = SSL(value, ssl)
+        return new_ssl
 
-        count = 0
-        while ssl is not None:
-            count += 1
-            ssl = ssl[1]
-        return count
+ssl = add_end(ssl, value)
+-------------------------
 
-The *class* approach does look simpler:
-
-::
-
-    my_list.length()
-
-but we need to implement the *length()* method in the class:
+This function looks to be as easy to implement as the *add_front()* function,
+but here we see the complications that arise even in a simple SSL:
 
 ::
 
-    def length(self):
-        """Return the count of elements in this list."""
+    def add_end(ssl, value):
+        """Add a new element containing 'value' at the end of an SSL.
+    
+        Returns a reference to the head of the SSL.
+        Just to be the same as add_front().
+        """
+    
+        # find last element of the SSL
+        last = _find_last(ssl)
+        if last is None:
+            # SSL is empty
+            return SSL(value)
+    
+        # add new element to end
+        last.next = SSL(value)
+        return ssl
 
-        count = 0
-        ssl = self.ssl
-        while ssl is not None:
-            count += 1
-            ssl = ssl.next
-        return count
+The implementation complications are echoed in the testing code, as we must
+test for both cases:
 
-
-
+* an empty SSL
+* a non-empty SSL
 
 Testing Implementations
 =======================
