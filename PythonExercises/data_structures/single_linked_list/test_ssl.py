@@ -230,6 +230,77 @@ class TestSSL(unittest.TestCase):
                % (ssl.__str__(my_ssl), ssl.__str__(result)))
         self.assertTrue(ssl.__str__(result) == ssl.__str__(expected), msg)
 
+    def test_remove(self):
+        """Check that remove() works on an empty SSL."""
+
+        my_ssl = None
+        result = None
+        expected = None
+        result = ssl.remove(my_ssl, 21)
+        msg = ("Expected remove('%s', 21) to return '%s', got '%s'"
+               % (ssl.__str__(my_ssl), ssl.__str__(expected), ssl.__str__(result)))
+        self.assertTrue(ssl.__str__(result) == ssl.__str__(expected), msg)
+
+    def test_remove2(self):
+        """Check that remove() works on an SSL with a found value."""
+
+        my_ssl = ssl.SSL('A', ssl.SSL(20, ssl.SSL('q', ssl.SSL(20, ssl.SSL('M')))))
+        result = ssl.remove(my_ssl, 'q')
+        expected = ssl.SSL('A', ssl.SSL(20, ssl.SSL(20, ssl.SSL('M'))))
+        msg = ("Expected remove('%s', 21, 100) to return '%s', got '%s'"
+               % (ssl.__str__(my_ssl), ssl.__str__(expected), ssl.__str__(result)))
+        self.assertTrue(ssl.__str__(result) == ssl.__str__(expected), msg)
+
+    def test_remove3(self):
+        """Check that remove() works on an SSL with NO found value."""
+
+        my_ssl = ssl.SSL('A', ssl.SSL(20, ssl.SSL('q', ssl.SSL(20, ssl.SSL('M')))))
+        result = ssl.remove(my_ssl, 22)
+        expected = my_ssl
+        msg = ("Expected remove('%s', 21, 100) to return '%s', got '%s'"
+               % (ssl.__str__(my_ssl), ssl.__str__(expected), ssl.__str__(result)))
+        self.assertTrue(ssl.__str__(result) == ssl.__str__(expected), msg)
+
+    def test_remove_first(self):
+        """Check that remove_first() works on an empty SSL."""
+
+        my_ssl = None
+        result = ssl.remove_first(my_ssl)
+        expected = None
+        msg = ("Expected remove_first('%s') to return '%s', got '%s'"
+               % (ssl.__str__(my_ssl), ssl.__str__(expected), ssl.__str__(result)))
+        self.assertTrue(ssl.__str__(result) == ssl.__str__(expected), msg)
+
+    def test_remove_first2(self):
+        """Check that remove_first() works on a non-empty SSL."""
+
+        my_ssl = ssl.SSL('A', ssl.SSL(20, ssl.SSL('q', ssl.SSL(20, ssl.SSL('M')))))
+        result = ssl.remove_first(my_ssl)
+        expected = ssl.SSL(20, ssl.SSL('q', ssl.SSL(20, ssl.SSL('M'))))
+        msg = ("Expected remove_first('%s') to return '%s', got '%s'"
+               % (ssl.__str__(my_ssl), ssl.__str__(expected), ssl.__str__(result)))
+        self.assertTrue(ssl.__str__(result) == ssl.__str__(expected), msg)
+
+    def test_remove_last(self):
+        """Check that remove_last() works on an empty SSL."""
+
+        my_ssl = None
+        result = ssl.remove_last(my_ssl)
+        expected = None
+        msg = ("Expected remove_last('%s') to return '%s', got '%s'"
+               % (ssl.__str__(my_ssl), ssl.__str__(expected), ssl.__str__(result)))
+        self.assertTrue(ssl.__str__(result) == ssl.__str__(expected), msg)
+
+    def test_remove_last2(self):
+        """Check that remove_last() works on a non-empty SSL."""
+
+        my_ssl = ssl.SSL('A', ssl.SSL(20, ssl.SSL('q', ssl.SSL(20, ssl.SSL('M')))))
+        result = ssl.remove_last(my_ssl)
+        expected = ssl.SSL('A', ssl.SSL(20, ssl.SSL('q', ssl.SSL(20))))
+        msg = ("Expected remove_last('%s') to return '%s', got '%s'"
+               % (ssl.__str__(my_ssl), ssl.__str__(expected), ssl.__str__(result)))
+        self.assertTrue(ssl.__str__(result) == ssl.__str__(expected), msg)
+
 if __name__ == '__main__':
     suite = unittest.makeSuite(TestSSL,'test')
     runner = unittest.TextTestRunner()

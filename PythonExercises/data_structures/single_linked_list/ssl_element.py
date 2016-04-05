@@ -132,9 +132,9 @@ def remove(ssl, find_value):
             last.next = scan.next
             return ssl
         last = scan
-        ssl = scan.next
+        scan = scan.next
 
-    return None
+    return ssl
 
 def remove_first(ssl):
     """Remove the first element of an SSL.
@@ -169,7 +169,7 @@ def remove_last(ssl):
             prev.next = None
             return ssl
         prev = scan
-        ssl = scan.next
+        scan = scan.next
 
 def __str__(ssl):
     """Convert an SSL into a 'list' string representation."""
