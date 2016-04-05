@@ -456,7 +456,12 @@ At this point our implementation of the *element* code is complete and tested.
 The implementation code is in the **ssl_element.py** file and the test code is
 in **test_ssl_element.py**.
 
+Tuple Implementation
+====================
 
+We now implement and test the *tuple* SSL idea.
+
+The testing code will 
 
 
 
