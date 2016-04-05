@@ -112,7 +112,7 @@ def add_after(ssl, find_value, value):
 def remove(ssl, find_value):
     """Find and remove element with value 'find_value' in an SSL.
 
-    ssl   the SSL to search in
+    ssl         the SSL to search in
     find_value  the element value to find and remove
 
     Returns a reference to the possibly modified SSL.  This may be different
@@ -146,7 +146,7 @@ def remove_first(ssl):
     if ssl is None:
         return None
 
-    # return reference to second element reference
+    # return reference to second element
     return ssl.next
 
 def remove_last(ssl):
