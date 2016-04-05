@@ -133,13 +133,13 @@ Element Implementation
 
 We now write the python code to implement the *element* approach.  All this
 code is in the **ssl_element.py** file.  We will put the test code into
-**test_ssl.py**.
+**test_ssl_element.py**.  Later, **test_ssl.py** will test all three
+implementations.
 
-List Length
------------
+len = length(ssl)
+-----------------
 
-For the *element* approach we create a function that returns the count of
-elements in a given list:
+The *length()* function is quite simple and straightforward:
 
 ::
 
@@ -231,11 +231,235 @@ but here we see the complications that arise even in a simple SSL:
         last.next = SSL(value)
         return ssl
 
+We must handle the special case of an empty SSL.
+
+Note that we use a special helper function here: *_find_last(ssl)*.  Since we
+know there will be other times when we need to find the last element in a list
+we define a special function for this operation.
+
 The implementation complications are echoed in the testing code, as we must
 test for both cases:
 
 * an empty SSL
 * a non-empty SSL
+
+ssl = find(ssl, value)
+----------------------
+
+The function is used to find the first element in an SSL with the given value.
+The function returns a reference to the found element.  This is basically a
+reference to the entire sub-SSL starting at the found value.  Again we have to
+handle the *empty* special case:
+
+::
+
+    def find(ssl, val):
+        """Find element value 'val' in an SSL.
+    
+        ssl   the SSL to search in
+        val   the element value to find
+        
+        Returns a reference to the element containing 'val'.  Return None if
+        not found.
+    
+        The SSL is not assumed to be sorted.
+        """
+    
+        while ssl is not None:
+            if ssl.value == val:
+                return ssl
+            ssl = ssl.next
+        
+        return None
+
+ssl = add_after(ssl, find_value, value)
+---------------------------------------
+
+The *add_after()* function adds a new element containing *value* immediately
+after a found element containing *find_value*.
+
+::
+
+    def add_after(ssl, find_value, value):
+        """Add an element containing 'value' after the element containing 'find_value'.
+          
+        Return a reference to the found element.
+        If the element containing 'find_value' is not found, return None.
+
+        Adds after the first element found, not any subsequent elements with the
+        same value.
+        """
+
+        f = find(ssl, find_value)
+        if f is not None:
+            f.next = SSL(value, f.next)
+            return f
+        return None
+
+The code is simple.  We use the previously defined function *find()* to look
+for the *value* value.
+
+ssl = remove(ssl, find_value)
+-----------------------------
+
+The *remove()* function removes the first element in an SSL that contains the
+given value.  If no such element is found the SSL remains unchanged:
+
+::
+
+    def remove(ssl, find_value):
+        """Find and remove element with value 'find_value' in an SSL.
+    
+        ssl         the SSL to search in
+        find_value  the element value to find and remove
+    
+        Returns a reference to the possibly modified SSL.  This may be different
+        from the original 'ssl' reference as the first element may be removed.
+        """
+    
+        # a reference to the previous element before the 'ssl' element
+        last = None
+        scan = ssl
+    
+        while scan is not None:
+            if scan.value == find_value:
+                if last is None:
+                    # found at the first element
+                    return scan.next
+                # found within SSL, remove & return original 'ssl'
+                last.next = scan.next
+                return ssl
+            last = scan
+            scan = scan.next
+    
+        return ssl
+
+Here we see the *empty* complication cropping up again, bit it's not too bad.
+
+We also see another thing that touches on the API design of our implementation.
+We should ask ourselves "what does each function return?".  The design decision
+taken was to always return a reference to the SSL where it made sense.
+
+In the *remove()* function it is something we **must do**, as the function may
+remove the first element of the SSL and we must tell the calling code what the
+new SSL head reference is.
+
+In the *find()* function we saw previously, we must tell the calling code
+whether we found the value or not.  We could just return *True* or *false*,
+but we decided to return the reference to the found element or *None* if
+we didn't find the value.  This way, the calling code gets the binary result
+of found or not as well as a reference to the found element so the code can
+perhaps manipulate the found part of the SSL.
+
+ssl = remove_first(ssl)
+-----------------------
+
+The *remove_first()* function removes the first element of the given list:
+
+::
+
+    def remove_first(ssl):
+        """Remove the first element of an SSL.
+    
+        Return the new SSL head reference.
+        """
+    
+        # if SSL is empty, do nothing
+        if ssl is None:
+            return None
+    
+        # return reference to second element
+        return ssl.next
+
+Again we see the special handling of the *empty* case.
+
+Note that we don't do anything to delete the removed element.  Python will
+garbage-collect it eventually.
+
+ssl = remove_last(ssl)
+----------------------
+
+This function removes the last element in an SSL, if any:
+
+::
+
+    def remove_last(ssl):
+        """Remove the last element of an SSL.
+    
+        Returns a reference to the modified SSL.  Note that SSL may only
+        contain one element to begin with.
+        """
+    
+        # find last and second-last elements in SSL
+        prev = None
+        scan = ssl
+    
+        while scan is not None:
+            if scan.next is None:
+                if prev is None:
+                    # only one element in SSL
+                    return None
+                # remove last element & return original 'ssl'
+                prev.next = None
+                return ssl
+            prev = scan
+            scan = scan.next
+
+string = __ssl__(ssl)
+---------------------
+
+As we were writing the test cases we found we needed to compare two SSLs.
+This could be done in a generalized computer science way but we decided to
+simply take a leaf from the python book and create a function that behaves
+like the object *__str__()* method.
+
+The *element* implement function *__str__()* converts an SSL into a simple
+python list and then return the string produced by the *str()* function:
+
+::
+
+    def __str__(ssl):
+        """Convert an SSL into a 'list' string representation."""
+    
+        result = []
+    
+        while ssl is not None:
+            result.append(ssl.value)
+            ssl = ssl.next
+    
+        return str(result)
+
+This allows a simple comparison of two SSLs that is good enough for testing.
+We can see this function in operation in this sample of testing code:
+
+::
+
+    def test_add_front(self):
+        """Check that add_front() works for empty SSL."""
+        
+        old_ssl = None
+        new_ssl = ssl.add_front(old_ssl, 'A')
+        expected = ['A']
+        
+        self.assertEqual(ssl.__str__(new_ssl), str(expected))
+        
+    def test_add_front2(self):
+        """Check that add_front() works on SSL with one element."""
+        
+        old_ssl = ssl.SSL(20)
+        new_ssl = ssl.add_front(old_ssl, 'M')
+        expected = ['M', 20]
+        
+        self.assertEqual(ssl.__str__(new_ssl), str(expected))
+
+At this point our implementation of the *element* code is complete and tested.
+The implementation code is in the **ssl_element.py** file and the test code is
+in **test_ssl_element.py**.
+
+
+
+
+
 
 Testing Implementations
 =======================
