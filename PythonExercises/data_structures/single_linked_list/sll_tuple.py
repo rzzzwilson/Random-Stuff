@@ -43,7 +43,7 @@ def add_front(sll, value):
 
     return [value, sll]
 
-def add_end(sll, value):
+def add_back(sll, value):
     """Add a new tuple containing 'value' at the end of an SLL.
 
      Returns a reference to the head of the SLL.
