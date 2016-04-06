@@ -19,7 +19,7 @@ We keep a reference to the first element of the list in some variable.  The
 first element of the list consists of two parts: the value (12 in this case)
 and a reference to the *next* element in the list.  This continues to the right
 until the last element which contains a 'null' *next* reference which is just a
-special value that cannot be a pointer or reference to another element.  In
+special value that cannot be a reference to another element.  In
 python we use the *None* value.  When drawing this special reference on a
 whiteboard or in a picture we often just draw a large 'X' as shown above.
 Sometimes we might only draw one line of the 'X' or even use the electrical
