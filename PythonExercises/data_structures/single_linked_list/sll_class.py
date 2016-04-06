@@ -5,6 +5,9 @@
 Class implementation of a singly-linked list.
 """
 
+# global reference to the imported module
+Module = None
+
 
 class SLL(object):
 
@@ -13,85 +16,170 @@ class SLL(object):
             self.value = value
             self.next = next
 
-    def __init__(self, value, next=None):
+    def __init__(self, values=None):
+#        if values is None:
+#            values = []
+
         self.sll = None
+
+        if hasattr(values, '__iter__'):
+            for v in values[::-1]:
+                self.sll = self.element(v, self.sll)
+        elif values is not None:
+            self.sll = self.element(values)
+
+    def _find_last(self):
+        """Internal function to find last element in an SLL.
+
+        Returns a reference to the last element in the given SLL.
+        Returns None if the SLL is empty.
+        """
+
+        scan = self.sll
+
+        if scan is None:
+            return None
+
+        while scan.next is not None:
+            scan = scan.next
+
+        return scan
 
     def length(self):
         """Return the count of elements in this SLL."""
 
         count = 0
+        scan = self.sll
 
-        while self is not None:
+        while scan is not None:
             count += 1
-            self = self.next
+            scan = scan.next
 
         return count
 
-    def add_prefix(self, value):
+    def add_front(self, value):
         """Add an element containing 'value' to the front of the SLL."""
 
-        self.sll = element(value, self.sll)
+        self.sll = self.element(value, self.sll)
+        return self.sll
 
-    def add_suffix(self, value):
+    def add_back(self, value):
         """Add an element containing 'value' to the end of the SLL."""
 
-        if self.sll is None:
-            # list is empty, add at fron
-            self.sll = element(value)
+        # get last element of SLL
+        last = self._find_last()
+
+        if last is None:
+            self.sll = self.element(value, self.sll)
         else:
-            scan = self.sll
-            while scan.next is not None:
-                scan = scan.next
-            scan.next = element(value)
+            last.next = self.element(value)
+
+        return self.sll
 
     def find(self, find):
         """Find element value 'find' in this SLL.
 
         find  the element value to find
 
-        Returns a reference to the element containing 'find'.  Return None if
-        not found.
+        Returns the index of the found value, else None.
         """
 
-        while self is not None:
-            if self.value == find:
-                return self
-            self = self.next
+        scan = self.sll
+        count = 0
+        while scan is not None:
+            if scan.value == find:
+                return count
+            scan = scan.next
+            count += 1
 
         return None
+
+    def add_after(self, find_value, value):
+        """Add an element containing 'value' after the element containing 'find_value'.
+          
+        Adds after the first element found, not any subsequent elements with the
+        same value.
+        """
+
+        scan = self.sll
+        while scan is not None:
+            if scan.value == find_value:
+                scan.next = self.element(value, scan.next)
+                break
+            scan = scan.next
 
     def remove(self, find):
         """Find and remove element with value 'find' in this SLL.
 
         find  the element value to find and remove
 
-        Returns a reference to the removed element containing 'find'.  Returns None
-        if not found.
+        Returns a reference to the possibly modified SLL.
         """
 
         # a reference to the previous element before the current element
         last = None
+        scan = self.sll
 
-        while self is not None:
-            if self.value == find:
-                if last is not None:
-                    last.next = self
+        while scan is not None:
+            if scan.value == find:
+                if last is None:
+                    # first element is found
+                    self.sll = scan.next
                 else:
+                    # remove from body of SLL
+                    last.next = scan.next
+                break
+            last = scan
+            scan = scan.next
 
-                return
-            last = self
-            self = self.next
+        return self.sll
 
+    def remove_first(self):
+        """Remove the first element of an SLL.
+        
+        Return the new SLL head reference.
+        """
+        
+        # if SLL is empty, do nothing
+        if self.sll is None:
+            return None
+        
+        # self.ssl is now a reference to second element
+        self.sll = self.sll.next
+        
+    def remove_last(self):
+        """Remove the last element of an SLL.
+        
+        Returns a reference to the modified SLL.  Note that SLL may only
+        contain one element to begin with.
+        """
+        
+        # find last and second-last elements in SLL
+        prev = None
+        scan = self.sll
+        
+        while scan is not None:
+            if scan.next is None:
+                if prev is None:
+                    # only one element in SLL
+                    return None
+                # remove last element & return original 'sll'
+                prev.next = None
+                return self.sll
+            prev = scan
+            scan = scan.next
+        
+        # get here if sll is None
         return None
 
-    def __str__(self):
+    def str(self):
         """Convert this SLL into a 'list' string."""
 
         result = []
 
-        while self is not None:
-            result.append(self.value)
-            self = self.next
-        result.reverse()
+        scan = self.sll
+        while scan is not None:
+            result.append(scan.value)
+            scan = scan.next
 
         return str(result)
