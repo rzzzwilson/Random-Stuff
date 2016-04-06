@@ -6,7 +6,7 @@ Class implementation of a singly-linked list.
 """
 
 
-class SSL(object):
+class SLL(object):
 
     class element(object):
         def __init__(self, value, next=None):
@@ -14,10 +14,10 @@ class SSL(object):
             self.next = next
 
     def __init__(self, value, next=None):
-        self.ssl = None
+        self.sll = None
 
     def length(self):
-        """Return the count of elements in this SSL."""
+        """Return the count of elements in this SLL."""
 
         count = 0
 
@@ -28,24 +28,24 @@ class SSL(object):
         return count
 
     def add_prefix(self, value):
-        """Add an element containing 'value' to the front of the SSL."""
+        """Add an element containing 'value' to the front of the SLL."""
 
-        self.ssl = element(value, self.ssl)
+        self.sll = element(value, self.sll)
 
     def add_suffix(self, value):
-        """Add an element containing 'value' to the end of the SSL."""
+        """Add an element containing 'value' to the end of the SLL."""
 
-        if self.ssl is None:
+        if self.sll is None:
             # list is empty, add at fron
-            self.ssl = element(value)
+            self.sll = element(value)
         else:
-            scan = self.ssl
+            scan = self.sll
             while scan.next is not None:
                 scan = scan.next
             scan.next = element(value)
 
     def find(self, find):
-        """Find element value 'find' in this SSL.
+        """Find element value 'find' in this SLL.
 
         find  the element value to find
 
@@ -60,8 +60,8 @@ class SSL(object):
 
         return None
 
-    def ssl_remove(self, find):
-        """Find and remove element with value 'find' in this SSL.
+    def remove(self, find):
+        """Find and remove element with value 'find' in this SLL.
 
         find  the element value to find and remove
 
@@ -85,7 +85,7 @@ class SSL(object):
         return None
 
     def __str__(self):
-        """Convert this SSL into a 'list' string."""
+        """Convert this SLL into a 'list' string."""
 
         result = []
 
