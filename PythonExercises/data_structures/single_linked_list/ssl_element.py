@@ -54,8 +54,7 @@ def add_front(ssl, value):
     Returns a reference to the new head of the SSL.
     """
 
-    new_ssl = SSL(value, ssl)
-    return new_ssl
+    return SSL(value, ssl)
 
 def add_end(ssl, value):
     """Add a new element containing 'value' at the end of an SSL.
@@ -106,7 +105,7 @@ def add_after(ssl, find_value, value):
     f = find(ssl, find_value)
     if f is not None:
         f.next = SSL(value, f.next)
-        return f
+        return ssl
     return None
 
 def remove(ssl, find_value):
@@ -170,6 +169,9 @@ def remove_last(ssl):
             return ssl
         prev = scan
         scan = scan.next
+
+    # get here if ssl is None
+    return None
 
 def __str__(ssl):
     """Convert an SSL into a 'list' string representation."""
