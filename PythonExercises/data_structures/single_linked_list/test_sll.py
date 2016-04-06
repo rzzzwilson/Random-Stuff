@@ -31,7 +31,7 @@ class TestSLL(unittest.TestCase):
                     result = [v, result]
             return result    
         else:
-            self.assertFail('BAD MODULENAME: %s' % ModuleName)
+            self.fail('BAD MODULENAME: %s' % ModuleName)
 
     def test_length(self):
         """Check that length() works."""
@@ -135,72 +135,72 @@ class TestSLL(unittest.TestCase):
                 % (ModuleName, Module.__str__(old_sll), Module.__str__(new_sll), Module.__str__(expected)))
         self.assertEqual(Module.__str__(new_sll), Module.__str__(expected), msg)
 
-    def test_add_end(self):
-        """Check that add_end() works for empty SLL."""
+    def test_add_back(self):
+        """Check that add_back() works for empty SLL."""
 
         test_list = []
         old_sll = self.create_sll(test_list)
-        new_sll = Module.add_end(old_sll, 'A')
+        new_sll = Module.add_back(old_sll, 'A')
         expected_list = ['A']
         expected = self.create_sll(expected_list)
-        msg = ("%s: add_end(%s, 'A') returned %s, expected %s"
+        msg = ("%s: add_back(%s, 'A') returned %s, expected %s"
                 % (ModuleName, Module.__str__(old_sll), Module.__str__(new_sll), Module.__str__(expected)))
         self.assertEqual(Module.__str__(new_sll), Module.__str__(expected), msg)
 
-    def test_add_end2(self):
-        """Check that add_end() works on SLL with one element."""
+    def test_add_back2(self):
+        """Check that add_back() works on SLL with one element."""
 
         test_list = [20]
         old_sll = self.create_sll(test_list)
-        new_sll = Module.add_end(old_sll, 'M')
+        new_sll = Module.add_back(old_sll, 'M')
         expected_list = [20, 'M']
         expected = self.create_sll(expected_list)
-        msg = ("%s: add_end(%s, 'M') returned %s, expected %s"
+        msg = ("%s: add_back(%s, 'M') returned %s, expected %s"
                 % (ModuleName, Module.__str__(old_sll), Module.__str__(new_sll), Module.__str__(expected)))
         self.assertEqual(Module.__str__(new_sll), Module.__str__(expected), msg)
 
-    def test_add_end3(self):
-        """Check that add_end() works on SLL with many elements."""
+    def test_add_back3(self):
+        """Check that add_back() works on SLL with many elements."""
 
         test_list = [20, 'A', 'omega']
         old_sll = self.create_sll(test_list)
-        new_sll = Module.add_end(old_sll, 'M')
+        new_sll = Module.add_back(old_sll, 'M')
         expected_list = [20, 'A', 'omega', 'M']
         expected = self.create_sll(expected_list)
-        msg = ("%s: add_end(%s, 'M') returned %s, expected %s"
+        msg = ("%s: add_back(%s, 'M') returned %s, expected %s"
                 % (ModuleName, Module.__str__(old_sll), Module.__str__(new_sll), Module.__str__(expected)))
         self.assertEqual(Module.__str__(new_sll), Module.__str__(expected), msg)
 
-    def test_add_end4(self):
-        """Check that add_end() works repeatedly on SLL with no elements."""
+    def test_add_back4(self):
+        """Check that add_back() works repeatedly on SLL with no elements."""
 
         test_list = []
         old_sll = self.create_sll(test_list)
-        new_sll = Module.add_end(old_sll, 'first')
+        new_sll = Module.add_back(old_sll, 'first')
         expected_list = ['first']
         expected = self.create_sll(expected_list)
-        msg = ("%s: add_end(%s, 'first') returned %s, expected %s"
+        msg = ("%s: add_back(%s, 'first') returned %s, expected %s"
                 % (ModuleName, Module.__str__(old_sll), Module.__str__(new_sll), Module.__str__(expected)))
         self.assertEqual(Module.__str__(new_sll), Module.__str__(expected), msg)
 
-        new_sll = Module.add_end(new_sll, 'second')
+        new_sll = Module.add_back(new_sll, 'second')
         expected_list = ['first', 'second']
         expected = self.create_sll(expected_list)
-        msg = ("%s: add_end(%s, 'second') returned %s, expected %s"
+        msg = ("%s: add_back(%s, 'second') returned %s, expected %s"
                 % (ModuleName, Module.__str__(old_sll), Module.__str__(new_sll), Module.__str__(expected)))
         self.assertEqual(Module.__str__(new_sll), Module.__str__(expected), msg)
 
-        new_sll = Module.add_end(new_sll, 'third')
+        new_sll = Module.add_back(new_sll, 'third')
         expected_list = ['first', 'second', 'third']
         expected = self.create_sll(expected_list)
-        msg = ("%s: add_end(%s, 'third') returned %s, expected %s"
+        msg = ("%s: add_back(%s, 'third') returned %s, expected %s"
                 % (ModuleName, Module.__str__(old_sll), Module.__str__(new_sll), Module.__str__(expected)))
         self.assertEqual(Module.__str__(new_sll), Module.__str__(expected), msg)
 
-        new_sll = Module.add_end(new_sll, 'fourth')
+        new_sll = Module.add_back(new_sll, 'fourth')
         expected_list = ['first', 'second', 'third', 'fourth']
         expected = self.create_sll(expected_list)
-        msg = ("%s: add_end(%s, 'fourth') returned %s, expected %s"
+        msg = ("%s: add_back(%s, 'fourth') returned %s, expected %s"
                 % (ModuleName, Module.__str__(old_sll), Module.__str__(new_sll), Module.__str__(expected)))
         self.assertEqual(Module.__str__(new_sll), Module.__str__(expected), msg)
 
@@ -394,4 +394,3 @@ if __name__ == '__main__':
     print('%s' % delim2)
     print('%s' % delim)
     runner.run(suite)
-
