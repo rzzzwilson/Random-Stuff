@@ -315,7 +315,7 @@ http://python.swaroopch.com/
 
 
 .. [#] I'm not putting down the 'average' majority.  Despite almost 40 years of programming experience I still consider myself average.
-.. [#] We will encourage you to develop the three great virtues of a programmer: *laziness*, *impatience*, and *hubris*.  `Larry Wall <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_, *Programming Perl* (1st edition), OreillyAndAssociates
+.. [#] We will encourage you to develop the three great virtues of a programmer: *laziness*, *impatience*, and *hubris*.  `Larry Wall <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_, *Programming Perl* (1st edition), Oreilly and Associates
 .. [#] One I want to try is `GitLab <https://about.gitlab.com>`_.
 .. [#] For instance, `/r/dailyprogrammer <https://www.reddit.com/r/dailyprogrammer>`_.
 .. [#] Alas, after committing I found some grammar errors.  Grammar is hard.
