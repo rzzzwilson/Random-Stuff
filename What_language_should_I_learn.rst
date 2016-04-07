@@ -13,7 +13,7 @@ thoughts!
 Programming is not about the language, it's about you
 -----------------------------------------------------
 
-When I was at university trying to learn how to be a programmer it was clear
+When I was at university trying to learn Computer Science it was clear
 that there were three types of students:
 
 1. Those who would never be good even though they studied hard
@@ -183,8 +183,8 @@ copied it into LibreOffice so I could spellcheck it before I committed it.  I
 hope that all my mistakes were caught, but probably not [#]_.
 
 This applies even to the code you write.  You spent a lot of time and effort on
-your code, didn't you?  So why doesn't it look like it?  The first edition of
-`SICP <https://mitpress.mit.edu/sicp/>`_ has this quote:
+your code, didn't you?  So why doesn't it look like it?  The preface to the
+first edition of `SICP <https://mitpress.mit.edu/sicp/>`_ has this quote:
 
 ::
 
@@ -223,7 +223,8 @@ going to go ahead and give you a recommendation for a first language.  Why would
 I do that?
 
 Some people just need a shove to get going.  They won't just pick a language and
-start, so I recommend one that I think is useful as a training language.
+start, so I recommend one that I think is useful as a training language but
+won't limit advanced usage.
 
 Most programmers of my era started with something like BASIC on an 8-bit
 microcomputer.  This brain-damaging experience didn't seem to put many off then,
@@ -305,6 +306,12 @@ http://norvig.com/21-days.html
 http://www.catb.org/esr/faqs/hacker-howto.html
 
 http://www.linuxjournal.com/article/3882
+
+https://docs.python.org/2/tutorial/index.html
+
+http://www.greenteapress.com/thinkpython/thinkpython.pdf
+
+http://python.swaroopch.com/
 
 
 .. [#] I'm not putting down the 'average' majority.  Despite almost 40 years of programming experience I still consider myself average.
