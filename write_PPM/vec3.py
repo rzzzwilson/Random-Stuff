@@ -5,7 +5,10 @@
 A 3-vector class.
 """
 
-class vec3(object):
+import math
+
+
+class Vec3(object):
 
     def __init__(self, e=None):
         """Construct vec3.
@@ -52,7 +55,40 @@ class vec3(object):
 
         return self.z
 
+    def __pos__(self):
+        """Implement the unary +."""
+
+        return self
+
+    def __neg__(self):
+        """Implement the unary -."""
+                
+        return Vec3((-self.x, -self.y, -self.z))
+
     def __getitem__(self, i):
         """return vec3[i]."""
 
         return self.e[i]
+
+    def __add__(self, other):
+        """Implement A + B."""
+
+        return Vec3((self.x + other.x, self.y + other.y, self.z + other.z))
+
+    def __len__(self):
+        """Return the vector length."""
+
+        return math.sqrt(self.x*self.x + self.y*self.y + self.z*self.z)
+
+    def squere_len(self):
+        """Return the squared vector length."""
+
+        return (self.x*self.x + self.y*self.y + self.z*self.z)
+
+    def __str__(self):
+        """Return a string representation."""
+
+        return '%.2f, %.2f, %.2f' % (self.x, self.y, self.z)
+
+    def make_unit_vector(self):
+
