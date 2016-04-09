@@ -10,6 +10,10 @@ import math
 import unittest
 
 
+# number of significant places for comparisons
+Places = 7
+
+
 class TestVec3(unittest.TestCase):
 
     def test_vec3_simple_create(self):
@@ -115,19 +119,110 @@ class TestVec3(unittest.TestCase):
         msg = "v2 = -v1 should equal %s, got %s" % (str(expect), str(v2))
         self.assertEqual(str(v2), str(ve), msg)
 
-    def test_vec3_len(self):
-        """Check len() function on Vec3."""
+    def test_vec3_length(self):
+        """Check length() function on Vec3."""
 
-        #given = (3, 4, 5)
         given = (1, 1, 1)
         v = vec3.Vec3(given)
 
         expect = math.sqrt(given[0]**2 + given[1]**2 + given[2]**2)
+        len_v = v.length
 
-        print('len(v)=%s' % str(len(v)))
+        msg = "len(v) should be %.*f, got %.*f" % (Places, expect, Places, len_v)
+        self.assertAlmostEqual(expect, len_v, msg=msg, places=Places)
 
-        msg = "len(v1) should be %.2f, got %.2f" % (expect, len(v))
-        self.assertEqual(expect, len(v), msg)
+    def test_vec3_length2(self):
+        """Check length() function on Vec3."""
+
+        given = (0, 0, 0)
+        v = vec3.Vec3(given)
+
+        expect = math.sqrt(given[0]**2 + given[1]**2 + given[2]**2)
+        len_v = v.length
+
+        msg = "len(v) should be %.*f, got %.*f" % (Places, expect, Places, len_v)
+        self.assertAlmostEqual(expect, len_v, msg=msg, places=Places)
+
+    def test_vec3_square_length(self):
+        """Check square_length() function on Vec3."""
+
+        given = (1, 1, 1)
+        v = vec3.Vec3(given)
+
+        expect = given[0]**2 + given[1]**2 + given[2]**2
+        len_v = v.square_length
+
+        msg = "len(v) should be %.*f, got %.*f" % (Places, expect, Places, len_v)
+        self.assertAlmostEqual(expect, len_v, msg=msg, places=Places)
+
+    def test_vec3_square_length2(self):
+        """Check square_length() function on Vec3."""
+
+        given = (0, 0, 0)
+        v = vec3.Vec3(given)
+
+        expect = given[0]**2 + given[1]**2 + given[2]**2
+        len_v = v.square_length
+
+        msg = "len(v) should be %.*f, got %.*f" % (Places, expect, Places, len_v)
+        self.assertAlmostEqual(expect, len_v, msg=msg, places=Places)
+
+    def test_vec3_add(self):
+        """Check add() function on Vec3."""
+
+        v1_given = (0, 0, 0)
+        v1 = vec3.Vec3(v1_given)
+
+        v2_given = (0, 0, 0)
+        v2 = vec3.Vec3(v2_given)
+
+        v1plus2 = v1 + v2
+
+        expect_given = (v1_given[0] + v2_given[0], v1_given[1] + v2_given[1], v1_given[2] + v2_given[2])
+        expect = vec3.Vec3(expect_given)
+
+        msg = "Vec3(%s) + Vec3(%s) should be %s, got %s" % (str(v1_given), str(v2_given), str(expect_given), str(v1plus2))
+        expect_tuple = (expect.x, expect.y, expect.z)
+        v1plus2_tuple = (v1plus2.x, v1plus2.y, v1plus2.z)
+        self.assertAlmostEqual(expect_tuple, v1plus2_tuple, msg=msg, places=Places)
+
+    def test_vec3_add2(self):
+        """Check add() function on Vec3."""
+
+        v1_given = (1, 2, 3)
+        v1 = vec3.Vec3(v1_given)
+
+        v2_given = (1, 2, 3)
+        v2 = vec3.Vec3(v2_given)
+
+        v1plus2 = v1 + v2
+
+        expect_given = (v1_given[0] + v2_given[0], v1_given[1] + v2_given[1], v1_given[2] + v2_given[2])
+        expect = vec3.Vec3(expect_given)
+
+        msg = "Vec3(%s) + Vec3(%s) should be %s, got %s" % (str(v1_given), str(v2_given), str(expect_given), str(v1plus2))
+        expect_tuple = (expect.x, expect.y, expect.z)
+        v1plus2_tuple = (v1plus2.x, v1plus2.y, v1plus2.z)
+        self.assertAlmostEqual(expect_tuple, v1plus2_tuple, msg=msg, places=Places)
+
+    def test_vec3_add3(self):
+        """Check add() function on Vec3."""
+
+        v1_given = (1, 2, 3)
+        v1 = vec3.Vec3(v1_given)
+
+        v2_given = (-1, -2, -3)
+        v2 = vec3.Vec3(v2_given)
+
+        v1plus2 = v1 + v2
+
+        expect_given = (v1_given[0] + v2_given[0], v1_given[1] + v2_given[1], v1_given[2] + v2_given[2])
+        expect = vec3.Vec3(expect_given)
+
+        msg = "Vec3(%s) + Vec3(%s) should be %s, got %s" % (str(v1_given), str(v2_given), str(expect_given), str(v1plus2))
+        expect_tuple = (expect.x, expect.y, expect.z)
+        v1plus2_tuple = (v1plus2.x, v1plus2.y, v1plus2.z)
+        self.assertAlmostEqual(expect_tuple, v1plus2_tuple, msg=msg, places=Places)
 
 if __name__ == '__main__':
     suite = unittest.makeSuite(TestVec3, 'test')

@@ -66,23 +66,61 @@ class Vec3(object):
 
         return Vec3((self.x + other.x, self.y + other.y, self.z + other.z))
 
-    def __len__(self):
+    def __sub__(self, other):
+        """Implement A - B."""
+
+        return Vec3((self.x - other.x, self.y - other.y, self.z - other.z))
+
+    def __mul__(self, other):
+        """Implement A * B."""
+
+        return Vec3((self.x * other.x, self.y * other.y, self.z * other.z))
+
+    def __div__(self, other):
+        """Implement A / B."""
+
+        return Vec3((self.x / other.x, self.y / other.y, self.z / other.z))
+
+    @property
+    def length(self):
         """Return the vector length."""
 
-        print('__len__: .x=%s, .y=%s, .z=%s, len=%s' % (str(self.x), str(self.y), str(self.z), str(math.sqrt(self.x**2 + self.y**2 + self.z**2))))
+        return math.sqrt(self.x*self.x + self.y*self.y + self.z*self.z)
 
-        #return math.sqrt(self.x*self.x + self.y*self.y + self.z*self.z)
-        return math.sqrt(self.x**2 + self.y**2 + self.z**2)
-
-    def square_len(self):
+    @property
+    def square_length(self):
         """Return the squared vector length."""
 
         return (self.x*self.x + self.y*self.y + self.z*self.z)
+
+    def dot(self):
+        """Return the dot product of two vectors."""
+
+        return self.x * other.x + self.y * other.y + self.z * other.z
+
+    def cross(self):
+        """Return the cross product of two vectors."""
+
+        return Vec3(self.y * other.z - self.x * other.y,
+                    -(self.x * other.z - self.z * other.x),
+                    self.x * other.y - self.y * other.x)
 
     def __str__(self):
         """Return a string representation."""
 
         return '%.2f %.2f %.2f' % (self.x, self.y, self.z)
+
+    def __repr__(self):
+        """Return a 'formal' string representation."""
+
+        return 'Vec3((%.2f, %.2f, %.2f))' % (self.x, self.y, self.z)
+
+    def __nonzero__(self):
+        """Return 'truthiness' value of the vector."""
+
+        if math.abs(math.sqrt(self.x*self.x + self.y*self.y + self.z*self.z)) >= 0.000000001:
+            return True
+        return False
 
     def make_unit_vector(self):
         """Make a unit vector from the vector we have."""
