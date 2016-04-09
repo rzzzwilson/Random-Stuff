@@ -10,33 +10,24 @@ import math
 
 class Vec3(object):
 
-    def __init__(self, e=None):
-        """Construct vec3.
+    def __init__(self, v=None):
+        """Construct vec3 from a vector tuple.
 
-        e  is a 3-tuple of components, if supplied
+        v  is a 3-tuple of components, if not None
         """
 
-        self.e = e
-        (x, y, z) = e
+        self.v = v
 
-    @property
-    def x(self):
-        """Return the X component of the vector."""
+        if v:
+            (self.x, self.y, self.z) = v
+            self.x = float(self.x)
+            self.y = float(self.y)
+            self.z = float(self.z)
+        else:
+            self.x = None
+            self.y = None
+            self.z = None
 
-        return self.x
-
-    @property
-    def y(self):
-        """Return the Y component of the vector."""
-
-        return self.y
-
-    @property
-    def z(self):
-        """Return the Z component of the vector."""
-
-        return self.z
-    
     @property
     def r(self):
         """Return the R component of the vector."""
@@ -78,9 +69,12 @@ class Vec3(object):
     def __len__(self):
         """Return the vector length."""
 
-        return math.sqrt(self.x*self.x + self.y*self.y + self.z*self.z)
+        print('__len__: .x=%s, .y=%s, .z=%s, len=%s' % (str(self.x), str(self.y), str(self.z), str(math.sqrt(self.x**2 + self.y**2 + self.z**2))))
 
-    def squere_len(self):
+        #return math.sqrt(self.x*self.x + self.y*self.y + self.z*self.z)
+        return math.sqrt(self.x**2 + self.y**2 + self.z**2)
+
+    def square_len(self):
         """Return the squared vector length."""
 
         return (self.x*self.x + self.y*self.y + self.z*self.z)
@@ -88,7 +82,10 @@ class Vec3(object):
     def __str__(self):
         """Return a string representation."""
 
-        return '%.2f, %.2f, %.2f' % (self.x, self.y, self.z)
+        return '%.2f %.2f %.2f' % (self.x, self.y, self.z)
 
     def make_unit_vector(self):
+        """Make a unit vector from the vector we have."""
 
+        scale = 1.0 / len(self)
+        return Vec3((self.x/scale, self.y/scale, self.z/scale))
