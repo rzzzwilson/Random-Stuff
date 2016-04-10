@@ -10,6 +10,9 @@ import math
 
 class Vec3(object):
 
+    # number of decimal places used internally
+    DefaultPlaces = 9
+
     def __init__(self, v=None):
         """Construct vec3 from a vector tuple.
 
@@ -110,15 +113,15 @@ class Vec3(object):
                      -(self.x * other.z - self.z * other.x),
                        self.x * other.y - self.y * other.x))
 
-    def __str__(self):
+    def __str__(self, places=DefaultPlaces):
         """Return a string representation."""
 
-        return '%.2f %.2f %.2f' % (self.x, self.y, self.z)
+        return '%.*f %.*f %.*f' % (places, self.x, places, self.y, places, self.z)
 
     def __repr__(self):
         """Return a 'formal' string representation."""
 
-        return 'Vec3((%.2f, %.2f, %.2f))' % (self.x, self.y, self.z)
+        return 'Vec3((%.*f, %.*f, %.*f))' % (places, self.x, places, self.y, places, self.z)
 
     def __nonzero__(self):
         """Return 'truthiness' value of the vector."""
@@ -126,6 +129,67 @@ class Vec3(object):
         if math.abs(math.sqrt(self.x*self.x + self.y*self.y + self.z*self.z)) >= 0.000000001:
             return True
         return False
+
+    def __iadd__(self, other):
+        """Implement the '+=' operator."""
+
+        if isinstance(other, float):
+            # add float constant
+            self.x += other
+            self.y += other
+            self.z += other
+        else:
+            # second operand is assumed to be Vec3
+            self.x += other.x
+            self.y += other.y
+            self.z += other.z
+
+        return self
+
+    def __isub__(self, other):
+        """Implement the '-=' operator."""
+
+        if isinstance(other, float):
+            # subtract float constant
+            self.x -= other
+            self.y -= other
+            self.z -= other
+        else:
+            self.x -= other.x
+            self.y -= other.y
+            self.z -= other.z
+
+        return self
+
+    def __imul__(self, other):
+        """Implement the '*=' operator."""
+
+        if isinstance(other, float):
+            # multiply by float constant
+            self.x *= other
+            self.y *= other
+            self.z *= other
+        else:
+            self.x *= other.x
+            self.y *= other.y
+            self.z *= other.z
+
+        return self
+
+    def __idiv__(self, other):
+        """Implement the '/=' operator."""
+
+        if isinstance(other, float):
+            # divide by float constant
+            self.x /= other
+            self.y /= other
+            self.z /= other
+        else:
+            self.x /= other.x
+            self.y /= other.y
+            self.z /= other.z
+
+        return self
 
     def unit_vector(self):
         """Make a unit vector from the vector we have."""

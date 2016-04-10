@@ -365,6 +365,154 @@ class TestVec3(unittest.TestCase):
         with self.assertRaises(ZeroDivisionError):
             v1plus2 = v1 / v2
 
+    def test_vec3_bump_add(self):
+        """Check += operation on Vec3."""
+
+        v1_given = (1.1, 2.2, 3.3)
+        v1 = vec3.Vec3(v1_given)
+
+        v2_given = (0.1, 0.1, 0.1)
+        v2 = vec3.Vec3(v2_given)
+
+        expect_given = (v1_given[0] + v2_given[0], v1_given[1] + v2_given[1], v1_given[2] + v2_given[2])
+        expect = vec3.Vec3(expect_given)
+
+        v1 += v2
+
+        msg = "Vec3(%s) += Vec3(%s) should be %s, got %s" % (str(v1_given), str(v2_given), str(expect_given), str(v1))
+        expect_tuple = (expect.x, expect.y, expect.z)
+        v1_tuple = (v1.x, v1.y, v1.z)
+        self.assertAlmostEqual(expect_tuple, v1_tuple, msg=msg, places=Places)
+
+    def test_vec3_bump_add2(self):
+        """Check += operation on Vec3."""
+
+        v1_given = (1.1, 2.2, 3.3)
+        v1 = vec3.Vec3(v1_given)
+
+        v2 = 2.1
+
+        expect_given = (v1_given[0] + v2, v1_given[1] + v2, v1_given[2] + v2)
+        expect = vec3.Vec3(expect_given)
+
+        v1 += v2
+
+        msg = "Vec3(%s) += Vec3(%s) should be %s, got %s" % (str(v1_given), str(v2), str(expect_given), str(v1))
+        expect_tuple = (expect.x, expect.y, expect.z)
+        v1_tuple = (v1.x, v1.y, v1.z)
+        self.assertAlmostEqual(expect_tuple, v1_tuple, msg=msg, places=Places)
+
+    def test_vec3_bump_sub(self):
+        """Check -= operation on Vec3."""
+
+        v1_given = (1.1, 2.2, 3.3)
+        v1 = vec3.Vec3(v1_given)
+
+        v2_given = (0.1, 0.1, 0.1)
+        v2 = vec3.Vec3(v2_given)
+
+        expect_given = (v1_given[0] - v2_given[0], v1_given[1] - v2_given[1], v1_given[2] - v2_given[2])
+        expect = vec3.Vec3(expect_given)
+
+        v1 -= v2
+
+        msg = "Vec3(%s) -= Vec3(%s) should be %s, got %s" % (str(v1_given), str(v2_given), str(expect_given), str(v1))
+        expect_tuple = (expect.x, expect.y, expect.z)
+        v1_tuple = (v1.x, v1.y, v1.z)
+        self.assertAlmostEqual(expect_tuple, v1_tuple, msg=msg, places=Places)
+
+    def test_vec3_bump_sub2(self):
+        """Check -= operation on Vec3."""
+
+        v1_given = (1.1, 2.2, 3.3)
+        v1 = vec3.Vec3(v1_given)
+
+        v2 = 2.1
+
+        expect_given = (v1_given[0] - v2, v1_given[1] - v2, v1_given[2] - v2)
+        expect = vec3.Vec3(expect_given)
+
+        v1 -= v2
+
+        msg = "Vec3(%s) -= Vec3(%s) should be %s, got %s" % (str(v1_given), str(v2), str(expect_given), str(v1))
+        expect_tuple = (expect.x, expect.y, expect.z)
+        v1_tuple = (v1.x, v1.y, v1.z)
+        self.assertAlmostEqual(expect_tuple, v1_tuple, msg=msg, places=Places)
+
+    def test_vec3_bump_mul(self):
+        """Check *= operation on Vec3."""
+
+        v1_given = (1.1, 2.2, 3.3)
+        v1 = vec3.Vec3(v1_given)
+
+        v2_given = (0.1, 0.1, 0.1)
+        v2 = vec3.Vec3(v2_given)
+
+        expect_given = (v1_given[0] * v2_given[0], v1_given[1] * v2_given[1], v1_given[2] * v2_given[2])
+        expect = vec3.Vec3(expect_given)
+
+        v1 *= v2
+
+        msg = "Vec3(%s) *= Vec3(%s) should be %s, got %s" % (str(v1_given), str(v2_given), str(expect_given), str(v1))
+        expect_tuple = (expect.x, expect.y, expect.z)
+        v1_tuple = (v1.x, v1.y, v1.z)
+        self.assertAlmostEqual(expect_tuple, v1_tuple, msg=msg, places=Places)
+
+    def test_vec3_bump_mul2(self):
+        """Check *= operation on Vec3."""
+
+        v1_given = (1.1, 2.2, 3.3)
+        v1 = vec3.Vec3(v1_given)
+
+        v2 = 2.1
+
+        expect_given = (v1_given[0] * v2, v1_given[1] * v2, v1_given[2] * v2)
+        expect = vec3.Vec3(expect_given)
+
+        v1 *= v2
+
+        msg = "Vec3(%s) *= Vec3(%s) should be %s, got %s" % (str(v1_given), str(v2), str(expect_given), str(v1))
+        expect_tuple = (expect.x, expect.y, expect.z)
+        v1_tuple = (v1.x, v1.y, v1.z)
+        self.assertAlmostEqual(expect_tuple, v1_tuple, msg=msg, places=Places)
+
+    def test_vec3_bump_div(self):
+        """Check /= operation on Vec3."""
+
+        v1_given = (1.1, 2.2, 3.3)
+        v1 = vec3.Vec3(v1_given)
+
+        v2_given = (0.1, 0.1, 0.1)
+        v2 = vec3.Vec3(v2_given)
+
+        expect_given = (v1_given[0] / v2_given[0], v1_given[1] / v2_given[1], v1_given[2] / v2_given[2])
+        expect = vec3.Vec3(expect_given)
+
+        v1 /= v2
+
+        msg = "Vec3(%s) /= Vec3(%s) should be %s, got %s" % (str(v1_given), str(v2_given), str(expect_given), str(v1))
+        expect_tuple = (expect.x, expect.y, expect.z)
+        v1_tuple = (v1.x, v1.y, v1.z)
+        self.assertAlmostEqual(expect_tuple, v1_tuple, msg=msg, places=Places)
+
+    def test_vec3_bump_div2(self):
+        """Check *= operation on Vec3."""
+
+        v1_given = (1.1, 2.2, 3.3)
+        v1 = vec3.Vec3(v1_given)
+
+        v2 = 2.1
+
+        expect_given = (v1_given[0] / v2, v1_given[1] / v2, v1_given[2] / v2)
+        expect = vec3.Vec3(expect_given)
+
+        v1 /= v2
+
+        msg = "Vec3(%s) /= Vec3(%s) should be %s, got %s" % (str(v1_given), str(v2), str(expect_given), str(v1))
+        expect_tuple = (expect.x, expect.y, expect.z)
+        v1_tuple = (v1.x, v1.y, v1.z)
+        self.assertAlmostEqual(expect_tuple, v1_tuple, msg=msg, places=Places)
+
     def test_vec3_dot(self):
         """Check dot product operation on Vec3."""
 
