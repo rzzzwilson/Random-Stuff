@@ -56,6 +56,11 @@ class Vec3(object):
                 
         return Vec3((-self.x, -self.y, -self.z))
 
+    def __abs__(self):
+        """Implement the absolute value."""
+                
+        return self.length
+
     def __getitem__(self, i):
         """return vec3[i]."""
 
@@ -93,17 +98,17 @@ class Vec3(object):
 
         return (self.x*self.x + self.y*self.y + self.z*self.z)
 
-    def dot(self):
+    def dot(self, other):
         """Return the dot product of two vectors."""
 
         return self.x * other.x + self.y * other.y + self.z * other.z
 
-    def cross(self):
+    def cross(self, other):
         """Return the cross product of two vectors."""
 
-        return Vec3(self.y * other.z - self.x * other.y,
-                    -(self.x * other.z - self.z * other.x),
-                    self.x * other.y - self.y * other.x)
+        return Vec3((  self.y * other.z - self.z * other.y,
+                     -(self.x * other.z - self.z * other.x),
+                       self.x * other.y - self.y * other.x))
 
     def __str__(self):
         """Return a string representation."""
@@ -122,8 +127,8 @@ class Vec3(object):
             return True
         return False
 
-    def make_unit_vector(self):
+    def unit_vector(self):
         """Make a unit vector from the vector we have."""
 
-        scale = 1.0 / len(self)
-        return Vec3((self.x/scale, self.y/scale, self.z/scale))
+        scale = 1.0 / self.length
+        return Vec3((self.x*scale, self.y*scale, self.z*scale))
