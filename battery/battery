@@ -46,13 +46,13 @@ ACPower = u'\U000026A1'
 PowerIcon = ACPower
 
 # threshold voltage, warn if below this
-MinimumVoltage = 10350
+MinimumVoltage = 10900
 
 # threshold percentage, warn if below this
-MinimumPercent = 25
+MinimumPercent = 50
 
 # threshold charge remaining, warn if below this
-MinimumCharge = 1100
+MinimumCharge = 1975
 
 # warning voice
 # do '$ say -v ?' to get a list of voices available
@@ -124,7 +124,7 @@ class PowerApp(rumps.App):
         self.title = title
 
         if Debug:
-            print('%s|%svoltage=%dmV, %scharge=%dmWh, %spercent=%d%%, charging=%s, NextWarn=%ds'
+            print('%s|%svoltage=%05dmV, %scharge=%04dmWh, %spercent=%03d%%, charging=%s, NextWarn=%ds'
                   % (timestamp, under_voltage, voltage,
                      under_charge, charge, under_percent, percent,
                      str(charging), NextWarn))
