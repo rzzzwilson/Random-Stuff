@@ -3,28 +3,27 @@ Why write this?
 
 I wrote this when replying to the umpteenth "What language should I learn first?"
 post.  My posts to that sort of question were inevitably long screeds, so I
-wrote this document which will get referenced in any future posts of mine.
+wrote this document which will get referenced in any future replies of mine.
 
-If I had posted something different to each "how do I ..." post, each post
-would just have been a collection of quick half-formed thoughts.  At least this
-way I will finally have a collection of **considered** half-formed thoughts!
+If I had posted something different to each "which language ..." question, each
+post would just have been a collection of quick half-formed thoughts.  At least
+this way I will finally have a collection of **considered** half-formed
+thoughts!
 
 Programming is not about the language, it's about you
 -----------------------------------------------------
 
-When I was at university trying to learn how to be a programmer it was clear
+When I was at university trying to learn Computer Science it was clear
 that there were three types of students:
 
 1. Those who would never be good even though they studied hard
-2. The average students who learnt a bit but were still average [#]_
+2. The average students who learned a bit but were still average [#]_
 3. Those who were going to be good despite being at university
 
 You need to be something like type 3 if you have any hope of learning to be a
 programmer **by yourself**.  How do you become type 3?  I don't know.  Certainly
 curiosity is part of a good programmer.  Patience or lack of patience, at the
-appropriate time, is another.  Larry Wall has a
-`great quote <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_ along these
-lines.
+appropriate time, is another.  Larry Wall has a great quote along these lines [#]_.
 
 The type 3 students were the ones who worked late hours trying things out,
 trying a different approach or algorithm.  Because there were other ways that
@@ -42,7 +41,7 @@ A computer language is just the basic tool used to tell a computer what to do.
 You have to know what to do first, before you tell the computer!  And that's
 **really** what being a programmer is all about.
 
-Paradigms, database, network, gui, ...
+Paradigms, database, network, GUI, ...
 --------------------------------------
 
 There's a lot more to programming than the language you use.  Being able to use
@@ -65,12 +64,15 @@ Operating system
 ----------------
 
 In the beginning it really doesn't matter what operating system you use.  Later,
-though, it's important that you get exposed to the three big OSs: Windows, OSX
-and Linux.  OSX and Linux are sort of the same, but Windows is very different.
-If you can, start learning on both Windows and Linux.  If you don't want to
-spend money, learn on what you have now.  You really need Apple hardware to run
-OSX, but you don't need to *learn* on OSX, so leave that OS until you need that
-platform.
+though, it's important that you get exposed to the three big operating systems:
+Windows, OSX and Linux.  OSX and Linux are sort of the same, but Windows is very
+different.  If you can, start learning on both Windows and Linux.  If you don't
+want to spend money, learn on what you have now.  You really need Apple hardware
+to run OSX, but you don't need to *learn* on OSX, so leave that OS until you
+need that platform.
+
+If you don't have an operating system, choose any Linux distribution.  They are
+free and have all the tools you will need to get started.
 
 Resources
 ---------
@@ -82,9 +84,9 @@ connection while *learning*, but when working you need a reliable connection.
 Or `DuckDuckGo <https://duckduckgo.com/>`_, etc.
 
 The user community associated with a language is very important.  It must be
-welcoming, helpful and large enough.  Some languages (no names given) have
+welcoming, helpful and large enough.  Some languages (no names ...) have
 communities with the reputation of being extremely pedantic and dismissive
-of beginners.  This doesn't help you; avoid these communities.
+of beginners, even hostile.  This doesn't help you; avoid these communities.
 
 When you get some experience try to help others in your language or framework
 of choice.  You don't really know something until you've tried to teach someone
@@ -123,7 +125,8 @@ thinking about the language you will eventually use while designing your
 solution.  Rather, you should be thinking about algorithms and data structures
 in the most abstract way.  When you come to put your solution into a computer
 language you may have to change your approach in minor details.  Any major
-hiccups may mean you've chosen the wrong computer language.
+hiccups in the actual implementation may mean you've chosen the wrong computer
+language.
 
 Side projects
 -------------
@@ -138,9 +141,10 @@ faster or more clear?  Try to solve a more generalised problem than that given
 in the tutorial.
 
 I have found the early
-`Google Code Jam <https://code.google.com/codejam>`_ problems to be very good at
-making you think and sweat, particularly those that have time and memory
-constraints.  There are other sites that have problems you can try.
+`Google Code Jam <https://code.google.com/codejam/contests.html>`_ problems to
+be very good at making you think and sweat, particularly those that have time
+and memory constraints.  There are other sites that have problems you can try
+[#]_.
 
 Even better, after getting your first solution try to solve the exercise again
 in a different language.  That's a really good way to learn your second
@@ -155,7 +159,8 @@ There is no better way to learn than by solving your own problems.  iTunes
 mangling your playlists?  Write some code that creates
 playlists the way you want them.  It's time to change passwords for the hundreds
 of web sites that you use?  Write a little program to generate strong memorable
-passwords with configurable password lengths and character sets used.
+and *pronouncable* passwords with configurable password lengths and character
+sets used.
 
 Solving your own personal problems makes your learning more interesting, you
 get closer to real-world programming and you get pushed into areas you might
@@ -174,12 +179,12 @@ carries over into the written English language.
 explains why good English is important.
 
 For example, I wrote the first draught of this in vim into a text file.  But I
-copied it into OpenOffice so I could spellcheck it before I committed it.  I
-hope that all my mistakes were caught, but probably not. [#]_
+copied it into LibreOffice so I could spellcheck it before I committed it.  I
+hope that all my mistakes were caught, but probably not [#]_.
 
 This applies even to the code you write.  You spent a lot of time and effort on
-your code, didn't you?  So why doesn't it look like it?  The first edition of
-`SICP <https://mitpress.mit.edu/sicp/>`_ has this quote:
+your code, didn't you?  So why doesn't it look like it?  The preface to the
+first edition of `SICP <https://mitpress.mit.edu/sicp/>`_ has this quote:
 
 ::
 
@@ -218,7 +223,8 @@ going to go ahead and give you a recommendation for a first language.  Why would
 I do that?
 
 Some people just need a shove to get going.  They won't just pick a language and
-start, so I recommend one that I think is useful as a training language.
+start, so I recommend one that I think is useful as a training language but
+won't limit advanced usage.
 
 Most programmers of my era started with something like BASIC on an 8-bit
 microcomputer.  This brain-damaging experience didn't seem to put many off then,
@@ -228,25 +234,32 @@ with now.  I disagree.
 Modern computer languages are *much* more complicated now than they were.  I
 remember taking
 `Kernighan & Ritchie <https://en.wikipedia.org/wiki/C_(programming_language)#K.26R_C>`_
-home one Friday night and starting to write moderately complicated C code on
-Monday.  That's a lot harder to do now when every language comes with an IDE and
-massive library.  Why burden beginners with all the minutiae of modern languages
-when they don't even know what a **while** loop is?
-
-Better to start simple and progress into more complicated things later.  Start
-with procedural programming, learn about loops, functions and all that.  Then
-advanced data structures, external to the language if possible.  It's better to
-write your own code to handle linked lists, for example, because when you get
-to a language that has them built in or provided by a library you actually know
-what is going on and why some things are slow and others are fast.
+home one Friday night and starting to write moderately complicated production C
+code on Monday.  That's a lot harder to do now when every language comes with
+an `IDE <https://en.wikipedia.org/wiki/Integrated_development_environment>`_ 
+and massive library.  Why burden beginners with all the minutiae of
+modern languages *plus* a heavyweight IDE when they don't even know what a
+*while* loop is?
 
 And that means starting with a language with a
 `REPL <https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop>`_.
 It's simpler to do that than start talking about files and editors and make and
-compilers and linkers and whatever.  Using a heavyweight IDE like VisualStudio
-or Eclipse is not correct at the beginning either.  Yes, they *help* the student
-but that's because the student really needs help with the massive language
-structure.
+compilers and linkers and whatever.  Using an IDE like VisualStudio or Eclipse
+means you don't have to know all that, but I believe it's overly demanding at
+the beginning.  Yes, IDEs *help* the student but that's because the student
+really needs help with the massive language structure.
+
+Learning computing using a language with a REPL makes it easy to experiment
+with small bits of code, see the results immediately and see the result of
+errors.  I suspect that's why BASIC was successful back in the dawn of personal
+computing, besides being just about the only language available.
+
+It's better to start simple and progress into more complicated things later.
+Start with procedural programming, learn about loops, functions and all that.
+Then advanced data structures, external to the language if possible.  It's
+better to write your own code to handle linked lists, for example, because when
+you get to a language that has them built in or provided by a library you
+actually know what is going on and why some things are slow and others are fast.
 
 So my recommended starting language is: **Python**.  Yes, I am bigoted, but I
 accept that other languages like Ruby may be just as good.
@@ -254,7 +267,8 @@ accept that other languages like Ruby may be just as good.
 Many other beginner languages are recommended by others. Javascript, for
 instance, is often recommended but I believe it unnecessarily hard for beginners
 with too many special cases and
-`wat! <https://www.destroyallsoftware.com/talks/wat>`_ moments.
+`wat! <https://www.destroyallsoftware.com/talks/wat>`_ moments, plus its
+non-mainstream prototyping system.
 
 Python is a relatively simple language to start with, but it is powerful.  Much
 of that power is hidden away but is available when you need it.
@@ -263,17 +277,17 @@ Python has too many good data structures built-in to be a *really* good teaching
 language [#]_.  To learn the bones of linked lists and hash tables you 
 really should implement them in something like C or assembler.  You can
 implement them in Python, of course, but most students aren't shown that because
-the language has perfectly good built-in lists and dictionaries. [#]_
+the language has perfectly good built-in lists and dictionaries [#]_.
 
 So Python is simple.  But that doesn't mean it's limiting like other simple
-languages such as Basic.  With Python you also have a pretty good
-object-oriented environment.  You just aren't forced to use it as you are with
+languages such as BASIC.  With Python you also have a pretty good
+object-oriented environment, you just aren't forced to use it as you are with
 Java.  Python also has limited functional programming features, though
 other languages are better in this respect.
 
 Once you can handle all that Python itself offers there is a large library of
-built-in modules that allow you to do just about anything you want to do.  And
-after that there is the even larger library of modules in
+built-in standard library modules that allow you to do just about anything you
+want to do.  And after that there is the even larger library of modules in
 `the CheeseShop <https://pypi.python.org/pypi>`_.
 
 The other reason for choosing Python is the user community.  This is where you
@@ -293,9 +307,17 @@ http://www.catb.org/esr/faqs/hacker-howto.html
 
 http://www.linuxjournal.com/article/3882
 
+https://docs.python.org/2/tutorial/index.html
+
+http://www.greenteapress.com/thinkpython/thinkpython.pdf
+
+http://python.swaroopch.com/
+
 
 .. [#] I'm not putting down the 'average' majority.  Despite almost 40 years of programming experience I still consider myself average.
+.. [#] We will encourage you to develop the three great virtues of a programmer: *laziness*, *impatience*, and *hubris*.  `Larry Wall <http://c2.com/cgi/wiki?LazinessImpatienceHubris>`_, *Programming Perl* (1st edition), Oreilly and Associates
 .. [#] One I want to try is `GitLab <https://about.gitlab.com>`_.
+.. [#] For instance, `/r/dailyprogrammer <https://www.reddit.com/r/dailyprogrammer>`_.
 .. [#] Alas, after committing I found some grammar errors.  Grammar is hard.
 .. [#] A good training language, like a good training aircraft, should be easy to use, but demanding to use well.  In the computer training language context, this means the beginner should be able to get started and make satisfying progress initially, without being constrained later on after progressing to more advanced usage.
-.. [#] Maybe a good small exercise would be to write code to manage linked lists.  Revisit this subject later when touching on API design, unit testing and object-oriented classes.
+.. [#] Maybe a good small python exercise would be to write code to create, use and destroy linked lists.  Revisit this subject later when touching on API design, unit testing and object-oriented classes.
