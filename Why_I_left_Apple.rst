@@ -90,14 +90,23 @@ fail to comprehend how *anyone* can think not providing landscape lock is
 anything but a fail.
 
 And now the MacBook Pro.  It too is a good piece of hardware, despite the highly
-shiny screen.  The software is a little strange.  Apple has its way of doing
-things, for sure, but whoever thought that displaying a new window the user just
-caused to be raised **behind** other windows was a good idea?  Things like that
-and the apparently decreasing stability of OSX leads me to look elsewhere.
-Apple has spoiled me for hardware quality, so I have to find that sort of
-quality along with a high resolution screen.  Maybe I'll just try installing
-Linux on it.  Battery life may suffer, but if it means less aggravation, bring
-it on.
+shiny screen.  The software is a little strange.
+
+Apple has its way of doing things, for sure, but whoever thought that displaying
+a new window the user just caused to be raised **behind** other windows was a
+good idea?
+
+Apple also isn't really interested in supporting power users, which is the only
+explanation I can come up with for having a really old version of rsync
+on the latest version of OSX.  They have apparently made the decision that
+nobody will want to use rsync and they only need maintain a version for their
+own use.
+
+Things like that and the apparently decreasing stability of OSX leads me to look
+elsewhere.  Apple has spoiled me for hardware quality, so I have to find that
+sort of quality along with a high resolution screen.  Maybe I'll just try
+installing Linux on my MacBook Pro.  Battery life may suffer, but if it means
+less aggravation, bring it on.
 
 On the plus side, my rMBP has decided to have battery problems.  I'll be
 without it for four weeks while Apple does whatever it does, at a cost of
@@ -108,11 +117,11 @@ Yes, it's a plus since it reminds me that I have become trapped in the walled
 garden as my rMBP time machine backup isn't accessible from Win/Linux.  Also,
 my external disk containing my music was reformatted a while back to use the
 Apple filesystem and isn't safely accessible from Linux.  The external disk
-*used* to be ExFat format so I could access it from both Mac, Windows and Linux,
-but I had so many problems with OSX reporting uncorrectable errors (which Windows
-either never found or fixed in a trice) that I moved to the Apple filesystem.
-Which solved my persistent filesystem errors but trapped me just a little more
-in the walled garden.
+*used* to be ExFat format so I could access it from Mac, Windows and Linux,
+but I had so many problems with OSX reporting uncorrectable errors (which
+Windows either never found or fixed in a trice) that I moved to the Apple
+filesystem.  Which solved my persistent filesystem errors but trapped me just a
+little more in the walled garden.
 
 Trouble is, Android isn't a slam dunk certainty either.  One thing Apple does
 well is to keep iThings updated constantly.  Well, sometimes there's a little
