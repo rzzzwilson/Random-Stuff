@@ -52,7 +52,7 @@
 # of one or more cows?  Try making the dots 3x3.
 #
 # The 'first' data looks like a cow, but adding the 'second' data points shows
-# a bull.
+# horns, so maybe a bull.
 #
 # Browsing to
 #    http://www.pythonchallenge.com/pc/return/bull.html
