@@ -12,6 +12,9 @@
 #
 # Maybe the black pixels are introduced and not a mask.  Try removing them
 # and getting a 320x240 image.
+#
+# The reduced picture image shows nothing useful.  Maybe the 'black' pixels hold
+# information.  Strip out only the 'black' pixels.
 
 # cave.jpg converted to PPM by the Gimp
 in_pic = 'cave.ppm'
@@ -36,6 +39,16 @@ with open(out_pic, 'wb') as out_fd:
     max_index = len(in_data)
     while index < max_index:
         for _ in range(320):
+            # next line
+            out_fd.write(in_data[index])
+            index += 1
+            out_fd.write(in_data[index])
+            index += 1
+            out_fd.write(in_data[index])
+            index += 1
+            index += 3      # skip black pixel
+
+        for _ in range(320):
             # first line
             index += 3      # skip black pixel
             out_fd.write(in_data[index])
@@ -45,12 +58,12 @@ with open(out_pic, 'wb') as out_fd:
             out_fd.write(in_data[index])
             index += 1
 
-        for _ in range(320):
-            # next line
-            out_fd.write(in_data[index])
-            index += 1
-            out_fd.write(in_data[index])
-            index += 1
-            out_fd.write(in_data[index])
-            index += 1
-            index += 3      # skip black pixel
+#        for _ in range(320):
+#            # next line
+#            out_fd.write(in_data[index])
+#            index += 1
+#            out_fd.write(in_data[index])
+#            index += 1
+#            out_fd.write(in_data[index])
+#            index += 1
+#            index += 3      # skip black pixel
