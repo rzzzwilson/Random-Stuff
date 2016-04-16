@@ -13,18 +13,54 @@
 # interpreted as ternary we get [1, 4, 7, 49, 376, ] in decimal.
 #
 # The page title "what are you looking at?" certainly suggests we look at
-# different representations of the sequence.
+# different representations of the sequence.  In particular, "len(a[30])"
+# implies that the 'a' elements must be interpreted as strings - can't have
+# a length of an integer.
+#
+# [the next day] OK, I cheated by getting a hint.  I did google for the site
+# that gave me the sequence name, but I didn't find it.  The hint at
+# http://garethrees.org/2007/05/07/python-challenge/ gave me the site used
+# to identify the sequence: https://oeis.org/A005150 .
 
-a = [1, 11, 21, 1211, 111221,]
+# the sequence
+a = ['1', '11', '21', '1211', '111221',]
 
-# try different bases
-aa = ['1', '11', '21', '1211', '111221',]
-for base in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]:
-    b = [int(x, base) for x in aa]
-    print('base %d: %s' % (base, str(b)))
+# a function that, given a sequence string, produces the next sequence string.
+def look_and_say(elt):
+    """Generate the next sequence string following 'elt'."""
 
-# try the length of each element as the sequence
-b = [len(x) for x in aa]
-print('len: %s' % str(b))
+    index = 0
+    result = ''
+    max_index = len(elt)
+    while index < max_index:
+        letter = elt[index]
+        count = 1
+        index += 1
+        if index >= max_index:
+            result += '%d%s' % (count, letter)
+            break
+        if elt[index] == letter:
+            count += 1
+            index += 1
+            if index >= max_index:
+                result += '%d%s' % (count, letter)
+                break
+            if elt[index] == letter:
+                count += 1
+                index += 1
+                if index >= max_index:
+                    result += '%d%s' % (count, letter)
+                    break
+        result += '%d%s' % (count, letter)
 
-# what about treating changes as string manipulations?
+    return result
+
+count = 0
+next = '1'
+print('%d=%s' % (count, next))
+count += 1
+
+while count <= 30:
+    next = look_and_say(next)
+    print('len(%d)=%d' % (count, len(next)))
+    count += 1
