@@ -32,10 +32,44 @@
 # file.
 # Trying:
 #    http://www.pythonchallenge.com/pc/return/evil4.jpg
+#
+# Stumped - looked at http://garethrees.org/2007/05/07/python-challenge/ which
+# the GFX file to be five interleaved files.  Splitting the GFX file into the
+# five files gets us:
+#     gfx_1.dat: JPEG image data, JFIF standard 1.01
+#     gfx_2.dat: PNG image data, 400 x 300, 8-bit/color RGB, non-interlaced
+#     gfx_3.dat: GIF image data, version 87a, 320 x 240
+#     gfx_4.dat: PNG image data, 320 x 240, 8-bit/color RGB, non-interlaced
+#     gfx_5.dat: JPEG image data, JFIF standard 1.01
+#
+# The five files, when viewed, get us "disproportional".
+
+
+gfx_file = 'evil2.gfx'
+
+with open(gfx_file, 'rb') as fd:
+    gfx_data = fd.read()
+
+with open('gfx_1.dat', 'wb') as fd:
+    fd.write(gfx_data[0::5])
+
+with open('gfx_2.dat', 'wb') as fd:
+    fd.write(gfx_data[1::5])
+
+with open('gfx_3.dat', 'wb') as fd:
+    fd.write(gfx_data[2::5])
+
+with open('gfx_4.dat', 'wb') as fd:
+    fd.write(gfx_data[3::5])
+
+with open('gfx_5.dat', 'wb') as fd:
+    fd.write(gfx_data[4::5])
+
 # gets a curious page that appears to hold a small white image with a double
 # line border.  Using 'wget' to save evil4.jpg shows that the file is really
 # text and contains "Bert is evil! go back!".  There is no evil4.gfx file.
 #
 # So it looks like all we have is the evil1.jpg file and the evil2.gfx file.
+# And the possible clue "Bert is evil! go back!".
 #
 
