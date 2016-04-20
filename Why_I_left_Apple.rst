@@ -98,9 +98,19 @@ good idea?
 
 Apple also isn't really interested in supporting power users, which is the only
 explanation I can come up with for having a really old version of rsync
-on the latest version of OSX.  They have apparently made the decision that
-nobody will want to use rsync and they only need maintain a version for their
-own use.
+(almost 10 years old!) on the latest version of OSX.  They have apparently made
+the decision that nobody will want to use rsync and they only need maintain a
+version for their own use.  This nonsense also includes bash, which is version
+3.2.57 in OSX 10.11.4, but the latest GNU version is 4.3.30.
+
+In addition, Apple have changed OSX to ensure that certain executables in the
+system can't be maliciously changed.  This sounds fine, until you realise that
+the git in the XCode CLI tools (which can't be changed) is version 2.6.4 which has
+`unpatched vunerabilities <http://www.pcworld.com/article/3058756/security/outdated-git-version-in-os-x-puts-developers-at-risk.html>`_.
+If Apple is going to make it hard for developers to close security holes in the
+OSX system then it has to make an effort to keep the tools patched!  It's not
+good enough to claim that developers can always add their own patched git.
+The vulnerable git executable remains, just waiting to be run.
 
 Things like that and the apparently decreasing stability of OSX leads me to look
 elsewhere.  Apple has spoiled me for hardware quality, so I have to find that
