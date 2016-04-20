@@ -10,8 +10,8 @@ At the moment I have:
 * An iPod Nano 6th generation
 
 I'm not one of the blind Apple fan-boys.  I was aware I was buying into a
-culture that tried to lock me into a walled-garden.  I've been seriously
-working with computers since 1977.  I write software for Windows, Linux and
+culture that tried to lock me into a walled-garden.  I've been working seriously
+with computers since 1977.  I write software for Windows, Linux and
 Mac.  I have another laptop that dual-boots Windows 7 and XUbuntu.
 I thought I could handle the lock-in tendency.  So why have I decided to turn
 away from Apple now?
