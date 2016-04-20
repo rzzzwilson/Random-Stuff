@@ -137,7 +137,7 @@ Windows either never found or fixed in a trice) that I moved to the Apple
 filesystem.  Which solved my persistent filesystem errors but trapped me just a
 little more in the walled garden.
 
-Trouble is, Android isn't a slam dunk certainty either for phones.  One thing
+Trouble is, Android isn't a slam dunk certainty either.  One thing
 Apple does well is to keep iThings updated constantly.  Well, sometimes there's
 a little glitch, but Apple is still ahead of the curve here as most Android
 manufacturers drop their device support like a hot rock after you buy it.
