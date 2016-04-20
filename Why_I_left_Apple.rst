@@ -89,6 +89,10 @@ portrait.  For me, this is a deal breaker.  I write software for a living and I
 fail to comprehend how *anyone* can think not providing landscape lock is
 anything but a fail.
 
+This is doubly strange, as the iPad experience suggests that Apple wants you to
+use the iPad in Landscape mode, but the partial iPhone screen orientation lock
+suggests that the iPhone is to be used in portrait mode?
+
 And now the MacBook Pro.  It too is a good piece of hardware, despite the highly
 shiny screen.  The software is a little strange.
 
@@ -133,10 +137,10 @@ Windows either never found or fixed in a trice) that I moved to the Apple
 filesystem.  Which solved my persistent filesystem errors but trapped me just a
 little more in the walled garden.
 
-Trouble is, Android isn't a slam dunk certainty either.  One thing Apple does
-well is to keep iThings updated constantly.  Well, sometimes there's a little
-glitch, but Apple is still ahead of the curve here as most Android manufacturers
-drop their device support like a hot rock after you buy it.
+Trouble is, Android isn't a slam dunk certainty either for phones.  One thing
+Apple does well is to keep iThings updated constantly.  Well, sometimes there's
+a little glitch, but Apple is still ahead of the curve here as most Android
+manufacturers drop their device support like a hot rock after you buy it.
 
 What other Apple behaviour has me wondering what's in the water over there?
 The Apple Watch?  What is that for?  If it *replaced* some of the iPhone
