@@ -12,13 +12,14 @@ Module = None
 class SLL(object):
 
     class element(object):
+        """A private class to hold a value+next."""
+
         def __init__(self, value, next=None):
             self.value = value
             self.next = next
 
     def __init__(self, values=None):
-#        if values is None:
-#            values = []
+        """Initialize SLL with 'values'."""
 
         self.sll = None
 
