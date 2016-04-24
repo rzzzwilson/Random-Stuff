@@ -22,7 +22,7 @@ until the last element which contains a 'null' *next* reference which is just a
 special value that cannot be a reference to another element.  In
 python we use the *None* value.  When drawing this special reference on a
 whiteboard or in a picture we often just draw a large 'X' as shown above.
-Sometimes we might only draw one line of the 'X' or even use the electrical
+Sometimes you might see only one line of the 'X' or even he electrical
 'earth' symbol:
 
 .. image:: end_of_list.png
@@ -41,6 +41,7 @@ Once we have an SLL there are many things we might do with it:
 * remove an element in the list
 * remove the first element in the list
 * remove the last element in the list
+* do something with each value in order
 
 Implementation
 ==============
@@ -93,11 +94,16 @@ Following on from the SLL approach above, we could have written this as:
 
 which is shorter and brings some joy to the hearts of old Lisp programmers!
 
+Of course, tuples are *immutable*, so we have some trouble changing an SSL.
+We actually implement the 'tuple' code with two element *lists*.
+
 Define a List class
 -------------------
 
-We could also go full OOP and define an SLL class that has lots of state
-and methods.  Everything is hidden away in the class:
+We could also go full
+`OOP <https://en.wikipedia.org/wiki/Object-oriented_programming>`_
+and define an SLL class that has lots of state and methods.  Everything is
+hidden away in the class:
 
 ::
 
