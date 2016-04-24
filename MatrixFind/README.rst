@@ -2,7 +2,7 @@ What is this?
 =============
 
 This directory contains code on solving the "Matrix Find" problem which I first
-ran across at `Keith Schwarz's page<http://www.keithschwarz.com/interesting/code/?dir=matrix-find>`_.
+ran across at `Keith Schwarz's page <http://www.keithschwarz.com/interesting/code/?dir=matrix-find>`_.
 
 Matrix Find
 -----------
