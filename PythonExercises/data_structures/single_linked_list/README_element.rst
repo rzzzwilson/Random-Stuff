@@ -5,7 +5,7 @@ This tutorial designs and tests python code that implements a *singly-linked
 list* data structure (SLL).  An SLL is a special case of a generalized
 `Linked List <https://en.wikipedia.org/wiki/Linked_list>`_.
 
-Of course, we *could* implement an SLL simply as a python list, but that
+Of course, we *could* implenent an SLL simply as a python list, but that
 defeats the purpose of this tutorial, which is to show one or more ways to
 actually implement a singly-linked list.  Doing this shows the student just
 *why* some list operations are expensive and why some are cheap.
@@ -18,7 +18,7 @@ An SLL is usually drawn like this in the typical 'box and arrow' form:
 We keep a reference to the first element of the list in some variable.  The
 first element of the list consists of two parts: the value (12 in this case)
 and a reference to the *next* element in the list.  This continues to the right
-until the last element which contains a 'null' *next* reference, which is just a
+until the last element which contains a 'null' *next* reference which is just a
 special value that cannot be a reference to another element.  In
 python we use the *None* value.  When drawing this special reference on a
 whiteboard or in a picture we often just draw a large 'X' as shown above.
@@ -36,11 +36,11 @@ Once we have an SLL there are many things we might do with it:
 * get the length of the list
 * add a new element at the front
 * add a new element at the end
-* remove the first element in the list
-* remove the last element in the list
 * find an element in the list
 * add a new element after a found element
-* remove a found element in the list
+* remove an element in the list
+* remove the first element in the list
+* remove the last element in the list
 * do something with each value in order
 
 Implementation
@@ -136,12 +136,6 @@ is in **sll_tuple.py**, and the *class* code is in **sll_class.py**.
 
 Element Implementation
 ======================
-
-We discuss each implementation here:
-
-* `element implementation <README_element.rst>`_
-* `tuple implementation <README_tuple.rst>`_
-* `class implementation <README_class.rst>`_
 
 We now write the python code to implement the *element* approach.  All this
 code is in the **sll_element.py** file.  We will put the test code into

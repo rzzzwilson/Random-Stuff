@@ -5,6 +5,7 @@
 Tuple implementation of a singly-linked list.
 
 We actually use python lists instead of tuple, as tuples are immutable.
+Two element lists *are*tuples, in the mathematical sense.
 """
 
 ######
