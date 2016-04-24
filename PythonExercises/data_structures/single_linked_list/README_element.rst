@@ -27,7 +27,7 @@ reference to the *next* element:
     my_list = SLL(99, my_list)
     my_list = SLL(37, my_list)
 
-Note that the supplied *next* refrence is assumed to be *None* if not supplied.
+Note that the supplied *next* reference is assumed to be *None* if not supplied.
 
 len = length(sll)
 -----------------

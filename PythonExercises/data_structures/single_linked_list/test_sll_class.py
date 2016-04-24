@@ -7,6 +7,7 @@ Module to test the implementation of the 'class' singly-linked list.
 
 import sll_class as sll
 import unittest
+import copy
 
 
 class TestSLL(unittest.TestCase):
@@ -335,6 +336,21 @@ class TestSLL(unittest.TestCase):
         expected = sll.SLL(expected_list)
         msg = ("Expected remove_last() on '%s' to leave '%s', got '%s'" % (before, expected.str(), after))
         self.assertTrue(after == expected.str(), msg)
+
+    def test_map_fun(self):
+        """Check the map_fun() function."""
+
+        test = [1, 2, -3, 5, 100]
+        my_sll = sll.SLL(test)
+        before = copy.deepcopy(my_sll)
+        func = lambda x, y: x + y
+        my_sll.map_fun(func, 1)
+        expected_list = [x + 1 for x in test]
+        expected = sll.SLL(expected_list)
+        msg = ("Expected map_fun('%s', func, 1) to return '%s', got '%s'"
+               % (before.str(), expected.str(), my_sll.str()))
+        self.assertTrue(my_sll.str() == expected.str(), msg)
+
 
 if __name__ == '__main__':
     suite = unittest.makeSuite(TestSLL,'test')

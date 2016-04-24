@@ -4,8 +4,9 @@
 """
 Procedural implementation of a singly-linked list.
 
-We say 'procedural' above as the code **is** procedural.  We use a class only
-to store the 'value' and 'next' data.
+We say 'procedural' above as the code **is** procedural.  We use a class
+(really only an object with attributes) only to store the 'value' and 'next'
+data.
 """
 
 ######
@@ -172,6 +173,17 @@ def remove_last(sll):
 
     # get here if sll is None
     return None
+
+def map_fun(sll, func, *args):
+    """Apply func(*args) to each element value in the sll."""
+
+    scan = sll
+
+    while scan:
+        scan.value = func(scan.value, *args)
+        scan = scan.next
+
+    return sll
 
 def __str__(sll):
     """Convert an SLL into a 'list' string representation."""

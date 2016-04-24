@@ -97,7 +97,7 @@ class SLL(object):
 
     def add_after(self, find_value, value):
         """Add an element containing 'value' after the element containing 'find_value'.
-          
+
         Adds after the first element found, not any subsequent elements with the
         same value.
         """
@@ -137,28 +137,28 @@ class SLL(object):
 
     def remove_first(self):
         """Remove the first element of an SLL.
-        
+
         Return the new SLL head reference.
         """
-        
+
         # if SLL is empty, do nothing
         if self.sll is None:
             return None
-        
+
         # self.ssl is now a reference to second element
         self.sll = self.sll.next
-        
+
     def remove_last(self):
         """Remove the last element of an SLL.
-        
+
         Returns a reference to the modified SLL.  Note that SLL may only
         contain one element to begin with.
         """
-        
+
         # find last and second-last elements in SLL
         prev = None
         scan = self.sll
-        
+
         while scan is not None:
             if scan.next is None:
                 if prev is None:
@@ -169,9 +169,18 @@ class SLL(object):
                 return self.sll
             prev = scan
             scan = scan.next
-        
+
         # get here if sll is None
-        return None
+
+
+    def map_fun(self, func, *args):
+        """Apply func(*args) to each element value in the sll."""
+
+        scan = self.sll
+
+        while scan is not None:
+            scan.value = func(scan.value, *args)
+            scan = scan.next
 
     def str(self):
         """Convert this SLL into a 'list' string."""

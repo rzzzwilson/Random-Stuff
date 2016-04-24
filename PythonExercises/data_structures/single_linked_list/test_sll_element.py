@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Module to test the implementation of the singly-linked list.
+Module to test the element implementation of the singly-linked list.
 """
 
 import sll_element as sll
@@ -300,6 +300,18 @@ class TestSLL(unittest.TestCase):
         msg = ("Expected remove_last('%s') to return '%s', got '%s'"
                % (sll.__str__(my_sll), sll.__str__(expected), sll.__str__(result)))
         self.assertTrue(sll.__str__(result) == sll.__str__(expected), msg)
+
+    def test_map_fun(self):
+        """Check the map_fun() function."""
+
+        my_sll = sll.SLL(1, sll.SLL(2, sll.SLL(3, sll.SLL(5, sll.SLL(100)))))
+        func = lambda x, y: x + y
+        result = sll.map_fun(my_sll, func, 1)
+        expected = sll.SLL(2, sll.SLL(3, sll.SLL(4, sll.SLL(6, sll.SLL(101)))))
+        msg = ("Expected map_fun('%s', func, 1) to return '%s', got '%s'"
+               % (sll.__str__(my_sll), sll.__str__(expected), sll.__str__(result)))
+        self.assertTrue(sll.__str__(result) == sll.__str__(expected), msg)
+
 
 if __name__ == '__main__':
     suite = unittest.makeSuite(TestSLL,'test')

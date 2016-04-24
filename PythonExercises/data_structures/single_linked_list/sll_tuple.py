@@ -162,6 +162,17 @@ def remove_last(sll):
     # get here if sll is None
     return None
 
+def map_fun(sll, func, *args):
+    """Apply func(*args) to each element value in the sll."""
+
+    scan = sll
+
+    while scan is not None:
+        scan[0] = func(scan[0], *args)
+        scan = scan[1]
+
+    return sll
+
 def __str__(sll):
     """Convert an SLL into a 'list' string representation."""
 

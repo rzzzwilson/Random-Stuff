@@ -369,6 +369,20 @@ class TestSLL(unittest.TestCase):
                % (ModuleName, Module.__str__(my_sll), Module.__str__(expected), Module.__str__(result)))
         self.assertTrue(Module.__str__(result) == Module.__str__(expected), msg)
 
+    def test_map_fun(self):
+        """Check the map_fun() function."""
+
+        test_list = [1, 2, -3, 5, 100]
+        my_sll = self.create_sll(test_list)
+        func = lambda x, y: x + y
+        result = Module.map_fun(my_sll, func, 1)
+        expected_list = [x + 1 for x in test_list]
+        expected = self.create_sll(expected_list)
+        msg = ("%s: Expected map_fun('%s', func, 1) to return '%s', got '%s'"
+               % (ModuleName, Module.__str__(my_sll), Module.__str__(expected), Module.__str__(result)))
+        self.assertTrue(Module.__str__(result) == Module.__str__(expected), msg)
+
+
 if __name__ == '__main__':
     global Module, ModuleName
 
