@@ -128,8 +128,8 @@ hidden away in the class:
     my_list.add_at_end(99)
     my_list.add_at_end(37)
 
-Element Implementation
-======================
+Implementations
+===============
 
 There are many other ways of implementing an SLL.  We will only examine the
 three above.  We discuss each implementation here:

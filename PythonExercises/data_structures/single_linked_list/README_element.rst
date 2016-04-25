@@ -8,7 +8,7 @@ code is in the **sll_element.py** file.  We will put the test code into
 Initialization
 --------------
 
-As shown before, we implement the actual *element* as a small two value
+As shown before, we implement the actual *element* as a small two attribute
 object:
 
 ::
@@ -227,7 +227,14 @@ given value.  If no such element is found the SLL remains unchanged:
     
         return sll
 
-Here we see the *empty* complication cropping up again, but it's not too bad.
+We can't use the *find()* function here.  While this will find the element
+containing the required value, we also need a reference to the *preceding*
+element so we change its *next* value.  So we have search code that uses
+*last* and *scan* pointers.  Extra complicatiobs are foubd here, as we need to
+handle the special case where the found element is the first in the SLL.
+
+We must be sure to handle the case where the SLL is empty, but this is not too
+bad.
 
 We also see another thing that touches on the API design of our implementation.
 We should ask ourselves "what does each function return?".  The design decision
@@ -236,13 +243,6 @@ taken was to always return a reference to the SLL where it made sense.
 In the *remove()* function it is something we **must do**, as the function may
 remove the first element of the SLL and we must tell the calling code what the
 new SLL head reference is.
-
-In the *find()* function we saw previously, we must tell the calling code
-whether we found the value or not.  We could just return *True* or *false*,
-but we decided to return the reference to the found element or *None* if
-we didn't find the value.  This way, the calling code gets the binary result
-of found or not as well as a reference to the found element so the code can
-perhaps manipulate the found part of the SLL.
 
 sll = remove_first(sll)
 -----------------------
@@ -298,6 +298,9 @@ This function removes the last element in an SLL, if any:
             prev = scan
             scan = scan.next
 
+This code has similar requirements to the *remove()* function:  we must find
+the second-last element which is the one we modify.
+
 string = __str__(sll)
 ---------------------
 
@@ -307,7 +310,8 @@ simply take a leaf from the python book and create a function that behaves
 like the object *__str__()* method.
 
 The *element* implement function *__str__()* converts an SLL into a simple
-python list and then return the string produced by the *str()* function:
+python list and then returns the string produced by the builtin *str()*
+function:
 
 ::
 
@@ -346,5 +350,5 @@ We can see this function in operation in this sample of testing code:
         self.assertEqual(sll.__str__(new_sll), str(expected))
 
 At this point our implementation of the *element* code is complete and tested.
-The implementation code is in the **sll_element.py** file and the test code is
-in **test_sll_element.py**.
+Again, the implementation code is in the **sll_element.py** file and the test
+code is in **test_sll_element.py**.
