@@ -109,7 +109,7 @@ class AppFrame(wx.Frame):
     def onAbout(self, event):
         dlg = AboutBox()
         dlg.ShowModal()
-        dlg.Destroy()  
+        dlg.Destroy()
 
     def onQuit(self, event):
         print('Quit selected')
