@@ -4,6 +4,15 @@
 
 void usage(void);	/* required if -Wmissing-prototypes used */
 
+
+int
+the_business(int aflag, int cflag, char *cvalue)
+{
+    printf("the_business: aflag=%d, bflag=%d, cvalue=%s\n",
+           aflag, bflag, cvalue);
+    return 0;
+}
+
 void
 usage(void)
 {
@@ -53,5 +62,5 @@ main(int argc, char *argv[])
     for (index = optind; index < argc; index++)
         printf("Non-option argument %s\n", argv[index]);
 
-    return 0;
+    return the_business(aflag, bflag, cvalue);
 }
