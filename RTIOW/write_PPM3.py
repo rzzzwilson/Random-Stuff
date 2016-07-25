@@ -14,7 +14,7 @@ import ray
 def color(r):
     unit_direction = r.direction.unit_vector()
     t = 0.5 * (unit_direction.y + 1.0)
-    return (1.0 - t) * vec3.Vec3((1.0, 1.0, 1.0)) * t * vec3.Vec3((0.5, 0.7, 1.0))
+    return vec3.Vec3((1.0, 1.0, 1.0)) * (1.0 - t) * vec3.Vec3((0.5, 0.7, 1.0)) * t
 
 nx = 200
 ny = 100
@@ -30,10 +30,10 @@ for j in range(ny)[::-1]:
     for i in range(nx):
         u = float(i) / float(nx)
         v = float(j) / float(ny)
-        r = ray.Ray(origin, lower_left_corner + u * horizontal + v * vertical)
+        r = ray.Ray(origin, lower_left_corner + horizontal * u + vertical * v)
         col = color(r)
-        ir = int(255.99 * col[0])
-        ig = int(255.99 * col[1])
-        ib = int(255.99 * col[2])
+        ir = int(255.99 * col.r)
+        ig = int(255.99 * col.g)
+        ib = int(255.99 * col.b)
 
         print('%d %d %d' % (ir, ig, ib))
