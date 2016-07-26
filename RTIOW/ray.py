@@ -15,7 +15,7 @@ class Ray(object):
         """Construct 'ray' object from two vectors.
 
         a  a vector defining the ray origin
-        b  a vector showing the ray direction through the origin
+        b  a vector showing the ray direction from the origin
         """
 
         self.a = a
@@ -36,5 +36,5 @@ class Ray(object):
     def point_at_parameter(self, t):
         """Return the parameterised position from 'a' in the direction of 'b'."""
 
-        return self.a + t * self.b
+        return self.a + self.b * t
 

@@ -12,9 +12,11 @@ import vec3
 import ray
 
 def color(r):
+    """Get colour from vector."""
+
     unit_direction = r.direction.unit_vector()
-    t = 0.5 * (unit_direction.y + 1.0)
-    return vec3.Vec3((1.0, 1.0, 1.0)) * (1.0 - t) * vec3.Vec3((0.5, 0.7, 1.0)) * t
+    t = (unit_direction.y + 1.0) * 0.5
+    return vec3.Vec3((1.0, 1.0, 1.0)) * (1.0 - t) + vec3.Vec3((0.5, 0.7, 1.0)) * t
 
 nx = 200
 ny = 100
