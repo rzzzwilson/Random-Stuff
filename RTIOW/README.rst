@@ -12,4 +12,4 @@ write_PPM.py
 
 Writes a simple PPM file showing gradations of colour.
 
-
+Also develop C versions in parallel with the python.  Just for giggles.
