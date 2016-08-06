@@ -49,4 +49,14 @@ ray_point_at_parameter(ray *r, float t)
     return vec3_add_vec3(ray_origin(r), result);
 }
 
+char *
+ray_str(ray *r)
+{
+    char *buffer = malloc(128);
+
+    sprintf(buffer, "ray: origin=%s, direction=%s", vec3_str(ray_origin(r)), vec3_str(ray_direction(r)));
+
+    return buffer;
+}
+
 #endif

@@ -45,20 +45,38 @@ vec3_new_vals(float x, float y, float z)
     return result;
 }
 
-int
+float
 vec3_r(vec3 *v)
 {
     return v->x;
 }
 
-int
+float
 vec3_g(vec3 *v)
 {
     return v->y;
 }
 
-int
+float
 vec3_b(vec3 *v)
+{
+    return v->z;
+}
+
+float
+vec3_x(vec3 *v)
+{
+    return v->x;
+}
+
+float
+vec3_y(vec3 *v)
+{
+    return v->y;
+}
+
+float
+vec3_z(vec3 *v)
 {
     return v->z;
 }
