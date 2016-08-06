@@ -4,12 +4,6 @@ Ray Tracing in One Week
 The python code here is inspired by the C++ code in the book "Ray Tracing in One
 Weekend".
 
-I (re)discovered the fact that PPM graphics files are simple text files.
+I will implement each exercise in the book in Python.  Also develop C versions
+in parallel with the python.  Just for giggles.
 
-The code here was written to experiment with this:
-
-write_PPM.py
-
-Writes a simple PPM file showing gradations of colour.
-
-Also develop C versions in parallel with the python.  Just for giggles.
