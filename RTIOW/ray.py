@@ -38,3 +38,10 @@ class Ray(object):
 
         return self.a + self.b * t
 
+    def __str__(self, places=DefaultPlaces):
+        """Return a string representation."""
+
+        return ('origin=(%.*f %.*f %.*f) direction=(%.*f %.*f %.*f)'
+                % (self.DefaultPlaces, self.a.x, self.DefaultPlaces, self.a.y, self.DefaultPlaces, self.a.z,
+                   self.DefaultPlaces, self.b.x, self.DefaultPlaces, self.b.y, self.DefaultPlaces, self.b.z))
+
