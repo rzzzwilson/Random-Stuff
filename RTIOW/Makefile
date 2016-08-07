@@ -8,7 +8,7 @@ GCC_OPTS="-pedantic"
 clean:
 	rm -Rf *.pyc *.o
 
-all:		write_PPM write_PPM2 write_PPM3 write_PPM4
+all:		write_PPM write_PPM2 write_PPM3 write_PPM4 write_PPM5
 
 write_PPM:  write_PPM.c Makefile
 	gcc $(GCC_OPTS) -o $@  $<
@@ -16,8 +16,11 @@ write_PPM:  write_PPM.c Makefile
 write_PPM2: write_PPM2.c Makefile vec3.h
 	gcc $(GCC_OPTS) -o $@  $<
 
-write_PPM3: write_PPM3.c Makefile vec3.h
+write_PPM3: write_PPM3.c Makefile vec3.h ray.h
 	gcc $(GCC_OPTS) -o $@  $<
 
-write_PPM4: write_PPM4.c Makefile vec3.h
+write_PPM4: write_PPM4.c Makefile vec3.h ray.h
+	gcc $(GCC_OPTS) -o $@  $<
+
+write_PPM5: write_PPM5.c Makefile vec3.h ray.h
 	gcc $(GCC_OPTS) -o $@  $<
