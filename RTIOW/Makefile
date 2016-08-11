@@ -4,11 +4,12 @@
 
 #GCC_OPTS="-std=c99 -Wall -pedantic"
 GCC_OPTS="-pedantic"
+TARGETS=write_PPM write_PPM2 write_PPM3 write_PPM4 write_PPM5 write_PPM5b
 
 clean:
-	rm -Rf *.pyc *.o
+	rm -Rf *.pyc *.o $(TARGETS)
 
-all:		write_PPM write_PPM2 write_PPM3 write_PPM4 write_PPM5 write_PPM5b
+all:    $(TARGETS)
 
 write_PPM:  write_PPM.c Makefile
 	gcc $(GCC_OPTS) -o $@  $<
