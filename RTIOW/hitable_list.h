@@ -1,3 +1,6 @@
+#ifndef HITABLE_LIST_H
+#define HITABLE_LIST_H
+
 /*
  * A Hitable collection 'class'.
  */
@@ -15,7 +18,7 @@ typedef struct HitableList
 } hitable_list;
 
 hitable_list *
-hitable_list_new(hit_record **l, int n)
+hitable_list_new(hit_record *l, int n)
 {
     hitable_list *temp_rec = malloc(sizeof(hitable_list));
 
@@ -28,10 +31,11 @@ hitable_list_new(hit_record **l, int n)
 bool
 hitable_list_hit(hitable_list *hl, ray *r, float t_min, float t_max, hit_record *rec)
 {
-    hit_record *temp_rec = hit_record_new(hl->list, hl->list_size);
+    hit_record *temp_rec = hit_record_new(0, NULL, NULL);
+//    hitable_list *temp_rec = hitable_list_new(hl->list, hl->list_size);
     bool hit_anything = false;
     double closest_so_far = t_max;
-    for (int i = 0; i < list_size; ++i)
+    for (int i = 0; i < hl->list_size; ++i)
     {
         if (hl[i]->hit(r, t_min, closest_so_far, temp_rec))
         {
@@ -44,3 +48,5 @@ hitable_list_hit(hitable_list *hl, ray *r, float t_min, float t_max, hit_record 
     }
     return hit_anything;
 }
+
+#endif
