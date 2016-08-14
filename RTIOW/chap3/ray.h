@@ -1,5 +1,6 @@
 /*
  * A Ray class.
+ * From chapter 3 of "Ray Tracing in One Weekend".
  */
 
 
