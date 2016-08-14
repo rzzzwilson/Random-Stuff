@@ -3,6 +3,7 @@
 
 """
 A Ray class.
+From chapter 3 of "Ray Tracing in One Weekend".
 """
 
 
@@ -42,6 +43,6 @@ class Ray(object):
         """Return a string representation."""
 
         return ('origin=(%.*f %.*f %.*f) direction=(%.*f %.*f %.*f)'
-                % (self.DefaultPlaces, self.a.x, self.DefaultPlaces, self.a.y, self.DefaultPlaces, self.a.z,
-                   self.DefaultPlaces, self.b.x, self.DefaultPlaces, self.b.y, self.DefaultPlaces, self.b.z))
+                % (self.places, self.a.x, self.places, self.a.y, self.places, self.a.z,
+                   self.places, self.b.x, self.places, self.b.y, self.places, self.b.z))
 

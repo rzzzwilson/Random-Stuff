@@ -1,6 +1,5 @@
 /*
  * A simple program to write a PPM file.
- *
  * From chapter 4 of "Ray Tracing in One Weekend".
  * Adding a sphere.
  */
