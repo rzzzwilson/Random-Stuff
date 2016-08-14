@@ -3,6 +3,7 @@
 
 """
 A simple program to write a PPM file.
+From Chapter 1 of "Ray Tracing in one Weekend".
 """
 
 nx = 200

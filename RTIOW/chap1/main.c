@@ -1,5 +1,6 @@
 /*
  * A simple program to write a PPM file.
+ * From Chapter 1 of "Ray Tracing in one Weekend".
  */
 
 #include <stdio.h>
@@ -12,9 +13,9 @@ main(void)
 
     printf("P3\n%d %d 255\n", nx, ny);
 
-    for (int j = ny - 1; j >= 0; j -= 1)
+    for (int j = ny - 1; j >= 0; --j)
     {
-        for (int i = 0; i < nx; i += 1)
+        for (int i = 0; i < nx; ++i)
         {
             float r = (float) i / (float) nx;
             float g = (float) j / (float) ny;
