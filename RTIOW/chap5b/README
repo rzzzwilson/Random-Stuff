@@ -1,2 +1,4 @@
 The program here is the second from Chapter 5 of "Ray Tracing in one Weekend"
 by Peter Shirley.
+
+We no longer try to maintain C versions.  It just got too hard!
