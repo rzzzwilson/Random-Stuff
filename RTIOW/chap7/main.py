@@ -4,7 +4,7 @@
 """
 A simple program to write a PPM file.
 From chapter 7 of "Ray Tracing in One Weekend".
-Difuse Materials.
+Diffuse Materials.
 """
 
 import sys
