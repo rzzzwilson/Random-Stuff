@@ -3,6 +3,7 @@
 
 """
 A 3-vector class.
+From chapter 2 of "Ray Tracing in One Weekend".
 """
 
 import math
@@ -13,23 +14,15 @@ class Vec3(object):
     # number of decimal places used internally
     DefaultPlaces = 9
 
-    def __init__(self, v=None):
-        """Construct vec3 from a vector tuple.
+    def __init__(self, e0, e1, e2):
+        """Construct vec3 from individual values.
 
-        v  is a 3-tuple of components, if not None
+        e0, e1, e2  float values that make up a vector
         """
 
-        self.v = v
-
-        if v:
-            (self.x, self.y, self.z) = v
-            self.x = float(self.x)
-            self.y = float(self.y)
-            self.z = float(self.z)
-        else:
-            self.x = None
-            self.y = None
-            self.z = None
+        self.x = float(e0)
+        self.y = float(e1)
+        self.z = float(e2)
 
     @property
     def r(self):
@@ -57,53 +50,48 @@ class Vec3(object):
     def __neg__(self):
         """Implement the unary -."""
 
-        return Vec3((-self.x, -self.y, -self.z))
+        return Vec3(-self.x, -self.y, -self.z)
 
     def __abs__(self):
         """Implement the absolute value."""
 
         return self.length
 
-#    def __getitem__(self, i):
-#        """return vec3[i]."""
-#
-#        return self.e[i]
-
     def __add__(self, other):
         """Implement A + B."""
 
         if isinstance(other, float):
             # add a float constant
-            return Vec3((self.x + other, self.y + other, self.z + other))
+            return Vec3(self.x + other, self.y + other, self.z + other)
 
-        return Vec3((self.x + other.x, self.y + other.y, self.z + other.z))
+        return Vec3(self.x + other.x, self.y + other.y, self.z + other.z)
 
     def __sub__(self, other):
         """Implement A - B."""
 
         if isinstance(other, float):
             # subtract a float constant
-            return Vec3((self.x - other, self.y - other, self.z - other))
+            return Vec3(self.x - other, self.y - other, self.z - other)
 
-        return Vec3((self.x - other.x, self.y - other.y, self.z - other.z))
+        return Vec3(self.x - other.x, self.y - other.y, self.z - other.z)
 
     def __mul__(self, other):
         """Implement A * B."""
 
         if isinstance(other, float):
             # multiply by a float constant
-            return Vec3((self.x * other, self.y * other, self.z * other))
+            return Vec3(self.x * other, self.y * other, self.z * other)
 
-        return Vec3((self.x * other.x, self.y * other.y, self.z * other.z))
+        return Vec3(self.x * other.x, self.y * other.y, self.z * other.z)
 
     def __div__(self, other):
         """Implement A / B."""
 
         if isinstance(other, float):
             # divide by a float constant
-            return Vec3((self.x / other, self.y / other, self.z / other))
+            return Vec3(self.x / other, self.y / other, self.z / other)
 
-        return Vec3((self.x / other.x, self.y / other.y, self.z / other.z))
+        return Vec3(self.x / other.x, self.y / other.y, self.z / other.z)
 
     @property
     def length(self):
@@ -125,9 +113,9 @@ class Vec3(object):
     def cross(self, other):
         """Return the cross product of two vectors."""
 
-        return Vec3((  self.y * other.z - self.z * other.y,
-                     -(self.x * other.z - self.z * other.x),
-                       self.x * other.y - self.y * other.x))
+        return Vec3(  self.y * other.z - self.z * other.y,
+                    -(self.x * other.z - self.z * other.x),
+                      self.x * other.y - self.y * other.x)
 
     def __str__(self, places=DefaultPlaces):
         """Return a string representation."""
@@ -137,7 +125,7 @@ class Vec3(object):
     def __repr__(self):
         """Return a 'formal' string representation."""
 
-        return 'Vec3((%.*f, %.*f, %.*f))' % (places, self.x, places, self.y, places, self.z)
+        return 'Vec3(%.*f, %.*f, %.*f)' % (places, self.x, places, self.y, places, self.z)
 
     def __nonzero__(self):
         """Return 'truthiness' value of the vector."""
@@ -149,88 +137,39 @@ class Vec3(object):
 
         if isinstance(other, float):
             # add a float constant
-            return Vec3((self.x + other, self.y + other, self.z + other))
+            return Vec3(self.x + other, self.y + other, self.z + other)
 
-        return Vec3((self.x + other.x, self.y + other.y, self.z + other.z))
-
-#        if isinstance(other, float):
-#            # add float constant
-#            self.x += other
-#            self.y += other
-#            self.z += other
-#        else:
-#            # second operand is assumed to be Vec3
-#            self.x += other.x
-#            self.y += other.y
-#            self.z += other.z
-#
-#        return self
+        return Vec3(self.x + other.x, self.y + other.y, self.z + other.z)
 
     def __isub__(self, other):
         """Implement the '-=' operator."""
 
         if isinstance(other, float):
             # subtract a float constant
-            return Vec3((self.x - other, self.y - other, self.z - other))
+            return Vec3(self.x - other, self.y - other, self.z - other)
 
-        return Vec3((self.x - other.x, self.y - other.y, self.z - other.z))
-
-#        if isinstance(other, float):
-#            # subtract float constant
-#            self.x -= other
-#            self.y -= other
-#            self.z -= other
-#        else:
-#            self.x -= other.x
-#            self.y -= other.y
-#            self.z -= other.z
-#
-#        return self
+        return Vec3(self.x - other.x, self.y - other.y, self.z - other.z)
 
     def __imul__(self, other):
         """Implement the '*=' operator."""
 
         if isinstance(other, float):
             # multiply by a float constant
-            return Vec3((self.x * other, self.y * other, self.z * other))
+            return Vec3(self.x * other, self.y * other, self.z * other)
 
-        return Vec3((self.x * other.x, self.y * other.y, self.z * other.z))
-
-#        if isinstance(other, float):
-#            # multiply by float constant
-#            self.x *= other
-#            self.y *= other
-#            self.z *= other
-#        else:
-#            self.x *= other.x
-#            self.y *= other.y
-#            self.z *= other.z
-#
-#        return self
+        return Vec3(self.x * other.x, self.y * other.y, self.z * other.z)
 
     def __idiv__(self, other):
         """Implement the '/=' operator."""
 
         if isinstance(other, float):
             # divide by a float constant
-            return Vec3((self.x / other, self.y / other, self.z / other))
+            return Vec3(self.x / other, self.y / other, self.z / other)
 
-        return Vec3((self.x / other.x, self.y / other.y, self.z / other.z))
-
-#        if isinstance(other, float):
-#            # divide by float constant
-#            self.x /= other
-#            self.y /= other
-#            self.z /= other
-#        else:
-#            self.x /= other.x
-#            self.y /= other.y
-#            self.z /= other.z
-#
-#        return self
+        return Vec3(self.x / other.x, self.y / other.y, self.z / other.z)
 
     def unit_vector(self):
         """Make a unit vector from the vector we have."""
 
         scale = 1.0 / self.length
-        return Vec3((self.x*scale, self.y*scale, self.z*scale))
+        return Vec3(self.x*scale, self.y*scale, self.z*scale)
