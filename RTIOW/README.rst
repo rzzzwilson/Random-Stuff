@@ -20,3 +20,6 @@ and was found at http://excamera.com/sphinx/article-ray.html .  The program
 
 The directories under **numpy** hold the "Ray Tracing" programs from each
 chapter changed to use numpy.
+
+In the **numpy** folders we use Pillow to write PNG files.  Writing a text
+PPM file doesn't work with numpy.
