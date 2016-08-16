@@ -16,7 +16,7 @@ class Camera(object):
     DefaultPlaces = 9
 
     def __init__(self):
-        """A camera clas."""
+        """Initialize the Camera class."""
 
         self.origin = Vec3(0.0, 0.0, 0.0)
         self.lower_left_corner = Vec3(-2.0, -1.0, -1.0)

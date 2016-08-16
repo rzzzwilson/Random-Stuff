@@ -30,6 +30,7 @@ class Metal(Material):
         """
 
         self.a = a
+        self.albedo = None
 
     def scatter(self, r_in, rec, attenuation, scattered):
         """Scatter from the material in a Lambertian way.
@@ -46,5 +47,6 @@ class Metal(Material):
 
         target = rec.p + rec.normal + random_in_unit_sphere()
         (scattered.a, scattered.b) = (rec.p, target - rec.p)
+        (attenuation.x, attenuation.y, attenuation.z) = (0.1, 0.1, 0.1)
 
         return True
