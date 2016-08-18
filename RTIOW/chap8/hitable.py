@@ -17,13 +17,10 @@ class HitRecord(object):
 
 class Hitable(object):
 
-    # number of decimal places used internally
-    DefaultPlaces = 9
-
     def hit(self, r, t_min, t_max, rec):
         """See if this object has been hit.
 
-        r    ray of interest
+        r      ray of interest
         t_min  minimum time of interest
         t_max  maximum time of interest
         rec    hit record(s)

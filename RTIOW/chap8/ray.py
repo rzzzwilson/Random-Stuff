@@ -6,11 +6,10 @@ A Ray class.
 From chapter 3 of "Ray Tracing in One Weekend".
 """
 
+from utils import DefaultPlaces
+
 
 class Ray(object):
-
-    # number of decimal places used internally
-    DefaultPlaces = 9
 
     def __init__(self, a=None, b=None):
         """Construct 'ray' object from two vectors.
@@ -18,6 +17,12 @@ class Ray(object):
         a  a vector defining the ray origin
         b  a vector showing the ray direction from the origin
         """
+
+        self.a = a
+        self.b = b
+
+    def update(self, a, b):
+        """Update Ray a and b components."""
 
         self.a = a
         self.b = b

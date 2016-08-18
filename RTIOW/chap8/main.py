@@ -31,10 +31,10 @@ def color(r, world, depth):
 
     rec = HitRecord()
     if world.hit(r, 0.001, sys.float_info.max, rec):
-        attenuation = Vec3(0.0, 0.0, 0.0)
         scattered = Ray(None, None)
+        attenuation = Vec3(0.5, 0.5, 0.5)
         if depth < 50 and rec.material.scatter(r, rec, attenuation, scattered):
-            return color(scattered, world, depth+1) * attenuation
+            return attenuation * color(scattered, world, depth+1)
         else:
             return Vec3(0.0, 0.0, 0.0)
     else:

@@ -6,7 +6,6 @@ A Hitable collection class.
 """
 
 from hitable import Hitable, HitRecord
-#from vec3 import *
 
 class HitableList(Hitable):
 

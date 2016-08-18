@@ -12,9 +12,6 @@ from ray import Ray
 
 class Camera(object):
 
-    # number of decimal places used internally
-    DefaultPlaces = 9
-
     def __init__(self):
         """Initialize the Camera class."""
 

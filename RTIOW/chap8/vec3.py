@@ -24,6 +24,13 @@ class Vec3(object):
         self.y = float(e1)
         self.z = float(e2)
 
+    def update(self, e0, e1, e2):
+        """Update Vec3 components."""
+
+        self.x = float(e0)
+        self.y = float(e1)
+        self.z = float(e2)
+
     @property
     def r(self):
         """Return the R component of the vector."""
