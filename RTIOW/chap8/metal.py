@@ -23,14 +23,16 @@ def reflect(v, n):
 
 class Metal(Material):
 
-    def __init__(self, a):
+    def __init__(self, a, f):
         """Constructor.
 
         a  Vec3
+        f  the fuzz
         """
 
         self.a = a
         self.albedo = a
+        self.fuzz = f if f < 1.0 else 1
 
     def scatter(self, r_in, rec, attenuation, scattered):
         """Scatter from the material in a Lambertian way.
@@ -45,9 +47,7 @@ class Metal(Material):
 
         reflected = reflect(r_in.direction.unit_vector(), rec.normal)
 
-        #target = rec.p + rec.normal + random_in_unit_sphere()
-        #scattered.update(rec.p, target - rec.p)
-        scattered.update(rec.p, reflected)
+        scattered.update(rec.p, reflected+random_in_unit_sphere()*self.fuzz)
         attenuation.update(self.albedo.x, self.albedo.y, self.albedo.z)
 
         return scattered.direction.dot(rec.normal) > 0.0
