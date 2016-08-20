@@ -39,7 +39,7 @@ def color(r, world, depth):
         else:
             return Vec3(0.0, 0.0, 0.0)
     else:
-        unit_direction = r.direction.unit_vector()
+        unit_direction = r.direction.unit_vector
         t = (unit_direction.y + 1.0) * 0.5
         return Vec3(1.0, 1.0, 1.0) * (1.0 - t) + Vec3(0.5, 0.7, 1.0) * t
 
@@ -53,9 +53,10 @@ sphere1 = Sphere(Vec3(0.0, 0.0, -1.0), 0.5, Lambertian(Vec3(0.1, 0.2, 0.5)))
 sphere2 = Sphere(Vec3(0.0, -100.5, -1.0), 100.0, Lambertian(Vec3(0.8, 0.8, 0.0)))
 sphere3 = Sphere(Vec3(1.0, 0.0, -1.0), 0.5, Metal(Vec3(0.8, 0.6, 0.2), 0.3))
 sphere4 = Sphere(Vec3(-1.0, 0.0, -1.0), 0.5, Dielectric(1.5))
-sphere5 = Sphere(Vec3(-1.0, 0.0, -1.0), -0.45, Dielectric(1.5))
+#sphere5 = Sphere(Vec3(-1.0, 0.0, -1.0), -0.45, Dielectric(1.5))
 
-hlist = [sphere1, sphere2, sphere3, sphere4, sphere5]
+#hlist = [sphere1, sphere2, sphere3, sphere4, sphere5]
+hlist = [sphere1, sphere2, sphere3, sphere4]
 world = HitableList(hlist)
 
 cam = Camera()

@@ -45,9 +45,9 @@ class Metal(Material):
         Returns True if scattered.
         """
 
-        reflected = reflect(r_in.direction.unit_vector(), rec.normal)
+        reflected = reflect(r_in.direction.unit_vector, rec.normal)
 
         scattered.update(rec.p, reflected+random_in_unit_sphere()*self.fuzz)
-        attenuation.update(self.albedo.x, self.albedo.y, self.albedo.z)
+        attenuation.update(self.albedo)
 
         return scattered.direction.dot(rec.normal) > 0.0

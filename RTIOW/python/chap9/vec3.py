@@ -14,7 +14,7 @@ class Vec3(object):
     # number of decimal places used internally
     DefaultPlaces = 9
 
-    def __init__(self, e0, e1, e2):
+    def __init__(self, e0=0.0, e1=0.0, e2=0.0):
         """Construct vec3 from individual values.
 
         e0, e1, e2  float values that make up a vector
@@ -24,12 +24,10 @@ class Vec3(object):
         self.y = float(e1)
         self.z = float(e2)
 
-    def update(self, e0, e1, e2):
+    def update(self, v):
         """Update Vec3 components."""
 
-        self.x = float(e0)
-        self.y = float(e1)
-        self.z = float(e2)
+        (self.x, self.y, self.z) = (v.x, v.y, v.z)
 
     @property
     def r(self):
@@ -175,6 +173,7 @@ class Vec3(object):
 
         return Vec3(self.x / other.x, self.y / other.y, self.z / other.z)
 
+    @property
     def unit_vector(self):
         """Make a unit vector from the vector we have."""
 

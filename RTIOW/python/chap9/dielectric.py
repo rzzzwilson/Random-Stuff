@@ -29,28 +29,27 @@ def schlick(cosine, ref_idx):
 
     r0 = (1-ref_idx) / (1+ref_idx)
     r0 = r0 * r0
-    return r0 - (1-r0)*pow(1-cosine, 5)
+    return r0 + (1-r0)*pow((1-cosine), 5)
 
 def refract(v, n, ni_over_nt, refracted):
     """Function to refract a ray.
 
-    v           input ray
-    n           number of refractions??
+    v           input ray (Vec3)
+    n           normal Vec3?
     ni_over_nt  ??
     refracted   updated result
 
     Returns True if ray was refracted, 'refracted' was updated.
     """
 
-    uv = v.unit_vector()
+    uv = v.unit_vector
     dt = uv.dot(n)
-    discriminant = 1.0 - ni_over_nt*ni_over_nt*(1-dt*dt)
-    if discriminant > 0:
-        r = (uv - n*dt)*ni_over_nt - n*sqrt(discriminant)
-        refracted.update(r.x, r.y, r.z)
+    discriminant = 1.0 - ni_over_nt*ni_over_nt*(1.0-dt*dt)
+    if discriminant > 0.0:
+        refracted.update((v - n*dt)*ni_over_nt - n*sqrt(discriminant))
         return True
-    else:
-        return False
+
+    return False
 
 class Dielectric(Material):
 
@@ -73,31 +72,35 @@ class Dielectric(Material):
         Returns True if scattered.
         """
 
-        outward_normal = Vec3(0, 0, 0)
         reflected = reflect(r_in.direction, rec.normal)
-        # ni_over_nt
         attenuation = Vec3(1.0, 1.0, 1.0)
-        refracted = Vec3(0, 0,0)
-        # reflect_prob = 0.0
-        # cosine = 0.0
+        refracted = Vec3()
         if r_in.direction.dot(rec.normal) > 0:
             outward_normal = -rec.normal
             ni_over_nt = self.ref_idx
-            cosine = self.ref_idx * r_in.direction.dot(rec.normal) / r_in.direction.length
+#            cosine = r_in.direction.dot(rec.normal) / r_in.direction.length;
+#            cosine = sqrt(1.0 - self.ref_idx*self.ref_idx*(1.0-cosine*cosine));
         else:
             outward_normal = rec.normal
             ni_over_nt = 1.0 / self.ref_idx
-            cosine = -r_in.direction.dot(rec.normal) / r_in.direction.length
+#            cosine = -r_in.direction.dot(rec.normal) / r_in.direction.length;
 
-        if refract(r_in.direction, outward_normal, ni_over_nt, refracted):
-            reflect_prob = schlick(cosine, self.ref_idx)
-        else:
+#        if (refract(r_in.direction, outward_normal, ni_over_nt, refracted)):
+#            reflect_prob = schlick(cosine, self.ref_idx);
+#        else:
+#            reflect_prob = 1.0;
+#
+#        if random() < reflect_prob:
+#            scattered.update(rec.p, reflected)
+#        else:
+#            scattered.update(rec.p, refracted)
+
+        if (refract(r_in.direction, outward_normal, ni_over_nt, refracted)):
             scattered.update(rec.p, refracted)
-            reflect_prob = 1.0
-
-        if random() < reflect_prob:
+        else:
             scattered.update(rec.p, reflected)
-        else:
-            scattered.update(rec.p, refracted)
+            #return False
+            return True
 
-        return True
+        #return True
+        return False

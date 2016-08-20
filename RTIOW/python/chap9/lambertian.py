@@ -36,6 +36,6 @@ class Lambertian(Material):
 
         target = rec.p + rec.normal + random_in_unit_sphere()
         scattered.update(rec.p, target-rec.p)
-        attenuation.update(self.albedo.x, self.albedo.y, self.albedo.z)
+        attenuation.update(self.albedo)
 
         return True
