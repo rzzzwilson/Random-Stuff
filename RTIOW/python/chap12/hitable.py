@@ -8,6 +8,9 @@ class Hit_Record(object):
         self.normal = normal
         self.mat_ptr = mat_ptr
 
+    def __str__(self):
+        return 'Hit_Record(t=%s, p=%s, normal=%s, mat_ptr=%s)' % (str(self.t), str(self.p), str(self.normal), str(self.mat_ptr))
+
 #struct hit_record
 #{
 #    float t;  

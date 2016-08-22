@@ -1,3 +1,4 @@
+import sys
 from hitable import Hitable, Hit_Record
 
 class Hitable_List(Hitable):
@@ -20,9 +21,14 @@ class Hitable_List(Hitable):
 
         for l in self.list:
             if l.hit(r, t_min, closest_so_far, temp_rec):
+                print('temp_rec: %s' % str(temp_rec))
+                sys.stdout.flush()
                 hit_anything = True
                 closest_so_far = temp_rec.t
-                rec = temp_rec
+                rec.t = temp_rec.t
+                rec.p = temp_rec.p
+                rec.normal = temp_rec.normal
+                rec.mat_ptr = temp_rec.mat_ptr
 
         return hit_anything
 

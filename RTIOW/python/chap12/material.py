@@ -1,5 +1,7 @@
-from math import pow
+from math import pow, sqrt
+from random import random
 
+from vec3 import Vec3
 from ray import Ray
 from hitable import Hitable
 
@@ -23,11 +25,11 @@ def refract(v, n, ni_over_nt, refracted):
     refracted   
     """
 
-    uv = unit_vector(v)
+    uv = v.unit_vector
     dt = uv.dot(n)
     discriminant = 1.0 - ni_over_nt*ni_over_nt*(1.0-dt*dt)
     if discriminant > 0.0:
-        refracted.update(ni_over_nt*(uv - n*dt) - n*sqrt(discriminant))
+        refracted.update((uv - n*dt)*ni_over_nt - n*sqrt(discriminant))
         return True
     return False
 
@@ -88,12 +90,15 @@ class Lambertian(Material):
         self.albedo = a
 
     def scatter(self, r_in, rec, attenuation, scattered):
-        """Scatter off  a lambertian object."""
+        """Scatter off a lambertian object."""
 
         target = rec.p + rec.normal + random_in_unit_sphere_3()
         scattered.update(rec.p, target-rec.p)
         attenuation.update(self.albedo)
         return True
+
+    def __str__(self):
+        return 'Lambertian(albedo=%s)' % str(self.albedo)
 
 #class lambertian : public material {
 #    public:
@@ -117,12 +122,15 @@ class Metal(Material):
         else:
             self.fuzz = 1.0
 
-    def scatter(r_in, rec, attenuation, scattered):
+    def scatter(self, r_in, rec, attenuation, scattered):
         reflected = reflect(r_in.direction.unit_vector, rec.normal)
         scattered.update(rec.p, reflected + random_in_unit_sphere_3()*self.fuzz)
         attenuation.update(self.albedo)
 
         return (scattered.direction.dot(rec.normal)) > 0.0
+
+    def __str__(self):
+        return 'Metal(albedo=%s, fuzz=%.2f)' % (str(self.albedo), self.fuzz)
 
 #class metal : public material {
 #    public:
@@ -142,9 +150,10 @@ class Dielectric(Material):
     def __init__(self, ri):
         self.ref_idx = ri
 
-    def scatter(r_in, rec, attenuation, scattered):
+    def scatter(self, r_in, rec, attenuation, scattered):
         reflected = reflect(r_in.direction, rec.normal)
         attenuation = Vec3(1.0, 1.0, 1.0)
+        refracted = Vec3(0, 0, 0)
         if r_in.direction.dot(rec.normal) > 0.0:
             outward_normal = -rec.normal
             ni_over_nt = self.ref_idx
@@ -166,6 +175,9 @@ class Dielectric(Material):
             scattered.update(rec.p, refracted)
 
         return True
+
+    def __str__(self):
+        return 'Dielectric(ref_idx=%.2f)' % self.ref_idx
 
 #class dielectric : public material { 
 #    public:

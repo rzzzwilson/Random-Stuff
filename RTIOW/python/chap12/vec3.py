@@ -7,6 +7,9 @@ class Vec3(object):
         self.y = float(e1)
         self.z = float(e2)
 
+    def __str__(self):
+        return 'Vec3(x=%.2f, y=%.2f, z=%.2f)' % (self.x, self.y, self.z)
+
     def update(self, v):
         """Update Vec3 components."""
 

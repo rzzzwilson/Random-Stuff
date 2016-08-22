@@ -15,6 +15,10 @@ class Ray(object):
     def point_at_parameter(self, t):
         return self.A + self.B*t
 
+    def update(self, a, b):
+        self.A = a
+        self.B = b
+
 #class ray
 #{
 #    public:

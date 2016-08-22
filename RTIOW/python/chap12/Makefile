@@ -3,7 +3,8 @@
 #
 
 run:
-	python main.py >main.py.ppm
+	date
+	time python main.py >main.py.ppm
 
 clean:
 	rm -Rf *.pyc *.ppm

@@ -6,6 +6,7 @@ from random import random
 from math import sqrt
 
 from vec3 import Vec3
+from ray import Ray
 from sphere import Sphere
 from hitable_list import Hitable_List
 from camera import Camera
@@ -26,7 +27,10 @@ def color(r, world, depth):
 
     rec = Hit_Record()
     if world.hit(r, 0.001, MAXFLOAT, rec):
-        print('rec.mat_ptr=%s' % str(rec.mat_ptr))
+        print('rec=%s' % str(rec))
+        sys.stdout.flush()
+        attenuation = Vec3(0, 0, 0)
+        scattered = Ray(0, 0)
         if depth < 50.0 and rec.mat_ptr.scatter(r, rec, attenuation, scattered):
             return attenuation * color(scattered, world, depth+1)
 
@@ -118,8 +122,10 @@ def random_scene():
 def main():
     """Run the ray trace."""
 
-    nx = 1200
-    ny = 800
+#    nx = 1200
+#    ny = 800
+    nx = 100
+    ny = 100
     ns = 10
 
     print('P3\n%d %d 255' % (nx, ny))
