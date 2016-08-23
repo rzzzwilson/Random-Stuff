@@ -2,7 +2,7 @@ import math
 
 class Vec3(object):
 
-    def __init__(self, e0, e1, e2):
+    def __init__(self, e0=0, e1=0, e2=0):
         self.x = float(e0)
         self.y = float(e1)
         self.z = float(e2)

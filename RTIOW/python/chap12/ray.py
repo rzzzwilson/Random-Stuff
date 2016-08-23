@@ -1,6 +1,6 @@
 class Ray(object):
 
-    def __init__(self, a, b):
+    def __init__(self, a=None, b=None):
         self.A = a
         self.B = b
 

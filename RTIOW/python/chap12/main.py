@@ -27,11 +27,14 @@ def color(r, world, depth):
 
     rec = Hit_Record()
     if world.hit(r, 0.001, MAXFLOAT, rec):
+#
         print('rec=%s' % str(rec))
         sys.stdout.flush()
-        attenuation = Vec3(0, 0, 0)
-        scattered = Ray(0, 0)
+#
+        scattered = Ray()
+        attenuation = Vec3()
         if depth < 50.0 and rec.mat_ptr.scatter(r, rec, attenuation, scattered):
+            print('depth=%s' % str(depth))
             return attenuation * color(scattered, world, depth+1)
 
         return Vec3(0, 0, 0)
@@ -70,7 +73,7 @@ def random_scene():
         for b in range(-11, 11):
             choose_mat = random()
             center = Vec3(a+0.9*random(), 0.2, b+0.9*random())
-            if (center - Vec3(4,0.2,0)).length > 0.9:
+            if (center - Vec3(4, 0.2, 0)).length > 0.9:
                 if choose_mat < 0.8:
                     # make diffuse
                     sphere = Sphere(center, 0.2, Lambertian(Vec3(random()*random(), random()*random(), random()*random())))
@@ -198,3 +201,4 @@ def main():
 #}
 
 main()
+

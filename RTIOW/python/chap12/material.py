@@ -6,6 +6,8 @@ from ray import Ray
 from hitable import Hitable
 
 def schlick(cosine, ref_idx):
+    """The Schlick approximation for a glassy surface."""
+
     r0 = (1-ref_idx) / (1+ref_idx)
     r0 = r0*r0
     return r0 + (1-r0)*pow((1-cosine), 5)
@@ -19,10 +21,12 @@ def schlick(cosine, ref_idx):
 def refract(v, n, ni_over_nt, refracted):
     """Refract a ray in a dielectric interface:
 
-    v           
-    n           
-    ni_over_nt  
-    refracted   
+    v           the incident Vec3
+    n           the surface normal (Vec3)
+    ni_over_nt  ??
+    refracted   the (updated) refracted ray (if refraction occurs)
+
+    Return True if refraction occurs (and 'refracted' holds the refracted Vec3).
     """
 
     uv = v.unit_vector
@@ -48,8 +52,10 @@ def refract(v, n, ni_over_nt, refracted):
 def reflect(v, n):
     """Reflect a ray from an interface:
 
-    v
-    n
+    v  the incident Vec3
+    n  the surface normal
+
+    Returns the reflected Vec3.
     """
 
     return v - n*2.0*v.dot(n)
@@ -62,8 +68,8 @@ def random_in_unit_sphere_3():
     """Get a random vector inside the 3d unit sphere."""
 
     while True:
-        p = Vec3(random(),random(),random())*2.0 - Vec3(1.0, 1.0, 1.0)
-        if p.length < 1.0:
+        p = Vec3(random(),random(),random())*2.0 - Vec3(1, 1, 1)
+        if p.squared_length < 1.0:
             return p
 
 #vec3 random_in_unit_sphere() {
@@ -75,6 +81,7 @@ def random_in_unit_sphere_3():
 #}
 
 class Material(object):
+    """Base class for a material."""
 
     def scatter(self, r_in, rec, attenuation, scattered):
         raise Exception('Material.scatter() not overridden.')
@@ -87,6 +94,11 @@ class Material(object):
 class Lambertian(Material):
 
     def __init__(self, a):
+        """Initialize a Lambertian material.
+
+        a  albedo of the material
+        """
+
         self.albedo = a
 
     def scatter(self, r_in, rec, attenuation, scattered):
@@ -116,6 +128,12 @@ class Lambertian(Material):
 class Metal(Material):
 
     def __init__(self, a, f):
+        """Initialize a Metal material.
+
+        a  albedo
+        f  fuzziness
+        """
+
         self.albedo = a
         if f < 1.0:
             self.fuzz = f
@@ -130,6 +148,8 @@ class Metal(Material):
         return (scattered.direction.dot(rec.normal)) > 0.0
 
     def __str__(self):
+        """A stringify method for debug."""
+
         return 'Metal(albedo=%s, fuzz=%.2f)' % (str(self.albedo), self.fuzz)
 
 #class metal : public material {
@@ -148,12 +168,17 @@ class Metal(Material):
 class Dielectric(Material):
 
     def __init__(self, ri):
+        """Initialize a Dielectric material.
+
+        ri  the material refrative index
+        """
+
         self.ref_idx = ri
 
     def scatter(self, r_in, rec, attenuation, scattered):
         reflected = reflect(r_in.direction, rec.normal)
-        attenuation = Vec3(1.0, 1.0, 1.0)
-        refracted = Vec3(0, 0, 0)
+        attenuation = Vec3(1, 1, 1)
+        refracted = Vec3()
         if r_in.direction.dot(rec.normal) > 0.0:
             outward_normal = -rec.normal
             ni_over_nt = self.ref_idx
