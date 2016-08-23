@@ -4,11 +4,11 @@ from random import random
 from ray import Ray
 from vec3 import Vec3
 
-def random_in_unit_disk():
+def random_in_unit_disk_2():
     """Get a random vector inside the unit sphere."""
 
     while True:
-        p = Vec3(random(), random(), 0) - Vec3(1, 1, 0)
+        p = Vec3(random(), random(), 0)*2.0 - Vec3(1, 1, 0)
         if p.dot(p) < 1.0:
             return p
 
@@ -29,7 +29,7 @@ class Camera(object):
         lookat      direction looking at (Vec3)
         vup         (Vec3)
         vfov        vertical field-of-view, degrees (float)
-        aspect      (float)
+        aspect      aspect ratio? (float)
         aperture    camera aperture (float)
         focus_dist  focus distance (float)
         """
@@ -53,7 +53,7 @@ class Camera(object):
         t  
         """
 
-        rd = random_in_unit_disk() * self.lens_radius
+        rd = random_in_unit_disk_2() * self.lens_radius
         offset = self.u*rd.x + self.v*rd.y
 
         return Ray(self.origin+offset, self.lower_left_corner + self.horizontal*s + self.vertical*t - self.origin - offset)
