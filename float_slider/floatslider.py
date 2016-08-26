@@ -14,6 +14,9 @@ display slider value and the slider itself:
     |   +--------+                                                 |
     +--------------------------------------------------------------+
 
+The user will use real external values which are mapped to integer internal
+values for the actual underlying slider.
+
 Upon instantiation supply:
     parent          reference to parent widget
     name            name added to event on value change
@@ -24,8 +27,8 @@ Upon instantiation supply:
                         the textbox
     real2internal   function to convert real value to internal integer
                         internal_value = real2internal(real_value)
-    slidersize      slider size tuple - (width, height) in pixels
-    slidertextsize  slider value text size tuple - (width, height) in pixels
+    slidersize      slider size tuple: (width, height) in pixels
+    slidertextsize  slider value text size tuple: (width, height) in pixels
     border          LEFT+RIGHT border on value text box
 
 Methods are:
@@ -81,7 +84,7 @@ class FloatSlider(wx.Panel):
 
         parent          reference to owning widget
         name            widget name, passed back in change event
-        slider_limits   slider limits (real values)
+        slider_limits   slider limits (real float values: (min, max, step))
         internal2real   function to convert internal to real values
                         (real_value, display) = internal2real(internal_value)
         real2internal   function to convert real to internal values
