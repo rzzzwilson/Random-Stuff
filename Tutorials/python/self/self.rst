@@ -74,7 +74,8 @@ passed as the first parameter:
 
 
 This *instance reference* (the first parameter) can have any valid name in the
-method implementation, but **self** is traditional.
+method implementation, but **self** is traditional, to the extent that any other
+name is now considered odd or suspicious.
 
 Note that other languages hide this reference passing to some extent.  This
 point has been discussed in the past
