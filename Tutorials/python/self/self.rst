@@ -66,7 +66,7 @@ For example, from the above code:
 
     a.inc_print(2)
 
-can be thought of as a call to a *class method** with the object reference being
+can be thought of as a call to a *class method* with the object reference being
 passed as the first parameter:
 
 ::
@@ -74,8 +74,8 @@ passed as the first parameter:
     <CLASS>.inc_print(a)
 
 
-This *instance reference* can have any valid name in the method implementation,
-but **self** is traditional.
+This *instance reference* (the first parameter) can have any valid name in the
+method implementation, but **self** is traditional.
 
 Note that other languages hide this reference passing to some extent.  This
 point has been discussed in the past
