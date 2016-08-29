@@ -8,7 +8,7 @@ and elsewhere:
 
     Why the heck does everybody use 'self' so much?
 
-The answer is: TRADITION!
+The answer is: **TRADITION!**
 (insert mandatory *Fiddler on the Roof* reference here)
 
 Object Oriented Python
