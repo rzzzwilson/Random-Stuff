@@ -39,7 +39,6 @@ haven't tried it.
 Note the **self** variables above.  They appear in the parameter list to the
 **__init__()** and **print()** methods of the class *Test*.
 
-When the above code is compiled there are *no existing instances* of class Test.
 If we then execute this code:
 
 ::
@@ -55,6 +54,8 @@ we would see the output:
     0
     3
 
+When the above code is compiled there are *no existing instances* of class Test,
+but an instance method __operates on a class instance__.
 So when we call an instance method at runtime we must tell the method which
 instance we are operating on.  The first parameter in the call to an instance
 method is always a reference to the instance the method is operating on.
