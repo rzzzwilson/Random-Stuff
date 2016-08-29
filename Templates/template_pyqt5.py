@@ -4,10 +4,10 @@
 """
 A template for a PyQt5 program.
 
-Usage: template_wxpython.py [-d <number>] [-h] [-x]
+Usage: template_wxpython.py [-d <number>] [-h]
 
 Where -d <number>  sets the debug level
-      -h           prints this help and then stops
+      -h           prints this help AND THEN STOPS
 """
 
 import sys
