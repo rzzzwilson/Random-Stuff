@@ -55,9 +55,24 @@ we would see the output:
     3
 
 When the above code is compiled there are *no existing instances* of class Test,
-but an instance method __operates on a class instance__.
+but an instance method *must operate on a class instance*.
 So when we call an instance method at runtime we must tell the method which
 instance we are operating on.  The first parameter in the call to an instance
 method is always a reference to the instance the method is operating on.
 
-This *instance reference* can have any valid name, but **self** is traditional.
+For example, from the above code:
+
+::
+
+    a.inc_print(2)
+
+can be thought of as a call to a *class method** with the object reference being
+passed as the first parameter:
+
+::
+
+    <CLASS>.inc_print(a)
+
+
+This *instance reference* can have any valid namen the method implementation,
+but **self** is traditional.
