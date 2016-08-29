@@ -51,8 +51,8 @@ we would see the output:
 
 ::
 
-    0
-    3
+    2
+    5
 
 When the above code is compiled there are *no existing instances* of class Test,
 but an instance method *must operate on a class instance*.
