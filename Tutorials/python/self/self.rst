@@ -4,6 +4,8 @@ Why do programmers use 'self'?
 Occasionally we see questions on /r/learnpython (https://www.reddit.com/r/learnpython/)
 and elsewhere:
 
+::
+
     Why the heck does everybody use 'self' so much?
 
 The answer is: TRADITION!
@@ -15,6 +17,8 @@ Object Oriented Python
 The real answer is due to the way Python's Object system works.
 
 Suppose we have a very simple class:
+
+::
 
     class Test(object):
 
@@ -38,11 +42,15 @@ Note the **self** variables above.  They appear in the parameter list to the
 When the above code is compiled there are *no existing instances* of class Test.
 If we then execute this code:
 
+::
+
     a = Test()
     a.inc_print(2)
     a.inc_print(3)
 
 we would see the output:
+
+::
 
     0
     3
