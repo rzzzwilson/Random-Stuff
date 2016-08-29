@@ -74,5 +74,11 @@ passed as the first parameter:
     <CLASS>.inc_print(a)
 
 
-This *instance reference* can have any valid namen the method implementation,
+This *instance reference* can have any valid name in the method implementation,
 but **self** is traditional.
+
+Note that other languages hide this reference passing to some extent.  This
+point has been discussed in the past
+(http://neopythonic.blogspot.com/2008/10/why-explicit-self-has-to-stay.html)
+but the BDFL (peace be upon Him) has decided that the "explicit self" is
+here to stay.
