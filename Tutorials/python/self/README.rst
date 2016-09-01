@@ -80,7 +80,7 @@ name is now considered odd or suspicious.  Any user parameters are after the
 *self* parameter.
 
 Note that other languages hide this reference passing to some extent.  This
-point has been `discussed in the past`__, but the BDFL has decided that the
-"explicit self" is here to stay.
+point has been discussed in the past, but the BDFL has decided that the
+"explicit self" is `here to stay`__.
 
 .. __: http://neopythonic.blogspot.com/2008/10/why-explicit-self-has-to-stay.html
