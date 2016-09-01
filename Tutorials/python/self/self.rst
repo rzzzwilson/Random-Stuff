@@ -1,12 +1,13 @@
 Why do programmers use 'self'?
 ==============================
 
-Occasionally we see questions on /r/learnpython (https://www.reddit.com/r/learnpython/)
-and elsewhere:
+Occasionally we see questions on /r/learnpython_ and elsewhere:
 
 ::
 
     Why the heck does everybody use 'self' so much?
+
+.. _/r/learnpython: https://www.reddit.com/r/learnpython/
 
 The answer is: **TRADITION!**
 (insert mandatory *Fiddler on the Roof* reference here)
