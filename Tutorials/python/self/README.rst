@@ -1,13 +1,13 @@
 Why do programmers use 'self'?
 ==============================
 
-Occasionally we see questions on /r/learnpython_ and elsewhere:
+Occasionally we see questions on `/r/learnpython`__ and elsewhere:
 
 ::
 
     Why the heck does everybody use 'self' so much?
 
-.. _/r/learnpython: https://www.reddit.com/r/learnpython/
+.. __: https://www.reddit.com/r/learnpython/
 
 The answer is: **TRADITION!**
 (insert mandatory *Fiddler on the Roof* reference here)
@@ -60,7 +60,7 @@ So when we call an instance method at runtime we must tell the method which
 instance we are operating on.  The first parameter in the call to an instance
 method is always a reference to the instance the method is operating on.
 
-For example, from the above code:
+For example, in the above code:
 
 ::
 
@@ -71,12 +71,13 @@ passed as the first parameter:
 
 ::
 
-    <CLASS>.inc_print(a)
+    <CLASS>.inc_print(a, 2)
 
 
 This *instance reference* (the first parameter) can have any valid name in the
 method implementation, but **self** is traditional, to the extent that any other
-name is now considered odd or suspicious.
+name is now considered odd or suspicious.  Any further parameters are after the
+*self* parameter.
 
 Note that other languages hide this reference passing to some extent.  This
 point has been discussed in the past
