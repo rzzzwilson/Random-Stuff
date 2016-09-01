@@ -1,5 +1,5 @@
-Why do programmers use 'self'?
-==============================
+Why do python programmers use 'self'?
+=====================================
 
 Occasionally we see questions on `/r/learnpython`__ and elsewhere:
 
@@ -36,8 +36,8 @@ Suppose we have a very simple class:
 
 (The above code will run in python 2.x and in 3.x.)
 
-Note the **self** variables above.  They appear in the parameter list to the
-**__init__()** and **print()** methods of the class *Test*.
+Note the ``self`` variables above.  They appear in the parameter list to the
+``__init__()`` and ``print()`` methods of the class *Test*.
 
 If we then execute this code:
 
@@ -54,8 +54,8 @@ we would see the output:
     .number=2
     .number=5
 
-When the class definition above is compiled there are *no existing instances* of
-class Test, but an instance method *must operate on a class instance*.
+When the class definition above is compiled there are no existing instances of
+class Test, but an instance method **must operate on a class instance**.
 So when we call an instance method at runtime we must tell the method which
 instance we are operating on.  The first parameter in the call to an instance
 method is always a reference to the instance the method is operating on.
@@ -66,7 +66,7 @@ For example, in the above code:
 
     a.inc_print(2)
 
-can be *thought of as a call to a class method* with the object reference being
+can be thought of as a call to a class method with the object reference being
 passed as the first parameter:
 
 ::
@@ -74,10 +74,10 @@ passed as the first parameter:
     <CLASS>.inc_print(a, 2)
 
 
-This *instance reference* (the first parameter) can have any valid name in the
-method implementation, but **self** is traditional, to the extent that any other
+This instance reference (the first parameter) can have any valid name in the
+method implementation, but ``self`` is traditional, to the extent that any other
 name is now considered odd or suspicious.  Any user parameters are after the
-*self* parameter.
+self parameter.
 
 Note that other languages hide this reference passing to some extent.  This
 point has been discussed in the past, but the BDFL has decided that the
@@ -89,7 +89,7 @@ Note
 ----
 
 Some people think of the ``__init__()`` method of a class as the **constructor**
-and then get hung up on why the *constructor* is passed a reference to the new
-instance.  The ``__init__()`` method is really an *initializer* and the *constructor*
-is hidden away in the python runtime code.  The *constructor* calls the
-*initializer* and must pass a reference to the newly constructed instance.
+and then get hung up on why the constructor is passed a reference to the new
+instance.  The ``__init__()`` method is really an **initializer** and the
+constructor itself is hidden away in the python runtime code.  The constructor
+calls the initializer and must pass a reference to the newly constructed instance.
