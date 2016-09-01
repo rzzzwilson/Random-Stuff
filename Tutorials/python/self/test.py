@@ -5,12 +5,12 @@ class Test(object):
 
         self.number = 0
 
-    def inc_print(self, inc=1):
-        """Increment the .number and then print it."""
+    def bump_print(self, bump=1):
+        """Bump the .number and then print it."""
 
-        self.number += inc
+        self.number += bump
         print('.number=%d' % self.number)
 
 a = Test()
-a.inc_print(2)
-a.inc_print(3)
+a.bump_print(2)
+a.bump_print(3)

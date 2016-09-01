@@ -28,24 +28,24 @@ Suppose we have a very simple class:
 
             self.number = 0
 
-        def inc_print(self, inc=1):
-            """Increment the .number and then print it."""
+        def bump_print(self, bump=1):
+            """Bump the .number and then print it."""
 
-            self.number += inc
+            self.number += bump
             print('.number=%d' % self.number)
 
 (The above code will run in python 2.x and in 3.x.)
 
 Note the ``self`` variables above.  They appear in the parameter list to the
-``__init__()`` and ``print()`` methods of the class *Test*.
+``__init__()`` and ``bump_print()`` methods of the class *Test*.
 
 If we then execute this code:
 
 ::
 
     a = Test()
-    a.inc_print(2)
-    a.inc_print(3)
+    a.bump_print(2)
+    a.bump_print(3)
 
 we would see the output:
 
@@ -64,14 +64,14 @@ For example, in the above code:
 
 ::
 
-    a.inc_print(2)
+    a.bump_print(2)
 
 can be thought of as a call to a class method with the object reference being
 passed as the first parameter:
 
 ::
 
-    <CLASS>.inc_print(a, 2)
+    <CLASS>.bump_print(a, 2)
 
 
 This instance reference (the first parameter) can have any valid name in the
