@@ -37,7 +37,7 @@ Suppose we have a very simple class:
 (The above code will run in python 2.x and in 3.x.)
 
 Note the ``self`` variables above.  They appear in the parameter list to the
-``__init__()`` and ``bump_print()`` methods of the class *Test*.
+``__init__()`` and ``bump_print()`` methods of the class ``Test``.
 
 If we then execute this code:
 
@@ -55,7 +55,7 @@ we would see the output:
     .number=5
 
 When the class definition above is compiled there are no existing instances of
-class Test, but an instance method **must operate on a class instance**.
+class ``Test``, but an instance method **must operate on a class instance**.
 So when we call an instance method at runtime we must tell the method which
 instance we are operating on.  The first parameter in the call to an instance
 method is always a reference to the instance the method is operating on.
