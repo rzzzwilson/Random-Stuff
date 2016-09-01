@@ -4,6 +4,12 @@ console.debug('start');
 
 // configuration values for the GRAPH object
 
+// names of the dynamic <div>s
+var graphCanvasName = "graph";          // the graph canvas <div>
+var graphAnnotationName = "annotation"; // the graph annotation canvas <div>
+var graphPopupMenu = "menu";            // the normal popup menu <div>
+var graphPopupPointMenu = "pointmenu";  // the point popup menu <div>
+
 // colours for various parts of the graph
 var graphCanvasColour = "white";    // background of graph proper
 var graphBorderColour = "silver";   // border colour
@@ -80,8 +86,13 @@ var graphDMGranule = 0.05;        // DM granularity (in metres)
 // Initial attempt at a 'graph' object usable by webELoss.
 //////////////////////////////
 
-function Graph(canvas_name, tooltip_layer)
+//function Graph(canvas_name, tooltip_layer)
+function Graph(canvas_div)
 {
+    // create the canvas and annotation <div>s
+
+    // create the popup menu <div>s
+
     // names of canvas and annotation layers
     this.graphCanvasName = canvas_name;
     this.nameOfTipsDIV = tooltip_layer;
@@ -1125,7 +1136,9 @@ Graph.prototype.annotateMove = function(dom_obj, new_x)
 }
 
 // tell javascript library the name of the graph canvas & annotation div we are using
-graph = new Graph("graph", "annotation");
+//graph = new Graph("graph", "annotation");
+// tell javascript library the name of the div to put the graph in
+graph = new Graph("xyzzy");
 
 function onload_bridge(e)
 {
