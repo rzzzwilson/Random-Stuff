@@ -28,7 +28,7 @@ Suppose we have a very simple class:
 
             self.number = 0
 
-        def bump_print(self, bump=1):
+        def bump_print(self, bump):
             """Bump the .number and then print it."""
 
             self.number += bump
