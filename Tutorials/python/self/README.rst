@@ -76,12 +76,15 @@ passed as the first parameter:
 
 This instance reference (the first parameter) can have any valid name in the
 method implementation, but ``self`` is traditional, to the extent that any other
-name is now considered odd or suspicious.  Any user parameters are after the
-self parameter.
+name is now considered odd or suspicious.  User-supplied parameters, if any,
+are after the ``self`` parameter.
 
-Note that other languages hide this reference passing to some extent.  This
-point has been discussed in the past, but the BDFL has decided that the
-"explicit self" is `here to stay`__.
+Note that other languages hide this reference passing to some extent.  Java, for
+instance, doesn't explicitly pass its ``this`` parameter in the method parameter
+list, it just magically appears in the environment of the instance method.
+
+Whether the python ``self`` should be explicit or not has been discussed in the
+past, but the BDFL has decided that the "explicit self" is `here to stay`__.
 
 .. __: http://neopythonic.blogspot.com/2008/10/why-explicit-self-has-to-stay.html
 
