@@ -84,3 +84,12 @@ point has been discussed in the past, but the BDFL has decided that the
 "explicit self" is `here to stay`__.
 
 .. __: http://neopythonic.blogspot.com/2008/10/why-explicit-self-has-to-stay.html
+
+Note
+----
+
+Some people think of the `__init__()` method of a class as the **constructor**
+and then get hung up on why the *constructor* is passed a reference to the new
+instance.  The `__init__()` method is really an *initializer* and the *constructor*
+is hidden away in the python runtime code.  The *constructor* calls the
+*initializer* and must pass a reference to the newly constructed instance.
