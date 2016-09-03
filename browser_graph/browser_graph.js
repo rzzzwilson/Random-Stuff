@@ -5,10 +5,14 @@ console.debug('start');
 // configuration values for the GRAPH object
 
 // names of the dynamic <div>s
-var graphCanvasName = "graph";          // the graph canvas <div>
-var graphAnnotationName = "annotation"; // the graph annotation canvas <div>
-var graphPopupMenu = "menu";            // the normal popup menu <div>
-var graphPopupPointMenu = "pointmenu";  // the point popup menu <div>
+//var graphCanvasDiv = null;              // the graph canvas <div>
+//var graphCanvasName = null;             // 'id' name of the <canvas> object name
+//var graphAnnotationName = "annotation"; // the graph annotation canvas <div>
+//var graphPopupMenu = "menu";            // the normal popup menu <div>
+//var graphPopupPointMenu = "pointmenu";  // the point popup menu <div>
+//
+//var graphCanvasObject = null;           // reference to the <canvas> object
+//var graphAnnotationObject = null;       // reference to the annotation <div>
 
 // colours for various parts of the graph
 var graphCanvasColour = "white";    // background of graph proper
@@ -82,20 +86,51 @@ var graphDMHSRadius = 8;        // radius in pixels of HS semicircle
 var graphDMGranule = 0.05;        // DM granularity (in metres)
 
 
-//////////////////////////////
+//*****************************************************************************
 // Initial attempt at a 'graph' object usable by webELoss.
+//*****************************************************************************
+
 //////////////////////////////
+// Setup the graph in a canvas
+//     canvas_div_name  name of the user <div> to work within
+//     canvas_obj_name  name of the <canvas> object in the <div>
 
-//function Graph(canvas_name, tooltip_layer)
-function Graph(canvas_div)
+function Graph(widget_div_name)
 {
-    // create the canvas and annotation <div>s
-
-    // create the popup menu <div>s
-
     // names of canvas and annotation layers
-    this.graphCanvasName = canvas_name;
-    this.nameOfTipsDIV = tooltip_layer;
+    this.graphDivName = widget_div_name;
+    this.graphDiv = document.getElementById(widget_div_name);
+    console.debug('document.getElementById("'+ widget_div_name + '")=' + this.graphDiv);
+    
+    // create graph widget object in the given <div>
+    var graph_canvas = document.createElement('canvas');
+    this.graphCanvas = graph_canvas;
+    var widget_div = document.getElementById(widget_div_name); 
+    this.graphCanvasName = "GraphCanvas";
+    graph_canvas.id = this.graphCanvasName;
+    graph_canvas.width = 400;
+    graph_canvas.height = 300;
+//    graph_canvas.style.zIndex = 8;
+    graph_canvas.style.position = "absolute";
+    graph_canvas.style.border = "1px solid";
+    widget_div.appendChild(graph_canvas);
+    
+    // create annotation widget object in the given <div>
+    var anno_canvas = document.createElement('canvas');
+    this.graphAnnoCanvas = anno_canvas;
+    this.graphAnnoName = "GraphAnno";
+    anno_canvas.id = this.graphAnnoName;
+    anno_canvas.width = 400;
+    anno_canvas.height = 300;
+//    anno_canvas.style.zIndex = 8;
+    anno_canvas.style.position = "absolute";
+    anno_canvas.style.border = "1px solid";
+    anno_canvas.style.visibility="hidden";
+    anno_canvas.style.top = "-10000px";
+    anno_canvas.style.left = "-10000px ";
+    widget_div.appendChild(anno_canvas);
+    
+    // create the popup menu <div>s
 
     // the actual canvas handle and context
     this.canvas = null;
@@ -234,10 +269,10 @@ Graph.prototype.refresh = function(event)
     // cache the canvas and context handles
     if (this.canvas == null)
     {
-        this.canvas = document.getElementById(this.graphCanvasName);
+        this.canvas = document.getElementById(this.graphCanvasObjName);
         if (this.canvas == null)
         {
-            alert("Sorry, canvas with id '"+this.graphCanvasName+"' was not found.");
+            alert("Sorry, canvas with id '"+this.graphCanvasObjName+"' was not found.");
             return;
         }
         this.canvas_ctx = this.canvas.getContext("2d");
@@ -1135,17 +1170,6 @@ Graph.prototype.annotateMove = function(dom_obj, new_x)
     style.left = new_x;
 }
 
-// tell javascript library the name of the graph canvas & annotation div we are using
-//graph = new Graph("graph", "annotation");
-// tell javascript library the name of the div to put the graph in
-graph = new Graph("xyzzy");
-
-function onload_bridge(e)
-{
-    doOnLoad();
-    graph.refresh(e);
-}
-
 function refresh_bridge(e)
 {
     graph.refresh(e);
@@ -1166,7 +1190,6 @@ function onmouseup_bridge(e)
     graph.onMouseUp(e);
 }
 
-window.onload = onload_bridge;
 window.onresize = refresh_bridge;
 
 document.onmousemove = onmousemove_bridge;
@@ -1177,33 +1200,4 @@ if (document.captureEvents)
 {
     document.captureEvents(Event.MOUSEMOVE);
 }
-
-//////////////////////////////
-// Set up an example graph.
-
-graph.setDepthMarkers([{label: "Ceilings", depth: 1.95},
-                       {label: "Furniture", depth: 0.55},
-                       {label: "Foundations, joists, carpets", depth: 0.0}]);
-
-graph.setDamageCurve({colour: "#0000ff", points: [{depth: -0.1, damage:  0, error: 10},
-                     {depth:  0.1, damage: 10, error: 10},
-                     {depth:  0.5, damage: 15, error: 10},
-                     {depth:  0.6, damage: 35, error: 10},
-                     {depth:  1.9, damage: 45, error: 10},
-                     {depth:  2.0, damage: 95, error: 10}]});
-graph.setReferenceCurves([{colour: "#00ff00", points: [{depth: -0.15, damage:  0},
-                                                       {depth: 0.15,  damage: 12},
-                                                       {depth: 0.45,  damage: 20},
-                                                       {depth: 1.80,  damage: 90}]},
-                          {colour: "#00ffff", points: [{depth: -0.14, damage:  0},
-                                                       {depth: 0.17,  damage: 15},
-                                                       {depth: 0.50,  damage: 18},
-                                                       {depth: 1.90,  damage: 80}]}]);
-
-function doOnLoad()
-{
-    document.getElementById("menuDM").onclick = this.manageDM;
-
-    console.debug('doOnLoad');
-};
 
