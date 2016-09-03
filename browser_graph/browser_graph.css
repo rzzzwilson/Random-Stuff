@@ -1,0 +1,27 @@
+.annotation {font:14px/16px Arial,Helvetica,sans-serif;
+	     border:solid 1px #666666;
+	     border-radius: 5px;
+	     width:150px;
+	     height:15px;
+	     padding:3px;
+	     position:absolute;
+	     z-index:100;
+	     visibility:hidden;
+	     color:#333333;
+	     top:20px;
+	     left:20px;
+	     vertical-align:70%;
+	     background-color:#ffffcc;
+	     layer-background-color:#ffffcc;}
+#t1 {width:150px;}                  
+#t2 {width:100px;} 
+#t3 {font:bold 14pt verdana,arial,sans-serif;
+     background-color:#ffcccc;
+     layer-background-color:#ffcccc;} 
+
+.cmenu {margin: 0; padding: 0.3em; list-style-type: none; background-color: white;}
+.cmenu li:hover {}
+.cmenu hr {border: 0; border-bottom: 1px solid grey; margin: 3px 0px 3px 0px; width: 10em;}
+.cmenu a {border: 0 !important;}
+.cmenu a:hover {text-decoration: underline !important;}
+.cmenu .topSep {font-size: 90%; border-top: 1px solid gray; margin-top: 0.3em; padding-top: 0.3em;}
