@@ -1,6 +1,16 @@
 // Javascript code for the "browser-graph"
 
-console.debug('start');
+"use strict";
+
+var __next_objid=1;
+
+function objectId(obj) {
+    if (obj == null)
+        return null;
+    if (obj.__obj_id == null)
+        obj.__obj_id = __next_objid++;
+    return obj.__obj_id;
+}
 
 // configuration values for the GRAPH object
 
@@ -97,43 +107,34 @@ var graphDMGranule = 0.05;        // DM granularity (in metres)
 
 function Graph(widget_div_name)
 {
-    // names of canvas and annotation layers
+    // save the container <div> name and <div> object reference
     this.graphDivName = widget_div_name;
     this.graphDiv = document.getElementById(widget_div_name);
-    console.debug('document.getElementById("'+ widget_div_name + '")=' + this.graphDiv);
     
-    // create graph widget object in the given <div>
+    // create graph widget object in the given container <div>
     var graph_canvas = document.createElement('canvas');
     this.graphCanvas = graph_canvas;
-    var widget_div = document.getElementById(widget_div_name); 
     this.graphCanvasName = "GraphCanvas";
     graph_canvas.id = this.graphCanvasName;
-    graph_canvas.width = 400;
-    graph_canvas.height = 300;
-//    graph_canvas.style.zIndex = 8;
     graph_canvas.style.position = "absolute";
-    graph_canvas.style.border = "1px solid";
-    widget_div.appendChild(graph_canvas);
+    this.graphDiv.appendChild(graph_canvas);
+    console.log('Created graph canvas: ' + this.graphCanvas);
     
-    // create annotation widget object in the given <div>
-    var anno_canvas = document.createElement('canvas');
-    this.graphAnnoCanvas = anno_canvas;
-    this.graphAnnoName = "GraphAnno";
-    anno_canvas.id = this.graphAnnoName;
-    anno_canvas.width = 400;
-    anno_canvas.height = 300;
-//    anno_canvas.style.zIndex = 8;
-    anno_canvas.style.position = "absolute";
-    anno_canvas.style.border = "1px solid";
-    anno_canvas.style.visibility="hidden";
-    anno_canvas.style.top = "-10000px";
-    anno_canvas.style.left = "-10000px ";
-    widget_div.appendChild(anno_canvas);
+    // create annotation <div> in the given container <div>
+    var anno_div = document.createElement('div');
+    this.graphAnnoDiv = anno_div;
+    this.graphAnnoName = "annotation";
+    anno_div.id = this.graphAnnoName;
+    anno_div.className = this.graphAnnoName;
+    anno_div.style.position = "absolute";
+    anno_div.style.visibility="hidden";
+    this.graphDiv.appendChild(anno_div);
+    console.log('Created annotation <div>: ' + this.graphAnnoDiv);
     
     // create the popup menu <div>s
 
     // the actual canvas handle and context
-    this.canvas = null;
+//    this.canvas = null;
     this.canvas_ctx = null;
 
     // mouse screen coordinates
@@ -266,17 +267,7 @@ Graph.prototype.makeRCHotspots = function()
 // Called on display refresh - draw the graph
 Graph.prototype.refresh = function(event)
 {
-    // cache the canvas and context handles
-    if (this.canvas == null)
-    {
-        this.canvas = document.getElementById(this.graphCanvasObjName);
-        if (this.canvas == null)
-        {
-            alert("Sorry, canvas with id '"+this.graphCanvasObjName+"' was not found.");
-            return;
-        }
-        this.canvas_ctx = this.canvas.getContext("2d");
-    }
+    this.canvas_ctx = this.graphCanvas.getContext("2d");
 
     // get viewport width+height and then calculate X and Y axis length in pixels
     var canvasWidth = window.innerWidth;
@@ -286,11 +277,11 @@ Graph.prototype.refresh = function(event)
     this.maxGraphHeight = topMargin;
 
     // fix the canvas in the viewport, full size
-    this.canvas.style.position = "fixed";
-    this.canvas.setAttribute("width", canvasWidth);
-    this.canvas.setAttribute("height", canvasHeight);
-    this.canvas.style.top = 0;
-    this.canvas.style.left = 0;
+    this.graphCanvas.style.position = "fixed";
+    this.graphCanvas.setAttribute("width", canvasWidth);
+    this.graphCanvas.setAttribute("height", canvasHeight);
+    this.graphCanvas.style.top = 0;
+    this.graphCanvas.style.left = 0;
     this.canvas_ctx.lineJoin = "round";
 
     // draw the graph
@@ -493,7 +484,7 @@ Graph.prototype.refresh = function(event)
                 this.canvas_ctx.strokeStyle = graphEBColour;
 
             // limit top of error bar to top of graph proper
-            y_plus_delta = screen_y+screen_delta;
+            var y_plus_delta = screen_y+screen_delta;
             if (y_plus_delta < topMargin)
                 y_plus_delta = topMargin;
 
@@ -562,7 +553,7 @@ Graph.prototype.refresh = function(event)
     this.canvas_ctx.fillStyle = graphTitleColour;
     this.canvas_ctx.textAlign = "center";
     this.canvas_ctx.textBaseline = "top";
-    title = graphTitle1;    // TODO: make dynamic
+    var title = graphTitle1;    // TODO: make dynamic
     var xoffset = leftMargin+this.graphXLength/2;
     var yoffset = 15;
     this.canvas_ctx.fillText(title, xoffset, yoffset);
@@ -732,7 +723,9 @@ Graph.prototype.pointClose = function(p1x, p1y, p2x, p2y, distance)
 Graph.prototype.convertXScreen2Graph = function(x)
 {
     if ((x >= leftMargin) && (x <= (leftMargin+this.graphXLength)))
+    {
         return (x-leftMargin)*(maxXAxis-minXAxis)/this.graphXLength + minXAxis;
+    }
 
     return null;
 };
@@ -808,7 +801,7 @@ Graph.prototype.onMouseMove = function(e)
     }
 
     // update graph coords
-    result = this.convertXScreen2Graph(this.xScreenCoord);
+    var result = this.convertXScreen2Graph(this.xScreenCoord);
     if (result != null)
             this.xGraphCoord = result;
     result = this.convertYScreen2Graph(this.yScreenCoord);
@@ -954,6 +947,7 @@ Graph.prototype.onMouseMove = function(e)
             force_refresh = true;
     }
 
+    // if we did something above that requires a refresh, do it now
     if (force_refresh)
         window.onresize();
 };
@@ -1001,7 +995,7 @@ Graph.prototype.onMouseDown = function(e)
         this.annotateReplace(this.nameOfTipsDIV, dm.label + ": depth " + dm.depth.toFixed(2) + "m");
         if ((this.xScreenCoord - leftMargin) < this.graphXLength/2)
             x_posn = leftMargin+this.graphXLength-graphAnnotateWidth-20;
-        this.annotate_show(this.nameOfTipsDIV, x_posn, topMargin+20);
+        this.annotate_show(x_posn, topMargin+20);
     }
     else if (this.draggingDC)        // if we are dragging a DC point
     {
@@ -1011,7 +1005,7 @@ Graph.prototype.onMouseDown = function(e)
         this.annotateReplace(this.nameOfTipsDIV, "point: depth " + point.depth.toFixed(2) + "m");
         if ((this.xScreenCoord - leftMargin) < this.graphXLength/2)
             x_posn = leftMargin+this.graphXLength-graphAnnotateWidth-20;
-        this.annotate_show(this.nameOfTipsDIV, x_posn, topMargin+20);
+        this.annotate_show(x_posn, topMargin+20);
     }
     else if (this.rightButtonDown)
     {
@@ -1045,7 +1039,6 @@ Graph.prototype.showNormalMenu = function(e)
     document.getElementById('menuDM').style.backgroundColor='#FFFFFF';
     document.getElementById('menuRC').style.backgroundColor='#FFFFFF';
     document.getElementById("menuDM").onclick = this.manageDM;
-    console.debug("Set menuDM.onclick to this.manageDM");
 
     return false;
 };
@@ -1114,28 +1107,15 @@ Graph.prototype.manageDM = function()
     console.debug('manageDM');
 };
 
-Graph.prototype.link_to_events = function()
-{
-    window.onload = function() { this.refresh(); };
-    window.onresize = function() { this.refresh(); };
-
-    document.onmousemove = this.onMouseMove;
-    document.onmousedown = this.onMouseDown;
-    document.onmouseup = this.onMouseUp;
-
-    console.debug("link_to_events: called");
-};
-
 ////////////////////////////////////////////////////////////////
 
 //
 // Simple dynamic annotation
 //
 
-Graph.prototype.annotate_show = function(dom_obj, x, y)
+Graph.prototype.annotate_show = function(x, y)
 {
-    var element = document.getElementById(dom_obj);
-    var style = element.style;
+    var style = this.graphAnnoDiv.style;
     var viz = style.visibility;
 
     style.left = x + "px";
@@ -1144,30 +1124,41 @@ Graph.prototype.annotate_show = function(dom_obj, x, y)
     style.visibility = "visible";
 };
 
-Graph.prototype.annotate_hide = function(dom_obj)
+Graph.prototype.annotate_hide = function()
 {
-    var element = document.getElementById(dom_obj);
-    var style = element.style;
+    var style = this.graphAnnoDiv.style;
     var viz = style.visibility;
 
     style.visibility = "hidden";
 };
 
-Graph.prototype.annotateReplace = function(dom_obj, new_text)
+Graph.prototype.annotateReplace = function(new_text)
 {
-    var element = document.getElementById(dom_obj);
-
-    element.innerHTML = new_text;
+    this.graphAnnoDiv.innerHTML = new_text;
 }
 
 // move annotation box to new X position
-Graph.prototype.annotateMove = function(dom_obj, new_x)
+Graph.prototype.annotateMove = function(new_x)
 {
-    var element = document.getElementById(dom_obj);
-    var style = element.style;
+    var style = this.graphAnnoDiv.style;
 
     new_x += 'px';
     style.left = new_x;
+}
+
+//////////////////////////////
+// Bind the event handlers to the Graph instance 'this'
+
+Graph.prototype.bindThis = function()
+{
+    console.debug('Binding event handlers');
+
+    window.onload = this.refresh.bind(this);
+    window.onresize = this.refresh.bind(this);
+
+    this.graphCanvas.onmousemove = this.onMouseMove.bind(this);
+    this.graphCanvas.onmousedown = this.onMouseDown.bind(this);
+    this.graphCanvas.onmouseup = this.onMouseUp.bind(this);
 }
 
 function refresh_bridge(e)
