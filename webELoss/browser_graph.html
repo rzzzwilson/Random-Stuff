@@ -37,11 +37,9 @@ function run_js()
                                                            {depth: 0.17,  damage: 15},
                                                            {depth: 0.50,  damage: 18},
                                                            {depth: 1.90,  damage: 80}]}]);
-
     console.debug('ALL SET UP');
-    console.debug('Before: .graphTitle1=' + graph.graphTitle1);
-    graph.graphTitle1 = "A new, longer title";
-    console.debug('After: .graphTitle1=' + graph.graphTitle1);
+    graph.setTitleMain("A new, longer title");
+    graph.setTitleSub("An even longer new sub title!");
     graph.refresh();
 };
 </script>

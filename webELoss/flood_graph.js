@@ -93,8 +93,8 @@ var graphDMGranule = 0.05;         // DM granularity (in metres)
 function Graph(widget_div_name)
 {
     // set some internal state from the defaults
-    self.graphTitle1 = graphTitle1;
-    console.debug('Default: .graphTitle1 set to ' + self.graphTitle1);
+    this.graphTitle1 = graphTitle1;
+    this.graphTitle2 = graphTitle2;
 
     // save the container <div> name and <div> object reference
     this.graphDivName = widget_div_name;
@@ -254,7 +254,6 @@ Graph.prototype.makeRCHotspots = function()
 // Called on display refresh - draw the graph
 Graph.prototype.refresh = function(event)
 {
-    console.debug('refresh: self=' + self);
     var canvas_ctx = this.graphCanvas.getContext("2d");
 
     // get viewport width+height and then calculate X and Y axis length in pixels
@@ -535,20 +534,19 @@ Graph.prototype.refresh = function(event)
         canvas_ctx.stroke();
     }
 
-    // now display the graph primary title
+    // now display the graph main title
     canvas_ctx.strokeStyle = graphTitleColour;
     canvas_ctx.font = graphTitle1Font;
     canvas_ctx.fillStyle = graphTitleColour;
     canvas_ctx.textAlign = "center";
     canvas_ctx.textBaseline = "top";
-    console.debug('Draw: .graphTitle1=' + self.graphTitle1);
-    var title = self.graphTitle1;    // TODO: make dynamic
+    var title = this.graphTitle1;
     var xoffset = leftMargin+this.graphXLength/2;
     var yoffset = 15;
     canvas_ctx.fillText(title, xoffset, yoffset);
-    // secondary title
+    // sub title
     canvas_ctx.font = graphTitle2Font;
-    title = graphTitle2;    // TODO: make dynamic
+    title = this.graphTitle2;
     var xoffset = leftMargin+this.graphXLength/2;
     var yoffset = 60;
     canvas_ctx.fillText(title, xoffset, yoffset);
@@ -938,7 +936,7 @@ Graph.prototype.onMouseMove = function(e)
 
     // if we did something above that requires a refresh, do it now
     if (force_refresh)
-        window.onresize();
+        this.refresh();
 };
 
 //////////////////////////////
@@ -1136,48 +1134,37 @@ Graph.prototype.annotateMove = function(new_x)
 }
 
 //////////////////////////////
+// Methods to configure the graph instance.
+
+Graph.prototype.setTitleMain = function(title)
+{
+    this.graphTitle1 = title;
+}
+
+Graph.prototype.setTitleSub = function(title)
+{
+    this.graphTitle2 = title;
+    console.debug('.setTitleSub: .graphTitle2=' + this.graphTitle2);
+}
+
+//////////////////////////////
 // Bind the event handlers to the Graph instance 'this'
 
 Graph.prototype.bindThis = function()
 {
-    this.graphCanvas.refresh = this.refresh.bind(this);
-    this.graphCanvas.onmousemove = this.onMouseMove.bind(this);
-    this.graphCanvas.onmousedown = this.onMouseDown.bind(this);
-    this.graphCanvas.onmouseup = this.onMouseUp.bind(this);
+    this.refresh = this.refresh.bind(this);
+    this.onmousemove = this.onMouseMove.bind(this);
+    this.onmousedown = this.onMouseDown.bind(this);
+    this.onmouseup = this.onMouseUp.bind(this);
 
-    // on load/resize, redraw graph
-    window.onload = this.graphCanvas.refresh;
-    window.onresize = this.graphCanvas.refresh;
+    // plug our event handlers into the document
+    document.onmousemove = this.onmousemove;
+    document.onmousedown = this.onmousedown;
+    document.onmouseup = this.onmouseup;
 }
 
-function refresh_bridge(e)
-{
-    graph.refresh(e);
-}
-
-function onmousemove_bridge(e)
-{
-    graph.onMouseMove(e);
-}
-
-function onmousedown_bridge(e)
-{
-    graph.onMouseDown(e);
-}
-
-function onmouseup_bridge(e)
-{
-    graph.onMouseUp(e);
-}
-
-window.onresize = refresh_bridge;
-
-document.onmousemove = onmousemove_bridge;
-document.onmousedown = onmousedown_bridge;
-document.onmouseup = onmouseup_bridge;
-
-if (document.captureEvents)
-{
-    document.captureEvents(Event.MOUSEMOVE);
-}
+//if (document.captureEvents)
+//{
+//    document.captureEvents(Event.MOUSEMOVE);
+//}
 
