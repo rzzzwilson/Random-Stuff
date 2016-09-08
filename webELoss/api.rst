@@ -53,10 +53,15 @@ widget display.
 
 .. image:: webeloss_1.png
 
+The **graph** proper is the white rectangular area with a grey grid.  The darker
+surround is the **margin**.  In the top margin we see the **maintitle** and
+**subtitle**.  The left margin contains the **y axis label** and the bottom
+margin contains the **x axis label**.
+
 Titles
 ------
 
-The main- and sub-titles are changed this way:
+The maintitle and subtitle texts are changed this way:
 
 ::
 
