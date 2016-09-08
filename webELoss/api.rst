@@ -40,7 +40,8 @@ A simple example that doesn't do anything:
         </body>
     </html>
 
-Note that you need to link to the widget javascript and CSS files.
+Note that you need to link to the widget javascript and CSS files.  Also note
+the "run_js();" in the <body> "onload".
 
 Configuration
 -------------
@@ -63,6 +64,9 @@ The main- and sub-titles are changed this way:
 
 If the subtitle parameter is omitted the graph will have no subtitle.  If *both*
 title parameters are missing then the graph will have no titles at all.
+
+The width of the top margin will vary depending on the presence or absence
+of titles.
 
 X Axis
 ------

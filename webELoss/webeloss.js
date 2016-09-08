@@ -1141,8 +1141,21 @@ Graph.prototype.annotateMove = function(new_x)
 
 Graph.prototype.setTitle = function(title, subtitle)
 {
+    if (typeof title == 'undefined')
+    {
+        console.debug('title not supplied');
+        title = "";
+    }
     this.graphTitle1 = title;
+
+    if (typeof subtitle == 'undefined')
+    {
+        console.debug('subtitle not supplied');
+        subtitle = "";
+    }
     this.graphTitle2 = subtitle;
+
+    this.refresh();
 }
 
 //////////////////////////////
