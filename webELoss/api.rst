@@ -50,4 +50,3 @@ Before we talk about them we need to define names for various parts of the
 widget display.
 
 .. image:: webeloss_1.png
-    :width: 50%
