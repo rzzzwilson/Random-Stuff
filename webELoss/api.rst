@@ -129,6 +129,19 @@ How to add data to the graph:
 * depth markers
 * reference curves
 
+We add the various bits of data to the widget by supplying a single
+javascript data structure:
+
+::
+
+    function run_js()
+    {
+        graph = new Graph("graph");
+        graph.setData(data);
+    }
+
+The data structure ...
+
 Retrieving Data
 ===============
 
