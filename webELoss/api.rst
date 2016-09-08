@@ -120,5 +120,31 @@ Miscellaneous
 
 Various other things - colours, margins, etc.
 
+Adding Data
+===========
 
+How to add data to the graph:
 
+* damage curves
+* depth markers
+* reference curves
+
+Retrieving Data
+===============
+
+Once the widget is configured the user may interact with it and change the
+data given to it.  If we want to save the state of the widget and continue
+another day we need to retrieve the modified data:
+
+::
+
+    function run_js()
+    {
+        graph = new Graph("graph");
+    }
+    
+    // somewhere else in javascript
+    data = graph.getData();
+
+The ``getData()`` method returns a data structure describing the current state
+of the widget.
