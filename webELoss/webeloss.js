@@ -179,6 +179,8 @@ function Graph(widget_div_name)
     this.graphYLength = null;       // Y pixel length of graph data view
 
     this.annotateShowing = false;   // true if annotation is showing
+
+    this.bindThis();
 }
 
 //////////////////////////////
@@ -1136,15 +1138,10 @@ Graph.prototype.annotateMove = function(new_x)
 //////////////////////////////
 // Methods to configure the graph instance.
 
-Graph.prototype.setTitleMain = function(title)
+Graph.prototype.setTitle = function(title, subtitle)
 {
     this.graphTitle1 = title;
-}
-
-Graph.prototype.setTitleSub = function(title)
-{
-    this.graphTitle2 = title;
-    console.debug('.setTitleSub: .graphTitle2=' + this.graphTitle2);
+    this.graphTitle2 = subtitle;
 }
 
 //////////////////////////////
