@@ -18,7 +18,7 @@ to:
 
 The <div> you create to contain the widget doesn't have to be empty,
 but if it isn't you run the risk of the widget code fiddling with your
-objects within the <div>.
+objects within the <div>. Beware!
 
 A simple example that doesn't do much:
 
@@ -42,7 +42,7 @@ A simple example that doesn't do much:
     </html>
 
 Note that you need to link to the widget javascript and CSS files.  Also note
-the "run_js();" in the <body> "onload".
+the ``run_js();`` in the <body> "onload" attribute.
 
 Configuration
 -------------
