@@ -80,14 +80,40 @@ of titles.
 X Axis
 ------
 
-The X axis has a title and a range.  In the example above the title is
+The X axis has a label and a range.  In the example above the label is
 "Depth (m)" and the range is -1 to +7.
+
+::
+
+    function run_js()
+    {
+        graph = new Graph("graph");
+        graph.setX("New X axis label", min_x, max_x, step_x);
+    }
+
+The **min_x** and **max_x** parameters set the range limits and the
+**step_x** parameter sets the step between X axis ticks.
+
+If the **step_x** parameter is not supplied it is assumed to be **1**.
 
 Y Axis
 ------
 
-The Y axis has a title and a range.  In the example above the title is
+The Y axis has a label and a range.  In the example above the label is
 "Damage (%)" and the range is 0 to 100.
+
+::
+
+    function run_js()
+    {
+        graph = new Graph("graph");
+        graph.setY("New Y axis label", min_y, max_y, step_y);
+    }
+
+The **min_y** and **max_y** parameters set the range limits and the
+**step_y** parameter sets the step between Y axis ticks.
+
+If the **step_y** parameter is not supplied it is assumed to be **1**.
 
 Miscellaneous
 -------------
