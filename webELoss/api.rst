@@ -50,3 +50,36 @@ Before we talk about them we need to define names for various parts of the
 widget display.
 
 .. image:: webeloss_1.png
+
+Titles
+------
+
+The main- and sub-titles are changed this way:
+
+::
+
+    graph = new Graph("graph");
+    graph.setTitle("New main title", "New sub title");
+
+If the subtitle parameter is omitted the graph will have no subtitle.  If *both*
+title parameters are missing then the graph will have no titles at all.
+
+X Axis
+------
+
+The X axis has a title and a range.  In the example above the title is
+"Depth (m)" and the range is -1 to +7.
+
+Y Axis
+------
+
+The Y axis has a title and a range.  In the example above the title is
+"Damage (%)" and the range is 0 to 100.
+
+Miscellaneous
+-------------
+
+Various other things - colours, margins, etc.
+
+
+
