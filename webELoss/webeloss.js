@@ -19,9 +19,9 @@ var graphDMColour = "red";          // depth marker line and hotspot
 
 var graphTitleColour = "black";
 var graphTitle1Font = "28pt Arial";
-var graphTitle1 = "Graph Title 1";
+var graphTitle1 = "Main title";
 var graphTitle2Font = "18pt Arial";
-var graphTitle2 = "Graph Title 2";
+var graphTitle2 = "Subtitle";
 
 var graphGridWidth = 0.5;           // width of grid lines
 var graphXAxisLabel = "Depth (m)";
@@ -181,6 +181,7 @@ function Graph(widget_div_name)
     this.annotateShowing = false;   // true if annotation is showing
 
     this.bindThis();
+    this.refresh();
 }
 
 //////////////////////////////
