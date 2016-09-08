@@ -3,8 +3,8 @@
 <head>
 <title>Test Basic Graph</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="browser_graph.css">
-<script src="flood_graph.js"></script>
+<link rel="stylesheet" type="text/css" href="webeloss.css">
+<script src="webeloss.js"></script>
 
 <!-- ###############  user code below here  ############### -->
 
@@ -13,8 +13,6 @@ function run_js()
 {
     // tell javascript library the name of the graph canvas & annotation div we are using
     graph = new Graph("graph");
-    // bind 'this' into event handlers
-    graph.bindThis();
 
 //////////////////////////////
 // Set up an example graph.
@@ -37,9 +35,9 @@ function run_js()
                                                            {depth: 0.17,  damage: 15},
                                                            {depth: 0.50,  damage: 18},
                                                            {depth: 1.90,  damage: 80}]}]);
-    console.debug('ALL SET UP');
-    graph.setTitleMain("A new, longer title");
-    graph.setTitleSub("An even longer new sub title!");
+    graph.setTitle("A new, longer title", "An even longer new sub title!");
+//    graph.setTitle("A new, longer title");
+//    graph.setTitle();
     graph.refresh();
 };
 </script>

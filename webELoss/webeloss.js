@@ -17,6 +17,11 @@ var graphAxisColour = "black";      // axis lines and ticks
 var graphGridColour = "Gainsboro";
 var graphDMColour = "red";          // depth marker line and hotspot
 
+var topTitleMargin = 6;             // widget top edge to maintitle margin
+var middleTitleMargin = 4;          // maintitle to subtitle margin
+var bottomTitleMargin = 4;          // subtitle to graph top margin
+var topMarginEmpty = 24;            // top margin if NO titles
+
 var graphTitleColour = "black";
 var graphTitle1Font = "28pt Arial";
 var graphTitle1 = "Main title";
@@ -95,13 +100,12 @@ function Graph(widget_div_name)
     // set some internal state from the defaults
     this.graphTitle1 = graphTitle1;
     this.graphTitle2 = graphTitle2;
+    this.topMargin = 0;
 
     // save the container <div> name and <div> object reference
     this.graphDivName = widget_div_name;
     this.graphDiv = document.getElementById(widget_div_name);
 
-    // check the given <div> doesn't 
-    
     // create graph widget object in the given container <div>
     var graph_canvas = document.createElement('canvas');
     this.graphCanvas = graph_canvas;
@@ -257,14 +261,17 @@ Graph.prototype.makeRCHotspots = function()
 // Called on display refresh - draw the graph
 Graph.prototype.refresh = function(event)
 {
+    // the canvas context
     var canvas_ctx = this.graphCanvas.getContext("2d");
 
-    // get viewport width+height and then calculate X and Y axis length in pixels
+    // get viewport width and then calculate X axis length in pixels
     var canvasWidth = window.innerWidth;
-    var canvasHeight = window.innerHeight;
     this.graphXLength = canvasWidth - leftMargin - rightMargin;
-    this.graphYLength = canvasHeight - topMargin - bottomMargin;
-    this.maxGraphHeight = topMargin;
+
+    // calculate some X values
+    var canvasHeight = window.innerHeight;
+    this.maxGraphHeight = this.topMargin;
+    this.graphYLength = canvasHeight - this.topMargin - bottomMargin;
 
     // fix the canvas in the viewport, full size
     this.graphCanvas.style.position = "fixed";
@@ -274,7 +281,6 @@ Graph.prototype.refresh = function(event)
     this.graphCanvas.style.left = 0;
     canvas_ctx.lineJoin = "round";
 
-    // draw the graph
     // clear canvas to the border colour
     canvas_ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     canvas_ctx.fillStyle = graphBorderColour;
@@ -286,13 +292,45 @@ Graph.prototype.refresh = function(event)
     canvas_ctx.closePath();
     canvas_ctx.fill();
 
+    // draw title(s), determine this.topMargin (it's dynamic)
+    // main title
+    this.topMargin = topTitleMargin;
+    var title_middle_x = leftMargin + this.graphXLength/2;
+
+    canvas_ctx.strokeStyle = graphTitleColour;
+    canvas_ctx.fillStyle = graphTitleColour;
+    canvas_ctx.textAlign = "center";
+    canvas_ctx.textBaseline = "top";
+    if (typeof this.graphTitle1 != 'undefined')
+    {
+        canvas_ctx.font = graphTitle1Font;
+        canvas_ctx.fillText(this.graphTitle1, title_middle_x, topTitleMargin);
+        var title_height = determineFontHeight(graphTitle1Font);
+        this.topMargin += title_height + middleTitleMargin;
+    }
+    
+    // sub title
+    if (typeof this.graphTitle2 != 'undefined')
+    {
+        canvas_ctx.font = graphTitle2Font;
+        canvas_ctx.fillText(this.graphTitle2, title_middle_x, this.topMargin);
+        var title_height = determineFontHeight(graphTitle2Font);
+        this.topMargin += title_height + bottomTitleMargin;
+    }
+
+    // special case - if no titles at all, special top margin
+    if ((typeof this.graphTitle1 == 'undefined') && (typeof this.graphTitle2 == 'undefined'))
+    {
+        this.topMargin = topMarginEmpty;
+    }
+
     // then draw the graph area in the middle
     canvas_ctx.fillStyle = graphCanvasColour;
     canvas_ctx.beginPath();
-    canvas_ctx.moveTo(leftMargin, topMargin);
+    canvas_ctx.moveTo(leftMargin, this.topMargin);
     canvas_ctx.lineTo(leftMargin, canvasHeight-bottomMargin);
     canvas_ctx.lineTo(canvasWidth-rightMargin, canvasHeight-bottomMargin);
-    canvas_ctx.lineTo(canvasWidth-rightMargin, topMargin);
+    canvas_ctx.lineTo(canvasWidth-rightMargin, this.topMargin);
     canvas_ctx.closePath();
     canvas_ctx.fill();
 
@@ -300,10 +338,10 @@ Graph.prototype.refresh = function(event)
     canvas_ctx.strokeStyle = graphAxisColour;
     canvas_ctx.lineWidth = axisLineWidth;
     canvas_ctx.beginPath();
-    canvas_ctx.moveTo(leftMargin, topMargin);
+    canvas_ctx.moveTo(leftMargin, this.topMargin);
     canvas_ctx.lineTo(leftMargin, canvasHeight-bottomMargin);
     canvas_ctx.lineTo(canvasWidth-rightMargin, canvasHeight-bottomMargin);
-    canvas_ctx.lineTo(canvasWidth-rightMargin, topMargin);
+    canvas_ctx.lineTo(canvasWidth-rightMargin, this.topMargin);
     canvas_ctx.closePath();
     canvas_ctx.stroke();
 
@@ -320,7 +358,7 @@ Graph.prototype.refresh = function(event)
         for (step = 0; step <= this.graphXLength; step += stepLength)
         {
             canvas_ctx.beginPath();
-            canvas_ctx.moveTo(leftMargin+step, topMargin);
+            canvas_ctx.moveTo(leftMargin+step, this.topMargin);
             canvas_ctx.lineTo(leftMargin+step, canvasHeight-bottomMargin);
             canvas_ctx.stroke();
         }
@@ -332,8 +370,8 @@ Graph.prototype.refresh = function(event)
         for (step = 0; step <= this.graphYLength; step += stepLength)
         {
             canvas_ctx.beginPath();
-            canvas_ctx.moveTo(leftMargin, topMargin+step);
-            canvas_ctx.lineTo(canvasWidth-rightMargin, topMargin+step);
+            canvas_ctx.moveTo(leftMargin, this.topMargin+step);
+            canvas_ctx.lineTo(canvasWidth-rightMargin, this.topMargin+step);
             canvas_ctx.stroke();
         }
     }
@@ -346,7 +384,7 @@ Graph.prototype.refresh = function(event)
     canvas_ctx.lineWidth = axisTickWidth;
     var step = (maxXAxis - minXAxis) / stepXAxis;
     var stepLength = this.graphXLength / step;
-    var yPosn = topMargin+this.graphYLength;
+    var yPosn = this.topMargin + this.graphYLength;
     var depth = minXAxis;
     for (step = 0; step <= this.graphXLength+stepXAxis-1; step += stepLength)
     {
@@ -379,18 +417,18 @@ Graph.prototype.refresh = function(event)
     for (step = 0; step <= this.graphYLength+stepYAxis-1; step += stepLength)
     {
         canvas_ctx.beginPath();
-        canvas_ctx.moveTo(leftMargin, topMargin+step);
-        canvas_ctx.lineTo(leftMargin-axisTickLength, topMargin+step);
+        canvas_ctx.moveTo(leftMargin, this.topMargin+step);
+        canvas_ctx.lineTo(leftMargin-axisTickLength, this.topMargin+step);
         canvas_ctx.stroke();
 
         var width = canvas_ctx.measureText(damage).width;
-        canvas_ctx.fillText(damage, leftMargin-axisTickLength-width-3, topMargin+step);
+        canvas_ctx.fillText(damage, leftMargin-axisTickLength-width-3, this.topMargin+step);
 
         damage -= stepYAxis;
     }
     canvas_ctx.font = graphAxisLabelFont;
     canvas_ctx.save();
-    canvas_ctx.translate(40, topMargin+this.graphYLength/2);
+    canvas_ctx.translate(40, this.topMargin+this.graphYLength/2);
     canvas_ctx.rotate(-Math.PI/2);
     canvas_ctx.textAlign = "center";
     canvas_ctx.fillText(graphYAxisLabel, 0, 0);
@@ -407,7 +445,7 @@ Graph.prototype.refresh = function(event)
         var xoffset = leftMargin + this.graphXLength*(dm_depth-minXAxis)/(maxXAxis - minXAxis);
 
         canvas_ctx.beginPath();
-        canvas_ctx.moveTo(xoffset, topMargin);
+        canvas_ctx.moveTo(xoffset, this.topMargin);
         canvas_ctx.lineTo(xoffset, canvasHeight-bottomMargin);
         canvas_ctx.stroke();
     }
@@ -416,7 +454,7 @@ Graph.prototype.refresh = function(event)
     if (this.DMHotspotShowing)
     {
         canvas_ctx.beginPath();
-        canvas_ctx.moveTo(this.DMHSx, topMargin);
+        canvas_ctx.moveTo(this.DMHSx, this.topMargin);
         canvas_ctx.arc(this.DMHSx, this.DMHSy, graphDMHSRadius, 0, Math.PI, false);
         canvas_ctx.fill();
     }
@@ -430,7 +468,7 @@ Graph.prototype.refresh = function(event)
         canvas_ctx.fillStyle = curve.colour;
             canvas_ctx.lineWidth = graphRCWidth;
         canvas_ctx.beginPath();
-        canvas_ctx.moveTo(leftMargin, topMargin+this.graphYLength);
+        canvas_ctx.moveTo(leftMargin, this.topMargin+this.graphYLength);
 
         // lineTo() each point
         for (var j in curve.points)
@@ -465,7 +503,7 @@ Graph.prototype.refresh = function(event)
             var screen_x = this.convertXGraph2Screen(point.depth);
             var screen_y = this.convertYGraph2Screen(point.damage);
             var graph_delta = point.damage*point.error/100;
-            var screen_delta = this.convertYGraph2Screen(graph_delta)-this.graphYLength-topMargin;
+            var screen_delta = this.convertYGraph2Screen(graph_delta)-this.graphYLength-this.topMargin;
 
             //graph.drawErrorbars(x, y, error, colour);
             if (typeof graphEBColour=="undefined")
@@ -475,8 +513,8 @@ Graph.prototype.refresh = function(event)
 
             // limit top of error bar to top of graph proper
             var y_plus_delta = screen_y+screen_delta;
-            if (y_plus_delta < topMargin)
-                y_plus_delta = topMargin;
+            if (y_plus_delta < this.topMargin)
+                y_plus_delta = this.topMargin;
 
             canvas_ctx.lineWidth = graphEBLineWidth;
             canvas_ctx.beginPath();
@@ -520,7 +558,7 @@ Graph.prototype.refresh = function(event)
         canvas_ctx.strokeStyle = this.DamageCurve.colour;
         canvas_ctx.lineWidth = graphDCWidth;
         canvas_ctx.beginPath();
-        canvas_ctx.moveTo(leftMargin, topMargin+this.graphYLength);
+        canvas_ctx.moveTo(leftMargin, this.topMargin+this.graphYLength);
 
         // lineTo() each point
         for (var i in this.DamageCurve.points)
@@ -537,23 +575,6 @@ Graph.prototype.refresh = function(event)
         canvas_ctx.stroke();
     }
 
-    // now display the graph main title
-    canvas_ctx.strokeStyle = graphTitleColour;
-    canvas_ctx.font = graphTitle1Font;
-    canvas_ctx.fillStyle = graphTitleColour;
-    canvas_ctx.textAlign = "center";
-    canvas_ctx.textBaseline = "top";
-    var title = this.graphTitle1;
-    var xoffset = leftMargin+this.graphXLength/2;
-    var yoffset = 15;
-    canvas_ctx.fillText(title, xoffset, yoffset);
-    // sub title
-    canvas_ctx.font = graphTitle2Font;
-    title = this.graphTitle2;
-    var xoffset = leftMargin+this.graphXLength/2;
-    var yoffset = 60;
-    canvas_ctx.fillText(title, xoffset, yoffset);
-
     // recalculate the RC hotspots
     this.makeRCHotspots();
 };
@@ -568,14 +589,14 @@ Graph.prototype.closestDMPoint = function(x, y, radius)
     var result = null;
     var close = 9999999999;
 
-    if (this.yScreenCoord < topMargin)
+    if (this.yScreenCoord < this.topMargin)
         return null;
 
     for (var i in this.DepthMarkerArray)
     {
         var dm = this.DepthMarkerArray[i];
         var xoffset = leftMargin + this.graphXLength*(dm.depth-minXAxis)/(maxXAxis - minXAxis);
-        var yoffset = topMargin;
+        var yoffset = this.topMargin;
 
         if (this.pointClose(xoffset, yoffset, this.xScreenCoord, this.yScreenCoord, radius))
         {
@@ -614,7 +635,7 @@ Graph.prototype.closestDCPoint = function(x, y, radius)
     {
         var point = this.DamageCurve.points[i];
         var xoffset = leftMargin + this.graphXLength*(point.depth-minXAxis)/(maxXAxis - minXAxis);
-        var yoffset = topMargin + this.graphYLength - this.graphYLength*(point.damage-minYAxis)/(maxYAxis - minYAxis);
+        var yoffset = this.topMargin + this.graphYLength - this.graphYLength*(point.damage-minYAxis)/(maxYAxis - minYAxis);
 
         if (this.pointClose(xoffset, yoffset, this.xScreenCoord, this.yScreenCoord, radius))
         {
@@ -680,7 +701,7 @@ Graph.prototype.closestPoint = function(points, x, y, radius)
     {
         var point = points[i];
         var xoffset = leftMargin + this.graphXLength*(point.depth-minXAxis)/(maxXAxis - minXAxis);
-        var yoffset = topMargin + this.graphYLength - this.graphYLength*(point.damage-minYAxis)/(maxYAxis - minYAxis);
+        var yoffset = this.topMargin + this.graphYLength - this.graphYLength*(point.damage-minYAxis)/(maxYAxis - minYAxis);
 
         if (this.pointClose(xoffset, yoffset, this.xScreenCoord, this.yScreenCoord, radius))
         {
@@ -722,10 +743,10 @@ Graph.prototype.convertXScreen2Graph = function(x)
 
 Graph.prototype.convertYScreen2Graph = function(y)
 {
-    if ((y >= topMargin) && (y <= (topMargin+this.graphYLength)))
+    if ((y >= this.topMargin) && (y <= (this.topMargin+this.graphYLength)))
     {
         // must invert result as graph coords opposite to screen coords
-        return maxYAxis - (y-topMargin)*(maxYAxis-minYAxis)/this.graphYLength + minYAxis;
+        return maxYAxis - (y-this.topMargin)*(maxYAxis-minYAxis)/this.graphYLength + minYAxis;
     }
 
     return null;
@@ -740,7 +761,7 @@ Graph.prototype.convertXGraph2Screen = function(x)
 
 Graph.prototype.convertYGraph2Screen = function(y)
 {
-    return topMargin + this.graphYLength - ((y-minYAxis)*this.graphYLength)/(maxYAxis-minYAxis);
+    return this.topMargin + this.graphYLength - ((y-minYAxis)*this.graphYLength)/(maxYAxis-minYAxis);
 };
 
 //////////////////////////////
@@ -859,8 +880,8 @@ Graph.prototype.onMouseMove = function(e)
         // constrain HS to be on graph view
         this.DCHSx = Math.max(this.xScreenCoord, leftMargin);
         this.DCHSx = Math.min(this.DCHSx, (leftMargin+this.graphXLength));
-        this.DCHSy = Math.max(this.yScreenCoord, topMargin);
-        this.DCHSy = Math.min(this.DCHSy, (topMargin+this.graphYLength));
+        this.DCHSy = Math.max(this.yScreenCoord, this.topMargin);
+        this.DCHSy = Math.min(this.DCHSy, (this.topMargin+this.graphYLength));
 
         // update annotation text
         this.annotateReplace(this.nameOfTipsDIV, "point: depth " + dc_x.toFixed(2) + "m");
@@ -985,7 +1006,7 @@ Graph.prototype.onMouseDown = function(e)
         this.annotateReplace(this.nameOfTipsDIV, dm.label + ": depth " + dm.depth.toFixed(2) + "m");
         if ((this.xScreenCoord - leftMargin) < this.graphXLength/2)
             x_posn = leftMargin+this.graphXLength-graphAnnotateWidth-20;
-        this.annotate_show(x_posn, topMargin+20);
+        this.annotate_show(x_posn, this.topMargin+20);
     }
     else if (this.draggingDC)        // if we are dragging a DC point
     {
@@ -995,7 +1016,7 @@ Graph.prototype.onMouseDown = function(e)
         this.annotateReplace(this.nameOfTipsDIV, "point: depth " + point.depth.toFixed(2) + "m");
         if ((this.xScreenCoord - leftMargin) < this.graphXLength/2)
             x_posn = leftMargin+this.graphXLength-graphAnnotateWidth-20;
-        this.annotate_show(x_posn, topMargin+20);
+        this.annotate_show(x_posn, this.topMargin+20);
     }
     else if (this.rightButtonDown)
     {
@@ -1141,18 +1162,7 @@ Graph.prototype.annotateMove = function(new_x)
 
 Graph.prototype.setTitle = function(title, subtitle)
 {
-    if (typeof title == 'undefined')
-    {
-        console.debug('title not supplied');
-        title = "";
-    }
     this.graphTitle1 = title;
-
-    if (typeof subtitle == 'undefined')
-    {
-        console.debug('subtitle not supplied');
-        subtitle = "";
-    }
     this.graphTitle2 = subtitle;
 
     this.refresh();
@@ -1179,3 +1189,18 @@ Graph.prototype.bindThis = function()
 //    document.captureEvents(Event.MOUSEMOVE);
 //}
 
+//////////////////////////////
+// Fudge function to get the height of a particular font
+// From [http://stackoverflow.com/questions/1134586/how-can-you-find-the-height-of-text-on-an-html-canvas]
+var determineFontHeight = function(fontStyle)
+{
+    var body = document.getElementsByTagName("body")[0];
+    var dummy = document.createElement("div");
+    var dummyText = document.createTextNode("M");
+    dummy.appendChild(dummyText);
+    dummy.setAttribute("style", "font: " + fontStyle + ";");
+    body.appendChild(dummy);
+    var result = dummy.offsetHeight;
+    body.removeChild(dummy);
+    return result;
+};
