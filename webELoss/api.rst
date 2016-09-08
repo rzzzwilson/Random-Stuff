@@ -4,7 +4,8 @@ webEloss API
 This is the design document for the API to use the webELoss widget.
 
 The widget is designed to fit into any web page you want.  Once the 
-widget code is running the user will interact with it
+widget code is running the user will interact with the graph and other widgets
+on the page.
 
 Instantiation
 -------------
@@ -19,7 +20,7 @@ The <div> you create to contain the widget doesn't have to be empty,
 but if it isn't you run the risk of the widget code fiddling with your
 objects within the <div>.
 
-A simple example that doesn't do anything:
+A simple example that doesn't do much:
 
 ::
 
@@ -59,8 +60,11 @@ The main- and sub-titles are changed this way:
 
 ::
 
-    graph = new Graph("graph");
-    graph.setTitle("New main title", "New sub title");
+    function run_js()
+    {
+        graph = new Graph("graph");
+        graph.setTitle("New main title", "New sub title");
+    }
 
 If the subtitle parameter is omitted the graph will have no subtitle.  If *both*
 title parameters are missing then the graph will have no titles at all.
