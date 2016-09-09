@@ -2,9 +2,12 @@
 
 "use strict";
 
-// configuration and default values for the widget object
+////////////////////////////////////////////
+// default values for the widget object.
+// some of these may be changed through the API.
+////////////////////////////////////////////
 
-// names of the dynamically created objects
+// ID names of the dynamically created objects
 var graphCanvasName = "graph";              // the graph <canvas> name
 var graphAnnoName = "annotation";           // the graph annotation <canvas> name
 var graphPopupMenuName = "menu";            // the normal popup menu <div> name
@@ -34,7 +37,7 @@ var graphYAxisLabel = "Damage (%)";
 var graphAxisLabelFont = "20pt Arial";
 var graphAxisFont = "10pt Arial";
 
-//FIXME  should be dynamic
+//FIXME  should be dynamic?
 var graphAnnotateWidth = 200;         // width of annotation box (pixels)
 
 var graphDefaultDamage = 10.0;        // default percentage damage error
@@ -91,10 +94,8 @@ var graphDMGranule = 0.05;         // DM granularity (in metres)
 //*****************************************************************************
 
 //////////////////////////////
-// Setup the graph in a canvas
-//     canvas_div_name  name of the user <div> to work within
-//     canvas_obj_name  name of the <canvas> object in the <div>
-
+// Setup the graph
+//     widget_div_name  name of the container <div> to work within
 function Graph(widget_div_name)
 {
     // set some internal state from the defaults
@@ -106,32 +107,27 @@ function Graph(widget_div_name)
     this.graphDivName = widget_div_name;
     this.graphDiv = document.getElementById(widget_div_name);
 
-    // create graph widget object in the given container <div>
+    // create the graph widget canvas in the given container <div>
     var graph_canvas = document.createElement('canvas');
-    this.graphCanvas = graph_canvas;
-    this.graphCanvasName = graphCanvasName;
-    graph_canvas.id = this.graphCanvasName;
+    graph_canvas.id = graphCanvasName;
+    graph_canvas.className = graphCanvasName;
     graph_canvas.style.position = "absolute";
+    this.graphCanvas = graph_canvas;
     this.graphDiv.appendChild(graph_canvas);
-    console.log('Created graph canvas: ' + this.graphCanvas);
 
     // create annotation <div> in the given container <div>
     var anno_div = document.createElement('div');
-    this.graphAnnoDiv = anno_div;
-    this.graphAnnoName = graphAnnoName;
     anno_div.id = this.graphAnnoName;
     anno_div.className = this.graphAnnoName;
     anno_div.style.position = "absolute";
     anno_div.style.visibility="hidden";
+    this.graphAnnoDiv = anno_div;
+    this.graphAnnoName = graphAnnoName;
     this.graphDiv.appendChild(anno_div);
-    console.log('Created annotation <div>: ' + this.graphAnnoDiv);
 
-    // create the normal popup menu <div>s
+    // create the normal and point popup menus
     this.popupMenu = this.createMenu();
-    console.log("Created nornal <menu> 'menu': " + this.popupMenu);
-
     this.popupPointMenu = this.createPointMenu();
-    console.log("Created point <menu> 'pointmenu': " + this.popupPointMenu);
 
     // mouse screen coordinates
     this.xScreenCoord = null;
@@ -145,13 +141,14 @@ function Graph(widget_div_name)
     this.leftButtonDown = false;
 
     // the list holding Depth Marker data
-     this.DepthMarkerArray = [];
+    this.DepthMarkerArray = [];
+
     // could combine these two
     this.DMHSIndex = null;          // index into DepthMarkerArray of HS DM
     this.DMHotspotShowing = false;  // true if DM hotspot is showing
-    this.DMHSx = null;        // if showing, X canvas coord
-    this.DMHSy = null;        // if showing, Y canvas coord
-    this.draggingDM = false;    // true if dragging DM HS
+    this.DMHSx = null;              // if showing, X canvas coord
+    this.DMHSy = null;              // if showing, Y canvas coord
+    this.draggingDM = false;        // true if dragging DM HS
 
     // object holding the Damage Curve data
     // object is: {colour: "#ff0000", points:[{depth:x, damage:y, error: 10}, ...]}
@@ -160,15 +157,15 @@ function Graph(widget_div_name)
     // hotspot (HS) stuff for DC
     this.DCHSIndex = null;          // index into DamageCurve.points of HS DC
     this.DCHotspotShowing = false;  // true if DC hotspot is showing
-    this.DCHSx = null;        // if showing, X canvas coord
-    this.DCHSy = null;        // if showing, Y canvas coord
-    this.draggingDC = false;    // true if dragging DC HS
+    this.DCHSx = null;              // if showing, X canvas coord
+    this.DCHSy = null;              // if showing, Y canvas coord
+    this.draggingDC = false;        // true if dragging DC HS
 
     // array holding the Damage Curve "new points" data
     // array object is: {depth:x, damage:y}
     this.DCNewPoints = [{depth:(minXAxis+maxXAxis)/2.0, damage:minYAxis}];
     this.DCNewHSIndex = null;        // index into this.DCNewPoints of HS
-    this.DCNewHotspotShowing = false;    // true if new DC hotspot is showing
+    this.DCNewHotspotShowing = false;// true if new DC hotspot is showing
     this.DCNewHSx = null;            // if showing, X canvas coord
     this.DCNewHSy = null;            // if showing, Y canvas coord
 
@@ -180,13 +177,14 @@ function Graph(widget_div_name)
     // hotspot (HS) stuff for RC
     this.RCHSIndex = null;          // index into this.RCHS of RC HS
     this.RCHotspotShowing = false;  // true if RC hotspot is showing
-    this.RCHSx = null;        // if showing, X canvas coord
-    this.RCHSy = null;        // if showing, Y canvas coord
+    this.RCHSx = null;              // if showing, X canvas coord
+    this.RCHSy = null;              // if showing, Y canvas coord
 
     // lengths of (dynamic) graph axes
     this.graphXLength = null;       // X pixel length of graph data view
     this.graphYLength = null;       // Y pixel length of graph data view
 
+    //is the annotation showing?
     this.annotateShowing = false;   // true if annotation is showing
 
     this.bindThis();
@@ -204,7 +202,7 @@ Graph.prototype.createMenu = function()
 {
     // first, enclosing element
     var new_menu = document.createElement('menu');
-    new_menu.className = "menu";
+    new_menu.className = graphPopupMenuName;
 
     // next, first menuitem 'li' - "Manage Depth Markers"
     var new_li = document.createElement('li');
@@ -239,8 +237,8 @@ Graph.prototype.createMenu = function()
 Graph.prototype.createPointMenu = function()
 {
     // first, enclosing element
-    var new_menu = document.createElement('pointmenu');
-    new_menu.className = "menu";
+    var new_menu = document.createElement('menu');
+    new_menu.className = graphPopupPointMenuName;
 
     // next, first menuitem 'li' - "Edit Point""
     var new_li = document.createElement('li');
@@ -1138,7 +1136,6 @@ Graph.prototype.onMouseDown = function(e)
         else
         {
             e.preventDefault();
-            console.debug('Opening normal menu');
             this.showMenu(this.popupMenu, e.offsetX, e.offsetY);
         }
     }
