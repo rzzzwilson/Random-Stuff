@@ -4,6 +4,7 @@
 <title>Test Basic Graph</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="webeloss.css">
+<link rel="stylesheet" type="text/css" href="menu.css">
 <script src="webeloss.js"></script>
 
 <!-- ###############  user code below here  ############### -->
@@ -53,47 +54,27 @@ function run_js()
     <div id="graph" class="graph" />
 
     <!-- TEMP div for menus -->
-    <div id="menu" class="cmenu" style="position:absolute; display:none; top:0px; left:0px;z-index:10000;" onmouseover="javascript:overpopupmenu=true;" onmouseout="javascript:overpopupmenu=false;">
-        <table width=250 cellspacing=1 cellpadding=2 bgcolor=lightgray>
-            <tr>
-                <td>
-                    <table width=248 cellspacing=0 cellpadding=0>
-                        <tr>
-                            <td id="menuDM" bgcolor="#FFFFFF" width="248" height="16" onMouseOver="this.style.backgroundColor='#EFEFEF'" onMouseOut="this.style.backgroundColor='#FFFFFF'"><a href="#">Manage Depth Markers</a></td>
-                        </tr>
-                        <tr>
-                            <td id="menuRC" bgcolor="#FFFFFF" width="248" height="16" onMouseOver="this.style.backgroundColor='#EFEFEF'" onMouseOut="this.style.backgroundColor='#FFFFFF'"><a href="#">Manage Reference Curve</a></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </div>
+    <menu id="menu" class="menu">
+        <li class="menu-item"> <button type="button" class="menu-btn" onclick="xyzzy('DM');">Manage Depth Markers</button> </li>
+        <li class="menu-item"> <button type="button" class="menu-btn" onclick="xyzzy('RC');">Manage Reference Curve</button> </li>
+    </menu>
 
-    <div id="pointmenu" style="position:absolute; display:none; top:0px; left:0px;z-index:10000;" onmouseover="javascript:overpopupmenu=true;" onmouseout="javascript:overpopupmenu=false;">
-        <table width=250 cellspacing=1 cellpadding=2 bgcolor=lightgray>
-            <tr>
-                <td>
-                    <table width=248 cellspacing=0 cellpadding=0>
-                        <tr>
-                            <td id="menuEdit" bgcolor="#FFFFFF" width="248" height="16" onMouseOver="this.style.backgroundColor='#EFEFEF'" onMouseOut="this.style.backgroundColor='#FFFFFF'"><a href="#">Edit point</a></td>
-                        </tr>
-                        <tr>
-                            <td id="menuDelete" bgcolor="#FFFFFF" width="248" height="16" onMouseOver="this.style.backgroundColor='#EFEFEF'" onMouseOut="this.style.backgroundColor='#FFFFFF'"><a href="#">Delete point</a></td>
-                        </tr>
-                        <tr>
-                            <td id="itemsep" bgcolor="#FFFFFF" width="248" height="2"><hr></td>
-                        </tr>
-                        <tr>
-                            <td id="menuDM2" bgcolor="#FFFFFF" width="248" height="16" onMouseOver="this.style.backgroundColor='#EFEFEF'" onMouseOut="this.style.backgroundColor='#FFFFFF'"><a href="#">Manage Depth Markers</a></td>
-                        </tr>
-                        <tr>
-                            <td id="menuRC2" bgcolor="#ffffff" width="248" height="16" onMouseOver="this.style.backgroundColor='#EFEFEF'" onMouseOut="this.style.backgroundColor='#FFFFFF'"><a href="#">Manage Reference Curve</a></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </div>
+    <menu id="pointmenu" class="menu">
+        <li class="menu-item"> <button type="button" class="menu-btn" onclick="xyzzy('Edit');">Edit Point</button> </li>
+        <li class="menu-item"> <button type="button" class="menu-btn" onclick="xyzzy('Delete');">Delete Point</button> </li>
+        <li class="menu-separator"></li>
+        <li class="menu-item"> <button type="button" class="menu-btn" onclick="xyzzy('DM');">Manage Depth Markers</button> </li>
+        <li class="menu-item"> <button type="button" class="menu-btn" onclick="xyzzy('RC');">Manage Reference Curve</button> </li>
+    </menu>
+
+    <script src="menu.js"></script>
+
+    <script type="text/javascript">
+        function xyzzy(msg)
+        {
+            alert(msg);
+        }
+    </script>
+
 </body>
 </html>

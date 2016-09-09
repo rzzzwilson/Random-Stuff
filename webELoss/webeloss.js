@@ -35,7 +35,7 @@ var graphAxisLabelFont = "20pt Arial";
 var graphAxisFont = "10pt Arial";
 
 //FIXME  should be dynamic
-var graphAnnotateWidth = 200;        // width of annotation box (pixels)
+var graphAnnotateWidth = 200;         // width of annotation box (pixels)
 
 var graphDefaultDamage = 10.0;        // default percentage damage error
 
@@ -114,7 +114,7 @@ function Graph(widget_div_name)
     graph_canvas.style.position = "absolute";
     this.graphDiv.appendChild(graph_canvas);
     console.log('Created graph canvas: ' + this.graphCanvas);
-    
+
     // create annotation <div> in the given container <div>
     var anno_div = document.createElement('div');
     this.graphAnnoDiv = anno_div;
@@ -125,8 +125,25 @@ function Graph(widget_div_name)
     anno_div.style.visibility="hidden";
     this.graphDiv.appendChild(anno_div);
     console.log('Created annotation <div>: ' + this.graphAnnoDiv);
-    
+
     // create the popup menu <div>s
+    this.popupMenu = document.getElementById(graphPopupMenuName);
+    if (typeof this.popupMenu == 'undefined')
+    {
+        alert("Warning, popup menu <div> '" + graphPopupMenuName + "' is not defined.");
+    }
+    this.popupPointMenu = document.getElementById(graphPopupPointMenuName);
+    if (typeof this.popupPointMenu == 'undefined')
+    {
+        alert("Warning, popup menu <div> '" + graphPopupPointMenuName + "' is not defined.");
+    }
+
+//    var menu_div = document.createElement('div');
+//    var menu_table = document.createElement('table');
+//    menu_div.appendChild(menu_table);
+//
+//    this.graphDiv.appendChild(graph_canvas);
+
 
     // mouse screen coordinates
     this.xScreenCoord = null;
@@ -185,6 +202,8 @@ function Graph(widget_div_name)
     this.annotateShowing = false;   // true if annotation is showing
 
     this.bindThis();
+    this.hideMenu();
+    this.hidePointMenu();
     this.refresh();
 }
 
@@ -308,7 +327,7 @@ Graph.prototype.refresh = function(event)
         var title_height = determineFontHeight(graphTitle1Font);
         this.topMargin += title_height + middleTitleMargin;
     }
-    
+
     // sub title
     if (typeof this.graphTitle2 != 'undefined')
     {
@@ -476,7 +495,7 @@ Graph.prototype.refresh = function(event)
             var point = curve.points[j];
             var x = this.convertXGraph2Screen(point.depth);
             var y = this.convertYGraph2Screen(point.damage);
-    
+
             canvas_ctx.lineTo(x, y);
             currentY = y
         }
@@ -967,9 +986,9 @@ Graph.prototype.onMouseMove = function(e)
 // Handle the "mouse down" event.
 Graph.prototype.onMouseDown = function(e)
 {
-    // hide any previous menu
-    this.hideNormalMenu(e);
-    this.hideAugmentedMenu(e);
+    // hide any previous menu(s)
+    this.hideMenu();
+    this.hidePointMenu();
 
     // remember which button was pressed (TODO: MAKE PORTABLE)
     this.leftButtonDown = (e.button == 0);
@@ -1023,74 +1042,37 @@ Graph.prototype.onMouseDown = function(e)
         // show required menu
         if (this.DCHotspotShowing)
         {
-            this.showAugmentedMenu(e);
+            this.showPointMenu(e.offsetX, e.offsetY);
         }
         else
         {
-            this.showNormalMenu(e);
+            this.showMenu(e.offsetX, e.offsetY);
         }
     }
 };
 
-//////////////////////////////
-// Show a normal menu on right-button down.
-//     e  the event object for right-button down
-Graph.prototype.showNormalMenu = function(e)
+Graph.prototype.showMenu = function(x, y)
 {
-    var menu = document.getElementById(graphPopupMenuName);
-
-    //menu.style.left = e.layerX+'px';
-    //menu.style.top = e.layerY+'px';
-
-    menu.style.left = e.pageX+'px';
-    menu.style.top = e.pageY+'px';
-    menu.style.visibility="visible";
-    menu.style.display = "";
-
-    document.getElementById('menuDM').style.backgroundColor='#FFFFFF';
-    document.getElementById('menuRC').style.backgroundColor='#FFFFFF';
-    document.getElementById("menuDM").onclick = this.manageDM;
-
-    return false;
-};
-
-//////////////////////////////
-// Show an augmented menu on right-button down.
-//     e  the event object for right-button down
-Graph.prototype.showAugmentedMenu = function(e)
-{
-    var menu = document.getElementById(graphPopupPointMenuName);
-
-    //menu.style.left = e.layerX+'px';
-    //menu.style.top = e.layerY+'px';
-
-    menu.style.left = e.pageX+'px';
-    menu.style.top = e.pageY+'px';
-    menu.style.visibility="visible";
-    menu.style.display = "";
-
-    document.getElementById('menuEdit').style.backgroundColor='#FFFFFF';
-    document.getElementById('menuDelete').style.backgroundColor='#FFFFFF';
-    document.getElementById('menuDM').style.backgroundColor='#FFFFFF';
-    document.getElementById('menuRC').style.backgroundColor='#FFFFFF';
-
-    return false;
-};
-
-//////////////////////////////
-// Hide the menus.
-Graph.prototype.hideNormalMenu = function(e)
-{
-    var menu = document.getElementById(graphPopupMenuName);
-
-    menu.style.visibility="hidden";
+    this.popupMenu.style.left = x + 'px';
+    this.popupMenu.style.top = y + 'px';
+    this.popupMenu.classList.add('show-menu');
 }
 
-Graph.prototype.hideAugmentedMenu = function(e)
+Graph.prototype.showPointMenu = function(x, y)
 {
-    var menu = document.getElementById(graphPopupPointMenuName);
+    this.popupPointMenu.style.left = x + 'px';
+    this.popupPointMenu.style.top = y + 'px';
+    this.popupPointMenu.classList.add('show-menu');
+}
 
-    menu.style.visibility="hidden";
+Graph.prototype.hideMenu = function()
+{
+    this.popupMenu.classList.remove('show-menu');
+}
+
+Graph.prototype.hidePointMenu = function()
+{
+    this.popupPointMenu.classList.remove('show-menu');
 }
 
 //////////////////////////////
