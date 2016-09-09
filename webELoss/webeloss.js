@@ -126,24 +126,12 @@ function Graph(widget_div_name)
     this.graphDiv.appendChild(anno_div);
     console.log('Created annotation <div>: ' + this.graphAnnoDiv);
 
-    // create the popup menu <div>s
-    this.popupMenu = document.getElementById(graphPopupMenuName);
-    if (typeof this.popupMenu == 'undefined')
-    {
-        alert("Warning, popup menu <div> '" + graphPopupMenuName + "' is not defined.");
-    }
-    this.popupPointMenu = document.getElementById(graphPopupPointMenuName);
-    if (typeof this.popupPointMenu == 'undefined')
-    {
-        alert("Warning, popup menu <div> '" + graphPopupPointMenuName + "' is not defined.");
-    }
+    // create the normal popup menu <div>s
+    this.popupMenu = this.createMenu();
+    console.log("Created nornal <menu> 'menu': " + this.popupMenu);
 
-//    var menu_div = document.createElement('div');
-//    var menu_table = document.createElement('table');
-//    menu_div.appendChild(menu_table);
-//
-//    this.graphDiv.appendChild(graph_canvas);
-
+    this.popupPointMenu = this.createPointMenu();
+    console.log("Created point <menu> 'pointmenu': " + this.popupPointMenu);
 
     // mouse screen coordinates
     this.xScreenCoord = null;
@@ -202,9 +190,111 @@ function Graph(widget_div_name)
     this.annotateShowing = false;   // true if annotation is showing
 
     this.bindThis();
-    this.hideMenu();
-    this.hidePointMenu();
+    this.hideMenu(this.popupMenu);
+    this.hideMenu(this.popupPointMenu);
+
+//    document.addEventListener('contextmenu', this.onContextMenu, false);
+
     this.refresh();
+}
+
+//////////////////////////////
+// Create a normal popup menu.
+Graph.prototype.createMenu = function()
+{
+    // first, enclosing element
+    var new_menu = document.createElement('menu');
+    new_menu.className = "menu";
+
+    // next, first menuitem 'li' - "Manage Depth Markers"
+    var new_li = document.createElement('li');
+    new_li.className = "menu-item";
+    new_menu.appendChild(new_li);
+
+    var new_button = document.createElement('button');
+    new_button.className = "menu-btn";
+    new_button.value = "Manage Depth Markers";
+    new_button.onclick = "xyzzy('Manage Depth Markers')";
+    new_li.appendChild(new_button);
+
+    // second menuitem - "Manage Reference Curve"
+    var new_li = document.createElement('li');
+    new_li.className = "menu-item";
+    new_menu.appendChild(new_li);
+
+    var new_button = document.createElement('button');
+    new_button.className = "menu-btn";
+    new_button.value = "Manage Reference Curve";
+    new_button.onclick = "xyzzy('Manage Reference Curve')";
+    new_li.appendChild(new_button);
+
+    // add new menu to the Graph
+    this.graphDiv.appendChild(new_menu);
+
+    return new_menu;
+}
+
+//////////////////////////////
+// Create a point popup menu.
+Graph.prototype.createPointMenu = function()
+{
+    // first, enclosing element
+    var new_menu = document.createElement('pointmenu');
+    new_menu.className = "menu";
+
+    // next, first menuitem 'li' - "Edit Point""
+    var new_li = document.createElement('li');
+    new_li.className = "menu-item";
+    new_menu.appendChild(new_li);
+
+    var new_button = document.createElement('button');
+    new_button.className = "menu-btn";
+    new_button.value = "Edit Point";
+    new_button.onclick = "xyzzy('Edit Point')";
+    new_li.appendChild(new_button);
+
+    // then, menuitem 'li' - "Delete Point""
+    var new_li = document.createElement('li');
+    new_li.className = "menu-item";
+    new_menu.appendChild(new_li);
+
+    var new_button = document.createElement('button');
+    new_button.className = "menu-btn";
+    new_button.value = "Delete Point";
+    new_button.onclick = "xyzzy('Delete Point')";
+    new_li.appendChild(new_button);
+
+    // a separator
+    var new_li = document.createElement('li');
+    new_li.className = "menu-separator";
+    new_menu.appendChild(new_li);
+
+    // then - "Manage Depth Markers"
+    var new_li = document.createElement('li');
+    new_li.className = "menu-item";
+    new_menu.appendChild(new_li);
+
+    var new_button = document.createElement('button');
+    new_button.className = "menu-btn";
+    new_button.value = "Manage Depth Markers";
+    new_button.onclick = "xyzzy('Manage Depth Markers')";
+    new_li.appendChild(new_button);
+
+    // finally - "Manage Reference Curve"
+    var new_li = document.createElement('li');
+    new_li.className = "menu-item";
+    new_menu.appendChild(new_li);
+
+    var new_button = document.createElement('button');
+    new_button.className = "menu-btn";
+    new_button.value = "Manage Reference Curve";
+    new_button.onclick = "xyzzy('Manage Reference Curve')";
+    new_li.appendChild(new_button);
+
+    // add new menu to the Graph
+    this.graphDiv.appendChild(new_menu);
+
+    return new_menu;
 }
 
 //////////////////////////////
@@ -987,8 +1077,8 @@ Graph.prototype.onMouseMove = function(e)
 Graph.prototype.onMouseDown = function(e)
 {
     // hide any previous menu(s)
-    this.hideMenu();
-    this.hidePointMenu();
+    this.hideMenu(this.popupMenu);
+    this.hideMenu(this.popupPointMenu);
 
     // remember which button was pressed (TODO: MAKE PORTABLE)
     this.leftButtonDown = (e.button == 0);
@@ -1042,38 +1132,42 @@ Graph.prototype.onMouseDown = function(e)
         // show required menu
         if (this.DCHotspotShowing)
         {
-            this.showPointMenu(e.offsetX, e.offsetY);
+            e.preventDefault();
+            this.showMenu(this.popupPointMenu, e.offsetX, e.offsetY);
         }
         else
         {
-            this.showMenu(e.offsetX, e.offsetY);
+            e.preventDefault();
+            console.debug('Opening normal menu');
+            this.showMenu(this.popupMenu, e.offsetX, e.offsetY);
         }
     }
 };
 
-Graph.prototype.showMenu = function(x, y)
-{
-    this.popupMenu.style.left = x + 'px';
-    this.popupMenu.style.top = y + 'px';
-    this.popupMenu.classList.add('show-menu');
-}
-
-Graph.prototype.showPointMenu = function(x, y)
-{
-    this.popupPointMenu.style.left = x + 'px';
-    this.popupPointMenu.style.top = y + 'px';
-    this.popupPointMenu.classList.add('show-menu');
-}
-
-Graph.prototype.hideMenu = function()
-{
-    this.popupMenu.classList.remove('show-menu');
-}
-
-Graph.prototype.hidePointMenu = function()
-{
-    this.popupPointMenu.classList.remove('show-menu');
-}
+//Graph.prototype.showMenu = function(x, y)
+//{
+//    console.debug('showMenu: this.popupMenu=' + this.popupMenu);
+//    this.popupMenu.style.left = x + 'px';
+//    this.popupMenu.style.top = y + 'px';
+//    this.popupMenu.classList.add('show-menu');
+//}
+//
+//Graph.prototype.showPointMenu = function(x, y)
+//{
+//    this.popupPointMenu.style.left = x + 'px';
+//    this.popupPointMenu.style.top = y + 'px';
+//    this.popupPointMenu.classList.add('show-menu');
+//}
+//
+//Graph.prototype.hideMenu = function()
+//{
+//    this.popupMenu.classList.remove('show-menu');
+//}
+//
+//Graph.prototype.hidePointMenu = function()
+//{
+//    this.popupPointMenu.classList.remove('show-menu');
+//}
 
 //////////////////////////////
 // Handle the "mouse up" event.
@@ -1159,17 +1253,14 @@ Graph.prototype.bindThis = function()
     this.onmousemove = this.onMouseMove.bind(this);
     this.onmousedown = this.onMouseDown.bind(this);
     this.onmouseup = this.onMouseUp.bind(this);
+//    this.onContextMenu = this.onContextMenu.bind(this);
+//    this.onClick = this.onClick.bind(this);
 
     // plug our event handlers into the document
     document.onmousemove = this.onmousemove;
     document.onmousedown = this.onmousedown;
     document.onmouseup = this.onmouseup;
 }
-
-//if (document.captureEvents)
-//{
-//    document.captureEvents(Event.MOUSEMOVE);
-//}
 
 //////////////////////////////
 // Fudge function to get the height of a particular font
@@ -1186,3 +1277,32 @@ var determineFontHeight = function(fontStyle)
     body.removeChild(dummy);
     return result;
 };
+
+//////////////////////////////
+// Show the given 'menu' at the given position
+Graph.prototype.showMenu = function(menu, x, y)
+{
+    menu.style.left = x + 'px';
+    menu.style.top = y + 'px';
+    menu.classList.add('show-menu');
+}
+
+//////////////////////////////
+// Hide the given 'menu'
+Graph.prototype.hideMenu = function(menu)
+{
+    menu.classList.remove('show-menu');
+}
+
+//Graph.prototype.onContextMenu = function(e)
+//{
+//    e.preventDefault();
+//    this.showMenu(e.pageX, e.pageY);
+//    document.addEventListener('click', this.onClick, false);
+//}
+//
+//Graph.prototype.onClick = function(e)
+//{
+//    this.hideMenu();
+//    document.removeEventListener('click', this.onClick);
+//}
