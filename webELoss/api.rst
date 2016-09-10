@@ -58,6 +58,9 @@ surround is the **margin**.  In the top margin we see the **maintitle** and
 **subtitle**.  The left margin contains the **y axis label** and the bottom
 margin contains the **x axis label**.
 
+The grey margins are the **top margin**, **bottom margin**, **left margin** and
+**right margin**.
+
 Titles
 ------
 
