@@ -8,6 +8,12 @@ question:
 
 The code here is my take on the problem.
 
+It's just the simple fuctional approach of:
+
+* find the longest head sequence
+* get the longest tail subsequence (recursively)
+* return the longest
+
 test.py
 -------
 
