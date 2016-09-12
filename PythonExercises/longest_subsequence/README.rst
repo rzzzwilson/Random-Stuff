@@ -80,4 +80,15 @@ testing code.
 testing.py
 ----------
 
-Some test code.
+Some test code.  Usage from the code:
+
+::
+
+    Test the code samples.
+
+    Usage: testing.py <filename>
+
+    For example:
+        testing.py test2.py
+    would test the code in test2.py.
+
