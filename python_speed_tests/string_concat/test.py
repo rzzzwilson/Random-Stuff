@@ -5,9 +5,15 @@
 
 import time
 import platform
-from UserString import MutableString
 from array import array
-from cStringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ImportError:
+    # python3 - make changes
+    import io
+    global StringIO
+    StringIO = io.StringIO
+    xrange = range
 
 
 TIMES = 50000000
@@ -70,9 +76,9 @@ if __name__ == '__main__':
     result = concat_naive(TIMES)
     print('        naive: %5.2fs' % result)
     time.sleep(1)
-    result = concat_array(TIMES)
-    print('        array: %5.2fs' % result)
-    time.sleep(1)
+#    result = concat_array(TIMES)
+#    print('        array: %5.2fs' % result)
+#    time.sleep(1)
     result = concat_join(TIMES)
     print('         join: %5.2fs' % result)
     time.sleep(1)
@@ -81,7 +87,6 @@ if __name__ == '__main__':
     time.sleep(1)
     result = concat_comprehension(TIMES)
     print('comprehension: %5.2fs' % result)
-#    time.sleep(1)
-#    result = concat_mutable(TIMES)
-#    print('      mutable: %5.2fs' % result)
     time.sleep(1)
+
+

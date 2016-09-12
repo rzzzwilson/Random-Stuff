@@ -10,7 +10,7 @@
 // ID names of the dynamically created objects
 var graphCanvasName = "graph";              // the graph <canvas> name
 var graphAnnoName = "annotation";           // the graph annotation <canvas> name
-var graphPopupMenuName = "menu";            // the normal popup menu <div> name
+var graphPopupMenuName = "normalmenu";      // the normal popup menu <div> name
 var graphPopupPointMenuName = "pointmenu";  // the point popup menu <div> name
 
 // colours for various parts of the graph, etc
@@ -1131,23 +1131,18 @@ Graph.prototype.onMouseDown = function(e)
         if (this.DCHotspotShowing)
         {
             e.preventDefault();
+            console.debug('.onMouseDown: showing pointMenu');
             this.showMenu(this.popupPointMenu, e.offsetX, e.offsetY);
         }
         else
         {
             e.preventDefault();
+            console.debug('.onMouseDown: showing Menu');
             this.showMenu(this.popupMenu, e.offsetX, e.offsetY);
         }
     }
 };
 
-//Graph.prototype.showMenu = function(x, y)
-//{
-//    console.debug('showMenu: this.popupMenu=' + this.popupMenu);
-//    this.popupMenu.style.left = x + 'px';
-//    this.popupMenu.style.top = y + 'px';
-//    this.popupMenu.classList.add('show-menu');
-//}
 //
 //Graph.prototype.showPointMenu = function(x, y)
 //{
@@ -1279,6 +1274,7 @@ var determineFontHeight = function(fontStyle)
 // Show the given 'menu' at the given position
 Graph.prototype.showMenu = function(menu, x, y)
 {
+    console.debug('.showMenu: x=' + x + ', y=' + y);
     menu.style.left = x + 'px';
     menu.style.top = y + 'px';
     menu.classList.add('show-menu');

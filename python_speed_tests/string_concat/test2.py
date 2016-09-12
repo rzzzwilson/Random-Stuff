@@ -3,19 +3,24 @@
 """Run simple string concatenation speed tests.
 
 The tests here are somewaht similar to those in test.py except we
-try to defeat any optimisations the python runtime doesi by doing
+try to defeat any optimisations the python runtime does by doing
 the concatenation in a function.
 """
 
 
 import time
 import platform
-from UserString import MutableString
 from array import array
-from cStringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ImportError:
+    import io
+    global StringIO
+    StringIO = io.StringIO
+    xrange = range
 
 
-TIMES = 200000
+TIMES = 250000
 
 
 def concat_naive_func(a, n):
@@ -67,13 +72,13 @@ def concat_stringio(times):
     return delta
 
 if __name__ == '__main__':
-    print('Using Python %s' % platform.python_version())
+    print('Using Python %s on %s' % (platform.python_version(), platform.platform()))
     print('For %d concatenations:' % TIMES)
     result = concat_naive(TIMES)
     print('        naive: %5.2fs' % result)
-    time.sleep(1)
-    result = concat_array(TIMES)
-    print('        array: %5.2fs' % result)
+#    time.sleep(1)
+#    result = concat_array(TIMES)
+#    print('        array: %5.2fs' % result)
     time.sleep(1)
     result = concat_join(TIMES)
     print('         join: %5.2fs' % result)
