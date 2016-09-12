@@ -8,9 +8,10 @@ question:
 
 The code here is my take on the problem.
 
-It's just the simple fuctional approach of:
+It's just the simple functional approach of:
 
 * find the longest head sequence
+* split the tail from the string
 * get the longest tail subsequence (recursively)
 * return the longest of the two
 
@@ -56,8 +57,8 @@ But still inefficient, due to the multiple recursive calls.
 test3.py
 --------
 
-Removed the multiple recursive call.  It's a lot faster, but not as clear as
-required for /r/learnpython.
+Removed the multiple recursive call.  It's a lot faster, but perhaps not as
+clear as it should be for /r/learnpython.
 
 ::
 
