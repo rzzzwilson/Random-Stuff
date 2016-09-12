@@ -74,4 +74,9 @@ required for /r/learnpython.
 
 This is approaching production code and is worthy of being placed into the
 library and being used until testing shows it isn't fast enough.  Along with
-test cases ensuring correctness, of course!
+testing code.
+
+testing.py
+----------
+
+Some test code.
