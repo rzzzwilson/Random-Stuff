@@ -9,7 +9,7 @@ def longest(s):
     prev = None
     for (i, c) in enumerate(s):
         if prev and c < prev:
-            return s[:i] if len(s[:i]) > len(longest(s[i:])) else longest(s[i:])
+            return s[:i] if len(s[:i]) >= len(longest(s[i:])) else longest(s[i:])
         prev = c
     return s
 

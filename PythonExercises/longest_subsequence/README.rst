@@ -27,12 +27,12 @@ but simple!
         prev = None
         for (i, c) in enumerate(s):
             if prev and c < prev:
-                return s[:i] if len(s[:i]) > len(longest(s[i:])) else longest(s[i:])
+                return s[:i] if len(s[:i]) >= len(longest(s[i:])) else longest(s[i:])
             prev = c
         return s
     
-    s = 'azcbobobegghakl'
-    print('%s->%s' % (s, longest(s)))
+        s = 'azcbobobegghakl'
+        print('%s->%s' % (s, longest(s)))
 
 test2.py
 --------
@@ -50,7 +50,7 @@ But still inefficient, due to the multiple recursive calls.
             if prev and c < prev:
                 head = s[:i]
                 tail = s[i:]
-                return head if len(head) > len(longest(tail)) else longest(tail)
+                return head if len(head) >= len(longest(tail)) else longest(tail)
             prev = c
         return s
 
@@ -69,7 +69,7 @@ clear as it should be for /r/learnpython.
                 head = s[:i]
                 tail = s[i:]
                 longest_tail = longest(tail)
-                return head if len(head) > len(longest_tail) else longest_tail
+                return head if len(head) >= len(longest_tail) else longest_tail
             prev = c
         return s
 

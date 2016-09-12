@@ -11,7 +11,7 @@ def longest(s):
         if prev and c < prev:
             head = s[:i]
             tail = s[i:]
-            return head if len(head) > len(longest(tail)) else longest(tail)
+            return head if len(head) >= len(longest(tail)) else longest(tail)
         prev = c
     return s
 

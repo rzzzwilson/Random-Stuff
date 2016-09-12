@@ -12,7 +12,7 @@ def longest(s):
             head = s[:i]
             tail = s[i:]
             longest_tail = longest(tail)
-            return head if len(head) > len(longest_tail) else longest_tail
+            return head if len(head) >= len(longest_tail) else longest_tail
         prev = c
     return s
 

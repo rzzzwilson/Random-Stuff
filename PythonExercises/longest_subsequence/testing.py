@@ -20,6 +20,7 @@ import unittest
 class TestLongest(unittest.TestCase):
 
     def test_empty(self):
+        """An empty string should return the empty string."""
 
         given = ''
         expected = ''
@@ -29,6 +30,7 @@ class TestLongest(unittest.TestCase):
         self.assertEqual(result, expected, msg)
 
     def test_simple(self):
+        """A single character string should return the character."""
 
         given = 'a'
         expected = 'a'
@@ -38,6 +40,7 @@ class TestLongest(unittest.TestCase):
         self.assertEqual(result, expected, msg)
 
     def test_simple2(self):
+        """An all increasing string should return the input string."""
 
         given = 'abc'
         expected = 'abc'
@@ -46,8 +49,27 @@ class TestLongest(unittest.TestCase):
 
         self.assertEqual(result, expected, msg)
 
-    def test_longer(self):
+    def test_simple3(self):
+        """A decreasing sequence should return the FIRST single character."""
 
+        given = 'cba'
+        expected = 'c'
+        result = longest(given)
+        msg = "longest('%s') should return '%s' but got '%s'" % (given, expected, str(result))
+
+        self.assertEqual(result, expected, msg)
+
+    def test_simple4(self):
+        """A repeated sequence should return the input string."""
+
+        given = 'bbbbbb'
+        expected = 'bbbbbb'
+        result = longest(given)
+        msg = "longest('%s') should return '%s' but got '%s'" % (given, expected, str(result))
+
+        self.assertEqual(result, expected, msg)
+
+    def test_longer(self):
         given = 'abcaqaaabbbqqqabd'
         expected = 'aaabbbqqq'
         result = longest(given)
