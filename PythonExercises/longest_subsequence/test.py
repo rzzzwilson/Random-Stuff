@@ -13,9 +13,9 @@ def longest(s):
         prev = c
     return s
 
+if __name__ == '__main__':
+    s = 'azcbobobegghakl'
+    print('%s->%s' % (s, longest(s)))
 
-s = 'azcbobobegghakl'
-print('%s->%s' % (s, longest(s)))
-
-s = 'khdieuryfpbieuypbdfjlruuuuufvoidufvnodubeoriuybvspuybrpuyvbor'
-print('%s->%s' % (s, longest(s)))
+    s = 'khdieuryfpbieuypbdfjlruuuuufvoidufvnodubeoriuybvspuybrpuyvbor'
+    print('%s->%s' % (s, longest(s)))
