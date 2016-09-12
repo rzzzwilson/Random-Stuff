@@ -71,3 +71,7 @@ required for /r/learnpython.
                 return head if len(head) > len(longest_tail) else longest_tail
             prev = c
         return s
+
+This is approaching production code and is worthy of being placed into the
+library and being used until testing shows it isn't fast enough.  Along with
+test cases ensuring correctness, of course!
