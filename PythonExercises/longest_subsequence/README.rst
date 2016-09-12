@@ -1,10 +1,8 @@
-I lurk in `/r/learnpython`_ and I came acrosss `this`_ question:
+I lurk in `/r/learnpython <https://www.reddit.com/r/learnpython>`_ and I came acrosss `this`_ question:
 
 ::
 
     Write a program that prints the longest substring of s in which the letters occur in alphabetical order
-
-.. /r/learnpython: https://www.reddit.com/r/learnpython
 
 .. this: https://www.reddit.com/r/learnpython/comments/52a86k/write_a_program_that_prints_the_longest_substring/
 
