@@ -1,4 +1,4 @@
-I lurk in `/r/learnpython`__ and I came acrosss `this`__ question:
+I lurk in `/r/learnpython`_ and I came acrosss `this`_ question:
 
 ::
 
