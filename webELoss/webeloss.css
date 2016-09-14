@@ -1,21 +1,22 @@
-.annotation {font:14px/16px Arial,Helvetica,sans-serif;
-	     border:solid 1px #666666;
-	     border-radius: 5px;
-	     width:150px;
-	     height:15px;
-	     padding:3px;
-	     position:absolute;
-	     z-index:100;
-	     visibility:hidden;
-	     color:#333333;
-	     top:20px;
-	     left:20px;
-	     vertical-align:70%;
-	     background-color:#ffffcc;
-	     layer-background-color:#ffffcc;}
+.annotation {
+    position: absolute;
+    border:solid 1px #666666;
+    border-radius: 3px;
+    width:200px;
+    height:15px;
+    padding:3px;
+    font:14px/16px Arial,sans-serif;
+    z-index:100;
+    visibility:hidden;
+    color:#333333;
+    top:20px;
+    left:20px;
+    vertical-align:70%;
+    background-color:#ffffcc;
+    layer-background-color:#ffffcc;}
 #t1 {width:150px;}                  
 #t2 {width:100px;} 
-#t3 {font:bold 14pt verdana,arial,sans-serif;
+#t3 {font:bold 14pt Arial,sans-serif;
      background-color:#ffcccc;
      layer-background-color:#ffcccc;} 
 
@@ -24,8 +25,8 @@
     width: 200px;
     padding: 2px;
     margin: 0;
-    border: 1px solid #bbb;
-    background: #eee;
+    border: 1px solid #666666;
+    background: #E0E0E0;
     background: -webkit-linear-gradient(to bottom, #fff 0%, #e5e5e5 100px, #e5e5e5 100%);
     background: linear-gradient(to bottom, #fff 0%, #e5e5e5 100px, #e5e5e5 100%);
     z-index: 100;

@@ -8,16 +8,19 @@
 ////////////////////////////////////////////
 
 // ID names of the dynamically created objects
+// NOTE: these must match the names used in the menu CSS
 var graphCanvasName = "graph";              // the graph <canvas> name
 var graphAnnoName = "annotation";           // the graph annotation <canvas> name
-var graphPopupMenuName = "normalmenu";      // the normal popup menu <div> name
-var graphPopupPointMenuName = "pointmenu";  // the point popup menu <div> name
+var graphMenuClass = "menu";                // the graph normal menu class
+var graphMenuItemClass = "menu-item";       // the graph normal menu class
+var graphMenuButtonClass = "menu-btn";      // the graph menuitem button class
+var graphMenuSepClass = "menu-separator";   // the graph menuitem separator class
 
 // colours for various parts of the graph, etc
 var graphCanvasColour = "white";    // background of graph proper
-var graphBorderColour = "silver";   // border colour
+var graphBorderColour = "#E0E0E0";  // border colour
 var graphAxisColour = "black";      // axis lines and ticks
-var graphGridColour = "Gainsboro";
+var graphGridColour = "#F0F0F0";    // very light grid colour
 var graphDMColour = "red";          // depth marker line and hotspot
 
 var topTitleMargin = 6;             // widget top edge to maintitle margin
@@ -117,8 +120,8 @@ function Graph(widget_div_name)
 
     // create annotation <div> in the given container <div>
     var anno_div = document.createElement('div');
-    anno_div.id = this.graphAnnoName;
-    anno_div.className = this.graphAnnoName;
+    anno_div.id = graphAnnoName;
+    anno_div.className = graphAnnoName;
     anno_div.style.position = "absolute";
     anno_div.style.visibility="hidden";
     this.graphAnnoDiv = anno_div;
@@ -202,8 +205,8 @@ Graph.prototype.createMenu = function(divname)
 {
     var new_menu = this.newMenu(divname);
 
-    this.addMenuItem(new_menu, "Manage Depth Markers", function() {alert('Manage Depth Markers');});
-    this.addMenuItem(new_menu, "Manage Reference Curve", function() {alert('Manage Reference Curve');});
+    this.addMenuItem(new_menu, "Manage Depth Markers", function() {this.manageDM();});
+    this.addMenuItem(new_menu, "Manage Reference Curve", function() {alert("Manage Reference Curve");});
 
     return new_menu;
 }
@@ -214,11 +217,11 @@ Graph.prototype.createPointMenu = function(divname)
 {
     var new_menu = this.newMenu(divname);
 
-    this.addMenuItem(new_menu, "Edit point", function() {alert('Edit point');});
-    this.addMenuItem(new_menu, "Delete point", function() {alert('Delete point');});
+    this.addMenuItem(new_menu, "Edit point", function() {alert("Edit point");});
+    this.addMenuItem(new_menu, "Delete point", function() {alert("Delete point");});
     this.addSeparator(new_menu);
-    this.addMenuItem(new_menu, "Manage Depth Markers", function() {alert('Manage Depth Markers');});
-    this.addMenuItem(new_menu, "Manage Reference Curve", function() {alert('Manage Reference Curve');});
+    this.addMenuItem(new_menu, "Manage Depth Markers", function() {alert("Manage Depth Markers");});
+    this.addMenuItem(new_menu, "Manage Reference Curve", function() {alert("Manage Reference Curve");});
 
     return new_menu;
 }
@@ -868,15 +871,15 @@ Graph.prototype.onMouseMove = function(e)
         this.DMHSx = Math.min(this.DMHSx, (leftMargin+this.graphXLength));
 
         // update annotation text
-        this.annotateReplace(this.nameOfTipsDIV, old_label + ": depth " + dm_x.toFixed(2) + "m");
+        this.annotateReplace(old_label + ": depth " + dm_x.toFixed(2) + "m");
 
         // move annotation if cursor close
         var graphPixCoord = this.xScreenCoord - leftMargin;
 
         if (graphPixCoord < this.graphXLength/4)
-            this.annotateMove(this.nameOfTipsDIV, leftMargin+this.graphXLength-graphAnnotateWidth-20);
+            this.annotateMove(leftMargin+this.graphXLength-graphAnnotateWidth-20);
         else if (graphPixCoord > 3*this.graphXLength/4)
-            this.annotateMove(this.nameOfTipsDIV, leftMargin+20);
+            this.annotateMove(leftMargin+20);
 
         // force a redraw to show changed DM
         force_refresh = true;
@@ -919,15 +922,15 @@ Graph.prototype.onMouseMove = function(e)
         this.DCHSy = Math.min(this.DCHSy, (this.topMargin+this.graphYLength));
 
         // update annotation text
-        this.annotateReplace(this.nameOfTipsDIV, "point: depth " + dc_x.toFixed(2) + "m");
+        this.annotateReplace("point: depth " + dc_x.toFixed(2) + "m");
 
         // move annotation if cursor close
         var graphPixCoord = this.xScreenCoord - leftMargin;
 
         if (graphPixCoord < this.graphXLength/4)
-            this.annotateMove(this.nameOfTipsDIV, leftMargin+this.graphXLength-graphAnnotateWidth-20);
+            this.annotateMove(leftMargin+this.graphXLength-graphAnnotateWidth-20);
         else if (graphPixCoord > 3*this.graphXLength/4)
-            this.annotateMove(this.nameOfTipsDIV, leftMargin+20);
+            this.annotateMove(leftMargin+20);
 
         // force a redraw to show changed DC
         force_refresh = true;
@@ -1038,7 +1041,7 @@ Graph.prototype.onMouseDown = function(e)
         var dm = this.DepthMarkerArray[this.DMHSIndex];
         var x_posn = leftMargin + 20;
 
-        this.annotateReplace(this.nameOfTipsDIV, dm.label + ": depth " + dm.depth.toFixed(2) + "m");
+        this.annotateReplace(dm.label + ": depth " + dm.depth.toFixed(2) + "m");
         if ((this.xScreenCoord - leftMargin) < this.graphXLength/2)
             x_posn = leftMargin+this.graphXLength-graphAnnotateWidth-20;
         this.annotate_show(x_posn, this.topMargin+20);
@@ -1048,7 +1051,7 @@ Graph.prototype.onMouseDown = function(e)
         var point = this.DamageCurve.points[this.DCHSIndex];
         var x_posn = leftMargin + 20;
 
-        this.annotateReplace(this.nameOfTipsDIV, "point: depth " + point.depth.toFixed(2) + "m");
+        this.annotateReplace("point: depth " + point.depth.toFixed(2) + "m");
         if ((this.xScreenCoord - leftMargin) < this.graphXLength/2)
             x_posn = leftMargin+this.graphXLength-graphAnnotateWidth-20;
         this.annotate_show(x_posn, this.topMargin+20);
@@ -1059,15 +1062,11 @@ Graph.prototype.onMouseDown = function(e)
         if (this.DCHotspotShowing)
         {
             e.preventDefault();
-            console.debug('.onMouseDown: showing pointMenu');
-            //this.showMenu(this.popupPointMenu, e.offsetX, e.offsetY);
             this.showMenu(this.popupPointMenu, e.pageX, e.pageY);
         }
         else
         {
             e.preventDefault();
-            console.debug('.onMouseDown: showing Menu');
-            //this.showMenu(this.popupMenu, e.offsetX, e.offsetY);
             this.showMenu(this.popupMenu, e.pageX, e.pageY);
         }
     }
@@ -1099,8 +1098,6 @@ Graph.prototype.manageDM = function()
 };
 
 ////////////////////////////////////////////////////////////////
-
-//
 // Simple dynamic annotation
 //
 
@@ -1165,26 +1162,9 @@ Graph.prototype.bindThis = function()
 }
 
 //////////////////////////////
-// Fudge function to get the height of a particular font
-// From [http://stackoverflow.com/questions/1134586/how-can-you-find-the-height-of-text-on-an-html-canvas]
-var determineFontHeight = function(fontStyle)
-{
-    var body = document.getElementsByTagName("body")[0];
-    var dummy = document.createElement("div");
-    var dummyText = document.createTextNode("M");
-    dummy.appendChild(dummyText);
-    dummy.setAttribute("style", "font: " + fontStyle + ";");
-    body.appendChild(dummy);
-    var result = dummy.offsetHeight;
-    body.removeChild(dummy);
-    return result;
-};
-
-//////////////////////////////
 // Show the given 'menu' at the given position
 Graph.prototype.showMenu = function(menu, x, y)
 {
-    console.debug('.showMenu: x=' + x + ', y=' + y);
     menu.style.left = x + 'px';
     menu.style.top = y + 'px';
     menu.classList.add('show-menu');
@@ -1205,7 +1185,7 @@ Graph.prototype.newMenu = function(containdiv)
 {
     // create the menu <menu> element
     var new_menu = document.createElement("menu");
-    new_menu.className = "menu";
+    new_menu.className = graphMenuClass;
     this.graphDiv.appendChild(new_menu);
    
     return new_menu;
@@ -1219,13 +1199,15 @@ Graph.prototype.newMenu = function(containdiv)
 // Returns a reference to the new menuitem.
 Graph.prototype.addMenuItem = function(menuref, title, action)
 {
+    console.debug(".addMenuItem: action=" + action);
+
     // create menuitem <li>
     var new_li = document.createElement("li");
-    new_li.className = "menu-item";
+    new_li.className = graphMenuItemClass;
     menuref.appendChild(new_li);
     
     var new_button = document.createElement("button");
-    new_button.className = "menu-btn";
+    new_button.className = graphMenuButtonClass;
     new_button.textContent = title;
     new_button.onclick = action;
     new_li.appendChild(new_button);
@@ -1242,8 +1224,25 @@ Graph.prototype.addSeparator = function(menuref)
 {
     // create separator <li>
     var new_li = document.createElement("li");
-    new_li.className = "menu-separator";
+    new_li.className = graphMenuSepClass;
     menuref.appendChild(new_li);
 
     return new_li;
 }
+
+//////////////////////////////
+// Fudge function to get the height of a particular font
+// From [http://stackoverflow.com/questions/1134586/how-can-you-find-the-height-of-text-on-an-html-canvas]
+var determineFontHeight = function(fontStyle)
+{
+    var body = document.getElementsByTagName("body")[0];
+    var dummy = document.createElement("div");
+    var dummyText = document.createTextNode("M");
+    dummy.appendChild(dummyText);
+    dummy.setAttribute("style", "font: " + fontStyle + ";");
+    body.appendChild(dummy);
+    var result = dummy.offsetHeight;
+    body.removeChild(dummy);
+    return result;
+};
+
