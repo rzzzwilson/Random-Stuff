@@ -5,7 +5,7 @@ This is the design document for the API to use the webELoss widget.
 
 The widget is designed to fit into any web page you want.  Once the
 widget code is running the user will interact with the graph and other widgets
-on the page.
+in the document.
 
 Instantiation
 -------------
@@ -21,7 +21,8 @@ The <div> you create to contain the widget doesn't have to be empty,
 but if it isn't you run the risk of the widget code fiddling with your
 objects within the <div>.  Beware!
 
-A simple example that doesn't do much:
+This simple example that doesn't do much but shows how the widget is
+instantiated:
 
 ::
 
