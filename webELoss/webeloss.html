@@ -4,76 +4,46 @@
 <title>Test Basic Graph</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="webeloss.css">
-<script src="webeloss.js"></script>
-
-<!-- ###############  user code below here  ############### -->
-
-<script type="text/javascript">
-function run_js()
-{
-    // tell javascript library the name of the graph canvas & annotation div we are using
-    graph = new Graph("graph");
-
-//////////////////////////////
-// Set up an example graph.
-
-    graph.setDepthMarkers([{label: "Ceilings", depth: 1.95},
-                           {label: "Furniture", depth: 0.55},
-                           {label: "Foundations, joists, carpets", depth: 0.0}]);
-
-    graph.setDamageCurve({colour: "#0000ff", points: [{depth: -0.1, damage:  0, error: 10},
-                                                      {depth:  0.1, damage: 10, error: 10},
-                                                      {depth:  0.5, damage: 15, error: 10},
-                                                      {depth:  0.6, damage: 35, error: 10},
-                                                      {depth:  1.9, damage: 45, error: 10},
-                                                      {depth:  2.0, damage: 95, error: 10}]});
-    graph.setReferenceCurves([{colour: "#00ff00", points: [{depth: -0.15, damage:  0},
-                                                           {depth: 0.15,  damage: 12},
-                                                           {depth: 0.45,  damage: 20},
-                                                           {depth: 1.80,  damage: 90}]},
-                              {colour: "#00ffff", points: [{depth: -0.14, damage:  0},
-                                                           {depth: 0.17,  damage: 15},
-                                                           {depth: 0.50,  damage: 18},
-                                                           {depth: 1.90,  damage: 80}]}]);
-    graph.setTitle("A new, longer title", "An even longer new sub title!");
-//    graph.setTitle("A new, longer title");
-//    graph.setTitle();
-    graph.refresh();
-};
-</script>
 </head>
-<!-- oncontextmenu="return false;" turns off the browser context menu -->
-<body oncontextmenu="return false;" onload="run_js()">
+<body oncontextmenu="return false;" onload="webeloss_setup()">
 	<noscript>
 		Your browser does not support JavaScript or support has been turned off. Sorry!
 	</noscript>
 
 	<!-- div for widget canvas, etc. -->
-
-    <div id="graph" class="graph" />
-
-    <!-- TEMP div for menus -->
-    <menu id="menu" class="menu">
-        <li class="menu-item"> <button type="button" class="menu-btn" onclick="xyzzy('DM');">Manage Depth Markers</button> </li>
-        <li class="menu-item"> <button type="button" class="menu-btn" onclick="xyzzy('RC');">Manage Reference Curve</button> </li>
-    </menu>
-
-    <menu id="pointmenu" class="menu">
-        <li class="menu-item"> <button type="button" class="menu-btn" onclick="xyzzy('Edit');">Edit Point</button> </li>
-        <li class="menu-item"> <button type="button" class="menu-btn" onclick="xyzzy('Delete');">Delete Point</button> </li>
-        <li class="menu-separator"></li>
-        <li class="menu-item"> <button type="button" class="menu-btn" onclick="xyzzy('DM');">Manage Depth Markers</button> </li>
-        <li class="menu-item"> <button type="button" class="menu-btn" onclick="xyzzy('RC');">Manage Reference Curve</button> </li>
-    </menu>
+    <div id="graph" class="graph"><div>
 
     <script src="webeloss.js"></script>
-
     <script type="text/javascript">
-        function xyzzy(msg)
-        {
-            alert(msg);
-        }
+    function webeloss_setup()
+    {
+        // tell javascript library the name of the graph canvas & annotation div we are using
+        graph = new Graph("graph");
+    
+        //////////////////////////////
+        // Set up an example graph.
+    
+        graph.setDepthMarkers([{label: "Ceilings", depth: 1.95},
+                               {label: "Furniture", depth: 0.55},
+                               {label: "Foundations, joists, carpets", depth: 0.0}]);
+    
+        graph.setDamageCurve({colour: "#0000ff", points: [{depth: -0.1, damage:  0, error: 10},
+                                                          {depth:  0.1, damage: 10, error: 10},
+                                                          {depth:  0.5, damage: 15, error: 10},
+                                                          {depth:  0.6, damage: 35, error: 10},
+                                                          {depth:  1.9, damage: 45, error: 10},
+                                                          {depth:  2.0, damage: 95, error: 10}]});
+        graph.setReferenceCurves([{colour: "#00ff00", points: [{depth: -0.15, damage:  0},
+                                                               {depth: 0.15,  damage: 12},
+                                                               {depth: 0.45,  damage: 20},
+                                                               {depth: 1.80,  damage: 90}]},
+                                  {colour: "#00ffff", points: [{depth: -0.14, damage:  0},
+                                                               {depth: 0.17,  damage: 15},
+                                                               {depth: 0.50,  damage: 18},
+                                                               {depth: 1.90,  damage: 80}]}]);
+        graph.setTitle("A new, longer title", "An even longer new sub title!");
+        graph.refresh();
+    };
     </script>
-
 </body>
 </html>

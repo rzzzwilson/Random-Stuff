@@ -198,99 +198,27 @@ function Graph(widget_div_name)
 
 //////////////////////////////
 // Create a normal popup menu.
-Graph.prototype.createMenu = function()
+Graph.prototype.createMenu = function(divname)
 {
-    // first, enclosing element
-    var new_menu = document.createElement('menu');
-    new_menu.className = graphPopupMenuName;
+    var new_menu = this.newMenu(divname);
 
-    // next, first menuitem 'li' - "Manage Depth Markers"
-    var new_li = document.createElement('li');
-    new_li.className = "menu-item";
-    new_menu.appendChild(new_li);
-
-    var new_button = document.createElement('button');
-    new_button.className = "menu-btn";
-    new_button.value = "Manage Depth Markers";
-    new_button.onclick = "xyzzy('Manage Depth Markers')";
-    new_li.appendChild(new_button);
-
-    // second menuitem - "Manage Reference Curve"
-    var new_li = document.createElement('li');
-    new_li.className = "menu-item";
-    new_menu.appendChild(new_li);
-
-    var new_button = document.createElement('button');
-    new_button.className = "menu-btn";
-    new_button.value = "Manage Reference Curve";
-    new_button.onclick = "xyzzy('Manage Reference Curve')";
-    new_li.appendChild(new_button);
-
-    // add new menu to the Graph
-    this.graphDiv.appendChild(new_menu);
+    this.addMenuItem(new_menu, "Manage Depth Markers", function() {alert('Manage Depth Markers');});
+    this.addMenuItem(new_menu, "Manage Reference Curve", function() {alert('Manage Reference Curve');});
 
     return new_menu;
 }
 
 //////////////////////////////
 // Create a point popup menu.
-Graph.prototype.createPointMenu = function()
+Graph.prototype.createPointMenu = function(divname)
 {
-    // first, enclosing element
-    var new_menu = document.createElement('menu');
-    new_menu.className = graphPopupPointMenuName;
+    var new_menu = this.newMenu(divname);
 
-    // next, first menuitem 'li' - "Edit Point""
-    var new_li = document.createElement('li');
-    new_li.className = "menu-item";
-    new_menu.appendChild(new_li);
-
-    var new_button = document.createElement('button');
-    new_button.className = "menu-btn";
-    new_button.value = "Edit Point";
-    new_button.onclick = "xyzzy('Edit Point')";
-    new_li.appendChild(new_button);
-
-    // then, menuitem 'li' - "Delete Point""
-    var new_li = document.createElement('li');
-    new_li.className = "menu-item";
-    new_menu.appendChild(new_li);
-
-    var new_button = document.createElement('button');
-    new_button.className = "menu-btn";
-    new_button.value = "Delete Point";
-    new_button.onclick = "xyzzy('Delete Point')";
-    new_li.appendChild(new_button);
-
-    // a separator
-    var new_li = document.createElement('li');
-    new_li.className = "menu-separator";
-    new_menu.appendChild(new_li);
-
-    // then - "Manage Depth Markers"
-    var new_li = document.createElement('li');
-    new_li.className = "menu-item";
-    new_menu.appendChild(new_li);
-
-    var new_button = document.createElement('button');
-    new_button.className = "menu-btn";
-    new_button.value = "Manage Depth Markers";
-    new_button.onclick = "xyzzy('Manage Depth Markers')";
-    new_li.appendChild(new_button);
-
-    // finally - "Manage Reference Curve"
-    var new_li = document.createElement('li');
-    new_li.className = "menu-item";
-    new_menu.appendChild(new_li);
-
-    var new_button = document.createElement('button');
-    new_button.className = "menu-btn";
-    new_button.value = "Manage Reference Curve";
-    new_button.onclick = "xyzzy('Manage Reference Curve')";
-    new_li.appendChild(new_button);
-
-    // add new menu to the Graph
-    this.graphDiv.appendChild(new_menu);
+    this.addMenuItem(new_menu, "Edit point", function() {alert('Edit point');});
+    this.addMenuItem(new_menu, "Delete point", function() {alert('Delete point');});
+    this.addSeparator(new_menu);
+    this.addMenuItem(new_menu, "Manage Depth Markers", function() {alert('Manage Depth Markers');});
+    this.addMenuItem(new_menu, "Manage Reference Curve", function() {alert('Manage Reference Curve');});
 
     return new_menu;
 }
@@ -1132,34 +1060,18 @@ Graph.prototype.onMouseDown = function(e)
         {
             e.preventDefault();
             console.debug('.onMouseDown: showing pointMenu');
-            this.showMenu(this.popupPointMenu, e.offsetX, e.offsetY);
+            //this.showMenu(this.popupPointMenu, e.offsetX, e.offsetY);
+            this.showMenu(this.popupPointMenu, e.pageX, e.pageY);
         }
         else
         {
             e.preventDefault();
             console.debug('.onMouseDown: showing Menu');
-            this.showMenu(this.popupMenu, e.offsetX, e.offsetY);
+            //this.showMenu(this.popupMenu, e.offsetX, e.offsetY);
+            this.showMenu(this.popupMenu, e.pageX, e.pageY);
         }
     }
 };
-
-//
-//Graph.prototype.showPointMenu = function(x, y)
-//{
-//    this.popupPointMenu.style.left = x + 'px';
-//    this.popupPointMenu.style.top = y + 'px';
-//    this.popupPointMenu.classList.add('show-menu');
-//}
-//
-//Graph.prototype.hideMenu = function()
-//{
-//    this.popupMenu.classList.remove('show-menu');
-//}
-//
-//Graph.prototype.hidePointMenu = function()
-//{
-//    this.popupPointMenu.classList.remove('show-menu');
-//}
 
 //////////////////////////////
 // Handle the "mouse up" event.
@@ -1245,8 +1157,6 @@ Graph.prototype.bindThis = function()
     this.onmousemove = this.onMouseMove.bind(this);
     this.onmousedown = this.onMouseDown.bind(this);
     this.onmouseup = this.onMouseUp.bind(this);
-//    this.onContextMenu = this.onContextMenu.bind(this);
-//    this.onClick = this.onClick.bind(this);
 
     // plug our event handlers into the document
     document.onmousemove = this.onmousemove;
@@ -1287,15 +1197,53 @@ Graph.prototype.hideMenu = function(menu)
     menu.classList.remove('show-menu');
 }
 
-//Graph.prototype.onContextMenu = function(e)
-//{
-//    e.preventDefault();
-//    this.showMenu(e.pageX, e.pageY);
-//    document.addEventListener('click', this.onClick, false);
-//}
-//
-//Graph.prototype.onClick = function(e)
-//{
-//    this.hideMenu();
-//    document.removeEventListener('click', this.onClick);
-//}
+//////////////////////////////////////////////
+// Function to start creating a new menu.
+//     containdiv  the pre-existing <div> name that will contain the new menu
+// Returns a reference to the new <menu> element.
+Graph.prototype.newMenu = function(containdiv)
+{
+    // create the menu <menu> element
+    var new_menu = document.createElement("menu");
+    new_menu.className = "menu";
+    this.graphDiv.appendChild(new_menu);
+   
+    return new_menu;
+}
+
+//////////////////////////////////////////////
+// Function to add a new menuitem to an existing menu.
+//     menuref    reference to the menu to append to
+//     title      display text for the menuitem
+//     action     the action to perform when the menuitem is selected
+// Returns a reference to the new menuitem.
+Graph.prototype.addMenuItem = function(menuref, title, action)
+{
+    // create menuitem <li>
+    var new_li = document.createElement("li");
+    new_li.className = "menu-item";
+    menuref.appendChild(new_li);
+    
+    var new_button = document.createElement("button");
+    new_button.className = "menu-btn";
+    new_button.textContent = title;
+    new_button.onclick = action;
+    new_li.appendChild(new_button);
+    menuref.appendChild(new_li);
+
+    return new_li;
+}
+
+//////////////////////////////////////////////
+// Function to add a separator to an existing menu.
+//     menuref    reference to the menu to append to
+// Returns a reference to the new separator.
+Graph.prototype.addSeparator = function(menuref)
+{
+    // create separator <li>
+    var new_li = document.createElement("li");
+    new_li.className = "menu-separator";
+    menuref.appendChild(new_li);
+
+    return new_li;
+}
