@@ -15,7 +15,7 @@ to:
 
 * create a <div> that will contain the widget
 * instantiate the widget
-* populate the widget with date
+* populate the widget with data
 
 The <div> you create to contain the widget doesn't have to be empty,
 but if it isn't you run the risk of the widget code fiddling with your
@@ -32,7 +32,7 @@ instantiated:
             <link rel="stylesheet" type="text/css" href="webeloss.css"></link>
         </head>
         <body oncontextmenu="return false;" onload="run_js();">
-            <div id="graph" class="graph"></div>
+            <div id="graph" class="graph"></div>    // the graph container <div>
             <script type="text/javascript" src="webeloss.js"></script>
             <script type="text/javascript">
                 function run_js()
