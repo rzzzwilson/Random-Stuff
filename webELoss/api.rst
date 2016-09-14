@@ -3,7 +3,7 @@ webEloss API
 
 This is the design document for the API to use the webELoss widget.
 
-The widget is designed to fit into any web page you want.  Once the 
+The widget is designed to fit into any web page you want.  Once the
 widget code is running the user will interact with the graph and other widgets
 on the page.
 
@@ -15,10 +15,11 @@ to:
 
 * create a <div> that will contain the widget
 * instantiate the widget
+* populate the widget with date
 
 The <div> you create to contain the widget doesn't have to be empty,
 but if it isn't you run the risk of the widget code fiddling with your
-objects within the <div>. Beware!
+objects within the <div>.  Beware!
 
 A simple example that doesn't do much:
 
@@ -26,18 +27,18 @@ A simple example that doesn't do much:
 
     <!DOCTYPE html>
     <html xml:lang="en" lang="en">
-        <head>
-            <link rel="stylesheet" type="text/css" href="webeloss.css">
-            <script src="webeloss.js"></script>
+        <head>      
+            <link rel="stylesheet" type="text/css" href="webeloss.css"></link>
+        </head>
+        <body oncontextmenu="return false;" onload="run_js();">
+            <div id="graph" class="graph"></div>
+            <script type="text/javascript" src="webeloss.js"></script>
             <script type="text/javascript">
                 function run_js()
                 {
                     graph = new Graph("graph");     // pass the name of the container <div>
                 }
             </script>
-        </head>
-        <body onload="run_js();">
-            <div id="graph" class="graph" />
         </body>
     </html>
 
@@ -158,7 +159,7 @@ another day we need to retrieve the modified data:
     {
         graph = new Graph("graph");
     }
-    
+
     // somewhere else in javascript
     data = graph.getData();
 
