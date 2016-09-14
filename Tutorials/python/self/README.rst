@@ -66,13 +66,12 @@ For example, in the above code:
 
     a.bump_print(2)
 
-can be thought of as a call to a class method with the object reference being
-passed as the first parameter:
+can be thought of as a call to a method of a class with the object reference
+being passed as the first parameter:
 
 ::
 
     <CLASS>.bump_print(a, 2)
-
 
 This instance reference (the first parameter) can have any valid name in the
 method implementation, but ``self`` is traditional, to the extent that any other
@@ -81,7 +80,7 @@ are after the ``self`` parameter.
 
 Note that other languages hide this reference passing to some extent.  Java, for
 instance, doesn't explicitly pass its ``this`` parameter in the method parameter
-list, it just magically appears in the environment of the instance method.
+list, it just magically appears in the environment of the method code.
 
 Whether the python ``self`` should be explicit or not has been discussed in the
 past, but the BDFL has decided that the "explicit self" is `here to stay`__.
