@@ -70,9 +70,7 @@ def check(AA, BB):
 
 
 if __name__ == '__main__':
-    import os
     import unittest
-    import tempfile
 
     class SLTTest(unittest.TestCase):
         def test_simple(self):
@@ -182,7 +180,7 @@ if __name__ == '__main__':
             self.assertTrue(X == expected_X and Y == expected_Y, msg)
 
         def test_only_B_extra2(self):
-            """Test for only A contains values not in B.
+            """Test for only B contains values not in A.
                Extra value at middle.
             """
 
@@ -228,7 +226,7 @@ if __name__ == '__main__':
             self.assertTrue(X == expected_X and Y == expected_Y, msg)
 
         def test_given(self):
-            """Test for both input lists empty."""
+            """Test the data given on reddit."""
 
             A = [1,2,9,3,4,5]
             A.sort()

@@ -876,10 +876,18 @@ Graph.prototype.onMouseMove = function(e)
         // move annotation if cursor close
         var graphPixCoord = this.xScreenCoord - leftMargin;
 
-        if (graphPixCoord < this.graphXLength/4)
+        //if (graphPixCoord < this.graphXLength/4)
+        if (graphPixCoord < 350)
+        {
+            console.log('graphPixCoord=' + graphPixCoord);
             this.annotateMove(leftMargin+this.graphXLength-graphAnnotateWidth-20);
-        else if (graphPixCoord > 3*this.graphXLength/4)
+        }
+        //else if (graphPixCoord > 3*this.graphXLength/4)
+        else if (graphPixCoord > this.graphXLength-350)
+        {
+            console.log('graphPixCoord=' + graphPixCoord);
             this.annotateMove(leftMargin+20);
+        }
 
         // force a redraw to show changed DM
         force_refresh = true;
@@ -1056,17 +1064,19 @@ Graph.prototype.onMouseDown = function(e)
             x_posn = leftMargin+this.graphXLength-graphAnnotateWidth-20;
         this.annotate_show(x_posn, this.topMargin+20);
     }
+//TODO Look at handling this via 'contextmenu' mechanism
+//     That is, get a 'contextmenu' event, and decide which one to display
     else if (this.rightButtonDown)
     {
         // show required menu
         if (this.DCHotspotShowing)
         {
-            e.preventDefault();
+//            e.preventDefault();
             this.showMenu(this.popupPointMenu, e.pageX, e.pageY);
         }
         else
         {
-            e.preventDefault();
+//            e.preventDefault();
             this.showMenu(this.popupMenu, e.pageX, e.pageY);
         }
     }
@@ -1076,6 +1086,12 @@ Graph.prototype.onMouseDown = function(e)
 // Handle the "mouse up" event.
 Graph.prototype.onMouseUp = function(e)
 {
+    // if right mouse button, do nothing
+    if (e.button == 2)
+    {
+        return;
+    }
+
     // remove any annotation
     if (this.draggingDM || this.draggingDC)
     {
@@ -1094,7 +1110,7 @@ Graph.prototype.onMouseUp = function(e)
 // Manage a DM.
 Graph.prototype.manageDM = function()
 {
-    console.debug('manageDM');
+    console.log('manageDM');
 };
 
 ////////////////////////////////////////////////////////////////
@@ -1199,8 +1215,6 @@ Graph.prototype.newMenu = function(containdiv)
 // Returns a reference to the new menuitem.
 Graph.prototype.addMenuItem = function(menuref, title, action)
 {
-    console.debug(".addMenuItem: action=" + action);
-
     // create menuitem <li>
     var new_li = document.createElement("li");
     new_li.className = graphMenuItemClass;
@@ -1211,7 +1225,6 @@ Graph.prototype.addMenuItem = function(menuref, title, action)
     new_button.textContent = title;
     new_button.onclick = action;
     new_li.appendChild(new_button);
-    menuref.appendChild(new_li);
 
     return new_li;
 }

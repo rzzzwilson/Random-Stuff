@@ -4,13 +4,13 @@
     border-radius: 3px;
     width:200px;
     height:15px;
-    padding:3px;
+    padding:5px;
     font:14px/16px Arial,sans-serif;
     z-index:100;
     visibility:hidden;
     color:#333333;
     top:20px;
-    left:20px;
+    left:25px;
     vertical-align:70%;
     background-color:#ffffcc;
     layer-background-color:#ffffcc;}
@@ -56,6 +56,7 @@
     -ms-user-select: none;
     display: block;
     width: 100%;
+    height: 25px;
     color: #444;
     /* font-family: 'Roboto', sans-serif; */
     font-family: 'Arial', sans-serif;
