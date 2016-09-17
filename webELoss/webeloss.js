@@ -205,8 +205,9 @@ Graph.prototype.createMenu = function(divname)
 {
     var new_menu = this.newMenu(divname);
 
-    this.addMenuItem(new_menu, "Manage Depth Markers", function() {this.manageDM();});
-    this.addMenuItem(new_menu, "Manage Reference Curve", function() {alert("Manage Reference Curve");});
+    this.addMenuItem(new_menu, "Manage Depth Markers", this.bridge(this.manageDM));
+//    this.link.onclick = this.EventMethod.bind(this);
+    this.addMenuItem(new_menu, "Manage Reference Curve", alert);
 
     return new_menu;
 }
@@ -1107,6 +1108,13 @@ Graph.prototype.onMouseUp = function(e)
 };
 
 //////////////////////////////
+// A 'bridge' function to bind 'this'
+Graph.prototype.bridge = function(fun)
+{
+    return fun.bind(this);
+}
+
+//////////////////////////////
 // Manage a DM.
 Graph.prototype.manageDM = function()
 {
@@ -1224,6 +1232,7 @@ Graph.prototype.addMenuItem = function(menuref, title, action)
     new_button.className = graphMenuButtonClass;
     new_button.textContent = title;
     new_button.onclick = action;
+//    new_button.onclick = action.bind(this);
     new_li.appendChild(new_button);
 
     return new_li;
