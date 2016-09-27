@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+
+"""A program to plot memprof output.
+
+Usage: plot_memprof <memprof.out> [ <title> ]
+
+Where <memprof.out>  is the generated data file to plot, and
+      <title>        is the (optional) graph title
+"""
+
+import sys
+
+from pylab import *
+
+MiB = 1000000.0
+
+def main(mp_file, mp_title):
+    """Plot a memprof.out file.
+
+    mp_file  path to file full of memprof data
+    """
+
+    # set title if not given
+    if mp_title is None:
+        mp_title = 'Memory usage by time'
+
+    f = open(mp_file)
+    lines = f.readlines()
+    f.close()
+
+    memsize = []
+    for line in lines:
+        line = line.strip()
+        val = int(line)
+        memsize.append(val/MiB)
+
+    t = xrange(len(memsize))
+
+    plot(t, memsize, linewidth=1.0)
+
+    xlabel('time')
+    ylabel('Memory Used (MB)')
+    title(mp_title)
+    grid(True)
+    savefig('%s.png' % mp_file, bbox_inches='tight')
+#    show()
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2 and len(sys.argv) != 3:
+        print(__doc__)
+        sys.exit(10)
+
+    file = sys.argv[1]
+    mp_title = None
+    if len(sys.argv) == 3:
+        mp_title = sys.argv[2]
+
+    main(file, mp_title)
