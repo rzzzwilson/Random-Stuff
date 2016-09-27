@@ -20,7 +20,7 @@ except ImportError:
     xrange = range
 
 
-TIMES = 250000
+TIMES = 500000
 
 
 def concat_naive_func(a, n):

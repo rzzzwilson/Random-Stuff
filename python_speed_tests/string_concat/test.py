@@ -71,6 +71,7 @@ def concat_comprehension(times):
     return delta
 
 if __name__ == '__main__':
+    time.sleep(0.5)
     print('Using Python %s on %s' % (platform.python_version(), platform.platform()))
     print('For %d concatenations:' % TIMES)
     result = concat_naive(TIMES)
