@@ -57,9 +57,6 @@ def main(path):
     print('| %s' % lines[0].strip())
     print('| %s' % lines[1].strip())
     print('')
-    print('%s\n' % lines[0].strip())
-    print('%s\n' % lines[1].strip())
-    print('')
 
     rest = lines[2:]
 
@@ -73,7 +70,8 @@ def main(path):
         (method, time) = l.split()
         method = method[:-1]
         method = method + ' '*20
-        print('| %s | %s |' % (method[:13], time))
+        time = '      ' + time
+        print('| %s | %s |' % (method[:13], time[-6:]))
         print('+---------------+--------+')
 
 

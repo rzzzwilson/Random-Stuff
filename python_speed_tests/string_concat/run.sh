@@ -21,21 +21,25 @@ function kill_test
 }
 
 # delete any produced files
-rm -f *.out *.log *.png $OUTPUT
+rm -f *.out *.log test*.png $OUTPUT
 
 # start the results file
 cat <<EOF > $OUTPUT
 Test Results
 ============
 
-This shows the tie taken for each test and the memory used.  Both python2 and
-python3 were used.
+This shows the time taken for each test and the memory used for both python2 and
+python3.
 
 Each test shows the timings in a table, followed by a graph showing memory
 usage during the test.  The graph shows all the tests in the order as shown
 in the timing table.  For instance, in the python2/test.py results immediately
 below, we see four major peaks representing the usage for the naive, join,
 stringio and comprehension methods respectively.
+
+The *test.py* code tests each concatenation method in a direct manner.  Python
+does have some optimizations it applies if it can recognize that string
+concatenation is occurring.
 
 The *test2.py* code is designed to disable the optimizations python performs on
 string contenation.  The timing figures show expected results, but the memory
