@@ -54,23 +54,24 @@ def main(path):
         lines = fd.readlines()
 
     # first two lines are just passed through, plus blank line
-    print(lines[0].strip())
-    print(lines[1].strip())
+    print('|%s' % lines[0].strip())
+    print('|%s' % lines[1].strip())
     print('')
 
     rest = lines[2:]
 
     # emit remaining lines in RST table form
-    print('+-------------+-------+')
-    print('| Method      | Time  |')
-    print('+=============+=======+')
+    print('+---------------+--------+')
+    print('| Method        | Time   |')
+    print('+===============+========+')
 
     for l in rest:
         l = l.strip()
         (method, time) = l.split()
         method = method[:-1]
-        print('| %s | %s |' % (method, time))
-        print('+-------------+-------+')
+        method = method + ' '*20
+        print('| %s | %s |' % (method[:13], time))
+        print('+---------------+--------+')
 
 
 if len(sys.argv) != 2:
