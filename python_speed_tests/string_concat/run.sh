@@ -25,14 +25,21 @@ rm -f *.out *.log *.png $OUTPUT
 
 # start the results file
 cat <<EOF > $OUTPUT
-The results file.  Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah.
-Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah.
-Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah.
-Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah.
-Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah.
-Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah.
-Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah.
-Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah. Blah.
+Test Results
+============
+
+This shows the tie taken for each test and the memory used.  Both python2 and
+python3 were used.
+
+Each test shows the timings in a table, followed by a graph showing memory
+usage during the test.  The graph shows all the tests in the order as shown
+in the timing table.  For instance, in the python2/test.py results immediately
+below, we see four major peaks representing the usage for the naive, join,
+stringio and comprehension methods respectively.
+
+The *test2.py* code is designed to disable the optimizations python performs on
+string contenation.  The timing figures show expected results, but the memory
+usage graphs show odd behaviour.  Still working on that!
 
 EOF
 
@@ -50,7 +57,7 @@ python memprof.py $TEST_PID test.2.log
 # append results to the results file
 python plot_memprof test.2.log "Memory usage of test.py - python2"
 echo "python2 running test.py" >> $OUTPUT
-echo "=======================" >> $OUTPUT
+echo "-----------------------" >> $OUTPUT
 echo "" >> $OUTPUT
 python make_table.py test.2.out >> $OUTPUT
 echo "" >> $OUTPUT
@@ -73,7 +80,7 @@ python memprof.py $TEST_PID test.3.log
 # append results to the results file
 python plot_memprof test.3.log "Memory usage of test.py - python3"
 echo "python3 running test.py" >> $OUTPUT
-echo "=======================" >> $OUTPUT
+echo "-----------------------" >> $OUTPUT
 echo "" >> $OUTPUT
 python make_table.py test.3.out >> $OUTPUT
 echo "" >> $OUTPUT
@@ -98,7 +105,7 @@ python plot_memprof test2.2.log "Memory usage of test2.py - python2"
 # append results to the results file
 python plot_memprof test2.2.log "Memory usage of test2.py - python2"
 echo "python2 running test2.py" >> $OUTPUT
-echo "=======================" >> $OUTPUT
+echo "------------------------" >> $OUTPUT
 echo "" >> $OUTPUT
 python make_table.py test2.2.out >> $OUTPUT
 echo "" >> $OUTPUT
@@ -121,7 +128,7 @@ python memprof.py $TEST_PID test2.3.log
 # append results to the results file
 python plot_memprof test2.3.log "Memory usage of test2.py - python3"
 echo "python3 running test2.py" >> $OUTPUT
-echo "=======================" >> $OUTPUT
+echo "------------------------" >> $OUTPUT
 echo "" >> $OUTPUT
 python make_table.py test2.3.out >> $OUTPUT
 echo "" >> $OUTPUT

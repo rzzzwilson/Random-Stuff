@@ -54,8 +54,11 @@ def main(path):
         lines = fd.readlines()
 
     # first two lines are just passed through, plus blank line
-    print('|%s' % lines[0].strip())
-    print('|%s' % lines[1].strip())
+    print('| %s' % lines[0].strip())
+    print('| %s' % lines[1].strip())
+    print('')
+    print('%s\n' % lines[0].strip())
+    print('%s\n' % lines[1].strip())
     print('')
 
     rest = lines[2:]
