@@ -2,7 +2,7 @@
 
 """Run simple string concatenation speed tests.
 
-The tests here are somewaht similar to those in test.py except we
+The tests here are somewhat similar to those in test.py except we
 try to defeat any optimisations the python runtime does by doing
 the concatenation in a function.
 """

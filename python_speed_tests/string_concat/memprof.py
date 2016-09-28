@@ -26,7 +26,7 @@ def _VmB(pid, VmKey):
 
     filepath = '/proc/%d/status' % pid
 
-    # get pseudo file  /proc/<pid>/status
+    # read pseudo file /proc/<pid>/status
     try:
         with open(filepath, 'r') as fd:
             v = fd.read()
@@ -65,8 +65,8 @@ def main(pid, logfile):
     with open(logfile, 'wa') as fd:
         value = 1
         while value:
-#            value = resident(pid)
-            value = memory(pid)
+            value = resident(pid)
+#            value = memory(pid)
             fd.write('%d\n' % value)
 #            time.sleep(0.01)
 
