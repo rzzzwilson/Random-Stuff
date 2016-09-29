@@ -32,7 +32,7 @@ def concat_naive(times):
     code = compile('a += str(n)', '<string>', 'exec')
     start = time.time()
     for n in xrange(times):
-        exec code
+        exec(code)
     delta = time.time() - start
     return delta
 
@@ -42,7 +42,7 @@ def concat_mutable(times):
     code = compile('a += str(n)', '<string>', 'exec')
     start = time.time()
     for n in xrange(times):
-        exec code
+        exec(code)
     delta = time.time() - start
     return delta
 
@@ -51,7 +51,7 @@ def concat_array(times):
     code = compile('a.fromstring(str(n))', '<string>', 'exec')
     start = time.time()
     for n in xrange(times):
-        exec code
+        exec(code)
 #        a.fromstring(str(n))
     a = ''.join(a)
     delta = time.time() - start
@@ -62,7 +62,7 @@ def concat_join(times):
     code = compile('a.append(str(n))', '<string>', 'exec')
     start = time.time()
     for n in xrange(times):
-        exec code
+        exec(code)
 #        a.append(str(n))
     a = ''.join(a)
     delta = time.time() - start
@@ -73,7 +73,7 @@ def concat_stringio(times):
     code = compile('a.write(str(n))', '<string>', 'exec')
     start = time.time()
     for n in xrange(times):
-        exec code
+        exec(code)
 #        a.write(str(n))
     a = a.getvalue()
     delta = time.time() - start
