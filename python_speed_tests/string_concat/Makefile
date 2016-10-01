@@ -4,4 +4,4 @@ run:
 	bash run.sh
 
 clean:
-	rm -f *.out *.log *.png
+	rm -f *.out *.log

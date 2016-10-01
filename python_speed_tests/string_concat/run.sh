@@ -29,7 +29,7 @@ Test Results
 ============
 
 This shows the time taken for each test and the memory used for both python2 and
-python3.
+python3, with the garbage collector running and disabled.
 
 Each test shows the timings in a table, followed by a graph showing memory
 usage during the test.  The graph shows all the tests in the order as shown
@@ -47,95 +47,34 @@ usage graphs show odd behaviour.  Still working on that!
 
 EOF
 
-# start the test suite (python2)
-python test.py > test.2.out 2>&1 &
-TEST_PID=$!
-echo "Running 'python test.py' in process $TEST_PID"
+for PYTHON in python python3; do
+    for TEST in test.py test2.py; do
+        for OPT in "" -g; do
+            GC_STATE=ON
+	    if [ "$OPT" == "-g" ]; then
+                GC_STATE=OFF
+            fi
+            OUTFILE=$TEST.$PYTHON$OPT.out
+	    LOGFILE=$TEST.$PYTHON$OPT.log
+            $PYTHON $TEST $OPT >$OUTFILE 2>&1 &
+	    TEST_PID=$!
+	    echo "Running '$PYTHON $TEST' in process $TEST_PID, GC $GC_STATE"
 
-# catch ^C so we can kill forked process if terminated
-trap "kill_test $TEST_PID; exit" SIGINT SIGTERM
+	    # catch ^C so we can kill forked process if terminated
+	    trap "kill_test $TEST_PID; exit" SIGINT SIGTERM
 
-# now run the memory-usage logging program
-python memprof.py $TEST_PID test.2.log
+            # now run the memory-usage logging program
+	    python memprof.py $TEST_PID $LOGFILE
 
-# append results to the results file
-python plot_memprof test.2.log "Memory usage of test.py - python2"
-echo "python2 running test.py" >> $OUTPUT
-echo "-----------------------" >> $OUTPUT
-echo "" >> $OUTPUT
-python make_table.py test.2.out >> $OUTPUT
-echo "" >> $OUTPUT
-echo ".. image:: test.2.log.png" >> $OUTPUT
-echo "" >> $OUTPUT
-
-##################################################
-
-# start the test suite (python3)
-python3 test.py >> test.3.out 2>&1 &
-TEST_PID=$!
-echo "Running 'python3 test.py' in process $TEST_PID"
-
-# catch ^C so we can kill forked process if terminated
-trap "kill_test $TEST_PID; exit" SIGINT SIGTERM
-
-# now run the memory-usage logging program
-python memprof.py $TEST_PID test.3.log
-
-# append results to the results file
-python plot_memprof test.3.log "Memory usage of test.py - python3"
-echo "python3 running test.py" >> $OUTPUT
-echo "-----------------------" >> $OUTPUT
-echo "" >> $OUTPUT
-python make_table.py test.3.out >> $OUTPUT
-echo "" >> $OUTPUT
-echo ".. image:: test.3.log.png" >> $OUTPUT
-echo "" >> $OUTPUT
-
-##################################################
-
-# start the test2 suite (python2)
-python test2.py > test2.2.out 2>&1 &
-TEST_PID=$!
-echo "Running 'python test2.py' in process $TEST_PID"
-
-# catch ^C so we can kill forked process if terminated
-trap "kill_test $TEST_PID; exit" SIGINT SIGTERM
-
-# now run the memory-usage logging program
-python memprof.py $TEST_PID test2.2.log
-
-python plot_memprof test2.2.log "Memory usage of test2.py - python2"
-
-# append results to the results file
-python plot_memprof test2.2.log "Memory usage of test2.py - python2"
-echo "python2 running test2.py" >> $OUTPUT
-echo "------------------------" >> $OUTPUT
-echo "" >> $OUTPUT
-python make_table.py test2.2.out >> $OUTPUT
-echo "" >> $OUTPUT
-echo ".. image:: test2.2.log.png" >> $OUTPUT
-echo "" >> $OUTPUT
-
-##################################################
-
-# start the test2 suite (python3)
-python3 test2.py >> test2.3.out 2>&1 &
-TEST_PID=$!
-echo "Running 'python3 test2.py' in process $TEST_PID"
-
-# catch ^C so we can kill forked process if terminated
-trap "kill_test $TEST_PID; exit" SIGINT SIGTERM
-
-# now run the memory-usage logging program
-python memprof.py $TEST_PID test2.3.log
-
-# append results to the results file
-python plot_memprof test2.3.log "Memory usage of test2.py - python3"
-echo "python3 running test2.py" >> $OUTPUT
-echo "------------------------" >> $OUTPUT
-echo "" >> $OUTPUT
-python make_table.py test2.3.out >> $OUTPUT
-echo "" >> $OUTPUT
-echo ".. image:: test2.3.log.png" >> $OUTPUT
-echo "" >> $OUTPUT
-
+	    # append results to the results file
+	    python plot_memprof $LOGFILE "Memory usage of $TEST - $PYTHON, GC $GC_STATE"
+	    echo "$PYTHON running $TEST (GC $GC_STATE)" >> $OUTPUT
+	    echo "-------------------------------" >> $OUTPUT
+	    echo "" >> $OUTPUT
+	    python make_table.py $OUTFILE >> $OUTPUT
+	    echo "" >> $OUTPUT
+	    echo ".. image:: $LOGFILE.png" >> $OUTPUT
+	    echo "" >> $OUTPUT
+        done
+    done
+done

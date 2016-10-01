@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 
-"""Run simple string concatenation speed tests."""
+"""Run simple string concatenation speed tests.
+
+Usage: test.py [-g]
+
+where -g  turns the garbage collector OFF, default is ON.
+"""
 
 
 import time
@@ -71,9 +76,33 @@ def concat_comprehension(times):
     return delta
 
 if __name__ == '__main__':
+    import sys
+
+    def usage(msg=None):
+        if msg:
+            print('#'*60)
+            print(msg)
+            print('#'*60 + '\n')
+        print(__doc__)
+
+    # look for the '-g' option
+    gc_off = False
+    if len(sys.argv) > 2:
+        usage()
+        sys.exit(1)
+    if len(sys.argv) == 2:
+        if sys.argv[1] == '-g':
+            # turn OFF garbage collector
+            import gc
+            gc.disable()
+            gc_off = True
+        else:
+            usage()
+            sys.exit(1)
+
     time.sleep(0.5)
     print('Using Python %s on %s' % (platform.python_version(), platform.platform()))
-    print('For %d concatenations:' % TIMES)
+    print('For %d concatenations, GC is %s:' % (TIMES, 'OFF' if gc_off else 'ON'))
     result = concat_naive(TIMES)
     print('        naive: %5.2fs' % result)
     time.sleep(1)
