@@ -20,8 +20,24 @@ function kill_test
     fi
 }
 
-# delete any produced files
-rm -f *.out *.log test*.png $OUTPUT
+# check the generated string files for equality
+function check_files()
+{
+    DATA_FILES=$(ls *.data)
+    LAST_FILE=""
+    for F in $DATA_FILES; do
+        if [ "$LAST_FILE" != "" ]; then
+            if ! cmp $F $LAST_FILE; then
+                echo "Files '$F' and '$LAST_FILE' differ!?"
+                exit 1
+            fi
+        fi
+        LAST_FILE=$F
+    done
+}
+
+# delete any old files
+rm -f *.out *.log test*.png $OUTPUT *.data
 
 # start the results file
 cat <<EOF > $OUTPUT
@@ -47,34 +63,38 @@ usage graphs show odd behaviour.  Still working on that!
 
 EOF
 
+# run all the tests, all combinations
 for PYTHON in python python3; do
     for TEST in test.py test2.py; do
         for OPT in "" -g; do
             GC_STATE=ON
-	    if [ "$OPT" == "-g" ]; then
+            if [ "$OPT" == "-g" ]; then
                 GC_STATE=OFF
             fi
             OUTFILE=$TEST.$PYTHON$OPT.out
-	    LOGFILE=$TEST.$PYTHON$OPT.log
+            LOGFILE=$TEST.$PYTHON$OPT.log
             $PYTHON $TEST $OPT >$OUTFILE 2>&1 &
-	    TEST_PID=$!
-	    echo "Running '$PYTHON $TEST' in process $TEST_PID, GC $GC_STATE"
+            TEST_PID=$!
+            echo "Running '$PYTHON $TEST' in process $TEST_PID, GC $GC_STATE"
 
-	    # catch ^C so we can kill forked process if terminated
-	    trap "kill_test $TEST_PID; exit" SIGINT SIGTERM
+            # catch ^C so we can kill forked process if terminated
+            trap "kill_test $TEST_PID; exit" SIGINT SIGTERM
 
             # now run the memory-usage logging program
-	    python memprof.py $TEST_PID $LOGFILE
+            python memprof.py $TEST_PID $LOGFILE
 
-	    # append results to the results file
-	    python plot_memprof $LOGFILE "Memory usage of $TEST - $PYTHON, GC $GC_STATE"
-	    echo "$PYTHON running $TEST (GC $GC_STATE)" >> $OUTPUT
-	    echo "-------------------------------" >> $OUTPUT
-	    echo "" >> $OUTPUT
-	    python make_table.py $OUTFILE >> $OUTPUT
-	    echo "" >> $OUTPUT
-	    echo ".. image:: $LOGFILE.png" >> $OUTPUT
-	    echo "" >> $OUTPUT
+            # append results to the results file
+            python plot_memprof $LOGFILE "Memory usage of $TEST - $PYTHON, GC $GC_STATE"
+            echo "$PYTHON running $TEST (GC $GC_STATE)" >> $OUTPUT
+            echo "-------------------------------" >> $OUTPUT
+            echo "" >> $OUTPUT
+            python make_table.py $OUTFILE >> $OUTPUT
+            echo "" >> $OUTPUT
+            echo ".. image:: $LOGFILE.png" >> $OUTPUT
+            echo "" >> $OUTPUT
+
+	    check_files
         done
     done
 done
+

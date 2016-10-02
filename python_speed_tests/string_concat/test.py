@@ -29,7 +29,7 @@ def concat_naive(times):
     for n in xrange(times):
         a += str(n)
     delta = time.time() - start
-    return delta
+    return (a, delta)
 
 # *REALLY* slow!
 def concat_mutable(times):
@@ -38,7 +38,7 @@ def concat_mutable(times):
     for n in xrange(times):
         a += str(n)
     delta = time.time() - start
-    return delta
+    return (a, delta)
 
 def concat_array(times):
     a = array('c')
@@ -48,7 +48,7 @@ def concat_array(times):
         #a.extend(str(n))	# slower
     a = ''.join(a)
     delta = time.time() - start
-    return delta
+    return (a, delta)
 
 def concat_join(times):
     a = []
@@ -57,7 +57,7 @@ def concat_join(times):
         a.append(str(n))
     a = ''.join(a)
     delta = time.time() - start
-    return delta
+    return (a, delta)
 
 def concat_stringio(times):
     a = StringIO()
@@ -66,14 +66,14 @@ def concat_stringio(times):
         a.write(str(n))
     a = a.getvalue()
     delta = time.time() - start
-    return delta
+    return (a, delta)
 
 def concat_comprehension(times):
     start = time.time()
     a = [str(n) for n in xrange(times)]
     a = ''.join(a)
     delta = time.time() - start
-    return delta
+    return (a, delta)
 
 if __name__ == '__main__':
     import sys
@@ -103,20 +103,35 @@ if __name__ == '__main__':
     time.sleep(0.5)
     print('Using Python %s on %s' % (platform.python_version(), platform.platform()))
     print('For %d concatenations, GC is %s:' % (TIMES, 'OFF' if gc_off else 'ON'))
-    result = concat_naive(TIMES)
+    (naive_str, result) = concat_naive(TIMES)
     print('        naive: %5.2fs' % result)
+    with open('naive_str.data', 'w') as fd:
+        fd.write(naive_str)
+    del naive_str
     time.sleep(1)
-#    result = concat_array(TIMES)
+#    (array_str, result) = concat_array(TIMES)
 #    print('        array: %5.2fs' % result)
+#    with open('array_str.data', 'w') as fd:
+#        fd.write(array_str)
+#    del array_str
 #    time.sleep(1)
-    result = concat_join(TIMES)
+    (join_str, result) = concat_join(TIMES)
     print('         join: %5.2fs' % result)
+    with open('join_str.data', 'w') as fd:
+        fd.write(join_str)
+    del join_str
     time.sleep(1)
-    result = concat_stringio(TIMES)
+    (stringio_str, result) = concat_stringio(TIMES)
     print('     stringio: %5.2fs' % result)
+    with open('stringio_str.data', 'w') as fd:
+        fd.write(stringio_str)
+    del stringio_str
     time.sleep(1)
-    result = concat_comprehension(TIMES)
+    (comprehension_str, result) = concat_comprehension(TIMES)
     print('comprehension: %5.2fs' % result)
+    with open('comprehension_str.data', 'w') as fd:
+        fd.write(comprehension_str)
+    del comprehension_str
     time.sleep(1)
 
 

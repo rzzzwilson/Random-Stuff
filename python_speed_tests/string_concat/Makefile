@@ -4,4 +4,4 @@ run:
 	bash run.sh
 
 clean:
-	rm -f *.out *.log
+	rm -f *.out *.log *.data
