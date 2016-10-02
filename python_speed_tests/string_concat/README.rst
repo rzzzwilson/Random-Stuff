@@ -30,10 +30,17 @@ The general method used in **test.py** is a tight loop over a large range
 appending a numeric string.  This was tried with both python2 and python3
 as well as with the garbage collector enabled and disabled.
 
-In addition, the test code in **run.sh** runs a separate thread that monitors
-memory usage of the program.
+The code in **test2.py** attempts to defeat the python interpreters *inlining*
+of string concatenation.  It appears to be enough to declare the variable
+we are concatenating into as a global.
 
-Results are automatically generated in **results.rst**.
+In addition, the test code in **run.sh** runs a separate thread that monitors
+memory usage of the programs.
+
+Results are automatically generated into **results.rst**.
+
+The real surprise is in the memory used by each concatenation method.  The
+memory results for python3 are unexpected, and this is still being investigated.
 
 Old Results
 -----------

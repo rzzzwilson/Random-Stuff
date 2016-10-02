@@ -34,6 +34,7 @@ function check_files()
         fi
         LAST_FILE=$F
     done
+    rm -f *.data
 }
 
 # delete any old files

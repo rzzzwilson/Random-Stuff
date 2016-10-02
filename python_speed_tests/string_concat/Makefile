@@ -1,6 +1,6 @@
 # simple 'make' file to run tests and clean up the directory.
 
-run:
+run:	clean
 	bash run.sh
 
 clean:

@@ -27,13 +27,13 @@ python running test.py (GC ON)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         | 10.91s |
+| naive         | 11.12s |
 +---------------+--------+
-| join          | 12.41s |
+| join          | 11.83s |
 +---------------+--------+
-| stringio      | 22.09s |
+| stringio      | 20.07s |
 +---------------+--------+
-| comprehension | 11.33s |
+| comprehension | 10.38s |
 +---------------+--------+
 
 .. image:: test.py.python.log.png
@@ -47,13 +47,13 @@ python running test.py (GC OFF)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         | 11.21s |
+| naive         | 11.50s |
 +---------------+--------+
-| join          | 12.49s |
+| join          | 12.44s |
 +---------------+--------+
-| stringio      | 21.71s |
+| stringio      | 19.29s |
 +---------------+--------+
-| comprehension | 10.47s |
+| comprehension | 10.19s |
 +---------------+--------+
 
 .. image:: test.py.python-g.log.png
@@ -67,13 +67,13 @@ python running test2.py (GC ON)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         | 23.15s |
+| naive         | 30.18s |
 +---------------+--------+
-| join          |  0.31s |
+| join          |  0.15s |
 +---------------+--------+
-| stringio      |  0.42s |
+| stringio      |  0.17s |
 +---------------+--------+
-| comprehension |  0.12s |
+| comprehension |  0.09s |
 +---------------+--------+
 
 .. image:: test2.py.python.log.png
@@ -87,13 +87,13 @@ python running test2.py (GC OFF)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         | 37.25s |
+| naive         | 47.83s |
 +---------------+--------+
-| join          |  0.30s |
+| join          |  0.15s |
 +---------------+--------+
-| stringio      |  0.42s |
+| stringio      |  0.21s |
 +---------------+--------+
-| comprehension |  0.12s |
+| comprehension |  0.09s |
 +---------------+--------+
 
 .. image:: test2.py.python-g.log.png
@@ -107,13 +107,13 @@ python3 running test.py (GC ON)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         | 13.27s |
+| naive         | 14.26s |
 +---------------+--------+
-| join          | 17.80s |
+| join          | 19.23s |
 +---------------+--------+
-| stringio      | 15.10s |
+| stringio      | 16.78s |
 +---------------+--------+
-| comprehension | 11.53s |
+| comprehension | 13.93s |
 +---------------+--------+
 
 .. image:: test.py.python3.log.png
@@ -127,13 +127,13 @@ python3 running test.py (GC OFF)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         | 13.25s |
+| naive         | 14.34s |
 +---------------+--------+
-| join          | 19.00s |
+| join          | 19.53s |
 +---------------+--------+
-| stringio      | 15.99s |
+| stringio      | 16.77s |
 +---------------+--------+
-| comprehension | 12.54s |
+| comprehension | 13.48s |
 +---------------+--------+
 
 .. image:: test.py.python3-g.log.png
@@ -147,13 +147,13 @@ python3 running test2.py (GC ON)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         |  0.26s |
+| naive         | 44.88s |
 +---------------+--------+
-| join          |  0.29s |
+| join          |  0.17s |
 +---------------+--------+
-| stringio      |  0.30s |
+| stringio      |  0.17s |
 +---------------+--------+
-| comprehension |  0.10s |
+| comprehension |  0.14s |
 +---------------+--------+
 
 .. image:: test2.py.python3.log.png
@@ -167,13 +167,13 @@ python3 running test2.py (GC OFF)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         |  0.27s |
+| naive         | 33.53s |
 +---------------+--------+
-| join          |  0.29s |
+| join          |  0.17s |
 +---------------+--------+
-| stringio      |  0.30s |
+| stringio      |  0.17s |
 +---------------+--------+
-| comprehension |  0.10s |
+| comprehension |  0.14s |
 +---------------+--------+
 
 .. image:: test2.py.python3-g.log.png

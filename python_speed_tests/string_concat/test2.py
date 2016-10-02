@@ -32,63 +32,61 @@ TIMES = 500000
 
 
 def concat_naive(times):
+    global a
     a = ''
-    code = compile('a += str(n)', '<string>', 'exec')
     start = time.time()
     for n in xrange(times):
-        exec(code)
+        a += str(n)
     delta = time.time() - start
-    return delta
+    return (a, delta)
 
 # *REALLY* slow!
 def concat_mutable(times):
+    global a
     a = MutableString()
-    code = compile('a += str(n)', '<string>', 'exec')
     start = time.time()
     for n in xrange(times):
-        exec(code)
+        a += str(n)
     delta = time.time() - start
-    return delta
+    return (a, delta)
 
 def concat_array(times):
+    global a
     a = array('c')
-    code = compile('a.fromstring(str(n))', '<string>', 'exec')
     start = time.time()
     for n in xrange(times):
-        exec(code)
-#        a.fromstring(str(n))
+        a.fromstring(str(n))
     a = ''.join(a)
     delta = time.time() - start
-    return delta
+    return (a, delta)
 
 def concat_join(times):
+    global a
     a = []
-    code = compile('a.append(str(n))', '<string>', 'exec')
     start = time.time()
     for n in xrange(times):
-        exec(code)
-#        a.append(str(n))
+        a.append(str(n))
     a = ''.join(a)
     delta = time.time() - start
-    return delta
+    return (a, delta)
 
 def concat_stringio(times):
+    global a
     a = StringIO()
-    code = compile('a.write(str(n))', '<string>', 'exec')
     start = time.time()
     for n in xrange(times):
-        exec(code)
-#        a.write(str(n))
+        a.write(str(n))
     a = a.getvalue()
     delta = time.time() - start
-    return delta
+    return (a, delta)
 
 def concat_comprehension(times):
+    global a
     start = time.time()
     a = [str(n) for n in xrange(times)]
     a = ''.join(a)
     delta = time.time() - start
-    return delta
+    return (a, delta)
 
 if __name__ == '__main__':
     import sys
@@ -99,6 +97,19 @@ if __name__ == '__main__':
             print(msg)
             print('#'*60 + '\n')
         print(__doc__)
+
+    # our own handler for uncaught exceptions
+    def excepthook(type, value, tb):
+        msg = '\n' + '=' * 80
+        msg += '\nUncaught exception:\n'
+        msg += ''.join(traceback.format_exception(type, value, tb))
+        msg += '=' * 80 + '\n'
+        print(msg)
+        sys.exit(1)
+
+    # plug our handler into the python system
+    sys.excepthook = excepthook
+
 
     # look for the '-g' option
     gc_off = False
@@ -118,18 +129,30 @@ if __name__ == '__main__':
     time.sleep(0.5)
     print('Using Python %s on %s' % (platform.python_version(), platform.platform()))
     print('For %d concatenations, GC is %s:' % (TIMES, 'OFF' if gc_off else 'ON'))
-    result = concat_naive(TIMES)
+    (naive_str, result) = concat_naive(TIMES)
     print('        naive: %5.2fs' % result)
+    with open('naive_str.data', 'w') as fd:
+        fd.write(naive_str)
+    del naive_str
     time.sleep(1)
 #    result = concat_array(TIMES)
 #    print('        array: %5.2fs' % result)
 #    time.sleep(1)
-    result = concat_join(TIMES)
+    (join_str, result) = concat_join(TIMES)
     print('         join: %5.2fs' % result)
+    with open('join_str.data', 'w') as fd:
+        fd.write(join_str)
+    del join_str
     time.sleep(1)
-    result = concat_stringio(TIMES)
+    (stringio_str, result) = concat_stringio(TIMES)
     print('     stringio: %5.2fs' % result)
+    with open('stringio_str.data', 'w') as fd:
+        fd.write(stringio_str)
+    del stringio_str
     time.sleep(1)
-    result = concat_comprehension(TIMES)
+    (comprehension_str, result) = concat_comprehension(TIMES)
     print('comprehension: %5.2fs' % result)
+    with open('comprehension_str.data', 'w') as fd:
+        fd.write(comprehension_str)
+    del comprehension_str
     time.sleep(1)
