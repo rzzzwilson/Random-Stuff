@@ -27,13 +27,13 @@ python running test.py (GC ON)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         |  9.96s |
+| naive         |  9.77s |
 +---------------+--------+
-| join          | 12.52s |
+| join          | 13.54s |
 +---------------+--------+
-| stringio      | 23.21s |
+| stringio      | 19.44s |
 +---------------+--------+
-| comprehension | 10.73s |
+| comprehension | 11.02s |
 +---------------+--------+
 
 .. image:: test.py.python.log.png
@@ -47,13 +47,13 @@ python running test.py (GC OFF)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         | 10.70s |
+| naive         |  9.76s |
 +---------------+--------+
-| join          | 12.56s |
+| join          | 11.48s |
 +---------------+--------+
-| stringio      | 20.89s |
+| stringio      | 19.05s |
 +---------------+--------+
-| comprehension | 10.42s |
+| comprehension |  9.66s |
 +---------------+--------+
 
 .. image:: test.py.python-g.log.png
@@ -67,13 +67,13 @@ python running test2.py (GC ON)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         | 32.15s |
+| naive         | 34.95s |
 +---------------+--------+
 | join          |  0.31s |
 +---------------+--------+
-| stringio      |  0.42s |
+| stringio      |  0.36s |
 +---------------+--------+
-| comprehension |  0.12s |
+| comprehension |  0.09s |
 +---------------+--------+
 
 .. image:: test2.py.python.log.png
@@ -87,13 +87,13 @@ python running test2.py (GC OFF)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         | 21.74s |
+| naive         | 36.02s |
 +---------------+--------+
-| join          |  0.30s |
+| join          |  0.31s |
 +---------------+--------+
-| stringio      |  0.43s |
+| stringio      |  0.36s |
 +---------------+--------+
-| comprehension |  0.12s |
+| comprehension |  0.09s |
 +---------------+--------+
 
 .. image:: test2.py.python-g.log.png
@@ -107,13 +107,13 @@ python3 running test.py (GC ON)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         | 13.27s |
+| naive         | 13.26s |
 +---------------+--------+
-| join          | 15.82s |
+| join          | 14.80s |
 +---------------+--------+
-| stringio      | 16.21s |
+| stringio      | 16.13s |
 +---------------+--------+
-| comprehension | 12.74s |
+| comprehension | 12.33s |
 +---------------+--------+
 
 .. image:: test.py.python3.log.png
@@ -127,13 +127,13 @@ python3 running test.py (GC OFF)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         | 14.26s |
+| naive         | 13.27s |
 +---------------+--------+
-| join          | 15.83s |
+| join          | 15.82s |
 +---------------+--------+
-| stringio      | 16.18s |
+| stringio      | 16.15s |
 +---------------+--------+
-| comprehension | 13.28s |
+| comprehension | 12.97s |
 +---------------+--------+
 
 .. image:: test.py.python3-g.log.png
@@ -147,7 +147,7 @@ python3 running test2.py (GC ON)
 +---------------+--------+
 | Method        | Time   |
 +===============+========+
-| naive         |  0.26s |
+| naive         |  0.27s |
 +---------------+--------+
 | join          |  0.29s |
 +---------------+--------+
