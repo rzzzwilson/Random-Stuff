@@ -19,16 +19,26 @@ import time
 _scale = {'kB': 1024.0, 'mB': 1024.0*1024.0,
           'KB': 1024.0, 'MB': 1024.0*1024.0}
 
+def init():
+    global ProcFile
+
+    uname = os.uname()
+    if uname[0] == "FreeBSD":
+        ProcFile = '/compat/linux/proc/%d/status'
+    else:
+        ProcFile = '/proc/%d/status'
+
+
 def _VmB(pid, VmKey):
     """Private."""
 
     global _scale
 
-    filepath = '/proc/%d/status' % pid
+    ProcFile = '/proc/%d/status' % pid
 
     # read pseudo file /proc/<pid>/status
     try:
-        with open(filepath, 'r') as fd:
+        with open(ProcFile, 'r') as fd:
             v = fd.read()
     except (NameError, IOError):
         return 0.0  # non-Linux?
