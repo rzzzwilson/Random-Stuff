@@ -90,7 +90,7 @@ fail to comprehend how *anyone* can think not providing landscape lock is
 anything but a fail.
 
 This is doubly strange, as the iPad experience suggests that Apple wants you to
-use the iPad in Landscape mode, but the partial iPhone screen orientation lock
+use the iPad in landscape mode, but the partial iPhone screen orientation lock
 suggests that the iPhone is to be used in portrait mode?
 
 And now the MacBook Pro.  It too is a good piece of hardware, despite the highly
