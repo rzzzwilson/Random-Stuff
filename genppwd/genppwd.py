@@ -10,6 +10,7 @@ where -h           prints help and the stops,
       -l <length>  generates a password of length <length>
                    (the default length is 14 characters)i
       -n           randomly convert some alphabetics to numerics,
+                   (tends to make less pronounceable)
       -u           randomly uppercase some letters.
 
 The password is printed to standard output.
@@ -28,18 +29,18 @@ DefaultLength = 14
 
 # allowable vowels and consonants
 Vowels = 'aeiou'
-Consonants = 'bdfghklmnprstvwyz'
+Consonants = 'bcdfghjklmnpqrstvwyz'
 
 # the vowels+consonants we might uppercase
 # we have this because we don't want the user to confuse O and 0, etc,
 # so we exclude 'o', for instance
-MakeUpper = 'aeubdfghklmnprstvwyz'
+MakeUpper = 'abcdefghijklmnpqrstuvwyz'
 
 # the alpha to numeric mapping
 Alpha2Number = {
                 'a': '4',
                 'e': '3',
-                'i': '1',
+#                'i': '1',	# may be confused with 'l'
                 'o': '0',
                 'b': '6',
                 'g': '8',
