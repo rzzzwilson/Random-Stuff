@@ -12,7 +12,7 @@ where -h           prints help and the stops,
       -n           randomly convert some alphabetics to numerics,
       -u           randomly uppercase some letters.
 
-The password is prnted to standard output.
+The password is printed to standard output.
 """
 
 # Note that we don't include 'special' characters like '.', etc, as some sites
