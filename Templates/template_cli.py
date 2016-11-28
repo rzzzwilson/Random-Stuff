@@ -44,8 +44,8 @@ if __name__ == '__main__':
 
     try:
         (opts, args) = getopt.getopt(argv, 'd:h', ['debug=', 'help'])
-    except getopt.error:
-        usage()
+    except getopt.GetoptError as err:
+        usage(err)
         sys.exit(1)
 
     debug = 10              # no logging
