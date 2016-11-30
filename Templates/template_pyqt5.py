@@ -4,7 +4,7 @@
 """
 A template for a PyQt5 program.
 
-Usage: template_wxpython.py [-d <number>] [-h]
+Usage: template_pyqt5.py [-d <number>] [-h]
 
 Where -d <number>  sets the debug level
       -h           prints this help AND THEN STOPS
