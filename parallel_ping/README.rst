@@ -3,10 +3,11 @@ What is this mess?
 
 Here we have code for a *parallel ping* function.  The function is implemented
 in various ways, from a naive non-parallel way through to fully parallel
-implementations.
+implementations using threads.
 
-The reason for this code was a conversation in
-[this Reddit thread](https://www.reddit.com/r/learnpython/comments/5fu9m5/ping_tool_gives_recursion_error/).
+The reason for this code was a conversation in this Reddit_ thread.
+
+.. _Reddit: https://www.reddit.com/r/learnpython/comments/5fu9m5/ping_tool_gives_recursion_error/).
 
 parallel_ping()
 ---------------
@@ -38,4 +39,5 @@ the implementation within are:
 =============== ========================================
  naive           not parallel, one ping at a time
  massive         one thread for each host, no limit
+ pool            a fixed number of threads
 =============== ========================================
