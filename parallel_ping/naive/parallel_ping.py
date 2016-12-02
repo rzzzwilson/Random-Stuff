@@ -11,9 +11,7 @@ WARNING: little in the way of _proper_ error handling is used here!
 import os
 import sys
 import time
-import commands
-import logger
-
+import subprocess
 
 # default timeout in seconds
 DefaultTimeout = 5
@@ -48,13 +46,14 @@ def parallel_ping(hosts, timeout=DefaultTimeout, **kwargs):
         # create the 'ping' command
         cmd = ('ping -c 1 -t %d %s' % (timeout, host))
 
-        log('cmd=%s' % cmd)
-
         # execute the ping, examine the output
         start = time.time()
-        (status, output) = commands.getstatusoutput(cmd)
+        try:
+            output = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as e:
+            output = e.output       # ignore error and return the output
         delta = time.time() - start
-        log('%.4fs, status=%d, output=%s' % (delta, status, output))
+        output = output.decode('utf-8')
 
         # determine IP, if any
         ip = ''         # assume there was no DNS lookup
@@ -76,8 +75,6 @@ def parallel_ping(hosts, timeout=DefaultTimeout, **kwargs):
 
         result.append((ip, host, response))
 
-    log('result=%s' % str(result))
-
     return result
 
 
@@ -90,11 +87,9 @@ if __name__ == '__main__':
         print('Usage: parallel_ping [-t <seconds>]')
 
 
-    # start the logger
-    log = logger.Log('parallel_ping.log', logger.Log.DEBUG)
-
     # hosts to ping
     hosts = ('google.com',       # OK
+             '127.1.1.2',        # expect 'no response'
              'example.com',      # OK
              'no_such_site.xyz', # expect DNS failure
              '8.8.8.8',          # google DNS server, OK

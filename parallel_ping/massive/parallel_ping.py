@@ -116,6 +116,7 @@ if __name__ == '__main__':
 
     # hosts to ping
     hosts = ('google.com',       # OK
+             '127.1.1.2',        # expect 'no response'
              'example.com',      # OK
              'no_such_site.xyz', # expect DNS failure
              '8.8.8.8',          # google DNS server, OK
