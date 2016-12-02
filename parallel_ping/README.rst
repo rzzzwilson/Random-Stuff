@@ -16,9 +16,7 @@ There will be a function to perform the ping operation.  It takes a list of
 hosts, performs the pings in various ways, and returns a list of tuples, one
 for each host, containing:
 
-```
-(IP, hostname, result)
-```
+``` (IP, hostname, result) ```
 
 The function is called so:
 
