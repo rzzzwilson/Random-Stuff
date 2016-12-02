@@ -21,6 +21,7 @@ for each host, containing:
 The function is called so:
 
     results = parallel_ping(hosts)
+
     # results: [(IP, hostname, result), ...]
 
 where the *hosts* list will be a list of strings containing hostnames, either an
