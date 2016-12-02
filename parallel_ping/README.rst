@@ -20,8 +20,8 @@ for each host, containing:
 
 The function is called so:
 
-    res_list = parallel_ping(hosts)
-    # res_list: [(IP, hostname, result), ...]
+    result = parallel_ping(hosts)
+    # result: [(IP, hostname, result), ...]
 
 where the *hosts* list will be a list of strings containing hostnames, either an
 IP or a domain name.  The *result* string in the returned tuples will contain
