@@ -2,8 +2,8 @@ What is this mess?
 ==================
 
 Here we have code for a *parallel ping* function.  The function is implemented
-in various ways, from a naive non-parallel way through to fully parallel
-implementations using threads.
+in various ways, from a naive non-parallel way through to a fully parallel pool
+implementation using threads.
 
 The reason for this code was a conversation in this Reddit_ thread.
 
@@ -35,13 +35,13 @@ Directories
 ===========
 
 The *parallel_ping()* function will be implemented in various ways.  Each
-separate implementation will be in a separate module.  The module names and
-the implementation within are:
+separate implementation will be in a separate directory.  The directory names
+and the implementation within are:
 
-=============== ========================================
+=============== =============================================
  Module          Implementation
-=============== ========================================
+=============== =============================================
  naive           not parallel, one ping at a time
  massive         one thread for each host, no limit
- pool            a fixed number of threads
-=============== ========================================
+ pool            a worker pool with a fixed number of threads
+=============== =============================================
