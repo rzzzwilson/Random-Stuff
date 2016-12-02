@@ -20,10 +20,8 @@ for each host, containing:
 
 The function is called so:
 
-``
-results = parallel_ping(hosts)
-# results: [(IP, hostname, result), ...]
-``
+``results = parallel_ping(hosts)``
+``# results: [(IP, hostname, result), ...]``
 
 where the *hosts* list will be a list of strings containing hostnames, either an
 IP or a domain name.  The *result* string in the returned tuples will contain
