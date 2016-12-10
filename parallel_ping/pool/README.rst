@@ -12,6 +12,8 @@ Results
 
 When we execute the program, we get:
 
+::
+
     $ time python3 parallel_ping.py
                      no_such_site.xyz                        DNS failure (0.0209s)
     146.88.60.45     google.com                              Host is up (0.0279s)
@@ -27,6 +29,8 @@ When we execute the program, we get:
     sys    0m0.036s
 
 If we force the number of worker threads to be larger than the number of hosts, we see:
+
+::
 
     $ time python3 parallel_ping.py -w 8
     127.0.0.1        127.0.0.1                               Host is up (0.0161s)
