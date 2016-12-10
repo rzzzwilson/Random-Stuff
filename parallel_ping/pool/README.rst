@@ -1,11 +1,8 @@
 What is this?
 =============
 
-Here we implement *parallel_ping()* in the imost flexible  parallel way possible,
+Here we implement *parallel_ping()* in the most flexible  parallel way possible,
 with pings performed by a *pool* with a fixed number of threads.
-
-This approach is fine for a small number of hosts, but has problems with
-a large number of hosts.
 
 Results
 -------
