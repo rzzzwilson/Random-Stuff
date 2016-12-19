@@ -60,4 +60,38 @@ class MyTest(unittest.TestCase):
         msg = "'cdr(cons(3, None))' should return None, got '%s'!?" % str(y)
         self.assertEqual(y, None, msg=msg)
 
+    def test_eq(self):
+        """Test the 'eq' primitive."""
+
+        z = eq(1, 1)
+        msg = "'z=eq(1, 1)' should return True, got '%s'!?" % str(z)
+        self.assertEqual(z, True, msg=msg)
+
+        z = eq('1', 1)
+        msg = '''"z=eq('1', 1)" should return False, got '%s'!?''' % str(z)
+        self.assertEqual(z, False, msg=msg)
+
+        z = eq((1, 'a'), (1, 'a'))
+        msg = '''"z=eq((1, 'a'), (1, 'a'))" should return True, got '%s'!?''' % str(z)
+        self.assertEqual(z, True, msg=msg)
+
+        z = eq((1, 'b'), (1, 'a'))
+        msg = '''"z=eq((1, 'b'), (1, 'a'))" should return False, got '%s'!?''' % str(z)
+        self.assertEqual(z, False, msg=msg)
+
+        z = eq((2, 'a'), (1, 'a'))
+        msg = '''"z=eq((2, 'a'), (1, 'a'))" should return False, got '%s'!?''' % str(z)
+        self.assertEqual(z, False, msg=msg)
+
+    def test_atom(self):
+        """Does 'atom' work?"""
+
+        z = atom('123')
+        msg = "atom('123') should return True, got '%s'!?" % str(z)
+        self.assertEqual(z, True, msg=msg)
+
+        z = atom(cons(1, '123'))
+        msg = "atom(cons(1, '123')) should return False, got '%s'!?" % str(z)
+        self.assertEqual(z, False, msg=msg)
+
 unittest.main()

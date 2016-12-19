@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Implement the cons/car/cdr functionality.
+Implement the basic lisp functionality.
 """
 
 ######
@@ -18,12 +18,21 @@ def car(z):
 def cdr(z):
     return z(lambda p, q: q)
 
-def islist(x):
-    return callable(x)
+def quote(x):       # not a real 'quote'
+    return x
+
+def atom(x):
+    return not callable(x)
+
+def eq(x, y):
+    return x == y
 
 ######
 # Some extensions and helpers
 ######
+
+def islist(x):
+    return callable(x)
 
 def list_eq(x, y):
     if islist(x) and islist(y):
