@@ -4,7 +4,7 @@ A Global Module
 There has been talk over the years of a python Singleton object.  Possibly
 the best known of these is the `Borg pattern`_ introduced by Alex Martelli.
 
-.. _`Borg pattern`: https://www.safaribooksonline.com/library/view/python-cookbook/0596001673/ch05s23.html
+.. _`Borg pattern`: http://code.activestate.com/recipes/66531-singleton-we-dont-need-no-stinkin-singleton-the-bo/
 
 Alex, and others I think, have pointed out that a plain python module also
 behaves as a singleton.  You can define, access and modify any attributes of
