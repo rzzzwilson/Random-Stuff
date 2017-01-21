@@ -3,6 +3,7 @@ A Global Module
 
 There has been talk over the years of a python Singleton object.  Possibly
 the best known of these is the `Borg pattern`_ introduced by Alex Martelli.
+This is one of the great pattern names!
 
 .. _`Borg pattern`: http://code.activestate.com/recipes/66531-singleton-we-dont-need-no-stinkin-singleton-the-bo/
 
@@ -21,7 +22,7 @@ a module you want.  The simplest example of this uses an **empty** module 'fred'
 Other modules can import the 'fred' module and gain access to its attributes in
 a global manner.  When the python code terminates the singleton data is lost.
 
-A persistent global module
+A persistant global module
 --------------------------
 
 The code here is an experiment in providing persistance for the global module.
