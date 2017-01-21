@@ -22,6 +22,9 @@ a module you want.  The simplest example of this uses an **empty** module 'fred'
 Other modules can import the 'fred' module and gain access to its attributes in
 a global manner.  When the python code terminates the singleton data is lost.
 
+Of course, if you value your sanity you would **NEVER** add or modify any
+attributes with names starting with the '_' character!
+
 A persistant global module
 --------------------------
 
@@ -38,7 +41,8 @@ So to save/restore the global module state use:
     singleton.save(filename)
 
 where ``filename`` is optional and it not supplied the save filename is
-``singleton.state``.
+``singleton.state``.  These methods do not save/restore any module attributes
+with names strting with '_'.
 
 There is also a method used internally that may be useful to end users:
 
@@ -46,7 +50,7 @@ There is also a method used internally that may be useful to end users:
 
     payload = singleton.payload()
 
-whiich returns a dictionary of all gloabl attributes and there values.
+whiich returns a dictionary of all user global attributes and their values.
 
 Testing
 -------
