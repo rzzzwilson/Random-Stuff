@@ -1,0 +1,11 @@
+{
+    "dick": 2,
+    "harry": [
+        3.0,
+        "harry"
+    ],
+    "test2": {
+        "1": "one"
+    },
+    "tom": "tom"
+}
