@@ -42,7 +42,7 @@ So to save/restore the global module state use:
 
 where ``filename`` is optional and it not supplied the save filename is
 ``singleton.state``.  These methods do not save/restore any module attributes
-with names strting with '_'.
+with names starting with '_'.
 
 There is also a method used internally that may be useful to end users:
 
@@ -50,7 +50,8 @@ There is also a method used internally that may be useful to end users:
 
     payload = singleton.payload()
 
-whiich returns a dictionary of all user global attributes and their values.
+whiich returns a dictionary of all user-defined global attributes and their
+values.
 
 Testing
 -------
