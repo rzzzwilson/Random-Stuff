@@ -1,0 +1,36 @@
+You haven't explained just **what** you are searching.  The string the user enters
+in the 'Textfield' is what you are searching **for** but I don't know **what**
+you are searching.
+
+Your code example has this line:
+
+    Listexample = 'STEAM_0:0:187162090 STEAM_0:0:18714757 STEAM_0:0:1897544' # example of a list
+
+This appears to contain some kind of Steam ID information.  If you are searching
+a 'list' for things like this then you need to show where you get it from and
+what format the data is.  Maybe you are given a file to search, maybe you get
+it from the internet.
+
+As a simple example, I'll show how to search for types of animals:
+
+    # the animal 'database'
+    Animals = [
+               'cat',
+               'dog',
+               'mouse',
+               'python',
+               'hamster'
+              ]
+    
+    def my_search(search_string):
+        """Search for 'search_string' in Animals.
+    
+        Returns True if 'search_string' was found.
+        """
+    
+        lower_str = search_string.lower()  # ensure the search string is lowercase
+        if lower_str in Animals:
+            return True
+        return False
+
+A working example is at http://pastebin.com/CWMnBtLL .

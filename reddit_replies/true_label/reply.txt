@@ -1,0 +1,64 @@
+I'm still not sure what you are asking, so I'll just walk through what I *think*
+you are trying to do.
+
+From the code you posted you have a tkinter application that accepts a string
+that you want to search for.  When the user presses a button you perform the
+search and the result of your search ('True' or 'False') is displayed in a
+label.
+
+It is not clear what you search when the button is pressed, so I'll write a
+function that takes a search string and returns a random True/False answer.
+This simulates your search and makes it easier for you to change the code to
+do a real search.
+
+    import random
+    def my_search(search_string):
+        """Change the code here to do an actual search."""
+		if random.random() < 0.5:
+			return False
+		return True
+
+When the application is being used, this is what happens:
+
+* The user types a search string into the 'Textfield' Entry window
+* The user presses the 'Button1' search button
+* The search string is passed to the search function
+* The search function returns True or False
+* A string 'True' or 'False' replaces the 'Label1' text
+
+The first bit of code you need to add is the code that handles the button
+press.  When you create the button you must also use a 'command' option that
+joins the button to some code that is called when the button is pressed:
+
+    def button_press():
+        """The user pressed a button."""
+        
+        search_string = Textfield.get()
+        print('search: %s' % search_string)
+    
+    ...
+    
+    Button1 = Button(window, text="Search", command=button_press)
+
+Put the above code into your program and try it.
+
+Once you have the search string you can see if the search string exists
+somewhere.  Do this by calling the 'my_search' function to get a True/False
+value.  Then you need to convert the True/False value into a string and
+finally update the label text.  The updated 'button_press' function would
+look something like this:
+
+    def button_press():
+        """The user pressed a button."""
+    
+        # get search string and look for it
+        search_string = Textfield.get()
+        result = my_search(search_string)
+    
+        # convert True/False result into a string
+        result_str = str(result)
+    
+        # put 'result_str' into the label text
+        Label1.config(text=result_str)
+ 
+I'll discuss **what** you search in another post.
