@@ -1,0 +1,33 @@
+I tried fiddling with the input data to make it JSON, but found that to be a
+losing game.
+
+The other approach is to just parse the data into a list of dictionary strings
+and *eval()* each string.  It's up to you to decide if you can trust the input
+data enough to do that!  Of course, this approach is incredibly brittle.  And
+it only works for python2 (suffix L problem).
+
+    import sys
+    
+    # the test data
+    Data = "[{u'id': 234207492300014L, u'name': u'General:'}, {u'id': 141253567024793L, u'name': u'Misc'}]"
+    print('Data=%s' % Data)
+    
+    # parse the list of dicts
+    x = Data.strip()				# paranoid enough?
+    x = Data.replace(', {', '|{')   # or some other delimiter that WON'T appear in Data
+    print('x=%s' % x)
+    if x[0] != '[' or x[-1] != ']':
+        print('ERROR: badly formed data')
+        sys.exit(10)
+    x = x[1:-1]
+    
+    # split into list of dictionaries
+    y = x.split('|')A				# delimiter we inserted above
+    print('y=%s' % str(y))
+    
+    # eval each dictionary string
+    for d in y:
+        print('d=%s' % d)
+        z = eval(d)
+        print('\t.id=%s' % z['id'])
+        print('\t.name=%s' % z['name'])

@@ -1,0 +1,30 @@
+Not a bad first try at all.
+
+What you need to do now is start thinking "GUI".  The console code uses
+*print()* and *input()*.  You have to use the Tkinter equivalents to interact
+with the user.  The widget names you need to look at are the *Entry* widget to
+get user input and the *Text* widget to display results to the user.  There are
+other widgets you could use, but these two are simpler to start with.
+
+I don't find the
+[official Python Tkinter doc](https://docs.python.org/2/library/tkinter.html)
+very useful, but YMMV.  Google around for Tkinter tutorials.  One I like is
+[here](http://effbot.org/tkinterbook/tkinter-index.htm) but there are many
+others.
+
+Once you have the widgets you need showing in the Frame you run up against
+perhaps the biggest stumbling block for beginner GUI programmers: how do I get
+the widgets to show where I want them in the Frame?  This is **layout** and
+isn't easy in the beginning, but you soon get the hang of it.  Try the
+grid geometry manager first.
+
+One suggestion for the fully GUI approach: when you tell
+your user the results of each try, also say what number they entered.  This gives
+them a history of tries and makes it easier to decide what their next guess will
+be.  This is not so important in console as they can always look up the screen a
+bit.  But in the GUI there is no way the user can see previous attempts unless
+you show it to them.  This implies that you use a widget that allows you to show
+more than one line of text, rather than the *Text* widget, so it's a little
+advanced.
+
+And try to move to python3 :)
