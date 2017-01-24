@@ -1,0 +1,24 @@
+The simplest approach to a GUI for your game is to have:
+
+* a "Play" Button to signal the start of a game
+* a widget to display the results of each guess
+* an Entry in which the user types her guess
+* a "Guess" Button which the user presses when each guess is ready
+
+That last button is the important one.  If the user is guessing "15"
+then you really DON'T want the user typing the initial "1" to be
+mistaken for a new guess.  So you need another button to tell your code
+that a new guess is ready.
+
+You don't need to use lambdas to tie a button to some code to handle the
+button press.  Just do:
+
+    Button(frame, text="Play!", command=self.play)
+
+and
+
+    Button(frame, text="Guess", command=self.guess)
+
+There are ways (I think) to have only one button, but these require your
+code to remember what "state" it is in, and I think when starting GUI
+programming it's best to stay simple.
