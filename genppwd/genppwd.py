@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -8,7 +8,7 @@ Usage:  genppwd [-h] [-l <length>] [-n] [-u]
 
 where -h           prints help and the stops,
       -l <length>  generates a password of length <length>
-                   (the default length is 14 characters)i
+                   (the default length is 14 characters)
       -n           randomly convert some alphabetics to numerics,
                    (tends to make less pronounceable)
       -u           randomly uppercase some letters.
