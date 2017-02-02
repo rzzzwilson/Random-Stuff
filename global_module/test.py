@@ -21,8 +21,8 @@ print('singleton.test2=%s' % str(singleton.test2))
 
 print('singleton: %s' % str(dir(singleton)))
 
-payload = singleton.payload()
+payload = singleton._payload()
 for (k, v) in payload.items():
     print('singleton.%s=%s\t%s' % (k, str(v), type(v)))
 
-singleton.save()
+singleton._save()

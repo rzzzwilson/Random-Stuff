@@ -23,7 +23,8 @@ Other modules can import the 'fred' module and gain access to its attributes in
 a global manner.  When the python code terminates the singleton data is lost.
 
 Of course, if you value your sanity you would **NEVER** add or modify any
-attributes with names starting with the '_' character!
+attributes with names starting with the '_' character!  Especially since names
+of that form are used in the code here.
 
 A persistant global module
 --------------------------
@@ -50,7 +51,7 @@ There is also a method used internally that may be useful to end users:
 
     payload = singleton.payload()
 
-whiich returns a dictionary of all user-defined global attributes and their
+which returns a dictionary of all user-defined global attributes and their
 values.
 
 Testing
