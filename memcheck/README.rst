@@ -17,4 +17,4 @@ Another way uses similar checking code but gets control **without**
 hijacking the malloc/free calls in the source code, but uses a DLL/SO
 library approach to capture malloc/free calls before passing them to
 the normal library code.  I've seen this approach called
-`shimming <https://en.wikipedia.org/wiki/Shim_(computing)>`_).
+`shimming <https://en.wikipedia.org/wiki/Shim_\(computing\)>`_).
