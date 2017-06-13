@@ -7,7 +7,7 @@
 BACKUP_BASE="$HOME/NOTEBOOK_Backups"
 
 # limit (GB) to total backup size on disk
-LIMIT=8
+LIMIT=10
 
 # decide if we are linux or MacOS
 UNAME=$(uname)
@@ -58,7 +58,13 @@ fs_check()
         else
             echo "OK"
         fi
-	diskutil unmount $DEV
+        sleep 2
+        diskutil unmount $DEV
+        RES=$?
+        if [ $RES -ne 0 ]; then
+            echo "Dismount failed!?"
+            say "Dismount failed"
+        fi
     fi
 }
 
@@ -111,7 +117,18 @@ else
     MOUNT=$(echo $DF | awk '{ print $9 }')
 fi
 
+# make sure the '.diskid' file exists on the device and contains 'NOTEBOOK'
+if [ ! -f $MOUNT/.diskid ]; then
+    abort "Sorry, the file $MOUNT/.diskid doesn't exist."
+fi
+
+FILE_CONTENTS=$(cat $MOUNT/.diskid)
+if [ "$FILE_CONTENTS" != "NOTEBOOK" ]; then
+    abort "Device is not a notebook:\n\n$MOUNT/.diskid contains '$FILE_CONTENTS',\nshould be 'NOTEBOOK'."
+fi
+
 # copy the 'nb' doing the backup to the NOTEBOOK
+echo "Doing: cp $HOME/bin/nb $MOUNT/files/computer/bin/nb"
 cp $HOME/bin/nb $MOUNT/files/computer/bin/nb
 
 # get date/time, create backup directory
@@ -122,6 +139,7 @@ mkdir -p $BACKUP_BASE/$DATETIME
 # copy NOTEBOOK to backup
 echo "Copying NOTEBOOK to $BACKUP_DIR"
 rsync -q --links -r $MOUNT/* $BACKUP_DIR
+cp $MOUNT/.diskid $BACKUP_DIR
 
 # perform filesystem check on device, if required, and dismount
 if [ "$NOFSCK" != "Y" ]; then
