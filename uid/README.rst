@@ -1,7 +1,7 @@
 The 'uid' code is an attempt to provide a data structure that manages
 Unique Identifier (UID) for a system that requires sequential IDs.
 
-The aims::
+The aims:
 
 * O(1) or O(logN) performance for pop() and push()
 * pop() returns the lowest sequence number free
