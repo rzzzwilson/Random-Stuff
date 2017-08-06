@@ -19,7 +19,7 @@ def pack(L, n):
     '''
 """
 
-def pack (L, n):
+def pack(L, n):
     """Function to return a set containing elements that sum to <= n.
 
     L  the list to take elements from
@@ -59,6 +59,10 @@ def pack (L, n):
             if alt_sum_subset > max_alt_sum:
                 max_alt_subset = alt_pack_subset
                 max_alt_sum = alt_sum_subset
+
+            # optimize - if we have an optimal result, return it
+            if max_alt_sum == n:
+                return max_alt_subset
 
             # try next smallest tail
             alt_subset = alt_subset[1:]
