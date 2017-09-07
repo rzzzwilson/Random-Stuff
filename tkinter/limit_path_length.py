@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 """
-An example of limiting a path length for display in a Label widget.
+An example of limiting a path length for display in a widget.
+
+This is for UNIX-like filesystems.  On Windows would need extra code to
+handle the drive.
 """
 
 import sys
@@ -31,6 +34,7 @@ def limit_path(path, limit):
         path = head
 
     # create the default path 'head' plus terminal file
+    # for Windows we would look for the drive letter
     head_path = os.path.join('/', path_list.pop(0), '...')
     tail_path = path_list.pop()
     result = os.path.join(head_path, tail_path)
