@@ -22,7 +22,7 @@ hit_points = data['hit_points']
 
 print('START: balance=%d, hit_points=%d' % (balance, hit_points))
 
-# increment both variables
+# modify both variables
 balance += 10
 hit_points -= 200
 
