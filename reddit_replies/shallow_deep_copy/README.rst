@@ -78,7 +78,7 @@ builtin function::
     with non-overlapping lifetimes may have the same id() value.
 
 The documentation goes on to say that in cpython the ``id()`` function returns the
-address in memory of an object.  Let's change our example code a little bit:
+address in memory of an object.  Let's change our example code a little bit::
 
     x = [1, [2, 3]]
     y = x
