@@ -1,5 +1,5 @@
-Shallow versus Deep Copy in Python
-==================================
+Aliasing, Shallow and Deep Copy, and all that
+=============================================
 
 Shallow and deep copy seem to be confusing to some.  Here we will
 discuss different copy methods and compare them to assignment.
@@ -16,7 +16,7 @@ We're comfortable with assignment::
 where the line(s) prefixed with `>>>` are the output from the preceding
 line(s).
 
-So far, so familiar, but do we *really* understand exactly what python
+So far, so familiar.  But do we *really* understand exactly what python
 assignment does?  It looks like `x` is set to a list `[1, [2, 3]]`, right?
 
 No, not in python!  Let's draw a picture::
@@ -28,6 +28,9 @@ No, not in python!  Let's draw a picture::
 where the `<>` delimit the name of a variable, and the `«»` delimit an object.
 The `---->` means 'references'.  So we say that the variable `x` references the
 object `[1, [2, 3]]`.
+
+Aliasing
+--------
 
 Let's look at a slightly more complicated example::
 
@@ -62,14 +65,15 @@ object [1, [2, 3]]. ::
 After the line `y = x` the variable `y` contains the **same reference**
 that `x` contains, so `y` contains a reference to the same object
 that `x` refers to: [1, [2, 3]].  So when we print `x` and `y` we see the
-same result.
+same result.  We call this 'aliasing'.  The `y` variable aliases the `x`
+variable.
 
 We can show that `x` and `y` refer to the same object by using the `id()`
 builtin function::
 
     id(object)
 
-    Returns the “identity” of an object. This is an integer which is guaranteed
+    Returns the "identity" of an object. This is an integer which is guaranteed
     to be unique and constant for this object during its lifetime. Two objects
     with non-overlapping lifetimes may have the same id() value.
 
@@ -107,6 +111,11 @@ picture::
 
         <x> ---> «[1, [2, 3]]»
         <y> ---> «[1, [2, 3]]»      # note, different object!
+
+In this case `y` doesn't alias `x`.
+
+Shallow Copy
+------------
 
 Let's try using the *copy* module::
 
@@ -155,7 +164,10 @@ This *shallow copy* is defined in the *copy.copy()* documentation::
     (to the extent possible) inserts references into it to the
     objects found in the original.
 
-Suppose we didn't wnat this, but wanted two completely separate objects?
+Deep Copy
+---------
+
+Suppose we didn't want this, but wanted two completely separate objects?
 We use a *deep copy* to achieve this::
 
 
