@@ -88,7 +88,7 @@ address in memory of an object.  Let's change our example code a little bit::
     >>>y=[1, [2, 3]], id(y)=4321738952
 
 Note that the integer values returned by the ``id()`` function are the same. 
-**That means that the ``x`` and ``y`` variables point to the same object!.**
+**That means that the 'x' and 'y' variables point to the same object**!
 
 Let's try something slightly different::
 
