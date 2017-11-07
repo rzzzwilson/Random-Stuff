@@ -143,7 +143,7 @@ But let's look inside those objects using ``id()``::
     >>>y[0]=1, id(y[0])=4297636896
 
 This shows something unexpected: ``x`` and ``y`` refer to different objects
-**but** ``x[0]`` and ``y[0]`` refer to the same object!  Here's a (slightly
+but ``x[0]`` and ``y[0]`` refer to the same object!  Here's a (slightly
 inaccurate) picture showing the state after the code has run::
 
     <x> ---> «[<>, [<>, <>]]»
