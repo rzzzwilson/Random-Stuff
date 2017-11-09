@@ -26,7 +26,7 @@ def do_cmdline(cmd, text):
     """
 
     process = Popen([cmd], stdout=PIPE, stdin=PIPE, stderr=PIPE)
-    result = process.communicate(input=bytes(text, 'utf-8'))[0].decode('utf-8') 
+    result = process.communicate(input=bytes(text, 'utf-8'))[0].decode('utf-8')
     return result.strip()
 
 
@@ -43,7 +43,6 @@ class App:
 
         self.rot13 = Entry(frame, width=30)
         self.rot13.pack()
-        self.rot13.config(state='disabled')
 
     def do_rot13(self):
         # get the text we have to ROT13
@@ -56,11 +55,9 @@ class App:
         (_, rot13text) = rot13text.split(': ')
 
         # update the ROT13 display
-        self.rot13.config(state='normal')
         self.rot13.delete(0, END)
         self.rot13.insert(0, rot13text)
-        self.rot13.config(state='disabled')
-        
+
 
 root = Tk()
 app = App(root)
