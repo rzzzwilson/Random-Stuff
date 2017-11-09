@@ -6,7 +6,7 @@ commandline code.  Inspired by this reddit post:
 
 https://www.reddit.com/r/learnpython/comments/7bnvw9/mixing_command_line_and_tkinter_inputoutput/
 
-The idea is to write a commandline cwprogramcode that takes a string and does
+The idea is to write a commandline program that takes a string and does
 a ROT13 translation on it.  Then write a tkinter program that will execute
 the commandline program passing the string to translate to STDIN and
 reading SDTOUT and placing the translated text into a widget for display.
