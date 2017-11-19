@@ -1,23 +1,24 @@
-#!/bin/env python
+#!/usr/bin/env python3
 
 """
-A program to backup the NOTEBOOK USB stick. Runs from either
-the CLI or GUI.
+A program to backup the NOTEBOOK USB stick.
 
 Usage: nb
 """
 
 import os
+import sys
 import time
 import shutil
 import platform
 import logger
-from tkinter_error import tkinter_error
+try:
+    from tkinter_error import tkinter_error
+except ImportError:
+    tkinter_error = print
 from subprocess import Popen, PIPE, STDOUT
 
 # Requirements:
-#   . Runs under either python2 or 3
-#   . Runs in CLI or a GUI
 #   . Must find mounted NOTEBOOK automatically
 #   . As easy to use and as error-proof as possible
 #   . Saves NOTEBOOK in time+date stamped directory
@@ -25,7 +26,8 @@ from subprocess import Popen, PIPE, STDOUT
 #   . Check the NOTEBOOK filesystem for errors
 
 # where we store the backups
-BACKUP_BASE = os.path.expanduser('~/NOTEBOOK_Backups')
+#BACKUP_BASE = os.path.expanduser('~/NOTEBOOK_Backups')
+BACKUP_BASE = os.path.expanduser('./NOTEBOOK_Backups')
 
 # limit (GB) to total backup size on disk
 LIMIT = 10
@@ -59,7 +61,20 @@ def do_cmdline(cmd, text=''):
 
     process = Popen(cmd, stdout=PIPE, stdin=PIPE, stderr=PIPE)
     output = process.communicate(input=bytes(text, 'utf-8'))[0].decode('utf-8').strip()
+    log("do_cmdline: returns (%s, '%s')" % (str(process.returncode), str(output)))
     return (process.returncode, output)
+
+def report(msg='\n'):
+    """Print a message, special handling of '\n'.
+
+    msg  the message to report on
+
+    If 'msg' doesn't end with '\n' flush stdout.
+    """
+
+    print(msg, end='')
+    if not msg.endswith('\n'):
+        sys.stdout.flush()
 
 def say(msg):
     """Say a message through the voice synthesizer.
@@ -67,7 +82,15 @@ def say(msg):
     msg  the message to say
     """
 
-    pass
+    if Quiet:
+        return
+
+    if UName == 'Linux':
+        log('Would say: %s' % msg)
+    elif UName == 'Darwin':
+        do_cmdline(['say', msg])
+    elif UName == 'Windows':
+        log('Would say: %s' % msg)
 
 def abort(msg, status=1):
     """
@@ -77,6 +100,8 @@ def abort(msg, status=1):
 
     Exits with an error status.
     """
+
+    report()
 
     tkinter_error(msg)
     sys.exit(status)
@@ -90,7 +115,7 @@ def check_filesystem(device, mount_point):
     """
 
     say('File system check')
-    print('Performing filesystem check on %s ... ' % device)
+    report('Performing filesystem check on %s ... ' % device)
 
     if UName == 'Linux':
         (res, _) = do_cmdline(['umount', '%s' % mount_point])
@@ -100,17 +125,19 @@ def check_filesystem(device, mount_point):
         if res != 0:
             say("Filesystem errors")
             abort("Errors when running 'fsck' on device '%s'" % device)
-        print('OK!')
+        report('OK!\n')
     elif UName == 'Darwin':
-        (res, _) = do_cmdline(['diskutil', 'repairVolume', '%s' % mount_point])
+        (res, output) = do_cmdline(['diskutil', 'repairVolume', '%s' % mount_point])
         if res != 0:
             say("Filesystem errors")
+            if 'could not be unmounted' in output:
+                abort("Diskutil couldn't unmount the NOTEBOOK!?")
             abort("Errors when running 'diskutil' on device at '%s'" % mount_point)
-        (res, _) = do_cmdline(['diskutil', 'unmount', '%s' % device])
+        (res, output) = do_cmdline(['diskutil', 'unmount', device])
         if res != 0:
             say("Dismount failed")
             abort("Dismount of device '%s' failed!?" % device)
-        print('OK!')
+        report('OK!\n')
     elif UName == 'Windows':
         abort("Don't handle Windows just yet")
     else:
@@ -151,13 +178,15 @@ def get_device_mount(name):
             if UName == 'Linux':
                 device = fields[0]
                 mount = fields[5]
+                return (device, mount)
             elif UName == 'Darwin':
                 device = fields[0]
                 mount = fields[8]
+                return (device, mount)
             else:
                 return None
 
-    return (device, mount)
+    return None
 
 def main(fs_check):
     """Backup the memory stick, if found.
@@ -167,8 +196,10 @@ def main(fs_check):
     result = get_device_mount(NOTEBOOK)
     if result is None:
         log("No mounted device called '%s'" % NOTEBOOK)
-        abort("Sorry, the NOTEBOOK '%s' isn't mounted." % NOTEBOOK)
+        say("Memory stick isn't mounted")
+        abort("Sorry, %s isn't mounted." % NOTEBOOK)
     (device, mount) = result
+    log("main: device=%s, mount='%s'" % (device, mount))
 
     # check that the ID file is there, containing the correct string
     id_path = os.path.join(mount, ID_FILE)
@@ -195,13 +226,15 @@ def main(fs_check):
     log("target_dir='%s'" % target_dir)
     os.makedirs(target_dir)
 
-# # copy NOTEBOOK to backup
-# echo "Copying NOTEBOOK to $BACKUP_DIR"
-# rsync -q --links -r $MOUNT/* $BACKUP_DIR
-# cp $MOUNT/.diskid $BACKUP_DIR
-
-    src_path = os.path.join(mount, '*')
-    (status, output) = do_cmdline(['rsync', '-q', '--links', '-r', src_path, target_dir])
+    # copy NOTEBOOK to backup
+#    cp $MOUNT/.diskid $BACKUP_DIR
+    log("Copy '%s' to '%s'" % (ID_FILE, target_dir))
+    shutil.copy(os.path.join(mount, ID_FILE), target_dir)
+    src_path = os.path.join(mount, '')
+    log("src_path='%s'" % src_path)
+    cmd_list = ['rsync', '-q', '--links', '-r', src_path, target_dir]
+    log("sync: '%s'" % ' '.join(cmd_list))
+    (status, output) = do_cmdline(cmd_list)
 
     # filesystem check?
     if fs_check:
@@ -216,6 +249,8 @@ if __name__ == '__main__':
     import sys
     import getopt
     import traceback
+
+    global Quiet
 
     log = logger.Log('nb.log', logger.Log.DEBUG)
 
@@ -246,12 +281,14 @@ if __name__ == '__main__':
     argv = sys.argv[1:]
 
     try:
-        (opts, args) = getopt.getopt(argv, 'd:h', ['debug=', 'help'])
+        (opts, args) = getopt.getopt(argv, 'fhq', ['fs_check', 'help', 'quiet'])
     except getopt.GetoptError as err:
         usage(err)
         sys.exit(1)
 
+    # default values
     fs_check = True             # do filesystem check
+    Quiet = False               # speak progress
 
     for (opt, param) in opts:
         if opt in ['-f', '--fs_check']:
@@ -259,6 +296,8 @@ if __name__ == '__main__':
         elif opt in ['-h', '--help']:
             usage()
             sys.exit(0)
+        elif opt in ['-q', '--quiet']:
+            Quiet = True
 
     # run the program code
     result = main(fs_check)
