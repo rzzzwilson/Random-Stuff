@@ -18,13 +18,6 @@ from tkinter import *
 from subprocess import Popen, PIPE, STDOUT
 
 
-# Requirements:
-#   . Must find mounted NOTEBOOK automatically
-#   . As easy to use and as error-proof as possible
-#   . Saves NOTEBOOK in time+date stamped directory
-#   . Save directory must not exceed defined size limit
-#   . Check the NOTEBOOK filesystem for errors
-
 # where we store the backups
 #BACKUP_BASE = os.path.expanduser('~/NOTEBOOK_Backups')
 BACKUP_BASE = os.path.expanduser('./NOTEBOOK_Backups')
@@ -51,10 +44,8 @@ else:
 
 '''
 A small function to put an error message on the screen with Tkinter.
-
 Used by GUI programs started from a desktop icon.
 '''
-
 
 def tkinter_error(msg, title=None):
     """Show an error message in a Tkinter dialog.
@@ -114,24 +105,22 @@ def tkinter_error(msg, title=None):
 
 """
 A simple logger.
-
-Simple usage:
-    import logger
-    log = logger.Log('my_log.log', logger.Log.DEBUG)
-    log('A line in the log at the default level (DEBUG)')   # simple
-    log('A log line at WARN level', logger.Log.WARN)        # hard to use
-    log.info('log line issued at INFO level')               # best if using level
-
-Based on the 'borg' recipe from [http://code.activestate.com/recipes/66531/].
-
-Log levels styled on the Python 'logging' module.
-
-Log output includes the module and line # of the log() call.
 """
-
 
 ################################################################################
 # A simple (?) logger.
+#
+# Simple usage:
+#     log =Log('my_log.log', Log.DEBUG)
+#     log('A line in the log at the default level (DEBUG)')   # simple
+#     log('A log line at WARN level', logger.Log.WARN)        # hard to use
+#     log.info('log line issued at INFO level')               # best if using level
+#
+# Based on the 'borg' recipe from [http://code.activestate.com/recipes/66531/].
+#
+# Log levels styled on the Python 'logging' module.
+#
+# Log output includes the module name and line # of the log() call.
 ################################################################################
 
 class Log(object):
@@ -186,7 +175,7 @@ class Log(object):
 
         # if not given logfile name, make one up
         if logfile is None:
-            logfile = '%s.log' % __name__
+            logfile = f'{__name__}.log'
 
         # get correct options for rewrite or append of logfile
         log_options = 'w'
@@ -231,12 +220,12 @@ class Log(object):
         try:
             level = int(level)
         except ValueError:
-            msg = "Logging level invalid: '%s'" % str(level)
+            msg = f"Logging level invalid: '{level}'"
             print(msg)
             raise Exception(msg)
 
         if not self.NOTSET <= level <= self.CRITICAL:
-            msg = "Logging level invalid: '%s'" % str(level)
+            msg = f"Logging level invalid: '{level}'"
             print(msg)
             raise Exception(msg)
 
@@ -258,7 +247,7 @@ class Log(object):
         self.level = level
         self.sym_level = sym
 
-        self.critical('Logging level set to %02d (%s)' % (level, sym))
+        self.critical(f'Logging level set to {level:02d} ({sym})')
 
     def __call__(self, msg=None, level=None):
         """Call on the logging object.
@@ -287,25 +276,15 @@ class Log(object):
 
         # caller information - look back for first module != <this module name>
         frames = traceback.extract_stack()
-        frames.reverse()
-        try:
-            (_, mod_name) = __name__.rsplit('.', 1)
-        except ValueError:
-            mod_name = __name__
-        for (fpath, lnum, mname, _) in frames:
-            fname = os.path.basename(fpath).rsplit('.', 1)
-            if len(fname) > 1:
-                fname = fname[0]
-            if fname != mod_name:
-                break
+        frame = frames[-2]
+        (fpath, lnum, mname, _) = frame
 
         # get string for log level
         loglevel = self._level_num_to_name[level]
 
-        fname = fname[:self.max_fname]
-        self.logfd.write('%02d:%02d:%02d.%06d|%8s|%*s:%-4d|%s\n'
-                         % (hr, min, sec, msec, loglevel, self.max_fname,
-                            fname, lnum, msg))
+        # log the complete data+message
+        self.logfd.write(f'{hr:02d}:{min:02d}:{sec:02d}.{msec:06d}|'
+                         f'{loglevel:8s}|{lnum:4d}|{msg}\n')
         self.logfd.flush()
 
     def critical(self, msg):
@@ -339,6 +318,9 @@ class Log(object):
         self.logfd.close()
         self.logfd = None
 
+######
+# Utikity functions for "nb".
+######
 
 def do_cmdline(cmd, text=''):
     """Execute program in 'cmd' and pass 'text' to STDIN.
@@ -348,11 +330,11 @@ def do_cmdline(cmd, text=''):
     Note that any prompt the program writes is included in STDOUT.
     """
 
-    log('do_cmdline: cmd=%s' % str(cmd))
+    log(f'do_cmdline: cmd={cmd}')
 
     process = Popen(cmd, stdout=PIPE, stdin=PIPE, stderr=PIPE)
     output = process.communicate(input=bytes(text, 'utf-8'))[0].decode('utf-8').strip()
-    log("do_cmdline: returns (%s, '%s')" % (str(process.returncode), str(output)))
+    log(f"do_cmdline: returns ({process.returncode}, '{output}')")
     return (process.returncode, output)
 
 def report(msg='\n'):
@@ -377,11 +359,11 @@ def say(msg):
         return
 
     if UName == 'Linux':
-        log('Would say: %s' % msg)
+        log(f'Would say: {msg}')
     elif UName == 'Darwin':
         do_cmdline(['say', msg])
     elif UName == 'Windows':
-        log('Would say: %s' % msg)
+        log(f'Would say: {msg}')
 
 def abort(msg, status=1):
     """
@@ -393,46 +375,45 @@ def abort(msg, status=1):
     """
 
     report()
-
     tkinter_error(msg)
     sys.exit(status)
 
 def check_filesystem(device, mount_point):
     """
-    Check the filesystem for  device.
+    Check the filesystem for a device.
 
     device       the device to check
     mount_point  where the device is mounted
     """
 
     say('File system check')
-    report('Performing filesystem check on %s ... ' % device)
+    report(f'Performing filesystem check on {device} ... ')
 
     if UName == 'Linux':
-        (res, _) = do_cmdline(['umount', '%s' % mount_point])
+        (res, _) = do_cmdline(['umount', mount_point])
         if res != 0:
-            abort("Couldn't umount device at %s" % mount_point)
-        (res, _) = do_cmdline(['sudo', 'fsck', '%s' % device])
+            abort(f"Couldn't umount device at {mount_point}")
+        (res, _) = do_cmdline(['sudo', 'fsck', device])
         if res != 0:
             say("Filesystem errors")
-            abort("Errors when running 'fsck' on device '%s'" % device)
+            abort(f"Errors when running 'fsck' on device {device}")
         report('OK!\n')
     elif UName == 'Darwin':
-        (res, output) = do_cmdline(['diskutil', 'repairVolume', '%s' % mount_point])
+        (res, output) = do_cmdline(['diskutil', 'repairVolume', mount_point])
         if res != 0:
             say("Filesystem errors")
             if 'could not be unmounted' in output:
-                abort("Diskutil couldn't unmount the NOTEBOOK!?")
-            abort("Errors when running 'diskutil' on device at '%s'" % mount_point)
+                abort(f"Diskutil couldn't unmount the {NOTEBOOK}!?")
+            abort(f"Errors when running 'diskutil' on device on {mount_point}")
         (res, output) = do_cmdline(['diskutil', 'unmount', device])
         if res != 0:
             say("Dismount failed")
-            abort("Dismount of device '%s' failed!?" % device)
+            abort(f"Dismount of device {device} failed!?")
         report('OK!\n')
     elif UName == 'Windows':
         abort("Don't handle Windows just yet")
     else:
-        abort("Unrecognized platform: '%s'" % UName)
+        abort(f"Unrecognized platform: {UName}")
 
 def total_size(directory):
     """Get total size of a directory in GB.
@@ -443,7 +424,8 @@ def total_size(directory):
     if UName == 'Linux':
         size = do_cmdline("""du -B g -d 0 %s | awk '{ print $1 }' | sed -e "s/G$//" """ % Base)
     elif UName == 'Darwin':
-        size = do_cmdline("""du -g -d 0 $BACKUP_BASE | awk '{ print $1 }' """ % Base)
+        #size = do_cmdline("""du -g -d 0 $BACKUP_BASE | awk '{ print $1 }' """ % Base)
+        size = do_cmdline("""du -g -d 0 {Base} | awk '{ print $1 }' """)
     elif UName == 'Windows':
         abort("Don't do Windows yet")
 
@@ -481,6 +463,8 @@ def get_device_mount(name):
 
 def main(fs_check):
     """Backup the memory stick, if found.
+    
+    fs_check  True if a filesystem check is to be performed
     """
 
     # get device and mount point
@@ -490,21 +474,20 @@ def main(fs_check):
         say("Memory stick isn't mounted")
         abort("Sorry, %s isn't mounted." % NOTEBOOK)
     (device, mount) = result
-    log("main: device=%s, mount='%s'" % (device, mount))
+    log(f"main: device={device}, mount={mount}")
 
     # check that the ID file is there, containing the correct string
     id_path = os.path.join(mount, ID_FILE)
     if not os.path.isfile(id_path):
-        log("No file '%s' found" % id_path)
-        abort("Sorry, the NOTEBOOK '%s' isn't mounted." % NOTEBOOK)
+        log(f"No file '{id_path}' found")
+        abort("Sorry, the NOTEBOOK '{NOTEBOOK}' isn't mounted.")
     with open(id_path, 'r') as fd:
         data = fd.read()
     data = data.strip()
     data = data.split('\n')
     if len(data) != 1 or data[0] != ID_STRING:
-        log("ID file '%s' contained %s. expected ['%s']"
-            % (id_path, str(data), ID_STRING))
-        abort("Sorry, the NOTEBOOK '%s' isn't mounted." % NOTEBOOK)
+        log(f"ID file '{id_path}' contained '{data}'.  Expected '{ID_STRING}'")
+        abort(f"Sorry, the NOTEBOOK '{NOTEBOOK}' isn't mounted.")
 
 # do we need this?
 #    # OK, start copy.  First, copy this script to root of backup area
@@ -514,17 +497,17 @@ def main(fs_check):
     # create the target directory with date+time stamp
     date_time = time.strftime('%Y%m%d_%H%M%S')
     target_dir = os.path.join(BACKUP_BASE, date_time)
-    log("target_dir='%s'" % target_dir)
+    log(f"target_dir='{target_dir}'")
     os.makedirs(target_dir)
 
     # copy NOTEBOOK to backup
 #    cp $MOUNT/.diskid $BACKUP_DIR
-    log("Copy '%s' to '%s'" % (ID_FILE, target_dir))
+    log(f"Copy '{ID_FILE}' to '{target_dir}'")
     shutil.copy(os.path.join(mount, ID_FILE), target_dir)
     src_path = os.path.join(mount, '')
-    log("src_path='%s'" % src_path)
+    log(f"src_path='{src_path}'")
     cmd_list = ['rsync', '-q', '--links', '-r', src_path, target_dir]
-    log("sync: '%s'" % ' '.join(cmd_list))
+    log(f"sync: '{' '.join(cmd_list)}'")
     (status, output) = do_cmdline(cmd_list)
 
     # filesystem check?
@@ -551,7 +534,7 @@ if __name__ == '__main__':
     
         if msg:
             msg = msg.strip()       # remove terminal '\n', if any
-            print('%s\n%s\n%s' % (DELIM, msg, DELIM))
+            print('{DELIM}\n{msg}\n{DELIM}')
         print(__doc__)
     
     # our own handler for uncaught exceptions
