@@ -1,7 +1,7 @@
 import json
 
 dict_a = {1: 'one', 2: 'two', 3: 'three'}
-dict_b = {100: 'one hundred', 200: 'two hundred'}
+dict_b = {'one hundred': 100, 'two hundred': 200}
 filename = 'test.txt'
 
 # write dicts to the file
@@ -14,9 +14,8 @@ with open(filename, 'r') as fd:
 print(f'original dict_x={dict_x}')
 print(f'original dict_y={dict_y}')
 
-# convert dict_x and dict_y to numeric keys
+# convert dict_x to numeric keys
 dict_x = {int(k): v for (k, v) in dict_x.items()}
-dict_y = {int(k): v for (k, v) in dict_y.items()}
 
 # test if dicts we read are the same as originals
 if dict_x != dict_a:
