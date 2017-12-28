@@ -6,24 +6,23 @@ Solve the puzzle vaguely described in:
 https://www.reddit.com/r/learnpython/comments/7mdmfh/can_anyone_solve_this_question/
 """
 
-deck = [x for x in range(52)]
-
 def shuffle(deck):
     """Perform a shuffle on given deck, return shuffled deck."""
 
-    new = []
-    while deck:
-        card = deck.pop(0)      # get top card
-        new.insert(0, card)     # put that card on top of new
-        if len(deck):
-            card = deck.pop(0)  # get next top card
-            deck.append(card)   # put into bottom of the deck
-    return new
+    top = []                    # set 'top' deck to be empty
+    while deck:                 # loop while 'deck' has cards in it
+        card = deck.pop(0)      #   get top card
+        top.insert(0, card)     #   put that card on top of 'top'
+        if deck:                #   if 'deck' isn't empty
+            card = deck.pop(0)  #     get next top card
+            deck.append(card)   #     put into bottom of the deck
+    return top                  # return 'top' which is the shuffled 'deck'
 
-print(f'deck={deck}')
-
+deck = [x for x in range(52)]
 orig = deck[:]      # get copy of original deck
 count = 0
+
+print(f'deck={deck}')
 
 while True:
     count += 1
@@ -31,5 +30,5 @@ while True:
     if deck == orig:
         break
 
-print(f'count={count}')
 print(f'deck={deck}')
+print(f'count={count}')
