@@ -42,9 +42,10 @@ void loop(void)
   static bool inverted = false;
   static long invert_count = 0;
   static long screen_count = 0;
+  
   unsigned long start = micros();
 
-  if (++screen_count > 1000000)
+  if (++screen_count > 10000000)
     screen_count = 0;
     
   display.clearDisplay();
@@ -65,9 +66,6 @@ void loop(void)
   display.printf("%5dus", delta);
   display.setCursor(86, 0);
   display.printf("%07d", screen_count);
-  
-//  display.print("us    Adafruit HW");
-//  display.print("123456789012345678901\n\n");
   display.setCursor(TEXT_LEFT, TEXT_TOP);
   display.print("The time has come,");
   display.setCursor(TEXT_LEFT, TEXT_TOP+TEXT_HEIGHT);
