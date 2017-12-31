@@ -41,8 +41,12 @@ void loop(void)
   static unsigned long delta = 0;
   static bool inverted = false;
   static long invert_count = 0;
+  static long screen_count = 0;
   unsigned long start = micros();
-  
+
+  if (++screen_count > 1000000)
+    screen_count = 0;
+    
   display.clearDisplay();
 
   if (--invert_count <= 0)
@@ -58,8 +62,11 @@ void loop(void)
   }
 
   display.setCursor(0, 0);
-  display.print(delta);
-  display.print("us    Adafruit HW");
+  display.printf("%5dus", delta);
+  display.setCursor(86, 0);
+  display.printf("%07d", screen_count);
+  
+//  display.print("us    Adafruit HW");
 //  display.print("123456789012345678901\n\n");
   display.setCursor(TEXT_LEFT, TEXT_TOP);
   display.print("The time has come,");
@@ -69,7 +76,7 @@ void loop(void)
   display.print("talk of many things.");
   display.setCursor(TEXT_LEFT, TEXT_TOP+TEXT_HEIGHT*4);
   display.print("       Lewis Carroll");
-  
+
   display.drawFastHLine(TEXT_LEFT/2-1, TEXT_TOP-TEXT_HEIGHT/2, SH1106_LCDWIDTH-2, 1);
   display.drawFastHLine(TEXT_LEFT/2-1, SH1106_LCDHEIGHT-2, SH1106_LCDWIDTH-2, 1);
   display.drawFastVLine(TEXT_LEFT/2-1, TEXT_TOP-4, 48, 1);
