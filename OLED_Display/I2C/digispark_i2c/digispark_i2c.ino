@@ -1,26 +1,37 @@
-#include <stdlib.h> //Code library can be downloaded below
-#include "font6x8.h" //Code library can be downloaded below
-#include "font8x16.h" // Code library can be downloaded below
-#include "ssd1306xled.h" //Code library can be downloaded below
-#include "ssd1306xled8x16.h" //Code library can be downloaded below
+#include <stdlib.h>
+#include "font6x8.h"
+#include "ssd1306xled.h"
 
 char buffH[10];
 char buffT[10];
- 
+
+//#define TRY
+
 void setup()
 {
   delay(40);
   ssd1306_init();
-}
- 
-void texto(char* s)
-{
-  ssd1306_string_font6x8(s);
+#ifndef TRY
+  ssd1306_fillscreen(0x00);
+  texto(0, 1, "{{{{{{{{{{{{{{{{{{{{{{");
+  texto(0, 2, "The time has come");
+  texto(0, 3, "the Walrus said, to");
+  texto(0, 4, "talk of many things.");
+  texto(0, 6, "        Lewis Carroll");
+  texto(0, 7, "{{{{{{{{{{{{{{{{{{{{{{");
+#endif
 }
 
-void textoG(int pos_x, int pos_y, char* sG)
+void int2str(int i, char *buff)
 {
-  ssd1306_char_f8x16(pos_x, pos_y, sG);
+  sprintf(buff, "%d", i);
+}
+
+//void texto(char* s)
+void texto(int pos_x, int pos_y, char* s)
+{
+  ssd1306_setpos(pos_x, pos_y);
+  ssd1306_string_font6x8(s);
 }
 
 void pos(uint8_t x, uint8_t y)
@@ -43,22 +54,21 @@ void loop()
   
   // redraw the screen
   unsigned long start = micros();
+#ifdef TRY
   ssd1306_fillscreen(0x00);
-  pos(0, 0);
-  dtostrf(draw_time, 2, 0, buffH);
-  textoG(0, 0, buffH);
-  dtostrf(redraw_count, 5, 0, buffT);
-  textoG(0, 2, buffT);
-  textoG(0, 4, "The time has come, the Walrus said");
-#if 0
-  pos(0, 5);
-  textoG(0, 2, " Temperature(C)");
-  pos(0, 7);
-  texto(" www.14core.com");
-  textoG(0,0," Weather Station");
-  textoG(87,2,buffH);
-  textoG(87,4,buffT);
-  //delay(3000);
 #endif
-  draw_time = micros() - start;
+  sprintf(buffH, "%uus", draw_time);
+  texto(0, 0, buffH);
+  dtostrf(redraw_count, 5, 0, buffT);
+  sprintf(buffT, "%06d", redraw_count);
+  texto(90, 0, buffT);
+#ifdef TRY
+  texto(0, 1, "{{{{{{{{{{{{{{{{{{{{{{");
+  texto(0, 2, "The time has come,");
+  texto(0, 3, "the Walrus said, to");
+  texto(0, 4, "talk of many things.");
+  texto(0, 6, "        Lewis Carroll");
+  texto(0, 7, "{{{{{{{{{{{{{{{{{{{{{{");
+#endif
+  draw_time = (unsigned) micros() - start;
 }
