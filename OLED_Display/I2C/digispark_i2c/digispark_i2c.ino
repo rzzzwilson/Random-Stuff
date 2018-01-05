@@ -1,50 +1,33 @@
 #include <stdlib.h>
 #include "font6x8.h"
-#include "ssd1306xled.h"
+#include "sh1106.h"
 
-char buffH[10];
-char buffT[10];
+#define REDRAW_SCREEN   0
 
-//#define TRY
+char buffer[32];
 
 void setup()
 {
   delay(40);
-  ssd1306_init();
-#ifndef TRY
-  ssd1306_fillscreen(0x00);
-  texto(0, 1, "{{{{{{{{{{{{{{{{{{{{{{");
-  texto(0, 2, "The time has come");
-  texto(0, 3, "the Walrus said, to");
-  texto(0, 4, "talk of many things.");
-  texto(0, 6, "        Lewis Carroll");
-  texto(0, 7, "{{{{{{{{{{{{{{{{{{{{{{");
+  sh1106_init();
+#if !REDRAW_SCREEN
+  sh1106_fillscreen(0x00);
+  textxy(0, 1, "{{{{{{{{{{{{{{{{{{{{{{");
+  textxy(0, 2, "The time has come,");
+  textxy(0, 3, "the Walrus said, to");
+  textxy(0, 4, "talk of many things.");
+  textxy(0, 6, "        Lewis Carroll");
+  textxy(0, 7, "{{{{{{{{{{{{{{{{{{{{{{");
 #endif
 }
 
-void int2str(int i, char *buff)
+//void textxy(char* s)
+void textxy(int pos_x, int pos_y, char* s)
 {
-  sprintf(buff, "%d", i);
+  sh1106_setpos(pos_x, pos_y);
+  sh1106_draw_string(s);
 }
 
-//void texto(char* s)
-void texto(int pos_x, int pos_y, char* s)
-{
-  ssd1306_setpos(pos_x, pos_y);
-  ssd1306_string_font6x8(s);
-}
-
-void pos(uint8_t x, uint8_t y)
-{
-  ssd1306_setpos(x, y);
-}
-
-void DisMan()
-{
-  ssd1306_fillscreen(0x00);
-//  delay(100);
-}
- 
 void loop()
 {
   static unsigned int draw_time = 0;
@@ -54,21 +37,22 @@ void loop()
   
   // redraw the screen
   unsigned long start = micros();
-#ifdef TRY
-  ssd1306_fillscreen(0x00);
+#if REDRAW_SCREEN
+  sh1106_fillscreen(0x00);
 #endif
-  sprintf(buffH, "%uus", draw_time);
-  texto(0, 0, buffH);
-  dtostrf(redraw_count, 5, 0, buffT);
-  sprintf(buffT, "%06d", redraw_count);
-  texto(90, 0, buffT);
-#ifdef TRY
-  texto(0, 1, "{{{{{{{{{{{{{{{{{{{{{{");
-  texto(0, 2, "The time has come,");
-  texto(0, 3, "the Walrus said, to");
-  texto(0, 4, "talk of many things.");
-  texto(0, 6, "        Lewis Carroll");
-  texto(0, 7, "{{{{{{{{{{{{{{{{{{{{{{");
+  sprintf(buffer, "%uus", draw_time);
+  sh1106_setpos(0, 0);
+  sh1106_draw_string(buffer);
+  sprintf(buffer, "%06d", redraw_count);
+  sh1106_setpos(90, 0);
+  sh1106_draw_string(buffer);
+#if REDRAW_SCREEN
+  textxy(0, 1, "{{{{{{{{{{{{{{{{{{{{{{");
+  textxy(0, 2, "The time has come,");
+  textxy(0, 3, "the Walrus said, to");
+  textxy(0, 4, "talk of many things.");
+  textxy(0, 6, "        Lewis Carroll");
+  textxy(0, 7, "{{{{{{{{{{{{{{{{{{{{{{");
 #endif
   draw_time = (unsigned) micros() - start;
 }
