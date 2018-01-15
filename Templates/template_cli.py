@@ -1,5 +1,4 @@
-#!/bin/env python
-# -*- coding: utf-8 -*-
+#!/bin/env python3
 
 """
 This is a python CLI program template.
