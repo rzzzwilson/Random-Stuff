@@ -33,7 +33,6 @@ if __name__ == '__main__':
         msg += '=' * 80 + '\n'
         log(msg)
         tkinter_error(msg)
-        sys.exit(1)
 
     # plug our handler into the python system
     sys.excepthook = excepthook
