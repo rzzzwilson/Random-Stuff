@@ -1,8 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 """
-A simpler (?) interface to ConfigParser.
+A simpler (?) interface to configparser.
+If we have a config file:
 
 If we have a config file:
    [main]
@@ -29,8 +29,34 @@ must fill in default values if a value is missing.  All this can be done
 as a separate phase before using the config object.
 """
 
-import ConfigParser
+import os.path
+import configparser
 
+# default places to look for a config file
+ConfigPlaces = ['~', '.']
+
+
+def find_config(name, places=None):
+    """Look for a config file of given prefix in the usual places.
+
+    name    name of the config file to look for (just a base name)
+    places  optional list of paths to search
+
+    Returns the path to the first found config file or None if not found.
+    """
+
+    if places is None:
+        places = ConfigPlaces
+
+    for path in places:
+        path = os.path.expanduser(path)
+        path = os.path.expandvars(path)
+        path = os.path.abspath(path)
+        path = os.path.join(path, name)
+        if os.path.exists(path) and os.path.isfile(path):
+            return path
+
+    return None
 
 def get_config(config_file):
     """Read a config file and return a config object."""
@@ -83,16 +109,30 @@ directory=/Users/r-w/
 execute=False''' % (PortNumber)
 
         def setUp(self):
-            """create a temporary test file."""
+            """create a few temporary test config files."""
+
 
             (_, self.temp_file) = tempfile.mkstemp(prefix=TempFilePrefix)
-            with open(self.temp_file, 'wb') as handle:
-                handle.write(self.Data)
+            self.filenames = [self.temp_file, f'./{TempFilePrefix}', f'~/{TempFilePrefix}']
+
+            for fname in self.filenames:
+                fname = os.path.expanduser(fname)
+                fname = os.path.expandvars(fname)
+                fname = os.path.abspath(fname)
+                with open(fname, 'w') as handle:
+                    handle.write(self.Data)
 
         def tearDown(self):
-            """Delete the temporary file."""
+            """Delete the temporary files."""
 
-            os.remove(self.temp_file)
+            for fname in self.filenames:
+                fname = os.path.expanduser(fname)
+                fname = os.path.expandvars(fname)
+                fname = os.path.abspath(fname)
+                try:
+                    os.remove(fname)
+                except FileNotFoundError:
+                    pass
 
         def test_smoke(self):
             """Just open the config object."""
@@ -103,6 +143,31 @@ execute=False''' % (PortNumber)
             """Open the config object and get existing attribute."""
 
             cfg = get_config(self.temp_file)
+            result = cfg.main.port
+            msg = 'cfg.main.port should be %d, got %s' % (PortNumber, str(result))
+            self.assertEqual(int(result), PortNumber, msg)
+
+        def test_simple_find_local(self):
+            """Find the config file in the local directory and open the config
+            object and get existing attribute.
+            """
+
+            filename = TempFilePrefix
+            cfg_path = find_config(filename)
+            cfg = get_config(cfg_path)
+            result = cfg.main.port
+            msg = 'cfg.main.port should be %d, got %s' % (PortNumber, str(result))
+            self.assertEqual(int(result), PortNumber, msg)
+
+        def test_simple_find_home(self):
+            """Find the config file in the home directory and open the config
+            object and get existing attribute.
+            """
+
+            os.remove(os.path.join('.', TempFilePrefix))
+            filename = TempFilePrefix
+            cfg_path = find_config(filename)
+            cfg = get_config(cfg_path)
             result = cfg.main.port
             msg = 'cfg.main.port should be %d, got %s' % (PortNumber, str(result))
             self.assertEqual(int(result), PortNumber, msg)
