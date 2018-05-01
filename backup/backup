@@ -1,0 +1,341 @@
+#!/bin/bash
+#
+# A simple backup using hard-linking rsync.
+# NOTE: To get this to work on MacOS, get a later rsync:
+#           brew install homebrew/dupes/rsync
+#
+# usage: backup [-f] [-r]
+# where -f forces a final fsck of the BACKUP media (can be 5 hours or so!),
+# and   -r performs a recovery of the previous backup.
+#
+
+# program stuff
+PROGNAME=$(basename $0)
+PROGDIR=$(dirname $0)
+BACKUPPATH="/Users/r-w/bin/backup"
+
+# the rsync to use (*not* the Apple brain-dead one!)
+RSYNC=/usr/local/bin/rsync
+
+# program version
+VERSION=1.6
+
+LOGFILE=~/$PROGNAME.log
+touch $LOGFILE
+
+# one or more directories to be backed up
+SOURCES="/Volumes/DATA"
+
+# where the backup directories are created
+TARGET_VOL="/Volumes/BACKUP"
+
+# maximum used space before deleting old backups (%)
+MAX_USED=99
+
+# files we DON'T backup
+EXCLUDE=".DS_Store .Trashes .fseventsd .DocumentRevisions-V100 .TemporaryItems"
+
+# name of the disk ID file
+DISKID_FILE=$TARGET_VOL/.diskid
+DISKID_CONTENTS="backup 1.1"
+
+DELIM1="#################################################################"
+DELIM2="-----------------------------------------------------------------"
+
+RSYNC_OPTS="-aE -r --protect-args"
+
+# default is to not do 'fsck'
+DOFSCK="N"
+
+# default is not to recover
+RECOVER="N"
+
+
+usage()
+{
+    echo ""
+    echo "usage: backup [-f] [-r]"
+    echo "where -f forces a final fsck of the BACKUP media (can be 5 hours or so!),"
+    echo "and   -r performs a recovery of the previous backup."
+    echo ""
+}
+
+abort()
+{
+    local MSG="$*"
+
+    log "$MSG"
+    osascript -e "display dialog \"$MSG\" buttons {\"OK\"} default button \"OK\"" >/dev/null 2>&1
+    exit 1
+}
+
+alert()
+{
+    say "$*" &
+}
+
+error()
+{
+    local MSG="$*"
+
+    log "$MSG"
+    osascript -e "display dialog \"$MSG\" buttons {\"OK\"} default button \"OK\"" >/dev/null 2>&1
+    echo -e "$MSG" 1>&2
+}
+
+log()
+{
+    local MSG=$*
+
+    if [ "$LOGFILE" != "" -a -w $LOGFILE ]; then
+        local DT=$(date "+%F_%T")
+        MSG="$DT| $MSG"
+        echo $MSG >>$LOGFILE
+    fi
+}
+
+check_all()
+{
+    ERRORS=""
+
+    # check that all SOURCES directories exist
+    for S in $SOURCES; do
+        if [ ! -d $S ]; then
+            ERRORS="Source directory $S doesn't exist"
+            log "Source directory $S doesn't exist"
+        fi
+    done
+
+    # check that TARGET_VOL exists
+    if [ -w $TARGET_VOL ]; then
+        # check the disk ID file
+        if [ ! -f $DISKID_FILE ]; then
+            ERRORS="$ERRORS\nDisk ID file '$DISKID_FILE' doesn't exist"
+            log "Disk ID file '$DISKID_FILE' doesn't exist"
+        else
+            # check _contents_ of DISKID_FILE
+            X=$(cat $DISKID_FILE | head -1)
+            if [ "$X" != "$DISKID_CONTENTS" ]; then
+                ERRORS="$ERRORS\nDisk ID file has wrong contents.  Expected '$DISKID_CONTENTS',  got '$X'"
+                log "Disk ID file has wrong contents.  Expected '$DISKID_CONTENTS',  got '$X'"
+            fi
+        fi
+    else
+        ERRORS="$ERRORS\nTarget directory '$TARGET_VOL' doesn't exist or isn't writable"
+        log "Target directory '$TARGET_VOL' doesn't exist or isn't writable"
+    fi
+
+    # if errors, report and abort
+    if [ ! -z "$ERRORS" ]; then
+        alert "backup failed"
+        abort "$ERRORS\n"
+    fi
+}
+
+create_target()
+{
+    local TVOL=$1
+
+    # create target directory
+    DT=$(date +"%Y%m%d_%H%M%S")
+    mkdir -p $TVOL/$DT
+    RET=$?
+    if [ $RET -ne 0 ]; then
+        alert "cannot create $TVOL/$DT"
+        abort "Can't create $TVOL/$DT"
+    fi
+    echo $TVOL/$DT
+}
+
+get_link_dir()
+{
+    local TVOL=$1
+    local OLD_DIRS=$(ls $TVOL)
+    if [ -z "$OLD_DIRS" ]; then
+        return
+    fi
+
+    T=$(echo "$OLD_DIRS" | grep "^[0-9]" | tail -1)
+    log "LINK_DIR=$TVOL/$T"
+    echo $TVOL/$T
+}
+
+backup()
+{
+    local TDIR=$1
+    local LDIR=$2
+
+    EXCLUDELIST=""
+    for F in $EXCLUDE; do
+        EXCLUDELIST="$EXCLUDELIST --exclude=$F"
+    done
+
+    log "EXCLUDELIST=$EXCLUDELIST"
+
+    if [ ! -z "$LDIR" ]; then
+        # backup each source directory, using links to unchanged file
+        for S in $SOURCES; do
+            log "backup(): mkdir -p $TDIR$S"
+            mkdir -p $TDIR$S
+            local CMD="$RSYNC $RSYNC_OPTS $EXCLUDELIST --link-dest=$LDIR$S $S/ $TDIR$S"
+            log "$CMD"
+            $CMD >>$LOGFILE
+            RES=$?
+            log "Result was $RES"
+        done
+    else
+        # backup each source directory - INITIAL COPY
+        for S in $SOURCES; do
+            log "Source $S: $(df -h $S)"
+            log "backup(): mkdir -p $TDIR$S"
+            mkdir -p $TDIR$S
+            local CMD="$RSYNC $RSYNC_OPTS $EXCLUDELIST $S/ $TDIR$S"
+            log "$CMD"
+            $CMD >>$LOGFILE
+            RES=$?
+            log "Result was $RES"
+        done
+    fi
+}
+
+# get used space, in percentage, of given device.
+# the '%' character is removed, so returns '54'.
+used_space()
+{
+    df $1 | tail -1 | awk {'print $5'} | sed -e "s/\%//g"
+}
+
+# get remaining space on given device.
+remain_space()
+{
+    df -h $1 | tail -1 | awk {'print $4'}
+}
+    
+# function to check space left on target volume.
+# keep deleting old directories if over size.
+check_size_left()
+{
+    while true; do
+        # calculate free space in percent
+        USED_SPACE=$(used_space $TARGET_VOL)
+
+        # if enough space free, bomb out
+        if [ $USED_SPACE -lt $MAX_USED ]; then
+            log "Used space: ${USED_SPACE}%"
+            echo "Used space: ${USED_SPACE}%"
+            return
+        fi
+
+        # get oldest backup and delete it
+        OLDEST_DIR=$(ls -d $TARGET_VOL/20* | head -1)
+        log "Deleting: $OLDEST_DIR (used space ${USED_SPACE}% >= maximum of ${MAX_USED}%)"
+        echo "Deleting: $OLDEST_DIR (used space ${USED_SPACE}% >= maximum of ${MAX_USED}%)"
+        rm -Rf $OLDEST_DIR
+    done
+}
+
+########
+# Let's get this road on the show!
+########
+
+log $DELIM1
+log "# Start of backup:"
+log "# SOURCES=$SOURCES"
+log "# TARGET_VOL=$TARGET_VOL"
+log $DELIM2
+
+# parse options
+while getopts "hfr" OPTION; do
+    case $OPTION in
+        h)
+            usage
+            exit 1
+            ;;
+        f)
+            DOFSCK="Y"
+            log "'-f' option - checking backup disk"
+            ;;
+        r)
+            RECOVER="Y"
+            log "'-r' option - restoring previous backup"
+            ;;
+    esac
+done
+
+# clear the log file
+cat /dev/null > $LOGFILE
+
+# check all OK before we do anything
+check_all
+
+# check target disk remaining, delete old backups if necessary
+check_size_left
+
+if [ $RECOVER == "Y" ]; then
+    # find most recent backup dir, that's the target dir
+    LINK_DIR=""
+    TARGET_DIR=$(get_link_dir $TARGET_VOL)
+    if [ -z $TARGET_DIR ]; then
+        alert "'-r' specified but no previous backup"
+        abort "'-r' specified but no previous backup"
+    fi
+    log "Recovering directory $TARGET_DIR"
+else
+    LINK_DIR=$(get_link_dir $TARGET_VOL)
+    TARGET_DIR=$(create_target $TARGET_VOL)
+    log "Backing up to directory $TARGET_DIR"
+fi
+
+log "LINK_DIR=$LINK_DIR"
+log "TARGET_DIR=$TARGET_DIR"
+
+# copy the backup script to the target directory
+cp $BACKUPPATH $TARGET_DIR
+
+# kickoff the backup
+backup $TARGET_DIR $LINK_DIR
+log "backup is finished!"
+
+# the backup device is mounted, get mount device
+DEVICE=$(df -h | grep "$TARGET_VOL" | awk '{ print $1 }')
+
+# now check the backup disk
+if [ "$DOFSCK" == "Y" ]; then
+    echo -n "Performing filesystem check on $TARGET_VOL ... "
+    log "Performing filesystem check on $TARGET_VOL"
+    alert "file system check"
+    echo "------------------------------------------" >>$LOGFILE
+    diskutil repairVolume $DEVICE 2>&1 >>$LOGFILE
+    RES=$?
+    if [ $RES -ne 0 ]; then
+        echo "ERROR!!!!!!    (check log: $LOGFILE)"
+        log "CHECK ABOVE FOR ERRORS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        alert "file system errors"
+    else
+        echo "OK"
+        alert "file system OK"
+    fi
+    log "fsck finished"
+fi
+
+# print source & target volume sizes
+for S in $SOURCES; do
+    echo "$S: $(used_space $S)% used, $(remain_space $S) remaining"
+    log "$S: $(used_space $S)% used, $(remain_space $S) remaining"
+done
+echo "$TARGET_VOL: $(used_space $TARGET_VOL)% used, $(remain_space $TARGET_VOL) remaining"
+log "$TARGET_VOL: $(used_space $TARGET_VOL)% used, $(remain_space $TARGET_VOL) remaining"
+
+# dismount backup device
+#sleep 2
+diskutil unmount $TARGET_VOL
+RES=$?
+if [ $RES -eq 0 ]; then
+    log "Device $TARGET_VOL dismounted"
+    echo "Device $TARGET_VOL dismounted"
+else
+    log "Device $TARGET_VOL DIDN'T DISMOUNT!"
+    echo "Device $TARGET_VOL DIDN'T DISMOUNT!"
+    alert "backup didn't dismount"
+fi
+alert "backup finished"
