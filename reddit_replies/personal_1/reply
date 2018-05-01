@@ -1,0 +1,78 @@
+I saw your posts on a bunch of programming subreddits so I thought I could
+approach you for some guidance.
+
+I was just bored looking around online for coding challenges to prepare me for
+next year (I'm a high school student) and I came across Shopify's intern
+challenge (https://backend-challenge-winter-2017.herokuapp.com).
+
+I consider myself good at programming and Python with past internship
+experience. I consider myself to be decent at DS and algos. That being said, I
+was completely stumped by this intern challenge - I don't even know where to
+start or what it's asking for.
+
+Do you think you'd be able to just give me a direction of where to go? Or what
+skills I should know to approach this problem?
+
+The window for summer internships closed so I'm just trying to learn here. I
+find doing Leetcode manageable, but coding challenges like this that involve
+IRL situations difficult...
+
+-----------
+
+Well, real life problems tend to be messy and incomplete.
+
+The skills to solve this problem are initially, problem solving skills
+*generally*.  By that I mean coming to grips with problems that you don't
+initially understand.  In real life, if you were given a problem like this,
+you would go away for a short period and then come back with questions.
+Because real world problems given to you in a work scenario often are not
+well defined and leave important questions unanswered.  However, in this
+situation with the back-end challenge, I guess you aren't supposed to ask
+questions!
+
+So how do you solve a problem you don't initially understand?  That's an
+important life skill.  You do it by **not** being overawed by the problem and
+all the bits you don't understand.  Read the entire problem text.  Try to
+understand even a small bit of it.  Once you get a handle on even a tiny
+part of the problem the problem is now just a little bit smaller.  Look at
+the problem again.  Your knowledge is a little bigger than last time, maybe
+you can understand other parts of the problem.  Rinse, lather and repeat.
+
+Looking at the backend challenge, *I* really didn't understand it either.  It
+was only when I got to the bottom (the "Instructions" section) that I started
+to get some sort of idea of what to do.  Reading from the instructions, you
+need to:
+
+* Obtain a list of customers from the API
+* Obtain the validation data from the API
+* Verify the customer data against the validation data
+* Output the dictionary of validation results
+
+At this stage, we might know how to do the first two.  The instructions section
+"API response" gives you some information about what the response will contain,
+and the final few lines of the instructions gives you some URLs to play with.
+Try plugging those URLs into a browser and see what you get.  Then try doing the
+same thing in python.  Once you can get stuff from the API with python the next
+problem raises its ugly head.  How do we get complete, non-paginated, data from
+the API?  Maybe something in the `pagination` object you get will help here.
+If you don't know how to get the data from the URL, try looking at the [PyMOTW](https://pymotw.com/3/urllib.request/)
+doc for `urllib`.  Plus there's lots of other examples you can find.  Try
+searching for "python read url".
+
+Once you have written code to get all the data from multiple pages you should
+have two lists: `validations` and `customers`.  Then you start thinking about
+*how* to validate.  After that, how do you output the results?  You aren't given
+any API to submit results, so maybe just printing is OK.
+
+As far as python knowledge required, that really comes later in the process.
+And you may have to learn something new, bt now you are focussed and can ask
+sensible questions on reddit!
+
+The important major point here is that it's important to **start** doing
+something, anything, on the problem.  Once you have started writing code you
+know more about the problem and your code will focus you.  You solve one
+small problem, figure out what the next problem is, solve that, etc, until
+you are finished.
+
+Once you are started, ask your questions on reddit.  I'm sure other people
+are in the same boat as you.  They will be helped by the public explanations.

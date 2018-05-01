@@ -1,0 +1,43 @@
+There are a couple of points to note.
+
+Passing a value into the \_\_init\_\_() method is a dangerous thing to do if
+you want a Fibonacci sequence.  If you don't pass in 0 you don't get a fibonacci
+sequence.  In addition, you get a crash due to `self.prev` not being defined.
+
+You also never return a Fibonacci value from the `next()` method.  Running
+your code I only get a reference to the *class instance* from next(), not the 
+next Fibonnacci number.
+
+Your code has this:
+
+    def next(self):
+        if self.value==0:
+            self.temp=self.value
+            self.value,self.prev=(self.value+1),self.value
+            return self
+        else:
+            self.value,self.prev=(self.value+self.prev),self.value
+            return self
+
+The initial test is used to handle the start case.  You don't create a self.prev
+in \_\_init\_\_() and you handle that here.  Unfortunately, this is why you crash
+if you pass a non-zero value into Fib().  The `else` part is the correct code for
+a Fibonacci sequence, but you return `self` for some reason.
+
+It's better to just be simple:
+
+    class Fib:
+  
+        def __init__(self):
+            self.prev = 0
+            self.value = 1
+
+        def next(self):
+            (self.prev, self.value) = (self.value, self.value + self.prev)
+            return self.value
+
+    f = Fib()
+    print(f.next())
+
+I can't see any simple way to "set" the class to start in the middle of the
+sequence, besides running forward until self.value >= value in \_\_init\_\_().

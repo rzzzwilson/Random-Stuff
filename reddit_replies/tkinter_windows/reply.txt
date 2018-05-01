@@ -1,0 +1,123 @@
+> I see that I used the self. wrongly.
+
+No, you used `self` fine, but you didn't **need** to.  Looking at your
+other questions I think it's best if we have a little discussion on classes and
+instances.  This code:
+
+    class Book:
+        def __init__(self, name):
+            self.name = name
+        def get_name(self):
+            return self.name
+
+defines a simple class for a book.  We can create a couple of books like this:
+
+    book1 = Book('War and Peace')
+    book2 = Book('Python Essential Reference')
+
+The variables `book1` and `book2` contain references to two `instances` of class
+`Book`.  If we want the name of `book2` we can call its `.get_name()` method:
+
+    book2_name = book2.get_name()
+    print(book2_name)
+
+Since there's only one copy of the `get_name()` code (in the class definition),
+it must be told which instance we want the name for.  This call:
+
+    book2.get_name()
+
+gets the name, but it actually looks something like this to python:
+
+    <Book_class>.get_name(book2)
+
+where the `get_name()` method of the class is called, passing a reference to the
+actual instance we want the name for.  That's why every (well, almost all) 
+methods of a class gets passed a `this` as the first parameter.  You can call
+that first parameter any name you want, but `self` is traditional.
+
+That explains the `self`, but now we have to talk about scope and how we remember
+things during the life of a class instance.  If we have this normal (non-class)
+code:
+
+    g = 1
+    def test():
+        g = 2
+    print(g)
+    >>> 1
+
+we see that changing `g` inside the function **didn't** change the `g` outside.
+The `g` inside the function *masked* the one outside.  When the function finishes
+the `g` inside goes "out of scope", as we say, and it no longer exists.  Your 
+variables inside a class behave the same way.  In the `Book` class we wanted to
+remember the name of the book, so we had to make it an *attribute* of the
+instance like this:
+
+    self.name = name
+
+If we didn't do that, this function wouldn't work:
+
+    def get_name(self):
+        return name
+
+because the variable `name` would be undefined.  If you want to make some value
+persist for the life of an object you make it an instance attribute.  For
+instance, when using Tkinter you very often create a widget, a Text widget, say,
+that you want to interact with later.  Maybe you want to get the text contained
+inside it.  You create the widget inside your `__init__()` code somehow.  But
+if you don't save the widget reference you can't call the method of that
+particular widget that returns the text.  So when you create the widget you put
+the returned reference in an instance attribute.  You have done this, but you
+didn't understand the details.
+
+You might have something like a Text widget and a button.  When you press the
+button you want to get the text in the widget and do something with it, maybe
+just print it.  You can make the `command` of the button call a method, but in
+that method you need to access the Text widget.  The only way you can do this
+is something like:
+
+    def __init__(self):
+        ttk.Button(..., command=self.use_text)   # the "use_text" ethod is NOT called
+        self.text = Text(...)
+    def use_text(self):
+        the_text = self.text.get("1.0","end-1c")
+        print(the_text)
+
+If you didn't save the `self.text` attribute you can't access the Text widget
+outside the `__init__()` method.  Note that we don't need to access the button
+reference outside the `__init__()` method so we didn't save it.  If you wanted
+to disable/enable the button for some reason you would have to do this:
+
+    self.button = ttk.Button(..., command=self.use_text)
+
+A common error that you will fall into is to try combining create a widget and
+packing it at creation time:
+
+    self.button = ttk.Button(..., command=self.use_text).pack()
+
+Looks cool, right?  But you've just saved the result of the `pack()` into the
+instance attribute!  That won't work.  You have to split the create and pack:
+
+    self.button = ttk.Button(..., command=self.use_text)
+    self.button.pack()
+
+> Can I assign Toplevel() to the same variable for every function that I create or does it need to change every time? I wrote t = Toplevel() for second_layer and top = Toplevel() for third_layer, but could it be t = Toplevel() for both or will that create problems?
+
+Now you should understand that you can create any variable you like in an
+instance method and it can't change anything outside the method, so sure, go
+ahead.
+
+> I've been trying to add the QUIT button
+
+I don't have time right now to go into your "QUIT" button problem, but I do see
+something that will cause problems.  You do this in all the code you posted:
+
+    ttk.Button(top, text="QUIT", command=self.top.destroy()).pack(side=LEFT)
+
+Note that bit `command=self.top.destroy()`.  You are actually **calling** the
+destroy function *while you are defining the Button*!  You should do this:
+
+    ttk.Button(top, text="QUIT", command=self.top.destroy).pack(side=LEFT)
+
+That's because the `self.top.destroy` expression returns the reference to the
+method and the `()` actually **calls** the executable object to its left.
+

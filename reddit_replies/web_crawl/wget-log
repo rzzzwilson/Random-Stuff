@@ -1,0 +1,19 @@
+--2017-12-09 17:58:07--  https://www.ebay.com/sch/i.html?_from=R40
+Resolving www.ebay.com... 23.67.1.76
+Connecting to www.ebay.com|23.67.1.76|:443... connected.
+HTTP request sent, awaiting response... 302 Moved Temporarily
+Location: http://www.ebay.com/sch/allcategories/all-categories/?_rdc=1 [following]
+--2017-12-09 17:58:08--  http://www.ebay.com/sch/allcategories/all-categories/?_rdc=1
+Connecting to www.ebay.com|23.67.1.76|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://www.ebay.com/sch/allcategories/all-categories/?_rdc=1 [following]
+--2017-12-09 17:58:08--  https://www.ebay.com/sch/allcategories/all-categories/?_rdc=1
+Connecting to www.ebay.com|23.67.1.76|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: 'i.html?_from=R40'
+
+i.html?_from=R40                     [<=>                                                        ]       0  --.-KB/s               i.html?_from=R40                     [ <=>                                                       ]  18.04K  --.-KB/s    in 0.001s  
+
+2017-12-09 17:58:09 (21.0 MB/s) - 'i.html?_from=R40' saved [64196]
+

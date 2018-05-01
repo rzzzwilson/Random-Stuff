@@ -1,0 +1,53 @@
+[
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "name": "1.ext"
+                            },
+                            {
+                                "children": [],
+                                "name": "3.ext"
+                            }
+                        ],
+                        "name": "xyz"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "name": "2.ext"
+                            }
+                        ],
+                        "name": "pqr"
+                    }
+                ],
+                "name": "abc"
+            }
+        ],
+        "name": "root"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "name": "3.ext"
+                            }
+                        ],
+                        "name": "xyz"
+                    }
+                ],
+                "name": "abc"
+            }
+        ],
+        "name": "root2"
+    }
+]
