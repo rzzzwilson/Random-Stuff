@@ -9,3 +9,12 @@ features are:
 * target backups are saved in a timestamped directory
 * use the rsync "link to old backup" feature to save space and time
 * performs a target filesystem check if requested
+
+This program will eventually be rewritten into python and enhanced:
+
+* allow external and local source directories
+* use "volume ID" file on external source disks
+* allow backup from only local or external sources
+* allow skip of non-mounted external source disks
+* allow filesystem check on source disks (external or local)
+* allow execution on MacOS, Linux and, perhaps, Windows
