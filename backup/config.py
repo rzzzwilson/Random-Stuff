@@ -33,6 +33,15 @@ import configparser
 ConfigPlaces = ['~', '.']
 
 
+def canonize(path):
+    """Convert path to absolute form."""
+
+    path = os.path.expanduser(path)
+    path = os.path.expandvars(path)
+    path = os.path.abspath(path)
+
+    return path
+
 def find_config(name, places=None):
     """Look for a config file of given prefix in the usual places.
 
@@ -46,9 +55,7 @@ def find_config(name, places=None):
         places = ConfigPlaces
 
     for path in places:
-        path = os.path.expanduser(path)
-        path = os.path.expandvars(path)
-        path = os.path.abspath(path)
+        path = canonize(path)
         path = os.path.join(path, name)
         if os.path.exists(path) and os.path.isfile(path):
             return path
@@ -86,14 +93,15 @@ def get_config(config_file):
     return result
 
 def list_config(cfg):
-    """Get a list of data describing the passed 'cfg'."""
+    """Get a list of lines describing the passed 'cfg'."""
 
     result = []
-    for item in dir(cfg):
-        if not item.startswith('_'):
-            for item2 in dir(item):
-                if not item2.startswith('_'):
-                    result.append((item, getattr(item, item2)))
+
+    for item in (x for x in dir(cfg) if not x.startswith('_')):
+        item_attr = getattr(cfg, item)
+        for item2 in (x for x in dir(item_attr) if not x.startswith('_')):
+            value = getattr(item_attr, item2)
+            result.append(f'{item}.{item2}={value}')
 
     return result
 
@@ -105,38 +113,38 @@ if __name__ == '__main__':
 
     TempFilePrefix = 'ConfigTest'
     PortNumber = 8080
+    LogFile = '/Users/r-w/backup.log'
 
     class MyTest(unittest.TestCase):
 
         Data = '''[main]
 port=%d
-logfile=/Users/r-w/local_server.log
+logfile=%s
 [serve]
 directory=/Users/r-w/
           /Volumes/DATA
-execute=False''' % (PortNumber)
+execute=False''' % (PortNumber, LogFile)
 
         def setUp(self):
             """create a few temporary test config files."""
 
-
+            # list of filenames to use as config files
             (_, self.temp_file) = tempfile.mkstemp(prefix=TempFilePrefix)
             self.filenames = [self.temp_file, f'./{TempFilePrefix}', f'~/{TempFilePrefix}']
 
+            # list of absolute paths to remove in teardown
+            self.rm_filenames = []
+
             for fname in self.filenames:
-                fname = os.path.expanduser(fname)
-                fname = os.path.expandvars(fname)
-                fname = os.path.abspath(fname)
+                fname = canonize(fname)
                 with open(fname, 'w') as handle:
                     handle.write(self.Data)
+                self.rm_filenames.append(fname) # remember for teardown
 
         def tearDown(self):
             """Delete the temporary files."""
 
-            for fname in self.filenames:
-                fname = os.path.expanduser(fname)
-                fname = os.path.expandvars(fname)
-                fname = os.path.abspath(fname)
+            for fname in self.rm_filenames:
                 try:
                     os.remove(fname)
                 except FileNotFoundError:
@@ -160,8 +168,21 @@ execute=False''' % (PortNumber)
             object and get existing attribute.
             """
 
+            home_file = os.path.join('~', TempFilePrefix)
+            home_file = canonize(home_file)
+            try:
+                os.remove(home_file)
+            except FileNotFoundError:
+                pass
+
+            # make up path to expected config file
+            cwd = os.getcwd()
+            expected_file = os.path.join(cwd, TempFilePrefix)
+
             filename = TempFilePrefix
             cfg_path = find_config(filename)
+            msg = f"Expected to use file '{expected_file}' but got '{cfg_path}'"
+            self.assertEqual(cfg_path, expected_file, msg)
             cfg = get_config(cfg_path)
             result = cfg.main.port
             msg = 'cfg.main.port should be %d, got %s' % (PortNumber, str(result))
@@ -172,9 +193,15 @@ execute=False''' % (PortNumber)
             object and get existing attribute.
             """
 
+            # make up path to expected config file
+            expected_file = os.path.join('~', TempFilePrefix)
+            expected_file = canonize(expected_file)
+
             os.remove(os.path.join('.', TempFilePrefix))
             filename = TempFilePrefix
             cfg_path = find_config(filename)
+            msg = f"Expected to use file '{expected_file}' but got '{cfg_path}'"
+            self.assertEqual(cfg_path, expected_file, msg)
             cfg = get_config(cfg_path)
             result = cfg.main.port
             msg = 'cfg.main.port should be %d, got %s' % (PortNumber, str(result))
