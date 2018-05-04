@@ -10,7 +10,7 @@ class App:
         frame.pack()
 
         # note that we must keep a reference to these images (the "self." part)
-        # if we don't, the images dissappear at the end of __init__()
+        # if we don't, the images dissappear at the end of __init__() - try it!
         self.unseleted_photo = PhotoImage(file=UnselectedFile)
         self.seleted_photo = PhotoImage(file=SelectedFile)
 
