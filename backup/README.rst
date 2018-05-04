@@ -18,3 +18,7 @@ This program will eventually be rewritten into python and enhanced:
 * allow skip of non-mounted external source disks
 * allow filesystem check on source disks (external or local)
 * allow execution on MacOS, Linux and, perhaps, Windows
+
+The basic functionality of the bash program has been implemented in python.
+The file "backup.py" is this new rewrite.  The "issues" system will be used
+to keep track of desired enhancements and progress.
