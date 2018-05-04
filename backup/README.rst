@@ -10,14 +10,13 @@ features are:
 * use the rsync "link to old backup" feature to save space and time
 * performs a target filesystem check if requested
 
-This program will eventually be rewritten into python and enhanced:
+This program will eventually be rewritten into python and enhanced with
+things like:
 
 * allow external and local source directories
-* use "volume ID" file on external source disks
-* allow backup from only local or external sources
-* allow skip of non-mounted external source disks
-* allow filesystem check on source disks (external or local)
-* allow execution on MacOS, Linux and, perhaps, Windows
+* allow external and local target directories
+* use "volume ID" file on external source/target disks
+* etc
 
 The basic functionality of the bash program has been implemented in python.
 The file "backup.py" is this new rewrite.  The "issues" system will be used
