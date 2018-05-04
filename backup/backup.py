@@ -4,11 +4,6 @@
 A program to backup from one or more source directories (local or external)
 to a designated "backup" external drive.
 
-* external drives have a "drive ID" file
-* use rsync to copy along with it's nice "link" feature
-* backup to timestamped directories on target drive
-* perform optional filesystem check on target drive
-
 usage: backup [-f] [-h]
 
 where -f forces a final fsck of the BACKUP media (can be 5 hours or so!),
