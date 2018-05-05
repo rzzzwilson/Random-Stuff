@@ -82,6 +82,12 @@ def abort(msg):
     os.system(cmd)
     sys.exit(1)
 
+def say(msg):
+    """Speak the error message."""
+
+    cmd = 'say "%s"' % (msg)
+    os.system('say "%s"' % msg)
+
 def alert(msg):
     """Display problem information."""
 
@@ -148,10 +154,11 @@ def create_target(target):
 
     log(f"create_target: target={target}")
     timestamp = time.strftime('%Y%m%d_%H%M%S')
-    path = os.path.join(Target, timestamp)
+    path = os.path.join(target, timestamp)
     try:
         os.makedirs(path)
     except PermissionError as e:
+        say('Error creating target directory')
         abort(f"Error creating target '{path}'\n{e}")
     return path
 
@@ -171,7 +178,7 @@ def get_links_dir(tvol):
         return dirs[-1]
     return None
 
-def do_backup(target_dir, links_dir):
+def do_backup(sources, target_dir, links_dir):
     """Perform a backup.
 
     target_dir  the target directory
@@ -186,9 +193,12 @@ def do_backup(target_dir, links_dir):
         exclude += f' --exclude="{f}"'
     log(f"do_backup: exclude='{exclude}'")
 
-    for s in Sources:
+    # backup each source dir
+    for s in sources:
         log(f"do_backup: source dir='{s}'")
         if not check_available(s):
+            print(f"Skipping source '{s}' - not available")
+            say(f'Skipping source {s}')
             log(f"Skipping source '{s}' - not available")
             continue
 
@@ -259,6 +269,7 @@ def backup(fsck):
 
     # check that the target filesystem is available
     if not check_available(Target, DiskIdContents):
+        say('Target filesystem not found')
         abort(f'{Target} filesystem not mounted or disk ID file not found.')
 
     # delete old directories, if required
@@ -271,7 +282,7 @@ def backup(fsck):
     log(f"backup: target_dir='{target_dir}'")
 
     # do the backup
-    do_backup(target_dir, links_dir)
+    do_backup(Sources, target_dir, links_dir)
 
     # check target filesystem, if required
     if fsck:
