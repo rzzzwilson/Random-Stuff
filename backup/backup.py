@@ -17,7 +17,7 @@ import time
 import glob
 import subprocess
 import logger
-import config as cfg
+#import config as cfg
 
 ##########
 # Config data
