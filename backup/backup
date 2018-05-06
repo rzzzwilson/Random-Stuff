@@ -18,7 +18,7 @@ BACKUPPATH="/Users/r-w/bin/backup"
 RSYNC=/usr/local/bin/rsync
 
 # program version
-VERSION=1.6
+VERSION=1.0
 
 LOGFILE=~/$PROGNAME.log
 touch $LOGFILE
@@ -37,7 +37,8 @@ EXCLUDE=".DS_Store .Trashes .fseventsd .DocumentRevisions-V100 .TemporaryItems"
 
 # name of the disk ID file
 DISKID_FILE=$TARGET_VOL/.diskid
-DISKID_CONTENTS="backup 1.1"
+#DISKID_CONTENTS="backup 1.1"
+DISKID_CONTENTS="backup 2.0"
 
 DELIM1="#################################################################"
 DELIM2="-----------------------------------------------------------------"

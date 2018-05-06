@@ -25,7 +25,9 @@ import config as cfg
 
 # source/target dirs
 Sources = ['/Volumes/DATA']
+#Sources = ['./DATA']
 Target = '/Volumes/BACKUP'
+#Target = './BACKUP'
 
 # maximum used space before deleting old backups (%)
 MaxPercentUsed = 98
@@ -105,7 +107,13 @@ def get_space_used_remain(target):
     for used and remaining disk spaxe, respectively.
     """
 
-    result = subprocess.check_output(['df', target]).decode("utf-8")
+    try:
+        result = subprocess.check_output(['df', target]).decode("utf-8")
+    except subprocess.CalledProcessError as e:
+        say('Error doing backup')
+        print(f"Error doing backup, check log in file '{LogFile}'")
+        abort(f'Error status {e.returnerror}\n{e.output}')
+
     result = result.split('\n')[-2]
     result_split = result.split()
     space_available = int(result_split[1])
@@ -167,7 +175,7 @@ def get_links_dir(tvol):
 
     tvol  path to target
 
-    Returns a path to the youngest directory to use for links.
+    Returns an absolute path to the youngest directory to use for links.
     Return None if no candidate directories.
     """
 
@@ -182,8 +190,13 @@ def do_backup(sources, target_dir, links_dir):
     """Perform a backup.
 
     target_dir  the target directory
-    links_dir   the links directory (None if none used)
+    links_dir   abs path to the links directory (None if none used)
     """
+
+    # ensure that 'target_dir' and 'links_dir' are absolute paths
+    target_dir = os.path.abspath(target_dir)
+    if links_dir:
+        links_dir = os.path.abspath(links_dir)
 
     log(f"do_backup: target_dir='{target_dir}', links_dir='{links_dir}'")
 
@@ -205,6 +218,8 @@ def do_backup(sources, target_dir, links_dir):
         # get basename of source as 'target_dir' directory name
         target_name = os.path.basename(s)
         target_path = os.path.join(target_dir, target_name)
+        if links_dir:
+            links_path = os.path.join(links_dir, target_name)
 
         # if that target directory exists, it's an error
         if os.path.isdir(target_path):
@@ -216,7 +231,8 @@ def do_backup(sources, target_dir, links_dir):
         # actually do the backup now
         os.system(f'mkdir -p "{target_path}"')
         if links_dir:
-            cmd = f'{RsyncPath} {RsyncOptions} {exclude} --link-dest="{links_dir}" "{s}/" "{target_path}/"'
+            log(f"links_path='{links_path}'")
+            cmd = f'{RsyncPath} {RsyncOptions} {exclude} --link-dest="{links_path}" "{s}/" "{target_path}/"'
         else:
             cmd = f'{RsyncPath} {RsyncOptions} {exclude} "{s}/" "{target_path}/"'
         log(f"do_backup: cmd='{cmd}'")
@@ -266,17 +282,24 @@ def get_device(path):
     Returns the device.
     """
 
-    result = subprocess.check_output(['df', '-h', path]).decode("utf-8")
+    try:
+        result = subprocess.check_output(['df', '-h', path]).decode("utf-8")
+    except subprocess.CalledProcessError as e:
+        say('Error getting device for mounted filesystem')
+        print(f"Error getting device for mounted filesystem, check log in file '{LogFile}'")
+        abort(f'Error status {e.returnerror}\n{e.output}')
+
     for line in result.split('\n'):
         if path in line:
             data = line.split()[0]
             return data
     raise RuntimeError(f"No device found for '{path}'")
 
-def backup(fsck):
+def backup(fsck, code_path):
     """Perform the backup.
     
-    fsck    True if we need to do 'fsck' check of target volume
+    fsck       True if we need to do 'fsck' check of target volume
+    code_path  path to this code file
     """
 
     # check that the target filesystem is available
@@ -293,6 +316,11 @@ def backup(fsck):
     target_dir = create_target(Target)
     log(f"backup: target_dir='{target_dir}'")
 
+    # copy this backup code to target dir
+    cmd = f'cp "{code_path}" "{target_dir}"'
+    log(cmd)
+    os.system(cmd)
+
     # do the backup
     do_backup(Sources, target_dir, links_dir)
 
@@ -308,9 +336,22 @@ def backup(fsck):
         cmd = f'diskutil repairVolume {device}'
         log(f"backup: fsck command '{cmd}'")
         cmd = cmd.split()
-        result = subprocess.check_output(cmd).decode("utf-8")
+
+        try:
+            result = subprocess.check_output(cmd).decode("utf-8")
+        except subprocess.CalledProcessError as e:
+            say('Error checking filesystem')
+            print(f"Error checking filesystem, check log in file '{LogFile}'")
+            abort(f'Error status {e.returnerror}\n{e.output}')
+
         log(result)
         log(Delim2)
+
+    # report on space left on target
+    (_, target_left) = get_space_used_remain(Target)
+    remaining_msg = f'Space remaining on {Target} = {target_left}%'
+    log(remaining_msg)
+    print(remaining_msg)
 
     log('Backup finished')
     say('Backup finished')
@@ -330,7 +371,6 @@ if __name__ == '__main__':
         msg += ''.join(traceback.format_exception(type, value, tb))
         msg += '=' * 80 + '\n'
         log(msg)
-        tkinter_error(msg)
 
     # plug our handler into the python system
     sys.excepthook = excepthook
@@ -355,5 +395,8 @@ if __name__ == '__main__':
             usage()
             sys.exit(0)
 
+    # get absolute path to this file
+    code_path = os.path.abspath(__file__)
+
     # run the program code
-    sys.exit(backup(fsck))
+    sys.exit(backup(fsck, code_path))
