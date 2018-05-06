@@ -206,7 +206,14 @@ def do_backup(sources, target_dir, links_dir):
         target_name = os.path.basename(s)
         target_path = os.path.join(target_dir, target_name)
 
-        # actuall dor the backup now
+        # if that target directory exists, it's an error
+        if os.path.isdir(target_path):
+            msg = f"ERROR: target path {target_path}' already exists!?"
+            print(msg)
+            say('Internal error')
+            abort(msg)
+
+        # actually do the backup now
         os.system(f'mkdir -p "{target_path}"')
         if links_dir:
             cmd = f'{RsyncPath} {RsyncOptions} {exclude} --link-dest="{links_dir}" "{s}/" "{target_path}/"'
