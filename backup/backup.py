@@ -202,11 +202,16 @@ def do_backup(sources, target_dir, links_dir):
             log(f"Skipping source '{s}' - not available")
             continue
 
-        os.system(f'mkdir -p "{target_dir}"')
+        # get basename of source as 'target_dir' directory name
+        target_name = os.path.basename(s)
+        target_path = os.path.join(target_dir, target_name)
+
+        # actuall dor the backup now
+        os.system(f'mkdir -p "{target_path}"')
         if links_dir:
-            cmd = f'{RsyncPath} {RsyncOptions} {exclude} --link-dest="{links_dir}" "{s}/" "{target_dir}/"'
+            cmd = f'{RsyncPath} {RsyncOptions} {exclude} --link-dest="{links_dir}" "{s}/" "{target_path}/"'
         else:
-            cmd = f'{RsyncPath} {RsyncOptions} {exclude} "{s}/" "{target_dir}/"'
+            cmd = f'{RsyncPath} {RsyncOptions} {exclude} "{s}/" "{target_path}/"'
         log(f"do_backup: cmd='{cmd}'")
         os.system(cmd)
 
@@ -299,6 +304,9 @@ def backup(fsck):
         result = subprocess.check_output(cmd).decode("utf-8")
         log(result)
         log(Delim2)
+
+    log('Backup finished')
+    say('Backup finished')
 
     return 0
 
