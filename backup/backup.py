@@ -29,8 +29,8 @@ Sources = ['/Volumes/DATA']
 Target = '/Volumes/BACKUP'
 #Target = './BACKUP'
 
-# maximum used space before deleting old backups (%)
-MaxPercentUsed = 98
+# maximum target used space before deleting old backups (%)
+MaxPercentUsed = 95
 
 # files extensions we DON'T backup (damn Apple...)
 ExcludeFiles = ['.DS_Store', '.Trashes', '.fseventsd',
