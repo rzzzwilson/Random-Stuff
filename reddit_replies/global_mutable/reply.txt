@@ -1,0 +1,35 @@
+> words is not defined inside the function. That means, you can only read from it (since it is a globally defined variable), and not write.
+
+This is not true.  If you run the original OPs code, it does modify `words`.
+
+The dictum "can't change a global value (without a global statement)" applies only to the global *reference*, not to the contents of any compound object referenced by the global.
+
+To explain the case in the OP's original code, we can view the initial setting of the global `words` like this:
+
+           +---+    
+    words: | .-+--> []
+           +---+     
+
+where `words` is a label associated with a reference to an empty list.  The only part of this picture that can't be changed inside the function without a `global` statement is the reference (ie, the .----> bit).  We can do this in the function:
+
+    words.append(1)
+
+and get:
+
+           +---+    
+    words: | .-+--> [1]
+           +---+     
+
+Note that we haven't changed the global `reference`, only the internal state of the list.  We **can't** do this in the function:
+
+    words = [2, 3]
+
+because we are trying to do this:
+
+           +---+    
+    words: | . |    [1]
+           +-|-+     
+              \
+                --> [2, 3]
+
+and we can't do that without a `global` statement.
