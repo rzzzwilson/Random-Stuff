@@ -1,0 +1,40 @@
+**Aargh!**
+
+Don't delete posts!  Your question was a good one and got some good responses.  However the replies about `eval` were a little misleading and deserved a better response.  Which no one will now see.
+
+--------------------
+
+I don't know if you will see a response to a deleted post, but try running this code:
+
+    # input an expression.  try "(x**2 + 1)/y"
+    expression = input('Expression: ')
+
+    exp_locals = {}     # this will contain the 'locals' for the expression
+
+    while True:
+        try:
+            result = eval(expression, {}, exp_locals)
+            break
+        except NameError as e:
+            if 'is not defined' in str(e):
+                # get name that isn't defined and put its value into the environment
+                (_, name, _) = str(e).split("'")
+                exp_locals[name] = int(input(f"Value for variable '{name}': "))
+            else:
+                raise
+            
+    print(f'\n{expression} = {result}')
+    for (name, value) in exp_locals.items():
+        print(f'when {name} = {value}')
+
+Try running that and see what it does.  The tricky part is evaluating the expression, finding a missing variable, asking the user for a value, plugging the value into the environment, repeat.
+
+This doesn't handle ranges, but it probably isn't hard to change the line:
+
+    exp_locals[name] = int(input(f"Value for variable '{name}': "))
+
+to a function call to get *either* a single int/float value or a range of some sort.  In the range case to have to make major changes to the code and that's harder, but it's doable.
+
+This uses the dreaded `eval`.  It's true that use of eval is discouraged, but that's because when misused it's a major security hole.  And beginners always misuse it.  But it's useful at times, which is why it's still in python.  If you trust the person inputting the string to evaluate, use it.  But it's probably not the thing to use on random strings in "production" code.
+
+Edit: only handles ints on input, but easy to change to floats.
