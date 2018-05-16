@@ -1,0 +1,163 @@
+We have a problem:
+
+>Assume 's' is a string of lower case characters.
+>
+>Write a program that prints the longest substring of s in which the letters occur in alphabetical order. For example, if s = 'azcbobobegghakl', then your program should print
+>
+>Longest substring in alphabetical order is: beggh
+
+How do we solve this with a computer?  The simpler step we can ask ourselves is
+just "how do we solve it?".  Until you have some idea of what to do to solve a
+problem, a computer is no help at all.
+
+So how would the old human brain solve this?  Lets draw the characters out:
+
+    azcbobobegghakl
+
+We need the longest alphabetical sequence, so start at the left and look for an
+alphabetical sequence.  Let's put a black stone over the left-most character.
+We will now ask "what is the longest sequence starting at the black stone?".
+We decide that by looking to the character just to the right of the black stone:
+is it larger or equal to the character at the black stone?
+
+    ●
+    azcbobobegghakl
+
+'z' *is* larger than 'a', so we now consider the character to the right of the
+'z'.  To help keep track of which characters we are considering we mark the
+character at the right end of the sequence we have found with a white stone:
+
+    ●○
+    azcbobobegghakl
+
+So now the question is "is the character to the right of the white stone >=
+the character under the white stone?".  That's NO in this case: 'c' < 'z'.  So
+we've found a (short) alphabetic sequence "az".  We need to rememebr this
+sequence because it might be the answer.
+
+How do we remember a sequence?  Just remember the index of the start character
+and the length of the sequence.  That's enough to get the result sequence when
+we finish.  So we'll store the start index in a variable "start" and the length
+in the variable "length":
+
+    ●○
+    azcbobobegghakl
+    
+    start=0
+    length=2
+
+OK, the 'c' character terminated the sequence so we want to keep searching.
+Maybe there's a longer sequence out there!  Where do we start searching?
+Right at the character that didn't fit into the sequence, the 'c'.  Let's move
+the black and white stones ready for the new search:
+
+      ○
+      ●
+    azcbobobegghakl
+    
+    start=0
+    length=2
+
+Note that we put the white stone on the same character as the black stone.  This
+just indicates that the black stone shows "the start of a possible sequence" and
+the white stone is "the last character in the sequence".  At the start of a
+search these are the same character.
+
+So now we look for another sequence.  Is the character to the right of the white
+stone >= the character under the white stone?  NO, 'b' < 'c'.  So we have found
+a one character sequence.  The longest we have already found is 2 (length=2) so
+we can ignore this sequence and look for the next.  Move the black and white
+stones to the first character not in the latest sequence.  That would be the 'b'
+character:
+
+       ○
+       ●
+    azcbobobegghakl
+    
+    start=0
+    length=2
+
+Again, look for the longest sequence.  The character to the right of the white
+is 'o', and 'o' >= 'b', so we have a 2char sequence.  Move the white to the next
+character and repeat:
+
+       ●○
+    azcbobobegghakl
+    
+    start=0
+    length=2
+
+s the character to the right of the white in sequence?  NO, 'b' < 'o'.  End of 
+sequence.  The found sequence is 2 which is not greater than the result so far,
+so ignore this sequence.
+
+We'll skip forward now to just after finding the second "bo" sequence.  We ignore
+that sequence as well, since it's only 2 long.  MOve the black+white to the char
+at index 7:
+
+           ○
+           ●
+    azcbobobegghakl
+    
+    start=0
+    length=2
+
+We start looking for another sequence: repeatedly check the char to the right of
+the white stone, and keep moving the white to the right if the chars are in
+sequence.  [This is a loop in your program].  Now we have:
+
+           ●   ○
+    azcbobobegghakl
+    
+    start=0
+    length=2
+
+At this point we compare 'h' and 'a' and decide that 'a' is not in the sequence
+because 'a' < 'h'.  We have found another sequence and it's length is 5.  This
+is longer than the result we remembered way back in the beginning, so this is
+the new result.  Set 'start' to the index of the start of the sequence (7) and 
+'length' to 5.. Remember, indices start counting at 0:
+
+       7
+    +------+
+           ●   ○
+    azcbobobegghakl
+           +---+
+             5
+    
+    start=7
+    length=5
+
+Now we look for the next possible sequence, so we move black+white to the first
+char that wasn't in a sequence, and keep going.
+
+                ○
+                ●
+    azcbobobegghakl
+    
+    start=7
+    length=5
+
+We stop when a stone is moved past the end of the given string.  At that point
+we can say the result is "beggh" which starts at index 7 and has length 5.
+
+Writing this in python may seem still hard, but you just have to convert all
+that stuff about 'stones' into python.  We can simulate the black stone by
+creating a variable called "black" which contains the index of the character
+under the black stone.  Similarly for the white stone.  To get the character
+under the white stone we just index the variable containing the input string:
+
+    input_string = "azcbobobegghakl"
+    black = 0
+    white = 2
+
+is equivalent to :
+
+    ● ○
+    azcbobobegghakl
+
+and to compare the character under the white with the character just to the
+right, do:
+
+    if input_string[white] <= input_string[white+1]:
+        # white+1 is in sequence!
