@@ -319,7 +319,7 @@ class Log(object):
         self.logfd = None
 
 ######
-# Utikity functions for "nb".
+# Utility functions for "nb".
 ######
 
 def do_cmdline(cmd, text=''):
@@ -335,6 +335,7 @@ def do_cmdline(cmd, text=''):
     process = Popen(cmd, stdout=PIPE, stdin=PIPE, stderr=PIPE)
     output = process.communicate(input=bytes(text, 'utf-8'))[0].decode('utf-8').strip()
     log(f"do_cmdline: returns ({process.returncode}, '{output}')")
+
     return (process.returncode, output)
 
 def report(msg='\n'):
