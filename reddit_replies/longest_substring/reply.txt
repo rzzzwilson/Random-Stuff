@@ -92,7 +92,7 @@ sequence.  The found sequence is 2 which is not greater than the result so far,
 so ignore this sequence.
 
 We'll skip forward now to just after finding the second "bo" sequence.  We ignore
-that sequence as well, since it's only 2 long.  MOve the black+white to the char
+that sequence as well, since it's only 2 long.  Move the black+white to the char
 at index 7:
 
            ○
@@ -116,7 +116,7 @@ At this point we compare 'h' and 'a' and decide that 'a' is not in the sequence
 because 'a' < 'h'.  We have found another sequence and it's length is 5.  This
 is longer than the result we remembered way back in the beginning, so this is
 the new result.  Set 'start' to the index of the start of the sequence (7) and 
-'length' to 5.. Remember, indices start counting at 0:
+'length' to 5.  Remember, indices start counting at 0:
 
        7
     +------+

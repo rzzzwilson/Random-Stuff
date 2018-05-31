@@ -1,5 +1,5 @@
 """
-Code inverstigating:
+Code investigating:
 
 https://old.reddit.com/r/learnpython/comments/8jtoxy/longest_alphabetical_substring_struggling_really/
 
@@ -33,3 +33,4 @@ def longest_sequence(s):
         result_length = new_len
 
     return s[result_start:result_start+result_length]
+

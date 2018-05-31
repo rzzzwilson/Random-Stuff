@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-Tests for code in 'test.py'.
+Tests for code in 'test2.py'.
 """
 
 import unittest
-from test import longest_sequence
+from test2 import longest_sequence
 
 class TestLS(unittest.TestCase):
     """Tests for the longest_sequence() function."""
