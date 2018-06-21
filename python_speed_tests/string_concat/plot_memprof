@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """A program to plot memprof output.
 
-Usage: plot_memprof <memprof.out> [ <title> ]
+Usage: plot_memprof <memprof.out>
 
 Where <memprof.out>  is the generated data file to plot, and
       <title>        is the (optional) graph title
@@ -12,47 +12,75 @@ import sys
 
 from pylab import *
 
-MiB = 1000000.0
+MiB = 1000000
 
-def main(mp_file, mp_title):
-    """Plot a memprof.out file.
 
-    mp_file  path to file full of memprof data
+def plot_data(memsize, title, gfile):
+    """Plot a graph of memory usage.
+
+    memsize  a list of memory size by time
+    title    graph title string
+    gfile    path to file to save the PNG in
+    """
+
+    t = range(len(memsize))
+
+    plot(t, memsize, linewidth=1.0)
+
+    xlabel('time')
+    ylabel('Memory Used (MB)')
+    title(title)
+    grid(True)
+    savefig(f'{gfile}.png', bbox_inches='tight')
+    show()
+
+def main(mp_file):
+    """Plot a series of images from a memprof.out file.
+
+    mp_file   path to file full of memprof data
+
+    The data file has lines with this format:
+
+        1529579605.214548|name|606208
+
+    where the first field is a fractional time from time.time(),
+          the second field is the 'name' of the data,
+          the third file is the RSS memory size in bytes.
+    There will be one image file for each 'name' set of data in the file.
     """
 
     # set title if not given
     if mp_title is None:
         mp_title = 'Memory usage by time'
 
-    f = open(mp_file)
-    lines = f.readlines()
-    f.close()
+    with open(mp_file) as f:
+        lines = f.readlines()
 
+    last_name = None
     memsize = []
     for line in lines:
         line = line.strip()
-        val = int(line)
-        memsize.append(val/MiB)
+        (t, name, rss) = line.split('|')
+        if name != last_name:
+            if memsize:
+                # if we have some data saved, plot it
+                plot_data(memsize, name, name)
 
-    t = xrange(len(memsize))
+                last_name = name
+                memsize = []
+        mem = int(rss)
+        memsize.append(mem/MiB)
 
-    plot(t, memsize, linewidth=1.0)
+    if memsize:
+        # if we have some leftover data, plot it
+        plot_data(memsize, last_name, last_name)
 
-    xlabel('time')
-    ylabel('Memory Used (MB)')
-    title(mp_title)
-    grid(True)
-    savefig('%s.png' % mp_file, bbox_inches='tight')
-#    show()
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2 and len(sys.argv) != 3:
+    if len(sys.argv) != 2:
         print(__doc__)
         sys.exit(10)
 
     file = sys.argv[1]
-    mp_title = None
-    if len(sys.argv) == 3:
-        mp_title = sys.argv[2]
 
-    main(file, mp_title)
+    main(file)
