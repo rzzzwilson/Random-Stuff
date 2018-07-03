@@ -1,3 +1,5 @@
 import math
-def my_sin(x):
-    return math.sin(x*2.0)
+def set_my_sin(constant):
+    def my_sin(x):
+        return math.sin(x*constant)
+    return my_sin

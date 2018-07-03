@@ -1,4 +1,5 @@
 from math import *
-from my_sin import my_sin as sin
+import my_sin
+sin = my_sin.set_my_sin(2)
 
 print(sin(1))
