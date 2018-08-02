@@ -2,6 +2,7 @@
  * Code to test the display_*.c code.
  */
 
+#include <unistd.h>
 #include <SDL.h>
 #include "vimlac.h"
 #include "display.h"
@@ -34,6 +35,17 @@ static void make_test_displaylist(void)
 }
 
 
+void delay(int msecs)
+{
+    // Storing start time
+    clock_t start_time = clock();
+
+    // looping till required time is not acheived
+    while (clock() < start_time + msecs)
+        ;
+}
+
+
 int main(void)
 {
     if (display_init())
@@ -62,6 +74,8 @@ int main(void)
                 display_draw(MAX_X/2, MAX_Y/2, 0, y);
     
             display_write();
+
+            delay(30);
     
             while (SDL_PollEvent(&event))
             {
