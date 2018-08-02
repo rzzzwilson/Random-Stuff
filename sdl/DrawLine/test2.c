@@ -1,4 +1,4 @@
-#include "SDL.h"
+#include <SDL.h>
 
 #define MAX_X   512
 #define MAX_Y   512
