@@ -30,6 +30,7 @@ print(f'Files in ZIP file {zip_file}:')
 
 # print files in the ZIP file, along with contents of each
 with zipfile.ZipFile(zip_file, 'r') as zf:
+    help(zf)
     for fn in zf.namelist():
         print(f'    {fn}:')
         try:

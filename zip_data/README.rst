@@ -12,9 +12,11 @@ the code here is a proof-of-concept exercise of keeping multiple data files
 Various steps in the exercise:
 
 * simple "read data from the ZIP" example (zip_data1.py),
-* try using a password on the ZIP file (zip_data2.py), and
-* allow user to "write back" to the ZIP file (zip_data3.py).
+* allow user to "write back" to the ZIP file (zip_data2.py), and
+* try using a password on the ZIP file (zip_data3.py).
 
 The `Makefile` allows you to:
 
-* `make build`
+* `make build` - create ZIP files for tests
+* `make test1` - run the simle "read a file" test (zip_data1.py)
+* `make test2` - run the program to update a ZIP file (zip_data2.py)
