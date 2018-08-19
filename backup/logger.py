@@ -104,11 +104,11 @@ class Log(object):
         self.logfile = logfile
 
         # announce time+date of opening logging and logging level
-        self.debug('='*55)
-        self.debug('Log started on %s, log level=%s'
-                   % (datetime.datetime.now().ctime(),
-                      self._level_num_to_name[level]))
-        self.debug('-'*55)
+        self.critical('='*60)
+        self.critical('Log started on %s, log level=%s'
+                      % (datetime.datetime.now().ctime(),
+                         self._level_num_to_name[level]))
+        self.critical('-'*60)
 
         # finally, set some internal state
         self.set_level(self.level)
