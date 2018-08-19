@@ -6,8 +6,9 @@ to a designated "backup" external drive.
 
 usage: backup [-f] [-h]
 
-where -f forces a final fsck of the BACKUP media (can be 5 hours or so!),
-and   -h prints this help
+where -d <level>  sets debug to <level>
+      -f          disable a final fsck of the BACKUP media (can be 5 hours or so!),
+      -h          prints this help
 """
 
 import sys
@@ -61,8 +62,13 @@ Delim2 = '-' * 60
 
 RsyncOptions = '-aE -r --protect-args'
 
-# set up logging
-log = logger.Log(LogFile, logger.Log.DEBUG)
+dict_debug_level = {
+                    'CRITICAL': logger.Log.DEBUG,
+                    'ERROR': logger.Log.ERROR,
+                    'WARN': logger.Log.WARN,
+                    'INFO': logger.Log.INFO,
+                    'DEBUG': logger.Log.DEBUG,
+                   }
 
 
 def usage(msg=None):
@@ -76,7 +82,7 @@ def usage(msg=None):
 def abort(msg):
     """Abort the backup, display 'msg'."""
 
-    log('Abort: ' + msg)
+    log.critical('Abort: ' + msg)
     print(msg)
     cmd = 'osascript -e "display dialog \\"%s\\" buttons {\\"OK\\"} default button \\"OK\\"" >/dev/null 2>&1' % (msg)
     os.system(cmd)
@@ -91,7 +97,7 @@ def say(msg):
 def alert(msg):
     """Display problem information."""
 
-    log(f'Alert: {msg}')
+    log.critical(f'Alert: {msg}')
     print(msg)
     cmd = 'osascript -e "display dialog \\"%s\\" buttons {\\"OK\\"} default button \\"OK\\"" >/dev/null 2>&1' % (msg)
     os.system(cmd)
@@ -108,8 +114,9 @@ def get_space_used_remain(target):
     try:
         result = subprocess.check_output(['df', target]).decode("utf-8")
     except subprocess.CalledProcessError as e:
-        say('Error doing backup')
-        print(f"Error doing backup, check log in file '{LogFile}'")
+        log.critical('Error getting space remaining')
+        say('Error getting space remaining')
+        print("Error getting space remaining")
         abort(f'Error status {e.returnerror}\n{e.output}')
 
     result = result.split('\n')[-2]
@@ -127,13 +134,13 @@ def prune_target_size(target, max_percent):
     max_percent  maximum percent used allowed
     """
 
-    log(f'prune_target_size: target={target}, max_percent={max_percent}')
+    log.debug(f'prune_target_size: target={target}, max_percent={max_percent}')
 
     # get list of existing directories, sorted
     path = os.path.join(target, '[0-9][0-9][0-9][0-9]*')
     dirs = glob.glob(path)
     dirs.sort()
-    log(f'prune_target_size: dirs={dirs}')
+    log.debug(f'prune_target_size: dirs={dirs}')
 
     # now keep deleting oldest until we are under the limit
     while len(dirs) > 1:
@@ -149,7 +156,7 @@ def prune_target_size(target, max_percent):
 
         # delete the directory
         cmd = f'rm -Rf "{oldest_dir}"'
-        log(f"prune_target_size: deleting '{oldest_dir}'")
+        log.debug(f"prune_target_size: deleting '{oldest_dir}'")
         os.system(cmd)
 
 def create_target(target, source):
@@ -161,97 +168,112 @@ def create_target(target, source):
     Return the path to the newly target directory.
     """
 
-    log(f"create_target: target={target}, source={source}")
-    timestamp = time.strftime('%Y%m%d_%H%M%S')
-    path = os.path.join(target, timestamp)
     try:
-        log(f'create_target: os.makedirs({path}')
-        os.makedirs(path)
+        log.info(f'create_target: os.makedirs({target})')
+        os.makedirs(target)
     except PermissionError as e:
         say('Error creating target directory')
-        abort(f"Error creating target '{path}'\n{e}")
-    return path
+        abort(f"Error creating target '{target}'\n{e}")
 
-def get_links_dir(tvol):
+    return target
+
+def get_links_dir(target, bname):
     """Get a links directory.
 
-    tvol  path to target
+    target  path to target base
+    bname   basename of backup (eg, 'YouTube')
+
+    The backup directory structure is:
+        /device/path/dir1/20180819_104523
+                             /ebooks
+                             /YouTube
 
     Returns an absolute path to the youngest directory to use for links.
     The target directory already created, so skip youngest.
     Return None if no candidate directories.
     """
 
-    log(f'get_links_dir: tvol={tvol}')
+    log.debug(f'get_links_dir: target={target}, bname={bname}')
 
-    path = os.path.join(tvol, '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_*')
+    path = os.path.join(target, '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_*')
     log(f'get_links_dir: path={path}')
     dirs = glob.glob(path)
+    log.debug(f'get_links_dir: dirs={dirs}')
     dirs.sort()
-    log(f'get_links_dir: dirs={dirs}')
-    if len(dirs) > 1:
-        return dirs[-2]
+
+    # we have to look inside each dated backup dir to see if 'bname' is there
+    # look in youngest first, then next youngets, etc
+    for path in dirs[-2::-1]:
+        full_path = os.path.join(path, bname)
+        log.debug(f'get_links_dir: checking path {path}')
+        if os.path.isdir(full_path):
+            log.debug(f'get_links_dir: returning full_path={full_path}')
+            return full_path
+
+    log.debug('get_links_dir: returning None')
     return None
 
-def do_backup(code_path, sources, target_dir):
+def do_backup(code_path, sources, target_base):
     """Perform a backup.
 
-    code_path   path to the executable doing the backup
-    sources     list of tuples (path, id_file, id_string)
-    target_dir  the top-level target directory to put a backup into
+    code_path    path to the executable doing the backup
+    sources      list of tuples (path, id_file, id_string)
+    target_base  base target path (like /device/path/)
 
     The target directory to put a backup into will be calculated
     from each source directory.
     """
 
+    log.info(f'do_backup: code_path={code_path}, sources={sources}, target_base={target_base}')
+
+    # create the backup directory on 'target_base' - use date+time
+    timestamp = time.strftime('%Y%m%d_%H%M%S')
+    target_path = os.path.join(target_base, timestamp)
+    log.info(f"do_backup: creating target_path='{target_path}'")
+    os.makedirs(target_path)
+
+    # copy this backup code to target path
+    cmd = f'cp "{code_path}" "{target_path}"'
+    log.debug(cmd)
+    os.system(cmd)
+
     # exclude all files required
     exclude = ''
     for f in ExcludeFiles:
         exclude += f' --exclude="{f}"'
-    log(f"do_backup: exclude='{exclude}'")
+    log.debug(f"do_backup: exclude='{exclude}'")
 
     # backup each source dir
     for s in sources:
         (source_path, source_idfile, source_idstring) = s
 
         # check that the source is available
-        log(f"do_backup: source dir='{source_path}'")
+        log.info(f"do_backup: source dir='{source_path}'")
         if not check_available(source_path, source_idfile, source_idstring):
             print(f"Skipping source '{source_path}' - not available")
             say(f'Skipping source {source_path}')
-            log(f"Skipping source '{source_path}' - not available")
+            log.info(f"Skipping source '{source_path}' - not available")
             continue
 
         # figure out the actual target dir for this source
         source_basename = os.path.basename(source_path)
-        base_target_dir = os.path.join(target_dir, source_basename)
-        log(f"do_backup: base_target_dir='{base_target_dir}'")
+        target_dir = os.path.join(target_path, source_basename)
 
-        # get links dir and target dir depending on source
-        backup_dir = create_target(base_target_dir, source_basename)
-        log(f"backup: backup_dir='{backup_dir}'")
+        # get links dir, depending on source
+        links_dir = get_links_dir(target_base, source_basename)
 
-        links_dir = get_links_dir(base_target_dir)
-        log(f"backup: links_dir='{links_dir}'")
-
-        # ensure that 'backup_dir' and 'links_dir' are absolute paths
-        backup_dir = os.path.abspath(backup_dir)
+        # ensure that 'target_dir' and 'links_dir' are absolute paths
+        target_dir = os.path.abspath(target_dir)
         if links_dir:
             links_dir = os.path.abspath(links_dir)
-        log(f"do_backup: backup_dir='{backup_dir}', links_dir='{links_dir}'")
-
-        # copy this backup code to target dir
-        cmd = f'cp "{code_path}" "{backup_dir}"'
-        log(cmd)
-        os.system(cmd)
+        log.info(f"do_backup: target_dir='{target_dir}', links_dir='{links_dir}'")
 
         # actually do the backup now
         if links_dir:
-            log(f"links_dir='{links_dir}'")
-            cmd = f'{RsyncPath} {RsyncOptions} {exclude} --link-dest="{links_dir}" "{source_path}/" "{backup_dir}/"'
+            cmd = f'{RsyncPath} {RsyncOptions} {exclude} --link-dest="{links_dir}" "{source_path}/" "{target_dir}/"'
         else:
-            cmd = f'{RsyncPath} {RsyncOptions} {exclude} "{source_path}/" "{backup_dir}/"'
-        log(f"do_backup: cmd='{cmd}'")
+            cmd = f'{RsyncPath} {RsyncOptions} {exclude} "{source_path}/" "{target_dir}/"'
+        log.debug(f"do_backup: cmd='{cmd}'")
         os.system(cmd)
 
 def check_available(path, id_file, id_string=None):
@@ -267,7 +289,7 @@ def check_available(path, id_file, id_string=None):
 
     # is the filesystem itself available?
     if not os.path.isdir(path):
-        log(f"check_available: Filesystem '{path}' isn't available?")
+        log.info(f"check_available: Filesystem '{path}' isn't available?")
         return False
 
     # return success here if we have no 'id_string'
@@ -277,7 +299,7 @@ def check_available(path, id_file, id_string=None):
     # get complete path to ID file and check it's there
     id_file = os.path.join(path, id_file)
     if not os.path.isfile(id_file):
-        log(f"check_available: Can't find ID file '{id_file}'")
+        log.info(f"check_available: Can't find ID file '{id_file}'")
         return False
 
     # check contents of disk ID file
@@ -285,7 +307,8 @@ def check_available(path, id_file, id_string=None):
         data = f.read()
     data = data.strip()
     if data != id_string:
-        log(f"check_available: ID file '{id_file}' contains '{data}', expected '{id_string}'")
+        log.info(f"check_available: ID file '{id_file}' contains '{data}', "
+                 f"expected '{id_string}'")
         return False
 
     return True
@@ -308,7 +331,9 @@ def get_device(path):
     for line in result.split('\n'):
         if path in line:
             data = line.split()[0]
+            log.info(f'get_device: filesystem {path} is on device {data}')
             return data
+
     raise RuntimeError(f"No device found for '{path}'")
 
 def backup(fsck, code_path, sources, target, max_percent, exclude_files):
@@ -316,7 +341,7 @@ def backup(fsck, code_path, sources, target, max_percent, exclude_files):
     
     fsck           True if we need to do 'fsck' check of target volume
     code_path      path to this code file
-    sources        list of tuples ((path, id_file, id_string)
+    sources        list of tuples (path, id_file, id_string)
     target         tuple (path, id_file, id_string)
     max_percent    maximum percent of target used before pruning
     exclude_files  list of source files that are excluded from backup
@@ -338,34 +363,35 @@ def backup(fsck, code_path, sources, target, max_percent, exclude_files):
 
     # check target filesystem, if required
     if fsck:
+        log.info(f'Checking filesystem for target {target_base}')
         # get device for the target filesystem
         device = get_device(target_base)
-        log(f"backup: Device for '{target_base}' is '{device}'")
 
         # check filesystem
-        log(f'backup: checking target filesystem {target_base}')
-        log(Delim1)
+        log.debug(f'backup: checking target filesystem {target_base}')
+        log.debug(Delim1)
         cmd = f'diskutil repairVolume {device}'
-        log(f"backup: fsck command '{cmd}'")
+        log.debug(f"backup: fsck command '{cmd}'")
         cmd = cmd.split()
 
         try:
             result = subprocess.check_output(cmd).decode("utf-8")
         except subprocess.CalledProcessError as e:
+            log.critical(f'e={dir(e)}')
             say('Error checking filesystem')
             print(f"Error checking filesystem, check log in file '{LogFile}'")
             abort(f'Error status {e.returnerror}\n{e.output}')
 
-        log(result)
-        log(Delim2)
+        log.debug(result)
+        log.debug(Delim2)
 
     # report on space left on target
     (_, target_left) = get_space_used_remain(target_base)
     remaining_msg = f'Space remaining on {target_base} = {target_left}%'
-    log(remaining_msg)
+    log.info(remaining_msg)
     print(remaining_msg)
 
-    log('Backup finished')
+    log.info('Backup finished')
     say('Backup finished')
 
     return 0
@@ -392,23 +418,33 @@ if __name__ == '__main__':
     argv = sys.argv[1:]
 
     try:
-        (opts, args) = getopt.getopt(argv, 'fh', ['fsck', 'help'])
+        (opts, args) = getopt.getopt(argv, 'd:fh', ['debug=', 'fsck', 'help'])
     except getopt.GetoptError as err:
         usage(err)
         sys.exit(1)
 
     # default parameters
-    fsck = False
+    fsck = True
+    debug = logger.Log.INFO
 
     for (opt, param) in opts:
+        if opt in ['-d', '--debug']:
+            debug = param.upper()
+            if debug not in dict_debug_level:
+                usage(f"Debug level '{param}' not recognized")
+                sys.exit(1)
+            debug = dict_debug_level[debug]
         if opt in ['-f', '--fsck']:
-            fsck = True
+            fsck = False
         elif opt in ['-h', '--help']:
             usage()
             sys.exit(0)
 
     # get absolute path to this file
     code_path = os.path.abspath(__file__)
+
+    # set up logging
+    log = logger.Log(LogFile, debug)
 
     # run the program code
     sys.exit(backup(fsck, code_path, Sources, Target, MaxPercentUsed, ExcludeFiles))
