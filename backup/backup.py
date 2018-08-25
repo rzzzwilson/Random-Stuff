@@ -33,7 +33,7 @@ Sources = [
 
 # target directory and drive information
 # (path, id_file, id_string)
-Target = ('/Volumes/BACKUP', '.diskid', 'backup 2.1')
+Target = ('/Volumes/BACKUP', '.diskid', 'backup 2.2')
 
 # maximum target used space before deleting old backups (%)
 MaxPercentUsed = 95
@@ -171,11 +171,10 @@ def prune_target_size(target, max_percent):
         os.system(cmd)
 
 
-def create_target(target, source):
+def create_target(target):
     """Create a target directory 'target'.
 
     target  path to the base directory for backup
-    source  source filesystem basename
 
     Return the path to the newly target directory.
     """
@@ -197,31 +196,30 @@ def get_links_dir(target, bname):
     bname   basename of backup (eg, 'YouTube')
 
     The backup directory structure is:
-        /device/path/dir1/20180819_104523
-                             /ebooks
-                             /YouTube
+        /device/path/dir1/ebooks
+                             /20180818_092546
+                             /20180819_104523
+                             /20180821_120348
 
     Returns an absolute path to the youngest directory to use for links.
-    The target directory already created, so skip youngest.
     Return None if no candidate directories.
     """
 
     log.debug(f'get_links_dir: target={target}, bname={bname}')
 
-    path = os.path.join(target, '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_*')
+    path = os.path.join(target, bname, '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_*')
     log(f'get_links_dir: path={path}')
     dirs = glob.glob(path)
     dirs.sort()
     log.debug(f'get_links_dir: dirs={dirs}')
 
     # we have to look inside each dated backup dir to see if 'bname' is there
-    # look in youngest first, then next youngets, etc
-    for path in dirs[-2::-1]:
-        full_path = os.path.join(path, bname)
+    # look in youngest first, then next youngest, etc
+    for path in dirs[::-1]:
         log.debug(f'get_links_dir: checking path {path}')
-        if os.path.isdir(full_path):
-            log.debug(f'get_links_dir: returning full_path={full_path}')
-            return full_path
+        if os.path.isdir(path):
+            log.debug(f'get_links_dir: returning path={path}')
+            return path
 
     log.debug('get_links_dir: returning None')
     return None
@@ -240,16 +238,11 @@ def do_backup(code_path, sources, target_base):
 
     log.info(f'do_backup: code_path={code_path}, sources={sources}, target_base={target_base}')
 
-    # create the backup directory on 'target_base' - use date+time
+    # create the timestamp string
     timestamp = time.strftime('%Y%m%d_%H%M%S')
-    target_path = os.path.join(target_base, timestamp)
-    log.info(f"do_backup: creating target_path='{target_path}'")
-    os.makedirs(target_path)
-
-    # copy this backup code to target path
-    cmd = f'cp "{code_path}" "{target_path}"'
-    log.debug(f"do_backup: doing '{cmd}'")
-    os.system(cmd)
+#    target_path = os.path.join(target_base, timestamp)
+#    log.info(f"do_backup: creating target_path='{target_path}'")
+#    os.makedirs(target_path)
 
     # exclude all files required
     exclude = ''
@@ -271,7 +264,8 @@ def do_backup(code_path, sources, target_base):
 
         # figure out the actual target dir for this source
         source_basename = os.path.basename(source_path)
-        target_dir = os.path.join(target_path, source_basename)
+        target_dir = os.path.join(target_base, source_basename, timestamp)
+        log.debug(f'do_backup: target_dir={target_dir}')
 
         # get links dir, depending on source
         links_dir = get_links_dir(target_base, source_basename)
@@ -282,6 +276,14 @@ def do_backup(code_path, sources, target_base):
             links_dir = os.path.abspath(links_dir)
         log.info(f"do_backup: target_dir='{target_dir}', "
                  f"links_dir='{links_dir}'")
+
+        # create the target directory
+        create_target(target_dir)
+
+        # copy this backup code to target path
+        cmd = f'cp "{code_path}" "{target_dir}"'
+        log.debug(f"do_backup: doing '{cmd}'")
+        os.system(cmd)
 
         # actually do the backup now
         if links_dir:
@@ -379,7 +381,7 @@ def check_target(target_base):
     except subprocess.CalledProcessError as e:
         say('Error checking filesystem')
         print(f"Error checking filesystem, check log in file '{LogFile}'")
-        abort(f'Error status {e.returncode}')
+        abort(f'Error checking filesystem on {target_base} ({device}), error status {e.returncode}')
 
     log.debug(result)
     log.debug(Delim2)
