@@ -33,7 +33,7 @@ If you want to limit amount of stack information, do either of::
     # limit the stack depth that is dumped
     sd = stack_dump.StackDump('dump.out', depth=2)
 
-It is possible to combine the two `verbose=` and `depth=` parameters.
+It is possible to combine the two *verbose=* and *depth=* parameters.
 
 TODO
 ====
