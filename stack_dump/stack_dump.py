@@ -1,5 +1,10 @@
 """
 A class to dump execution stack frames as a debugging aid.
+
+Uses the "borg" pattern to get multiple instances of StackDump
+that all have the same internals:
+
+    http://www.aleax.it/5ep.html
 """
 
 import os
@@ -13,10 +18,22 @@ class StackDumpException(Exception):
 
 class StackDump:
 
+    __shared_state = {}                # this __dict__ shared by ALL instances
+
     MaxFilenameWidth = 12
     MaxLinenumberWidth = 3
 
     def __init__(self, stream=None, depth=None, verbose=None):
+        # make sure we have same state as all other StackDump objects
+        self.__dict__ = StackDump.__shared_state
+
+        # if we have already been called, just return
+        try:
+            self.output     # see if 'self.output' exists
+            return          # return if so, already set up
+        except:
+            pass
+
         # prepare the output stream
         if stream is None:
             stream = sys.stdout

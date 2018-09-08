@@ -1,5 +1,7 @@
 ************************************************************
 StackDump: started
 ************************************************************
-        test:8  |message
-        test:9  |message2
+        test:7  |message
+        test:8  |message2
+       test2:13 |message
+       test2:14 |message2
