@@ -152,9 +152,13 @@ if __name__ == '__main__':
     # process the HTML bookmarks file
     bookmarks = process_bookmarks(input_file)
 #    pprint(bookmarks)
-    for (k, v) in bookmarks.items():
-        if isinstance(v, dict):
-            print(f"{k}: folder")
+    for (key, value) in bookmarks.items():
+        if isinstance(value, dict):
+            for (k, v) in value.items():
+                if isinstance(v, dict):
+                    print(f"{k}: folder")
+                else:
+                    print(f"{k}: {v}")
         else:
-            print(f"{k}: {v}")
+            print(f"{key}: {value}")
 
