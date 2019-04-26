@@ -45,7 +45,7 @@ class HTML2JSON(HTMLParser):
         self.state = HTML2JSON.GotNone
         self.current_folder = {}
         self.bookmarks = self.current_folder
-        self.folder_stack = []
+        self.folder_stack = [self.current_folder]
 
     def handle_starttag(self, tag, attrs):
         self.url = None
@@ -54,18 +54,15 @@ class HTML2JSON(HTMLParser):
         elif tag == 'h3':
             # start of a folder title, maybe
             if self.state == HTML2JSON.GotDT:
-                print(f'start DT/H3: attrs={attrs}')
                 # new bookmark folder
                 self.state = HTML2JSON.GotDTH3
         elif tag == 'a':
             # start of a bookmark name+URL
             if self.state == HTML2JSON.GotDT:
-                print(f'start DT/A: attrs={attrs}')
                 # new bookmark item
                 self.state = HTML2JSON.GotDTA
                 self.url = None
                 for (tag, value) in attrs:
-                    print(f'tag={tag}, value={value}')
                     if tag == 'href':
                         self.url = value
                         break
@@ -80,24 +77,20 @@ class HTML2JSON(HTMLParser):
             if self.state == HTML2JSON.GotDTA:
                 self.state = HTML2JSON.GotDT
         elif tag == 'dl':
-            if self.state == HTML2JSON.GotDTH3:
-                # end of bookmark folder, restore previous dictionary
-                self.current_folder = self.folder_stack.pop()
-                self.state = HTML2JSON.GotNone
+            # end of bookmark folder, restore previous dictionary
+            self.current_folder = self.folder_stack.pop()
+            self.state = HTML2JSON.GotNone
         else:
             self.state = HTML2JSON.GotNone
 
     def handle_data(self, data):
         if self.state == HTML2JSON.GotDTH3:
-            print(f'data DT/H3: creating new folder: {data}')
             # new bookmark folder
-            self.folder_stack.append(self.current_folder)
             new_folder = {}
             self.current_folder[data] = new_folder
+            self.folder_stack.append(self.current_folder)
             self.current_folder = new_folder
-
         elif self.state == HTML2JSON.GotDTA:
-            print(f'data DT/A: creating new bookmark: {data}: {self.url}')
             # create new bookmark
             self.current_folder[data] = self.url
 
@@ -117,6 +110,7 @@ if __name__ == '__main__':
     import sys
     import getopt
     import traceback
+    from pprint import pprint
 
     # to help the befuddled user
     def usage(msg=None):
@@ -157,7 +151,10 @@ if __name__ == '__main__':
 
     # process the HTML bookmarks file
     bookmarks = process_bookmarks(input_file)
-    print(f'len(bookmarks)={len(bookmarks)}')
-    input('Pause:')
+#    pprint(bookmarks)
     for (k, v) in bookmarks.items():
-        print(f'{k}: {v}')
+        if isinstance(v, dict):
+            print(f"{k}: folder")
+        else:
+            print(f"{k}: {v}")
+
