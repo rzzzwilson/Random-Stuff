@@ -3,11 +3,6 @@
 """
 Convert HTML bookmarks to a JSON format.
 
-where a dictionary is a collection of bookmark folders,
-a dictionary key is the name of a bookmark folder,
-and the dictionary value is either another dictionary or
-a list of bookmark items: (name, URL).
-
 Usage: bookmarks.py <HTML file> [<output file>]
 
 where <HTML file>    is the path to the required HTML bookmarks file
@@ -18,24 +13,24 @@ and   <output file>  is the path to the output file to write data to
 """
 Format of output is:
 
-{'title1': [('title1_1', 'url1_1'),
-            ('title1_2', 'url1_2'),
-            ...
-           ],
- 'title2': {'title2_1': [(,), ..., (,)],
-            'title2_2': {'url2_2': ...,
+{'title1': url1_1,
+ 'title2': {'title2_1': url2_1,
+            'title2_2': {'url2_2': url2_2,
                          ...
                         },
             ...
            },
  ...
 }
+
+Where the dictionary is a collection of bookmarks, a dictionary key is either
+the name of a bookmark folder or the title of a bookmark, and the dictionary
+value is either another dictionary (for a folder) or a URL (for a bookmark).
 """
 
 from html.parser import HTMLParser
 
-html_file = 'bookmarks_3_22_19.html'
-
+# class to parse HTML and return a bookmark dictionary
 class HTML2JSON(HTMLParser):
     # internal states
     GotDT = 1       # got DT start tag
@@ -84,6 +79,11 @@ class HTML2JSON(HTMLParser):
         elif tag == 'a':
             if self.state == HTML2JSON.GotDTA:
                 self.state = HTML2JSON.GotDT
+        elif tag == 'dl':
+            if self.state == HTML2JSON.GotDTH3:
+                # end of bookmark folder, restore previous dictionary
+                self.current_folder = self.folder_stack.pop()
+                self.state = HTML2JSON.GotNone
         else:
             self.state = HTML2JSON.GotNone
 
@@ -101,40 +101,63 @@ class HTML2JSON(HTMLParser):
             # create new bookmark
             self.current_folder[data] = self.url
 
-    @property
-    def json(self):
-        return self.bookmarks
-#        return json.dumps(self.bookmarks, indent=4)
-
     def get_bookmarks(self):
         return self.bookmarks
 
 def process_bookmarks(bmark_file):
-    """Process an HTML bookmarks file and produce JSON dictionary."""
+    """Process an HTML bookmarks file and produce a dictionary of bookmarks."""
 
-    pass
-
-
-parser = HTML2JSON()
-with open(html_file) as f:
-    text = f.read()
-parser.feed(text)
-d = parser.get_bookmarks()
-print('='*80)
-print(f'len(d)={len(d)}')
-for (k, v) in d.items():
-    print(f'{k}: {v}')
-#print(parser.json)
-#for (k, v) in parser.json.items():
-#    print(f'{k}: {v}')
-
+    parser = HTML2JSON()
+    with open(bmark_file) as f:
+        text = f.read()
+    parser.feed(text)
+    return parser.get_bookmarks()
 
 if __name__ == '__main__':
     import sys
-    import argparse
-    import json
+    import getopt
+    import traceback
 
-    # parse the CLI parameters
+    # to help the befuddled user
+    def usage(msg=None):
+        if msg:
+            print(('*'*80 + '\n%s\n' + '*'*80) % msg)
+        print(__doc__)
 
-    # process the HTML file
-    process_bookmarks(input_file, output_file)
+    # our own handler for uncaught exceptions
+    def excepthook(type, value, tb):
+        msg = '\n' + '=' * 80
+        msg += '\nUncaught exception:\n'
+        msg += ''.join(traceback.format_exception(type, value, tb))
+        msg += '=' * 80 + '\n'
+        print(msg)
+
+    # plug our handler into the python system
+    sys.excepthook = excepthook
+
+    # parse the CLI params
+    argv = sys.argv[1:]
+
+    try:
+        (opts, args) = getopt.getopt(argv, 'h', ['help'])
+    except getopt.error:
+        usage()
+        sys.exit(1)
+
+    for (opt, param) in opts:
+        if opt in ['-h', '--help']:
+            usage()
+            sys.exit(0)
+
+    if len(args) != 1:
+        usage()
+        sys.exit(1)
+
+    input_file = args[0]
+
+    # process the HTML bookmarks file
+    bookmarks = process_bookmarks(input_file)
+    print(f'len(bookmarks)={len(bookmarks)}')
+    input('Pause:')
+    for (k, v) in bookmarks.items():
+        print(f'{k}: {v}')
