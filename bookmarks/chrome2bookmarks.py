@@ -1,31 +1,17 @@
 #!/usr/bin/env python3
 
 """
-Convert HTML bookmarks to a JSON format.
+Convert Chrome HTML bookmarks to a data file format.
 
-Usage: bookmarks.py <HTML file> [<output file>]
+Usage: chrome2bookmarks.py <HTML file> [<output file>]
 
-where <HTML file>    is the path to the required HTML bookmarks file
+where <HTML file>    is the path to the required Chrome HTML bookmarks file
 and   <output file>  is the path to the output file to write data to
                      (optional, use stdout if not supplied)
-"""
 
-"""
-Format of output is:
-
-{'title1': url1_1,
- 'title2': {'title2_1': url2_1,
-            'title2_2': {'url2_2': url2_2,
-                         ...
-                        },
-            ...
-           },
- ...
-}
-
-Where the dictionary is a collection of bookmarks, a dictionary key is either
-the name of a bookmark folder or the title of a bookmark, and the dictionary
-value is either another dictionary (for a folder) or a URL (for a bookmark).
+The data file format consists of multiple lines of:
+    bookmark_path|URL
+where the "bookmark_path" is like "Bookmarks Bar/Daily/The Guardian".
 """
 
 from html.parser import HTMLParser
@@ -43,9 +29,8 @@ class HTML2JSON(HTMLParser):
     def __init__(self):
         super().__init__()
         self.state = HTML2JSON.GotNone
-        self.current_folder = {}
-        self.bookmarks = self.current_folder
-        self.folder_stack = [self.current_folder]
+        self.bookmarks = []
+        self.path_stack = ['']
 
     def handle_starttag(self, tag, attrs):
         self.url = None
@@ -78,21 +63,19 @@ class HTML2JSON(HTMLParser):
                 self.state = HTML2JSON.GotDT
         elif tag == 'dl':
             # end of bookmark folder, restore previous dictionary
-            self.current_folder = self.folder_stack.pop()
+            self.path_stack.pop()
             self.state = HTML2JSON.GotNone
         else:
             self.state = HTML2JSON.GotNone
 
     def handle_data(self, data):
         if self.state == HTML2JSON.GotDTH3:
-            # new bookmark folder
-            new_folder = {}
-            self.current_folder[data] = new_folder
-            self.folder_stack.append(self.current_folder)
-            self.current_folder = new_folder
+            # new folder name added to path
+            self.path_stack.append(data)
         elif self.state == HTML2JSON.GotDTA:
             # create new bookmark
-            self.current_folder[data] = self.url
+            bmark = ('/'.join(self.path_stack+[data]), self.url)
+            self.bookmarks.append(bmark)
 
     def get_bookmarks(self):
         return self.bookmarks
@@ -143,22 +126,21 @@ if __name__ == '__main__':
             usage()
             sys.exit(0)
 
-    if len(args) != 1:
+    if len(args) not in (1, 2):
         usage()
         sys.exit(1)
 
     input_file = args[0]
 
+    output_filehandle = sys.stdout
+    if len(args) == 2:
+        output_file = args[1]
+        output_filehandle = open(output_file, 'w')
+
     # process the HTML bookmarks file
     bookmarks = process_bookmarks(input_file)
-#    pprint(bookmarks)
-    for (key, value) in bookmarks.items():
-        if isinstance(value, dict):
-            for (k, v) in value.items():
-                if isinstance(v, dict):
-                    print(f"{k}: folder")
-                else:
-                    print(f"{k}: {v}")
-        else:
-            print(f"{key}: {value}")
+    for (path, url) in bookmarks:
+        output_filehandle.write(f'{path}\t{url}\n')
 
+    if output_filehandle != sys.stdout:
+        output_filehandle.close()
