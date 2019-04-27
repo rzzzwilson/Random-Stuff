@@ -10,21 +10,28 @@ and   <output file>  is the path to the output file to write data to
                      (optional, use stdout if not supplied)
 
 The data file format consists of multiple lines of:
-    bookmark_path|URL
+    bookmark_path\tURL
 where the "bookmark_path" is like "Bookmarks Bar/Daily/The Guardian".
+The last "file" in the "bookmark_path" is the bookmark name.  Preceding
+"files" are folder names.
 """
 
 from html.parser import HTMLParser
 
-# class to parse HTML and return a bookmark dictionary
 class HTML2JSON(HTMLParser):
+    """A class to parse HTML and return a bookmark data structure.
+
+    The data structure is a list of tuples:
+        (<bookmark path>, <URL>)
+
+    Uses a state machine to parse the Chrome bookmarks HTML data.
+    """
+
     # internal states
     GotDT = 1       # got DT start tag
     GotDTA = 2      # got DT then A
     GotDTH3 = 3     # got DT then H3
     GotNone = 4     # got something else
-
-    IndentSpaces = 4
 
     def __init__(self):
         super().__init__()
