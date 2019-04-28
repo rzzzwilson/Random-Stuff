@@ -24,8 +24,10 @@ def process_bookmarks(in_handle, out_handle):
     result = 0
 
     # process each line in the input file
-    for line in in_handle:
-        pass
+    for (lnum, line) in enumerate(in_handle):
+        if len(line.split('\t')) != 2:
+            print(f'HUH at line {lnum+1}')
+    print(f'lnum={lnum}')
 
     return result
 
