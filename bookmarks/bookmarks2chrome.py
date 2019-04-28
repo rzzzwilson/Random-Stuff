@@ -12,92 +12,40 @@ The Chrome HTML bookmarks file format is that produced by the Chrome
 "export bookmarks" function.
 """
 
-from html.parser import HTMLParser
+def process_bookmarks(in_handle, out_handle):
+    """Convert a bookmarks data file to a Google Chrome HTML bookmarks file.
+    
+    in_handle   handle of the open input file
+    out_handle  handle of the open output file
 
-# class to parse HTML and return a bookmark dictionary
-class HTML2JSON(HTMLParser):
-    # internal states
-    GotDT = 1       # got DT start tag
-    GotDTA = 2      # got DT then A
-    GotDTH3 = 3     # got DT then H3
-    GotNone = 4     # got something else
+    Returns an error status for sys.exit(): 0 means all OK.
+    """
 
-    IndentSpaces = 4
+    result = 0
 
-    def __init__(self):
-        super().__init__()
-        self.state = HTML2JSON.GotNone
-        self.bookmarks = []
-        self.path_stack = ['']
+    # process each line in the input file
+    for line in in_handle:
+        pass
 
-    def handle_starttag(self, tag, attrs):
-        self.url = None
-        if tag == 'dt':
-            self.state = HTML2JSON.GotDT
-        elif tag == 'h3':
-            # start of a folder title, maybe
-            if self.state == HTML2JSON.GotDT:
-                # new bookmark folder
-                self.state = HTML2JSON.GotDTH3
-        elif tag == 'a':
-            # start of a bookmark name+URL
-            if self.state == HTML2JSON.GotDT:
-                # new bookmark item
-                self.state = HTML2JSON.GotDTA
-                self.url = None
-                for (tag, value) in attrs:
-                    if tag == 'href':
-                        self.url = value
-                        break
-        else:
-            self.state == HTML2JSON.GotNone
+    return result
 
-    def handle_endtag(self, tag):
-        if tag == 'h3':
-            if self.state == HTML2JSON.GotDTH3:
-                self.state = HTML2JSON.GotDT
-        elif tag == 'a':
-            if self.state == HTML2JSON.GotDTA:
-                self.state = HTML2JSON.GotDT
-        elif tag == 'dl':
-            # end of bookmark folder, restore previous dictionary
-            self.path_stack.pop()
-            self.state = HTML2JSON.GotNone
-        else:
-            self.state = HTML2JSON.GotNone
-
-    def handle_data(self, data):
-        if self.state == HTML2JSON.GotDTH3:
-            # new folder name added to path
-            self.path_stack.append(data)
-        elif self.state == HTML2JSON.GotDTA:
-            # create new bookmark
-            bmark = ('/'.join(self.path_stack+[data]), self.url)
-            self.bookmarks.append(bmark)
-
-    def get_bookmarks(self):
-        return self.bookmarks
-
-def process_bookmarks(bmark_file):
-    """Process an HTML bookmarks file and produce a dictionary of bookmarks."""
-
-    parser = HTML2JSON()
-    with open(bmark_file) as f:
-        text = f.read()
-    parser.feed(text)
-    return parser.get_bookmarks()
 
 if __name__ == '__main__':
     import sys
+    import os
     import getopt
     import traceback
-    from pprint import pprint
 
     # to help the befuddled user
     def usage(msg=None):
         if msg:
             print(('*'*80 + '\n%s\n' + '*'*80) % msg)
         print(__doc__)
+
+    # a function to report errors
+    def error(msg):
+        print(msg)
+        sys.exit(1)
 
     # our own handler for uncaught exceptions
     def excepthook(type, value, tb):
@@ -124,21 +72,36 @@ if __name__ == '__main__':
             usage()
             sys.exit(0)
 
-    if len(args) not in (1, 2):
+    if len(args) != 2:
         usage()
         sys.exit(1)
 
     input_file = args[0]
+    output_file = args[1]
 
-    output_filehandle = sys.stdout
-    if len(args) == 2:
-        output_file = args[1]
-        output_filehandle = open(output_file, 'w')
+    # check that the input file exists
+    try:
+        input_handle = open(input_file)
+    except FileNotFoundError:
+        error(f"File '{input_file}' doesn't exist?")
+
+    # prepare the output file, don't overwrite if it already exists
+    if os.path.isfile(output_file) or os.path.isdir(output_file):
+        error(f"Sorry, won't overwrite existing file '{output_file}'.")
+
+    try:
+        output_handle = open(output_file, 'w')
+    except PermissionError:
+        error(f"Sorry, permissions error creating '{output_file}'.")
+    except FileNotFoundError:
+        error(f"Name not found in the given path: '{output_file}'.")
+    except:
+        raise
 
     # process the HTML bookmarks file
-    bookmarks = process_bookmarks(input_file)
-    for (path, url) in bookmarks:
-        output_filehandle.write(f'{path}\t{url}\n')
+    result = process_bookmarks(input_handle, output_handle)
 
-    if output_filehandle != sys.stdout:
-        output_filehandle.close()
+    # close files and exit
+    input_handle.close()
+    output_handle.close()
+    sys.exit(result)
