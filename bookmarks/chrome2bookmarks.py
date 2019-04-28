@@ -100,7 +100,6 @@ if __name__ == '__main__':
     import sys
     import getopt
     import traceback
-    from pprint import pprint
 
     # to help the befuddled user
     def usage(msg=None):
