@@ -3,10 +3,13 @@
 """
 Sort a bookmarks data file.
 
-Usage: sort_bookmarks.py <data file> <sorted file>
+Usage: sort_bookmarks.py [<options>] <data file> <sorted file>
 
 where <data file>    is the bookmarks data file to sort
 where <sorted file>  is the path to the sorted output bookmark data file
+and   <options>      is one of:
+                         --domain    sort by domain
+                         --bookmark  sort by bookmark title (default)
 
 If the <sorted file> already exists the program will abort.
 """
@@ -37,15 +40,20 @@ sys.excepthook = excepthook
 argv = sys.argv[1:]
 
 try:
-    (opts, args) = getopt.getopt(argv, 'h', ['help'])
+    (opts, args) = getopt.getopt(argv, 'bdh', ['bookmark', 'domain', 'help'])
 except getopt.error:
     usage()
     sys.exit(1)
 
+sort_opt = 'bookmark'
 for (opt, param) in opts:
     if opt in ['-h', '--help']:
         usage()
         sys.exit(0)
+    elif opt in ['-b', '--bookmark']:
+        sort_opt = 'bookmark'
+    elif opt in ['-d', '--domain']:
+        sort_opt = 'domain'
 
 if len(args) != 2:
     usage()
@@ -65,7 +73,10 @@ with open(input_file, 'r') as fd:
 
 # sort the data
 data = [l.strip().split('\t') for l in lines]
-data.sort()
+if sort_opt == 'bookmark':
+    data.sort()
+else:
+    data.sort(key=lambda x: x[1])
 
 # write the sorted data to the output file
 with open(sorted_file, 'w') as fd:
