@@ -12,6 +12,28 @@ The Chrome HTML bookmarks file format is that produced by the Chrome
 "export bookmarks" function.
 """
 
+HTML_Header = """<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<!-- This is an automatically generated file.
+     It will be read and overwritten.
+     DO NOT EDIT! -->
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>Bookmarks</TITLE>
+<H1>Bookmarks</H1>
+<DL><p>
+"""
+
+HTML_Footer = """</DL><p>"""
+
+New_Folder = """<DT><H3>FOLDERNAME_PLACE</H3>
+<DL><p>
+"""
+
+End_Folder = """</DL><p>"""
+
+New_Bookmark = """<DT><A HREF="HREF_PLACE">NAME_PLACE</A>
+"""
+
+
 def process_bookmarks(in_handle, out_handle):
     """Convert a bookmarks data file to a Google Chrome HTML bookmarks file.
     
@@ -23,11 +45,65 @@ def process_bookmarks(in_handle, out_handle):
 
     result = 0
 
+    # print the HTML header
+    out_handle.write(HTML_Header)
+
+    # set indent for first bookmark
+    indent_count = 4
+    indent = ' ' * indent_count
+
     # process each line in the input file
+    prev_path = None
     for (lnum, line) in enumerate(in_handle):
-        if len(line.split('\t')) != 2:
-            print(f'HUH at line {lnum+1}')
-    print(f'lnum={lnum}')
+        try:
+            (path, url) = line.strip().split('\t')
+        except ValueError:
+            # bad split, report line
+            print(f'line {lnum+1} has bad format: {line}')
+            return 1
+
+        # split path into path + bookmark
+        (path, bookmark) = os.path.split(path)
+        if not path:
+            # MUST have something in path
+            print(f'line {lnum+1} has bad format: {line}')
+            return 1
+
+        print(f'path={path}, bookmark={bookmark}')
+
+        if path != prev_path:
+            # change in folder, get divided paths
+            div_path = path.split('/')
+            if prev_path is None:
+                div_prev_path = []
+            else:
+                div_prev_path = prev_path.split('/')
+            print(f'div_path={div_path}, div_prev_path={div_prev_path}')
+
+            while len(div_path) < len(div_prev_path):
+                # close one or more folders
+                indent_count -= 4
+                indent = ' ' * indent_count
+                out_handle.write(f'{indent}{End_Folder}\n')
+                del div_prev_path[-1]
+
+            while div_path != div_prev_path:
+                # close one or more folders
+                indent_count -= 4
+                indent = ' ' * indent_count
+                out_handle.write(f'{indent}{End_Folder}\n')
+                del div_prev_path[-1]
+                del div_path[-1]
+
+        else:
+            # next bookmark in this folder
+            out_handle.write(f'{indent}<DT><A HREF="{url}">{bookmark}</A>\n')
+
+        # remember the last path
+        prev_path = path
+
+    # print the HTML footer
+    out_handle.write(HTML_Footer)
 
     return result
 
