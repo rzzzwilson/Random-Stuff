@@ -55,6 +55,7 @@ def process_bookmarks(in_handle, out_handle):
     # process each line in the input file
     prev_path = None
     for (lnum, line) in enumerate(in_handle):
+        print(f'line: {line}')
         try:
             (path, url) = line.strip().split('\t')
         except ValueError:
@@ -79,15 +80,18 @@ def process_bookmarks(in_handle, out_handle):
             else:
                 div_prev_path = prev_path.split('/')
             print(f'div_path={div_path}, div_prev_path={div_prev_path}')
+            print(f'prev_path={prev_path}, div_prev_path={div_prev_path}')
 
             while len(div_path) < len(div_prev_path):
+                print('Deleting older deep paths')
                 # close one or more folders
                 indent_count -= 4
                 indent = ' ' * indent_count
                 out_handle.write(f'{indent}{End_Folder}\n')
                 del div_prev_path[-1]
 
-            while div_path != div_prev_path:
+            while div_prev_path and (div_path != div_prev_path):
+                print('Close one or more folders')
                 # close one or more folders
                 indent_count -= 4
                 indent = ' ' * indent_count
