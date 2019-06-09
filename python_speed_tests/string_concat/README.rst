@@ -8,8 +8,8 @@ If you read the Python programming blogs or google for
 
 method of concatenating strings is horribly slow and uses too much memory.
 
-Well, it's not that simple with newer Pythons. The code here tests various
-methods of concatenating strings:
+Well, it's not that simple with newer Pythons after 2.5 or so. The code here
+tests various methods of concatenating strings:
 
 =============  =====================================
 Method         Description
@@ -26,7 +26,8 @@ wasn't tested.
 
 The general method used in each test executable is a tight loop over a large
 range appending a numeric string.  This was tried with both python2 and python3
-as well as with the garbage collector enabled and disabled.
+as well as with the garbage collector enabled and disabled, just to see if that
+made a difference.
 
 Each test of various concatenation method is done in a standalone executable. 
 The executable is run by *memprof.py* with the memory results saved in a single
@@ -45,4 +46,4 @@ Old Results
 -----------
 
 I first attempted this a few years ago.  These earlier results are in
-**OLD_RESULTS.rst** for python 2 only..
+**OLD_RESULTS.rst** for python 2 only.

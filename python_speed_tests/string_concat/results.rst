@@ -21,48 +21,56 @@ usage graphs show odd behaviour.  Still working on that!
 python running test.py (GC ON)
 -------------------------------
 
+make_table.py: test.py.python.out
 
 .. image:: test.py.python.log.png
 
 python running test.py (GC OFF)
 -------------------------------
 
+make_table.py: test.py.python-g.out
 
 .. image:: test.py.python-g.log.png
 
 python running test2.py (GC ON)
 -------------------------------
 
+make_table.py: test2.py.python.out
 
 .. image:: test2.py.python.log.png
 
 python running test2.py (GC OFF)
 -------------------------------
 
+make_table.py: test2.py.python-g.out
 
 .. image:: test2.py.python-g.log.png
 
 python3 running test.py (GC ON)
 -------------------------------
 
+make_table.py: test.py.python3.out
 
 .. image:: test.py.python3.log.png
 
 python3 running test.py (GC OFF)
 -------------------------------
 
+make_table.py: test.py.python3-g.out
 
 .. image:: test.py.python3-g.log.png
 
 python3 running test2.py (GC ON)
 -------------------------------
 
+make_table.py: test2.py.python3.out
 
 .. image:: test2.py.python3.log.png
 
 python3 running test2.py (GC OFF)
 -------------------------------
 
+make_table.py: test2.py.python3-g.out
 
 .. image:: test2.py.python3-g.log.png
 

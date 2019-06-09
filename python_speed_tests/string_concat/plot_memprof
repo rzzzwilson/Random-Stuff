@@ -31,7 +31,7 @@ def plot_data(memsize, title, gfile):
     ylabel('Memory Used (MB)')
     title(title)
     grid(True)
-    savefig(f'{gfile}.png', bbox_inches='tight')
+    savefig('%s.png' % gfile, bbox_inches='tight')
     show()
 
 def main(mp_file):

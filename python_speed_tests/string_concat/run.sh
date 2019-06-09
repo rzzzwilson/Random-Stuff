@@ -94,7 +94,7 @@ for PYTHON in python python3; do
             echo ".. image:: $LOGFILE.png" >> $OUTPUT
             echo "" >> $OUTPUT
 
-	    check_files
+#	    check_files
         done
     done
 done

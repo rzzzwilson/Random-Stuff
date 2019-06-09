@@ -49,6 +49,8 @@ def usage(msg=None):
 def main(path):
     """Read a results file and output RST data."""
 
+    print(__file__ + ': ' + path)
+
     # get all lines in file
     with open(path, 'r') as fd:
         lines = fd.readlines()
