@@ -9,17 +9,15 @@ Results
 
 The final timing show that reading tiles from a zipped directory is
 about teice as slow as reading from the unzipped directory.  The tarred
-directory was about 300 times slower than reading the unzipped directory.
+directory was about 300 times slower than reading the unzipped directory::
 
-```
-$ python3 test.py
-
-unzipped took  0.26s
-  zipped took  0.58s
-  tarred took 76.52s
-
-Data the same no matter what the source
-```
+    $ python3 test.py
+    
+    unzipped took  0.26s
+      zipped took  0.58s
+      tarred took 76.52s
+    
+    Data the same no matter what the source
 
 So we will keep the unzipped *~/gmt_local_tiles* directory for pySlip,
 but keep the unzipped approach in mind.
