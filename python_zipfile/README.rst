@@ -8,7 +8,7 @@ Results
 -------
 
 The final timing show that reading tiles from a zipped directory is
-about teice as slow as reading from the unzipped directory.  The tarred
+about twice as slow as reading from the unzipped directory.  The tarred
 directory was about 300 times slower than reading the unzipped directory::
 
     $ python3 test.py
