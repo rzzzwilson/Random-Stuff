@@ -7,7 +7,7 @@ idea of the relative speeds zipped/tarred/unzipped.
 Results
 -------
 
-The final timing show that reading tiles from a zipped directory is
+The final timings show that reading tiles from a zipped directory is
 about twice as slow as reading from the unzipped directory.  The tarred
 directory was about 300 times slower than reading the unzipped directory::
 
