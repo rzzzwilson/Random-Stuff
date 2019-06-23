@@ -11,6 +11,9 @@ where -d <level>  sets debug to <level> ("debug", "info", etc)
       -h          prints this help
 """
 
+# to restore:
+#   /usr/local/bin/rsync  -aE -r --protect-args ./ /Volumes/DATA/
+
 import sys
 import os
 import os.path
@@ -28,7 +31,7 @@ import logger
 # [(path, id_file, id_string), ...]
 Sources = [
            ('/Volumes/DATA', '.diskid', 'data'),
-           ('/Volumes/MusicPhotos', '.diskid', 'musicphotos'),
+#           ('/Volumes/MusicPhotos', '.diskid', 'musicphotos'),
           ]
 
 # target directory and drive information
@@ -41,7 +44,7 @@ MaxPercentUsed = 95
 # files extensions we DON'T backup (damn Apple...)
 ExcludeFiles = ['.DS_Store', '.Trashes', '.fseventsd',
                 '.DocumentRevisions-V100', '.TemporaryItems',
-                '.DocumentRevisions-V100-bad-1']
+                '.DocumentRevisions-V100-bad-1', '.Spotlight-V100']
 
 
 ##########
@@ -345,7 +348,7 @@ def get_device(path):
     try:
         result = subprocess.check_output(['df', '-h', path]).decode("utf-8")
     except subprocess.CalledProcessError as e:
-        say('Error getting device for mounted filesystem')
+        say('Error getting device for mounted file system')
         print(f"Error getting device for mounted filesystem, check log in file '{LogFile}'")
         log(f"Error getting device for mounted filesystem")
         abort(f'Error status {e.returncode}')
@@ -359,16 +362,16 @@ def get_device(path):
     raise RuntimeError(f"No device found for '{path}'")
 
 
-def check_target(target_base):
+def check_filesystem(fs_base):
     """Check the target filesystem for errors.
 
-    target_base  path to the base of the target system
+    fs_base  path to the base of the filesystem to check
     """
 
-    log.info(f'Checking filesystem for target {target_base}')
+    log.info(f'Checking filesystem for target {fs_base}')
 
     # get device for the target filesystem
-    device = get_device(target_base)
+    device = get_device(fs_base)
 
     # check filesystem
     log.debug(Delim1)
@@ -379,9 +382,9 @@ def check_target(target_base):
     try:
         result = subprocess.check_output(cmd).decode("utf-8")
     except subprocess.CalledProcessError as e:
-        say('Error checking filesystem')
-        print(f"Error checking filesystem, check log in file '{LogFile}'")
-        abort(f'Error checking filesystem on {target_base} ({device}), error status {e.returncode}')
+        say('Error found when checking file system')
+        print(f"Error found when checking filesystem, check log in file '{LogFile}'")
+        abort(f'Error found when checking filesystem on {fs_base} ({device}), error status {e.returncode}')
 
     log.debug(result)
     log.debug(Delim2)
@@ -403,7 +406,7 @@ def backup(fsck, code_path, sources, target, max_percent, exclude_files):
 
     # check that the target filesystem is available
     if not check_available(*target):
-        say('Target filesystem not found')
+        say('Target file system not found')
         abort(f'{target_base} not mounted or disk ID file not found.')
 
     # delete old directories, if required, until below configured size
@@ -412,18 +415,15 @@ def backup(fsck, code_path, sources, target, max_percent, exclude_files):
     # do the backup
     do_backup(code_path, sources, target_base)
 
-    # check target filesystem, if required
+    # check source and target filesystems, if required
     if fsck:
-        check_target(target_base)
+        check_filesystem(target_base)
 
     # report on space left on target
     (_, target_left) = get_space_used_remain(target_base)
     remaining_msg = f'Space remaining on {target_base} = {target_left}%'
     log.info(remaining_msg)
     print(remaining_msg)
-
-    log.info('Backup finished')
-    say('Backup finished')
 
     return 0
 
@@ -432,6 +432,24 @@ if __name__ == '__main__':
     import sys
     import getopt
     import traceback
+
+    start_time = time.time()
+
+    # remember where we are in the filesystem
+    # we come back to this place when finished
+    current_dir = os.getcwd()
+
+    # move to a 'neutral' place - the user's home directory
+    home = os.path.expanduser('~')
+    os.chdir(home)
+
+    # a function to print 'human time' given a delta
+    def human_time(delta):
+        delta = int(delta)
+        (minutes, seconds) = divmod(delta, 60)
+        (hours, minutes) = divmod(minutes, 60)
+
+        return f'{hours}:{minutes:02d}:{seconds:02d}'
 
     # our own handler for uncaught exceptions
     def excepthook(type, value, tb):
@@ -451,6 +469,7 @@ if __name__ == '__main__':
                                      ['debug=', 'fsck', 'help'])
     except getopt.GetoptError as err:
         usage(err)
+        os.chdir(current_dir)
         sys.exit(1)
 
     # default parameters
@@ -462,12 +481,14 @@ if __name__ == '__main__':
             debug = param.upper()
             if debug not in dict_debug_level:
                 usage(f"Debug level '{param}' not recognized")
+                os.chdir(current_dir)
                 sys.exit(1)
             debug = dict_debug_level[debug]
         if opt in ['-f', '--fsck']:
             fsck = False
         elif opt in ['-h', '--help']:
             usage()
+            os.chdir(current_dir)
             sys.exit(0)
 
     # get absolute path to this file
@@ -478,4 +499,18 @@ if __name__ == '__main__':
 
     # run the program code
     res = backup(fsck, code_path, Sources, Target, MaxPercentUsed, ExcludeFiles)
+
+    # check soure disk(s), always
+    for (src, _, _) in Sources:
+        check_filesystem(src)
+
+    delta_time = time.time() - start_time
+    print(f'Total time: {human_time(delta_time)}')
+
+    log.info('Backup finished')
+    say('Backup finished')
+
+    # change back to the directory we started in
+    os.chdir(current_dir)
+
     sys.exit(res)
