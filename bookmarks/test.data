@@ -1,9 +1,8 @@
 # test file with simple data
-A/B/alpha@balpha
-A/B/beta@bbeta
-A/C/gamma@bgamma
-#A/123@b123
-#A/456@b456
-#A/B/234@b234
-#A/B/987@b987
-#X/012@b012
+/A/B/alpha@balpha
+/A/B/beta@bbeta
+/A/B/X/delta@bdelta
+/A/C/gamma@bgamma
+/A/123@b123
+/A/456@b456
+/X/012@b012

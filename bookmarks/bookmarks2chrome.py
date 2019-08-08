@@ -33,7 +33,7 @@ New_Folder = """%s<DT><H3>%s</H3><DL><p>\n"""
 
 End_Folder = """%s</DL><p>\n"""
 
-New_Bookmark = """<DT><A HREF="%s">%s</A>\n"""
+New_Bookmark = """%s<DT><A HREF="%s">%s</A>\n"""
 
 indent_size = 4
 
@@ -53,18 +53,24 @@ def process_bookmarks(in_handle, out_handle):
     out_handle.write(HTML_Header)
 
     # how deep we are in folders
-    depth = 0
+    depth = 4
 
     # process each line in the input file
     prev_path = ''
     for (lnum, line) in enumerate(in_handle):
         line = line.strip()
+
+        # ignore comments
         if line.startswith('#'):
-            print(f'Ignoring: {line}')
             continue
 
-        print('###########################################')
-        print(f'line: {line}')
+        # strip off leading '/'
+        if not line.startswith('/'):
+            print(f'line {lnum+1} has bad format: {line}')
+            return 1
+        line = line[1:]
+
+        # split into path/title/url
         try:
             (path, url) = line.strip().split('@')
         except ValueError:
@@ -72,35 +78,46 @@ def process_bookmarks(in_handle, out_handle):
             print(f'line {lnum+1} has bad format: {line}')
             return 1
 
-        # split path into path + title
         (path, title) = os.path.split(path)
         if not path:
             # MUST have something in path
             print(f'line {lnum+1} has bad format: {line}')
             return 1
 
-        print(f'prev_path={prev_path}, path={path}, title={title}, url={url}')
 
         if not prev_path:
             # first folder, create new folder hierachy
-            div_path = path.split('/')      # get split path
+            div_path = path.split('/')[1:]      # get split path, ignore first empty field
             for folder in div_path:
                 out_handle.write(New_Folder % (" " * depth, folder))
                 depth += indent_size
 
             # create first bookmark in new folder stack
-            out_handle.write(f'{" " * depth}<DT><A HREF="{title}">{url}</A>\n')
+            out_handle.write(New_Bookmark % (" " * depth, url, title))
         else:
             # have previous path, anything in common?
             prefix = os.path.commonpath([path, prev_path])
-            print(f'prefix={prefix}, prev_path={prev_path}')
+            div_prefix = prefix.split('/')
+            div_prev = prev_path.split('/')
+            div_path = path.split('/')
+            if div_prefix == ['']:
+                div_prefix = []
+            if div_prev == ['']:
+                div_prev = []
+            if div_path == ['']:
+                div_path = []
+
             if prefix == prev_path:
-                # same folder, so just add new bookmark
-                out_handle.write(f'{" " * depth}<DT><A HREF="{title}">{url}</A>\n')
+                # possibly same folder or an increase on previous
+                if path != prev_path:
+                    # increase, make new folder(s)
+                    for folder in div_path[len(div_prev):]:
+                        out_handle.write(New_Folder % (" " * depth, folder))
+                        depth += indent_size
+                # add new bookmark
+                out_handle.write(New_Bookmark % (" " * depth, url, title))
             else:
                 # new folder, unwind back to common prefix (which may be empty)
-                div_prefix = prefix.split('/')
-                div_prev = prev_path.split('/')
                 while div_prev != div_prefix:
                     print(f'loop: div_prev={div_prev}, div_prefix={div_prefix}')
                     # close one folder
@@ -113,14 +130,13 @@ def process_bookmarks(in_handle, out_handle):
                     out_handle.write(New_Folder % (" " * depth, folder))
                     depth += indent_size
                 # add new bookmark
-                out_handle.write(f'{" " * depth}<DT><A HREF="{title}">{url}</A>\n')
+                out_handle.write(New_Bookmark % (" " * depth, url, title))
 
         # remember the last path
         prev_path = path
 
     # close outstanding folders
     while depth > 0:
-        print(f'loop, depth={depth}')
         depth -= indent_size
         out_handle.write(End_Folder % (" " * depth))
 
