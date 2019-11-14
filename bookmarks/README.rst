@@ -11,3 +11,15 @@ This means I need tools to:
 This will help me have a consistent and stable set of bookmarks across all
 my devices running Chrome.  It will also ease any problems moving to another
 browser.
+
+Data file format
+----------------
+
+The "data" file has the format of one line per bookmark item, with each line
+having this form:
+
+    <path> <TAB> <URL>
+
+where <path> is a `/` delimited absolute path with the last folder being the
+                 bookmark name
+and   <URL>  is the URL for the bookmark.

@@ -1,8 +1,11 @@
-# test file with simple data
-/A/B/alpha@balpha
-/A/B/beta@bbeta
-/A/B/X/delta@bdelta
-/A/C/gamma@bgamma
-/A/123@b123
-/A/456@b456
-/X/012@b012
+Daily/www.theguardian.com@https://www.theguardian.com/world
+Daily/The Register@http://www.theregister.co.uk/
+Daily/Physics@http://www.reddit.com/r/Physics/new
+Daily/programming@http://www.reddit.com/r/programming/new
+Daily/Hacker News@https://news.ycombinator.com/newest
+Daily/µnit@https://nemequ.github.io/munit/
+Music/Classical music radio stations@http://www.listenlive.eu/classical.html
+Music/ABC Classic FM@https://radio.abc.net.au/stations/classic/live?play=true
+Music/İTÜ Radyosu Klasik@http://eskiweb.radyo.itu.edu.tr/flash/klasik.html
+Music/Classical radio@http://www.radio.net/genre/Classical/
+Dilbert@http://dilbert.com

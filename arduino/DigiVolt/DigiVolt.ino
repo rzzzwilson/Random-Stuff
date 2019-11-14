@@ -104,6 +104,11 @@ float voltageRead(int channel)
   {
     digitalPotWrite(channel, offset);
     int read_value = analogRead(pin);
+
+//    Serial.print("offset=");
+//    Serial.print(offset);
+//    Serial.print(", read_value=");
+//    Serial.println(read_value);
     
     if (read_value >= 1023)
         break;
