@@ -1,7 +1,7 @@
 # A makefile to automate certain phases of testing.
 
 clean:
-	rm -f xyzzy.*
+	echo "Nothing done..."
 
 html:
 	rm -f bookmarks_3_22_19.html

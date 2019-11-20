@@ -45,16 +45,6 @@ def close_folder(out, depth):
 def new_bookmark(out, depth, url, title):
     out.write('%s<DT><A HREF="%s">%s</A></DT>\n' % (' ' * (depth * indent_size), url, title))
 
-def get_list_common_prefix(a, b):
-    """Get number of common prefix elements of two lists."""
-
-    result = 0
-    for (a_elt, b_elt) in zip(a, b):
-        if a_elt != b_elt:
-            break
-        result += 1
-    return result
-
 def get_line_data(lnum, line):
     """Parse line and return (path_list, title, url)."""
 
@@ -152,101 +142,6 @@ def process_bookmarks(in_handle, out_handle):
     close_header(out_handle)
 
     return 0
-
-###########
-#
-#        if path == prev_path:
-#            # link in same folder as previous
-#            new_bookmark(out_handle, depth, url, title)
-##            out_handle.write(New_Bookmark % (' ' * depth * indent_size, url, title))
-#            pass
-#        else:
-#            # need to analyze situation.
-#            # if path an EXTENSION of previous, start new folder
-#            # if path shorter than previous, close N folders
-#            # else close all folders, open new set
-#            prev_path_list = prev_path.split('/')
-#
-#            prefix_size = get_list_common_prefix(prev_path_list, path_list)
-#            if prefix_size == 0:
-#                # completely close all folders
-#                while depth > 1:
-#                    depth -= 1
-##                    out_handle.write('%s</DL>\n' % (' ' * depth * indent_size))
-#                    close_folder(out_handle, depth)
-#                # open new folders
-#                for folder in path_list:
-#                    open_folder(out_handle, depth, folder)
-#                    depth += 1
-#            else:
-#                # close only a few folders
-#                for _ in prev_path_list[:prefix_size]:
-#                    depth -= 1
-##                    out_handle.write('%s</DL>\n' % (' ' * depth * indent_size))
-#                    close_folder(out_handle, depth)
-#                for folder in path_list[prefix_size:]:
-#                    open_folder(out_handle, depth, folder)
-#                    depth += 1
-#
-##        if not prev_path:
-##            # first folder, create new folder hierachy
-##            div_path = path.split('/') # [1:]      # get split path, ignore first empty field
-##            print(f'div_path={div_path}')
-##            for folder in div_path:
-##                out_handle.write(New_Folder % (" " * depth, folder))
-##                depth += indent_size
-##
-##            # create first bookmark in new folder stack
-##            out_handle.write(New_Bookmark % (" " * depth, url, title))
-##        else:
-##            # have previous path, anything in common?
-##            prefix = os.path.commonpath([path, prev_path])
-##            div_prefix = prefix.split('/')
-##            div_prev = prev_path.split('/')
-##            div_path = path.split('/')
-##            if div_prefix == ['']:
-##                div_prefix = []
-##            if div_prev == ['']:
-##                div_prev = []
-##            if div_path == ['']:
-##                div_path = []
-##
-##            if prefix == prev_path:
-##                # possibly same folder or an increase on previous
-##                if path != prev_path:
-##                    # increase, make new folder(s)
-##                    for folder in div_path[len(div_prev):]:
-##                        out_handle.write(New_Folder % (" " * depth, folder))
-##                        depth += indent_size
-##                # add new bookmark
-##                out_handle.write(New_Bookmark % (" " * depth, url, title))
-##            else:
-##                # new folder, unwind back to common prefix (which may be empty)
-##                while div_prev != div_prefix:
-##                    # close one folder
-##                    depth -= indent_size
-##                    out_handle.write(End_Folder % (" " * depth))
-##                    if div_prev:
-##                        del div_prev[-1]
-##                # add new folder(s)
-##                for folder in div_path[len(prefix):]:
-##                    out_handle.write(New_Folder % (" " * depth, folder))
-##                    depth += indent_size
-##                # add new bookmark
-##                out_handle.write(New_Bookmark % (" " * depth, url, title))
-#
-#        # remember the last path
-#        prev_path = path
-#
-#    # close outstanding folders
-#    while depth > 0:
-#        depth -= 1
-#        close_folder(out_handle, depth)
-#
-#    # print the HTML footer
-##    out_handle.write(HTML_Footer)
-#
-#    return result
 
 
 if __name__ == '__main__':
