@@ -17,6 +17,10 @@ where path/to/bookmark is a '/' delimited bookmark folder path with the last
 and   URL              is the associated bookmark URL
 """
 
+import sys
+from pprint import pprint
+
+
 indent_size = 3
 indent = 0
 
@@ -26,19 +30,20 @@ def open_header(out):
     out.write('<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">\n')
     out.write('<TITLE>Bookmarks</TITLE>\n')
     out.write('<H1>Bookmarks</H1>\n')
+    out.write('<DL>\n')
+
+def close_header(out):
+    out.write('</DL>\n')
 
 def open_folder(out, depth, folder):
     out.write('%s<DL>\n' % (' ' * (depth * indent_size)))
-    out.write('%s<DT><H3>%s</H3>\n' % (' ' * (depth * (indent_size+1)), folder))
+    out.write('%s<DT><H3>%s</H3>\n' % (' ' * (depth * indent_size), folder))
 
 def close_folder(out, depth):
     out.write('%s</DL>\n' % (' ' * (depth * indent_size)))
 
 def new_bookmark(out, depth, url, title):
     out.write('%s<DT><A HREF="%s">%s</A></DT>\n' % (' ' * (depth * indent_size), url, title))
-
-def close_folder(out, depth):
-    out.write('%s</DL>\n' % (' ' * (depth * indent_size)))
 
 def get_list_common_prefix(a, b):
     """Get number of common prefix elements of two lists."""
@@ -50,6 +55,45 @@ def get_list_common_prefix(a, b):
         result += 1
     return result
 
+def get_line_data(lnum, line):
+    """Parse line and return (path_list, title, url)."""
+
+    # strip off leading '/'
+    if line.startswith('/'):
+        line = line[1:]
+
+    # split into path/title/url
+    try:
+        (path, url) = line.split('\t')
+    except ValueError:
+        # bad split, report line
+        print(f'line {lnum+1} has bad format: {line}')
+        sys.exit(1)
+
+    (path, title) = os.path.split(path)
+
+    if path:
+        path_list = path.split('/')
+    else:
+        path_list = []
+
+    print(f'{lnum:02d}: path={path}, path_list={path_list}, title={title}, url={url}')
+
+    return (path_list, title, url)
+
+def dump_dict(out, root, depth=1):
+    """Dump "root" dict to "out" file-like object."""
+
+    for (key, value) in root.items():
+        if isinstance(value, dict):
+            # folder
+            open_folder(out, depth, key)
+            dump_dict(out, value, depth+1)
+            close_folder(out, depth)
+    for (key, value) in root.items():
+        if not isinstance(value, dict):
+            # simple bookmark
+            new_bookmark(out, depth, value, key)
 
 def process_bookmarks(in_handle, out_handle):
     """Convert a bookmarks data file to a Google Chrome HTML bookmarks file.
@@ -73,17 +117,11 @@ def process_bookmarks(in_handle, out_handle):
 #/Bookmarks Bar/Music/Classical radio	http://www.radio.net/genre/Classical/
 #/Dilbert 	http://dilbert.com/
 
-    result = 0
-
-    # print the HTML header
-    open_header(out_handle)
-
-    # how deeply we are indented
-    depth = 0
-
     # process each line in the input file
+    root = {}
     prev_path = ''
     for (lnum, line) in enumerate(in_handle):
+        # get line into canonical form
         line = line.strip()
 
         print(f'{lnum:02d}: {line}')
@@ -92,113 +130,123 @@ def process_bookmarks(in_handle, out_handle):
         if line.startswith('#'):
             continue
 
-        # strip off leading '/'
-        if line.startswith('/'):
-            line = line[1:]
+        # get (path_list, title, url) from line
+        (path_list, title, url) = get_line_data(lnum, line)
 
-        # split into path/title/url
-        try:
-            (path, url) = line.split('\t')
-        except ValueError:
-            # bad split, report line
-            print(f'line {lnum+1} has bad format: {line}')
-            return 1
+        # using path_list, step through 'root' dict to find appropriate place
+        current = root
+        while path_list:
+            path = path_list.pop(0)
+            if path not in current:
+                current[path] = {}
+            current = current[path]
 
-        (path, title) = os.path.split(path)
-        path_list = path.split('/')
-        print(f'{lnum:02d}: path={path}, path_list={path_list}, title={title}, url={url}')
-        if path == prev_path:
-            # link in same folder as previous
-            new_bookmark(out_handle, depth, url, title)
-#            out_handle.write(New_Bookmark % (' ' * depth * indent_size, url, title))
-            pass
-        else:
-            # need to analyze situation.
-            # if path an EXTENSION of previous, start new folder
-            # if path shorter than previous, close N folders
-            # else close all folders, open new set
-            prev_path_list = prev_path.split('/')
+        # create new bookmark at the appropriate place
+        current[title] = url
 
-            prefix_size = get_list_common_prefix(prev_path_list, path_list)
-            if prefix_size == 0:
-                # completely close all folders
-                while depth > 1:
-                    depth -= 1
-#                    out_handle.write('%s</DL>\n' % (' ' * depth * indent_size))
-                    close_folder(out_handle, depth)
-                # open new folders
-                for folder in path_list:
-                    open_folder(out_handle, depth, folder)
-                    depth += 1
-            else:
-                # close only a few folders
-                for _ in prev_path_list[:prefix_size]:
-                    depth -= 1
-#                    out_handle.write('%s</DL>\n' % (' ' * depth * indent_size))
-                    close_folder(out_handle, depth)
-                for folder in path_list[prefix_size:]:
-                    open_folder(out_handle, depth, folder)
-                    depth += 1
+    pprint(root)
 
-#        if not prev_path:
-#            # first folder, create new folder hierachy
-#            div_path = path.split('/') # [1:]      # get split path, ignore first empty field
-#            print(f'div_path={div_path}')
-#            for folder in div_path:
-#                out_handle.write(New_Folder % (" " * depth, folder))
-#                depth += indent_size
+    # now walk through "root" creating HTML as we go
+    open_header(out_handle)
+    dump_dict(out_handle, root)
+    close_header(out_handle)
+
+    return 0
+
+###########
 #
-#            # create first bookmark in new folder stack
-#            out_handle.write(New_Bookmark % (" " * depth, url, title))
+#        if path == prev_path:
+#            # link in same folder as previous
+#            new_bookmark(out_handle, depth, url, title)
+##            out_handle.write(New_Bookmark % (' ' * depth * indent_size, url, title))
+#            pass
 #        else:
-#            # have previous path, anything in common?
-#            prefix = os.path.commonpath([path, prev_path])
-#            div_prefix = prefix.split('/')
-#            div_prev = prev_path.split('/')
-#            div_path = path.split('/')
-#            if div_prefix == ['']:
-#                div_prefix = []
-#            if div_prev == ['']:
-#                div_prev = []
-#            if div_path == ['']:
-#                div_path = []
+#            # need to analyze situation.
+#            # if path an EXTENSION of previous, start new folder
+#            # if path shorter than previous, close N folders
+#            # else close all folders, open new set
+#            prev_path_list = prev_path.split('/')
 #
-#            if prefix == prev_path:
-#                # possibly same folder or an increase on previous
-#                if path != prev_path:
-#                    # increase, make new folder(s)
-#                    for folder in div_path[len(div_prev):]:
-#                        out_handle.write(New_Folder % (" " * depth, folder))
-#                        depth += indent_size
-#                # add new bookmark
-#                out_handle.write(New_Bookmark % (" " * depth, url, title))
+#            prefix_size = get_list_common_prefix(prev_path_list, path_list)
+#            if prefix_size == 0:
+#                # completely close all folders
+#                while depth > 1:
+#                    depth -= 1
+##                    out_handle.write('%s</DL>\n' % (' ' * depth * indent_size))
+#                    close_folder(out_handle, depth)
+#                # open new folders
+#                for folder in path_list:
+#                    open_folder(out_handle, depth, folder)
+#                    depth += 1
 #            else:
-#                # new folder, unwind back to common prefix (which may be empty)
-#                while div_prev != div_prefix:
-#                    # close one folder
-#                    depth -= indent_size
-#                    out_handle.write(End_Folder % (" " * depth))
-#                    if div_prev:
-#                        del div_prev[-1]
-#                # add new folder(s)
-#                for folder in div_path[len(prefix):]:
-#                    out_handle.write(New_Folder % (" " * depth, folder))
-#                    depth += indent_size
-#                # add new bookmark
-#                out_handle.write(New_Bookmark % (" " * depth, url, title))
-
-        # remember the last path
-        prev_path = path
-
-    # close outstanding folders
-    while depth > 0:
-        depth -= 1
-        close_folder(out_handle, depth)
-
-    # print the HTML footer
-#    out_handle.write(HTML_Footer)
-
-    return result
+#                # close only a few folders
+#                for _ in prev_path_list[:prefix_size]:
+#                    depth -= 1
+##                    out_handle.write('%s</DL>\n' % (' ' * depth * indent_size))
+#                    close_folder(out_handle, depth)
+#                for folder in path_list[prefix_size:]:
+#                    open_folder(out_handle, depth, folder)
+#                    depth += 1
+#
+##        if not prev_path:
+##            # first folder, create new folder hierachy
+##            div_path = path.split('/') # [1:]      # get split path, ignore first empty field
+##            print(f'div_path={div_path}')
+##            for folder in div_path:
+##                out_handle.write(New_Folder % (" " * depth, folder))
+##                depth += indent_size
+##
+##            # create first bookmark in new folder stack
+##            out_handle.write(New_Bookmark % (" " * depth, url, title))
+##        else:
+##            # have previous path, anything in common?
+##            prefix = os.path.commonpath([path, prev_path])
+##            div_prefix = prefix.split('/')
+##            div_prev = prev_path.split('/')
+##            div_path = path.split('/')
+##            if div_prefix == ['']:
+##                div_prefix = []
+##            if div_prev == ['']:
+##                div_prev = []
+##            if div_path == ['']:
+##                div_path = []
+##
+##            if prefix == prev_path:
+##                # possibly same folder or an increase on previous
+##                if path != prev_path:
+##                    # increase, make new folder(s)
+##                    for folder in div_path[len(div_prev):]:
+##                        out_handle.write(New_Folder % (" " * depth, folder))
+##                        depth += indent_size
+##                # add new bookmark
+##                out_handle.write(New_Bookmark % (" " * depth, url, title))
+##            else:
+##                # new folder, unwind back to common prefix (which may be empty)
+##                while div_prev != div_prefix:
+##                    # close one folder
+##                    depth -= indent_size
+##                    out_handle.write(End_Folder % (" " * depth))
+##                    if div_prev:
+##                        del div_prev[-1]
+##                # add new folder(s)
+##                for folder in div_path[len(prefix):]:
+##                    out_handle.write(New_Folder % (" " * depth, folder))
+##                    depth += indent_size
+##                # add new bookmark
+##                out_handle.write(New_Bookmark % (" " * depth, url, title))
+#
+#        # remember the last path
+#        prev_path = path
+#
+#    # close outstanding folders
+#    while depth > 0:
+#        depth -= 1
+#        close_folder(out_handle, depth)
+#
+#    # print the HTML footer
+##    out_handle.write(HTML_Footer)
+#
+#    return result
 
 
 if __name__ == '__main__':
