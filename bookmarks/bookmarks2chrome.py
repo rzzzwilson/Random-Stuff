@@ -17,6 +17,8 @@ where path/to/bookmark is a '/' delimited bookmark folder path with the last
 and   URL              is the associated bookmark URL
 """
 
+TODO: Must handle one or more bookmarks with same title.
+
 import sys
 from pprint import pprint
 
