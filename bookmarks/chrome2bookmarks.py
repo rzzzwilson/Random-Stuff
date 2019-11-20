@@ -16,6 +16,8 @@ The last "file" in the "bookmark_path" is the bookmark name.  Preceding
 "files" are folder names.
 """
 
+TODO: Replace '/' in title string with ' - '
+
 from html.parser import HTMLParser
 
 class HTML2JSON(HTMLParser):
