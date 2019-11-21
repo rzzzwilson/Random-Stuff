@@ -17,7 +17,7 @@ where path/to/bookmark is a '/' delimited bookmark folder path with the last
 and   URL              is the associated bookmark URL
 """
 
-TODO: Must handle one or more bookmarks with same title.
+# TODO: Must handle one or more bookmarks with same title.
 
 import sys
 from pprint import pprint
@@ -76,16 +76,20 @@ def get_line_data(lnum, line):
 def dump_dict(out, root, depth=1):
     """Dump "root" dict to "out" file-like object."""
 
+    # dump folders first
     for (key, value) in root.items():
         if isinstance(value, dict):
             # folder
             open_folder(out, depth, key)
             dump_dict(out, value, depth+1)
             close_folder(out, depth)
-    for (key, value) in root.items():
+
+    # then dump bookmarks
+    for (key, marks) in root.items():
         if not isinstance(value, dict):
-            # simple bookmark
-            new_bookmark(out, depth, value, key)
+            # simple bookmark, dump one or more bookmarks
+            for value in marks:
+                new_bookmark(out, depth, value, key)
 
 def process_bookmarks(in_handle, out_handle):
     """Convert a bookmarks data file to a Google Chrome HTML bookmarks file.
@@ -95,19 +99,6 @@ def process_bookmarks(in_handle, out_handle):
 
     Returns an error status for sys.exit(): 0 means all OK.
     """
-
-## test file with simple data
-#/Bookmarks Bar/Daily/www.theguardian.com	https://www.theguardian.com/world
-#/Bookmarks Bar/Daily/The Register: Sci/Tech News for the World	http://www.theregister.co.uk/
-#/Bookmarks Bar/Daily/Physics	http://www.reddit.com/r/Physics/new
-#/Bookmarks Bar/Daily/programming	http://www.reddit.com/r/programming/new
-#/Bookmarks Bar/Daily/Hacker News	https://news.ycombinator.com/newest
-#/Bookmarks Bar/Daily/µnit — C Unit Testing Framework	https://nemequ.github.io/munit/
-#/Bookmarks Bar/Music/Classical music radio stations	http://www.listenlive.eu/classical.html
-#/Bookmarks Bar/Music/ABC Classic FM - ABC Radio	https://radio.abc.net.au/stations/classic/live?play=true
-#/Bookmarks Bar/Music/İTÜ Radyosu Klasik	http://eskiweb.radyo.itu.edu.tr/flash/klasik.html
-#/Bookmarks Bar/Music/Classical radio	http://www.radio.net/genre/Classical/
-#/Dilbert 	http://dilbert.com/
 
     # process each line in the input file
     root = {}
@@ -134,7 +125,11 @@ def process_bookmarks(in_handle, out_handle):
             current = current[path]
 
         # create new bookmark at the appropriate place
-        current[title] = url
+        if title not in current:
+            # no bookmark yet, create empty list
+            current[title] = []
+        # append new url to value list
+        current[title].append(url)
 
     pprint(root)
 
