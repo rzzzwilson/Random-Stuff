@@ -22,7 +22,9 @@ from pprint import pprint
 
 
 # any folder path with this at the start has it removed
-IgnorePrefix = 'Bookmarks Bar/'
+IgnorePrefix = ['Bookmarks Bar/']
+
+IgnoreLine = ['PyCon APAC 2018/']
 
 # if these strings appear in a URL, ignore the bookmark
 BadUrlList = ['ps.reddit', 'old.reddit']
@@ -70,9 +72,11 @@ def get_line_data(lnum, line):
 
     (path, title) = os.path.split(path)
 
-    # remove the "IgnorePrefix" it it's there
-    if path.startswith(IgnorePrefix):
-        path = path[len(IgnorePrefix):]
+    # remove any "IgnorePrefix" it it 's there
+    for prefix in IgnorePrefix:
+        if path.startswith(prefix):
+            path = path[len(prefix):]
+            break
 
     if path:
         path_list = path.split('/')
