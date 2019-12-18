@@ -7,12 +7,12 @@ to a designated "backup" external drive.
 usage: backup [-f] [-h]
 
 where -d <level>  sets debug to <level> ("debug", "info", etc)
-      -f          disable fsck of the BACKUP media
+      -f          disable fsck of the target BACKUP media
       -h          prints this help
-"""
 
-# to restore:
-#   /usr/local/bin/rsync  -aE -r --protect-args ./ /Volumes/DATA/
+To restore:
+    /usr/local/bin/rsync  -aE -r --protect-args ./ /Volumes/DATA/
+"""
 
 import sys
 import os
@@ -37,6 +37,9 @@ Sources = [
 # target directory and drive information
 # (path, id_file, id_string)
 Target = ('/Volumes/BACKUP', '.diskid', 'backup 2.2')
+
+# number of old backups to keep
+NumOldBackups = 10
 
 # maximum target used space before deleting old backups (%)
 MaxPercentUsed = 95
@@ -243,11 +246,8 @@ def do_backup(code_path, sources, target_base):
 
     # create the timestamp string
     timestamp = time.strftime('%Y%m%d_%H%M%S')
-#    target_path = os.path.join(target_base, timestamp)
-#    log.info(f"do_backup: creating target_path='{target_path}'")
-#    os.makedirs(target_path)
 
-    # exclude all files required
+    # exclude all files not to be handled
     exclude = ''
     for f in ExcludeFiles:
         exclude += f' --exclude="{f}"'
@@ -410,7 +410,7 @@ def backup(fsck, code_path, sources, target, max_percent, exclude_files):
         abort(f'{target_base} not mounted or disk ID file not found.')
 
     # delete old directories, if required, until below configured size
-    prune_target_size(target_base, max_percent)
+#    prune_target_size(target_base, max_percent)
 
     # do the backup
     do_backup(code_path, sources, target_base)
@@ -419,13 +419,37 @@ def backup(fsck, code_path, sources, target, max_percent, exclude_files):
     if fsck:
         check_filesystem(target_base)
 
-    # report on space left on target
-    (_, target_left) = get_space_used_remain(target_base)
-    remaining_msg = f'Space remaining on {target_base} = {target_left}%'
-    log.info(remaining_msg)
-    print(remaining_msg)
-
     return 0
+
+def del_old_backups(sources, target):
+    """Delete backups until we have the specified maximum number.
+
+    sources  a list of tuples, one for each source
+    target  tuple holding target information
+            (path, diskid, label)
+    """
+
+    # unpack the target information
+    (target_base, target_idfile, target_idstring) = target
+
+    log.info(f'Deleting old backups on {target_base}')
+
+    for (src, _, _) in Sources:
+        target_dir = os.path.basename(src)
+        work_dir = os.path.join(target_base, target_dir)
+
+        # delete old backup directories if more than NumOldBackups
+        result = subprocess.check_output(['ls', work_dir]).decode("utf-8")
+        result = result.split()
+        result.sort()
+        num_backups = len(result)
+        if num_backups > NumOldBackups:
+            for path in result[:num_backups - NumOldBackups]:
+                del_path = os.path.join(work_dir, path)
+                log.info(f"Deleting '{del_path}' ...")
+                result = subprocess.check_output(['rm','-Rf', del_path]).decode("utf-8")
+                if result:
+                    log.info(f"result={result}")
 
 
 if __name__ == '__main__':
@@ -500,9 +524,19 @@ if __name__ == '__main__':
     # run the program code
     res = backup(fsck, code_path, Sources, Target, MaxPercentUsed, ExcludeFiles)
 
-    # check soure disk(s), always
+    # delete old backups
+    del_old_backups(Sources, Target)
+
+    # check source disk(s), always
     for (src, _, _) in Sources:
         check_filesystem(src)
+
+    # report on space left on target
+    (target_base, _, _) =  Target
+    (_, target_left) = get_space_used_remain(target_base)
+    remaining_msg = f'Space remaining on {target_base} = {target_left}%'
+    log.info(remaining_msg)
+    print(remaining_msg)
 
     delta_time = time.time() - start_time
     print(f'Total time: {human_time(delta_time)}')
