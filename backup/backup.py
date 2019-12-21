@@ -39,7 +39,7 @@ Sources = [
 Target = ('/Volumes/BACKUP', '.diskid', 'backup 2.2')
 
 # number of old backups to keep
-NumOldBackups = 10
+NumOldBackups = 15
 
 # maximum target used space before deleting old backups (%)
 MaxPercentUsed = 95
