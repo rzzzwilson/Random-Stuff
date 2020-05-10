@@ -71,7 +71,6 @@ class Shape(object):
         self.placement = []
 
         if GraphicsFlag:
-            global Images
             for (x, y) in squares:
                 nwid = Images['nw' + getId(self, x-1, y) +
                                 getId(self, x-1, y-1) + getId(self, x, y-1)]
@@ -218,21 +217,6 @@ class Piece(object):
     def __str__(self):
         return str(self.shapes)
 
-    def getShapes(self):
-        return self.shapes
-
-    def isInuse(self):
-        return self.inUse
-
-    def setInuse(self):
-        self.inUse = True
-
-    def setNotInuse(self):
-        self.inUse = False
-
-    def getNumSquares(self):
-        return self.numsquares
-
 
 class Board(object):
     """Holds values of squares on the board."""
@@ -252,14 +236,12 @@ class Board(object):
 
         # if doing graphics, get 1/4 tile images
         if GraphicsFlag:
-            global Images
             # start Tkinter up
             self.root = Tk()
             self.canvas = Canvas(self.root, height=self.ysize*TILEHEIGHT,
                                     width=self.xsize*TILEWIDTH)
             self.canvas.pack()
 
-            Images = {}
             for path in glob.glob(os.path.join(IMAGEDIR, '*.gif')):
                 fname = os.path.basename(path)[:-4]
                 Images[fname] = PhotoImage(file=path)
@@ -272,7 +254,6 @@ class Board(object):
 
     # console representation of the board
     def __str__(self):
-        #nx = 6
         nx = 7
         ny = 3
         show = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -416,7 +397,7 @@ def solve(board, pieces, x, y, numsolns=0):
     Returns the new number of solutions.
     """
 
-    if y >= board.ysize:              # have a solution
+    if y >= board.ysize:                # have a solution
         seensigs = board.getSeenSigs()  # have we seen it before?
         if (board.getSig(0) not in seensigs and
                 board.getSig(1) not in seensigs and
@@ -430,14 +411,14 @@ def solve(board, pieces, x, y, numsolns=0):
                 board.snapSolution(f'{DataFile}.solution{numsolns:02d}.eps')
     else:
         for p in pieces:
-            if not p.isInuse():
-                for s in p.getShapes():
+            if not p.inUse:
+                for s in p.shapes:
                     if s.place(board, x, y, p.number):
-                        p.setInuse()
+                        p.inUse = True
                         (newx, newy) = board.nextSquare(x, y)
                         numsolns = solve(board, pieces, newx, newy, numsolns)
                         s.unplace(board, x, y)
-                        p.setNotInuse()
+                        p.inUse = False
     return numsolns
 
 
@@ -492,7 +473,7 @@ def main():
     pieces = readPieces(lines[2:])
     numsquares = 0
     for p in pieces:
-        numsquares += p.getNumSquares()
+        numsquares += p.numsquares
 
     if numsquares != xsize * ysize:
         print(f'ERROR: Board has {xsize * ysize} squares, shapes add up to {numsquares} squares!?')
