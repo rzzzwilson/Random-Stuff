@@ -6,18 +6,15 @@ Use it like this:
 
 $ python fibonacci_iter.py 40
 Fibonacci(40)=102334155     took 0.0000339s
+
+This uses a standard iterative approach, no recursion.
 """
 
-FibMemo = {0: 0, 1: 1}     # memo + base cases
-FibMemoMax = 1
-
 def fibonacci_iter(n):
-    global FibMemoMax
-    while FibMemoMax < n:
-        FibMemoMax += 1
-        FibMemo[FibMemoMax] = FibMemo[FibMemoMax-1] + FibMemo[FibMemoMax-2]
-
-    return FibMemo[n]
+    (a, b) = (0, 1)
+    for _ in range(n):
+        (a, b) = (b, a+b)
+    return a
 
 number = int(sys.argv[1])
 
