@@ -35,24 +35,22 @@ An example data file ('|' shows the start of column 1):
 
 import sys
 import os
-import os.path
-import string
 import glob
 import getopt
-from tkinter import *
+import warnings
+import tkinter as tk
 
 
-TILEHEIGHT = 64
-TILEWIDTH = 64
+TileHeight = 64
+TileWidth = 64
 
-IMAGEDIR = "tiles"
+ImageDir = "tiles"
 
 GraphicsFlag = False
-DataFile = None
 Images = {}
 
 
-class Shape(object):
+class Shape:
     """Holds squares for one shape.
 
     Only interesting method is rotate90() which creates a new shape.
@@ -64,21 +62,20 @@ class Shape(object):
 
     def __init__(self, squares):
         def getId(shape, x, y):
-            if (x, y) in squares: return '1'
-            return '0'
+            return '1' if (x, y) in squares else '0'
 
         self.idtags = []
         self.placement = []
 
         if GraphicsFlag:
             for (x, y) in squares:
-                nwid = Images['nw' + getId(self, x-1, y) +
+                nwid = Images["nw" + getId(self, x-1, y) +
                                 getId(self, x-1, y-1) + getId(self, x, y-1)]
-                neid = Images['ne' + getId(self, x, y-1) +
+                neid = Images["ne" + getId(self, x, y-1) +
                                 getId(self, x+1, y-1) + getId(self, x+1, y)]
-                seid = Images['se' + getId(self, x+1, y) +
+                seid = Images["se" + getId(self, x+1, y) +
                                 getId(self, x+1, y+1) + getId(self, x, y+1)]
-                swid = Images['sw' + getId(self, x, y+1) +
+                swid = Images["sw" + getId(self, x, y+1) +
                                 getId(self, x-1, y+1) + getId(self, x-1, y)]
                 self.placement.append(((x, y), (nwid, neid, seid, swid)))
         else:
@@ -86,28 +83,18 @@ class Shape(object):
                 self.placement.append(((x, y), ()))
 
     def __str__(self):
-        squares = []
-        for (p, s) in self.placement:
-            squares.append(p)
-        return str(squares)
+        return str(self.getSquares())
 
     def __cmp__(self, a):
-        squares = []
-        for (p, t) in self.placement:
-            squares.append(p)
-        if squares == a.getSquares():
+        if self.getSquares() == a.getSquares():
             return 0
         return 1
 
     def getSquares(self):
-        squares = []
-        for (p, t) in self.placement:
-            squares.append(p)
-        return squares
+        return [p for (p, _) in self.placement]
 
+    # rotate a shape 90 degrees and generate a new shape
     def rotate90(self):
-        """Rotate a shape 90 degrees and generate a new shape."""
-
         rotsquares = []
         for ((x, y), t) in self.placement:
             rotsquares.append((y, -x))
@@ -130,20 +117,13 @@ class Shape(object):
     # place the shape on the board.
     # we must remember the IDtags for each placed 1/4 tile.
     def place(self, board, x, y, number):
-        """Place the shape on the board.
-
-        board   the board to place the shape in
-        x, y    coordinates of where to place shape
-        number  ?
-        """
-
         # first, *can* we place the shape?
         for ((dx, dy), t) in self.placement:
             newx = x + dx
             newy = y + dy
-            if (newx < 0 or newx >= board.xsize
-                    or newy < 0 or newy >= board.ysize
-                    or board.isSet(newx, newy)):
+            if (newx < 0 or newx >= board.xsize or
+                    newy < 0 or newy >= board.ysize or
+                    board.isSet(newx, newy)):
                 return False
 
         for ((dx, dy), t) in self.placement:
@@ -155,28 +135,27 @@ class Shape(object):
             for ((dx, dy), (nw, ne, se, sw)) in self.placement:
                 newx = x + dx
                 newy = y + dy
-                idtag = board.canvas.create_image(newx*TILEWIDTH,
-                                                    newy*TILEHEIGHT,
-                                                    anchor=NW, image=nw)
+                idtag = board.canvas.create_image(newx*TileWidth,
+                                                    newy*TileHeight,
+                                                    anchor=tk.NW, image=nw)
                 self.idtags.append(idtag)
-                idtag = board.canvas.create_image(newx*TILEWIDTH+32,
-                                                    newy*TILEHEIGHT,
-                                                    anchor=NW, image=ne)
+                idtag = board.canvas.create_image(newx*TileWidth+32,
+                                                    newy*TileHeight,
+                                                    anchor=tk.NW, image=ne)
                 self.idtags.append(idtag)
-                idtag = board.canvas.create_image(newx*TILEWIDTH+32,
-                                                    newy*TILEHEIGHT+32,
-                                                    anchor=NW, image=se)
+                idtag = board.canvas.create_image(newx*TileWidth+32,
+                                                    newy*TileHeight+32,
+                                                    anchor=tk.NW, image=se)
                 self.idtags.append(idtag)
-                idtag = board.canvas.create_image(newx*TILEWIDTH,
-                                                    newy*TILEHEIGHT+32,
-                                                    anchor=NW, image=sw)
+                idtag = board.canvas.create_image(newx*TileWidth,
+                                                    newy*TileHeight+32,
+                                                    anchor=tk.NW, image=sw)
                 self.idtags.append(idtag)
             board.root.update()
         return True
 
+    # remove the shape from the board
     def unplace(self, board, x, y):
-        """Remove the shape from the board."""
-
         # mark occupied squares as free now
         for ((dx, dy), _) in self.placement:
             board.unSet(x+dx, y+dy)
@@ -217,6 +196,21 @@ class Piece(object):
     def __str__(self):
         return str(self.shapes)
 
+    def getShapes(self):
+        return self.shapes
+
+    def isInuse(self):
+        return self.inUse
+
+    def setInuse(self):
+        self.inUse = True
+
+    def setNotInuse(self):
+        self.inUse = False
+
+    def getNumSquares(self):
+        return self.numsquares
+
 
 class Board(object):
     """Holds values of squares on the board."""
@@ -237,27 +231,28 @@ class Board(object):
         # if doing graphics, get 1/4 tile images
         if GraphicsFlag:
             # start Tkinter up
-            self.root = Tk()
-            self.canvas = Canvas(self.root, height=self.ysize*TILEHEIGHT,
-                                    width=self.xsize*TILEWIDTH)
+            self.root = tk.Tk()
+            self.canvas = tk.Canvas(self.root, height=self.ysize*TileHeight,
+                                    width=self.xsize*TileWidth)
             self.canvas.pack()
 
-            for path in glob.glob(os.path.join(IMAGEDIR, '*.gif')):
-                fname = os.path.basename(path)[:-4]
-                Images[fname] = PhotoImage(file=path)
+            for image_file in glob.glob(os.path.join(ImageDir, "*.gif")):
+                # get just the base name without '.gif'
+                (fname, _) = os.path.splitext(os.path.basename(image_file))
+                Images[fname] = tk.PhotoImage(file=image_file)
 
             for y in range(self.ysize):
                 for x in range(self.xsize):
-                    self.canvas.create_image(x*TILEWIDTH, y*TILEHEIGHT,
-                                               anchor=NW, image=Images['empty'])
+                    self.canvas.create_image(x*TileWidth, y*TileHeight,
+                                             anchor=tk.NW, image=Images["empty"])
             self.root.update()
 
     # console representation of the board
     def __str__(self):
-        nx = 7
+        nx = 6
         ny = 3
-        show = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        result = ''
+        show = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        result = ""
         for y in range(self.ysize):
             # line above
             if y != 0:
@@ -295,13 +290,9 @@ class Board(object):
         return self.board[y][x]
 
     def set(self, x, y, number):
-        """Set piece 'number' at (x, y)."""
-
         self.board[y][x] = number
 
     def unSet(self, x, y):
-        """Unset piece 'number' at (x, y)."""
-
         self.board[y][x] = 0
 
     def nextSquare(self, x, y):
@@ -339,8 +330,6 @@ class Board(object):
         return result
 
     def saveSig(self):
-        """Save a signature in 'seen' list."""
-
         sig = self.getSig(0)
         self.seensigs.append(sig)
 
@@ -348,7 +337,7 @@ class Board(object):
         return self.seensigs
 
     def snapSolution(self, fname):
-        self.canvas.postscript(colormode='color', file=fname)
+        self.canvas.postscript(colormode="color", file=fname)
 
 
 def readPieces(lines):
@@ -362,8 +351,8 @@ def readPieces(lines):
     number = 0
 
     for l in lines:
-        l = l.rstrip('\n')
-        if l == '':                     # blank - end of piece
+        l = l.rstrip("\n")
+        if l == "":                     # blank - end of piece
             if shape is not None:       # close current piece, if any
                 number += 1
                 newShape = Shape(shape)
@@ -374,7 +363,7 @@ def readPieces(lines):
                 shape = []
                 y = 0
             for x in range(len(l)):
-                if l[x] != ' ':
+                if l[x] != " ":
                     shape.append((x, y))
             y += 1
 
@@ -386,12 +375,13 @@ def readPieces(lines):
     return result
 
 
-def solve(board, pieces, x, y, numsolns=0):
+def solve(board, pieces, x, y, datafile, numsolns=0):
     """Solve the puzzle. Recursive.
 
     board     the current board
     pieces    the list of available pieces
     x, y      current 'placed' position on board
+    datafile  the path of the data file we are solving
     numsolns  number of solutions so far
 
     Returns the new number of solutions.
@@ -404,35 +394,36 @@ def solve(board, pieces, x, y, numsolns=0):
                 board.getSig(2) not in seensigs and
                 board.getSig(3) not in seensigs):
             numsolns += 1               # no!
-            print(f'Solution {numsolns}:')
+            print(f'Solution {numsolns}')
             print(board)
             board.saveSig()
             if GraphicsFlag:
-                board.snapSolution(f'{DataFile}.solution{numsolns:02d}.eps')
+                board.snapSolution(f'{datafile}.solution{numsolns:02d}.eps')
     else:
         for p in pieces:
-            if not p.inUse:
-                for s in p.shapes:
+            if not p.isInuse():
+                for s in p.getShapes():
                     if s.place(board, x, y, p.number):
-                        p.inUse = True
+                        p.setInuse()
                         (newx, newy) = board.nextSquare(x, y)
-                        numsolns = solve(board, pieces, newx, newy, numsolns)
+                        numsolns = solve(board, pieces, newx, newy,
+                                         datafile, numsolns)
                         s.unplace(board, x, y)
-                        p.inUse = False
+                        p.setNotInuse()
     return numsolns
 
 
 def usage():
     """Give user some idea of what to do."""
 
-    print('usage: solver [-g] <datafile>')
-    print('where -g turns on the graphic display')
+    print("usage: solver [-g] <datafile>")
+    print("where -g turns on the graphic display")
 
 
 def main():
     """Check args, create pieces and board, solve puzzle."""
 
-    global GraphicsFlag, DataFile
+    global GraphicsFlag
 
     # handle args
     try:
@@ -448,18 +439,18 @@ def main():
     if ('-g', '') in opts:
         GraphicsFlag = True
 
-    DataFile = pargs[1]
+    datafile = pargs[1]
 
     ######
     # Read data file.
     ######
 
-    with open(DataFile, 'r') as f:
-        try:
-            lines = f.readlines()
-        except IOError as e:
-            print(f"Can't open data file '{DataFile}' - {e}.")
-            return 10
+    try:
+        with open(datafile) as fd:
+            lines = fd.readlines()
+    except IOError as e:
+        print(f"Can't open data file '{datafile}' - {e}.")
+        return 10
 
     ######
     # Now parse the data lines, check for data consistency.
@@ -473,7 +464,7 @@ def main():
     pieces = readPieces(lines[2:])
     numsquares = 0
     for p in pieces:
-        numsquares += p.numsquares
+        numsquares += p.getNumSquares()
 
     if numsquares != xsize * ysize:
         print(f'ERROR: Board has {xsize * ysize} squares, shapes add up to {numsquares} squares!?')
@@ -483,25 +474,19 @@ def main():
     # Solve the puzzle,
     ######
 
-    print(f"Solving puzzle in '{DataFile}':")
-    print('------------------------------------------------------')
-    for l in lines:
-        print(l, end='')
-    print('------------------------------------------------------\n')
+    print(f"Solving puzzle in '{datafile}':")
+    print("------------------------------------------------------")
+    print(''.join(lines), end='')
+    print("------------------------------------------------------\n")
 
-    numsolns = solve(board, pieces, 0, 0)
+    numsolns = solve(board, pieces, 0, 0, datafile)
 
     if numsolns == 0:
-        print('\nNo solutions')
-    elif numsolns == 1:
-        print(f'\n{numsolns} unique solution')
-    else:
-        print(f'\n{numsolns} unique solutions')
+        print("\nNo solutions")
+    print(f"\n{numsolns} unique solution{'' if numsolns == 1 else 's'}")
+
     return 0
 
 
-if __name__ == '__main__':
-    try:
-        sys.exit(main())
-    except KeyboardInterrupt:
-        print('\nkilled')
+if __name__ == "__main__":
+    sys.exit(main())

@@ -22,6 +22,11 @@ A simple run would be:
 There are more details in the wiki:
 <https://github.com/rzzzwilson/Random-Stuff/wiki/puzzle-solver>.
 
+solver3
+-------
+
+This is a rewrite of the program for python3.
+
 Postscript
 ----------
 
