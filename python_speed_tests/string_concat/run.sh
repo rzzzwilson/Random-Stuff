@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 #
 # Run the python speed test code and also run a memory-usage logging
@@ -82,6 +82,7 @@ for PYTHON in python python3; do
             trap "kill_test $TEST_PID; exit" SIGINT SIGTERM
 
             # now run the memory-usage logging program
+            echo "Doing: python memprof.py $TEST_PID $LOGFILE"
             python memprof.py $TEST_PID $LOGFILE
 
             # append results to the results file
