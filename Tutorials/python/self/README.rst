@@ -10,7 +10,7 @@ Occasionally we see questions on `/r/learnpython`__ and elsewhere:
 .. __: https://www.reddit.com/r/learnpython/
 
 The answer is: **TRADITION!**
-(insert mandatory *Fiddler on the Roof* reference here)
+(cue the song from *Fiddler on the Roof*).
 
 Object Oriented Python
 ----------------------
