@@ -4,8 +4,8 @@ import time
 """
 Use it like this:
 
-$ python fibonacci.py 40
-Fibonacci(40)=102334155     took 31.8008261s
+$ python3 fibonacci.py 40
+fibonacci(40)=102334155     took 67.0459089s
 """
 
 def fibonacci(n):

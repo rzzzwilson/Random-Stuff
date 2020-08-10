@@ -4,8 +4,8 @@ import time
 """
 Use it like this:
 
-$ python fibonacci_iter.py 40
-Fibonacci(40)=102334155     took 0.0000339s
+$ python3 fibonacci_iter.py 40
+fibonacci_iter(40)=102334155     took 0.0000069s
 
 This uses a standard iterative approach, no recursion.
 """

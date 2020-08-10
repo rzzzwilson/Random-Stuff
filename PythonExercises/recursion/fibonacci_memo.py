@@ -4,8 +4,8 @@ import time
 """
 Use it like this:
 
-$ python fibonacci_memo.py 40
-Fibonacci(40)=102334155     took 31.8008261s
+$ python3 fibonacci_memo.py 40
+fibonacci_memo(40)=102334155     took 0.0000539s
 """
 
 fib_memo = {0: 0, 1: 1}     # memo + base cases

@@ -5,7 +5,7 @@ import time
 Use it like this:
 
 $ python3 fibonacci_tail.py 40
-fibonacci_tail(40)=102334155     took 0.0000210s
+fibonacci_tail(40)=102334155     took 0.0000241s
 
 This version uses tail recursion.
 See https://www.youtube.com/watch?v=_JtPhF8MshA

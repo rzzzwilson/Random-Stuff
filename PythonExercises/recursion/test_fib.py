@@ -3,7 +3,7 @@ Code to run each Fibonacci implementation and compare run times.
 
 Runs each file in this directory that start "fibonacci*.py".
 
-Usage: python3 test_fib.py <number>
+Usage: python3 test_fib.py <fib_num>
 """
 
 import sys
@@ -65,4 +65,4 @@ for (path, time) in results:
     if path == fast_path:
         print(f' {path:{max_path_width}s} | {time:9.6f}s | this is the fastest')
     else:
-        print(f' {path:{max_path_width}s} | {time:9.6f}s | {time/fast_time:9.1f} times slower')
+        print(f' {path:{max_path_width}s} | {time:9.6f}s | {time/fast_time:10.1f} times slower')
