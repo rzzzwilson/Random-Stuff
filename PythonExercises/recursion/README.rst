@@ -1,7 +1,23 @@
-I wrote this code a long time ago for a small talk I gave on recursion.
+I wrote the original code a long time ago for a small talk I gave on recursion.
+That's the *binary_tree.py* and *hanoi.py* files.
 
-Recent additions add tail call optimization and compares the run time
-of each algorithm.  The output is::
+More recently I started to investigate the relative speeds of various
+implementations of a Fibonacci function:
+
+-------------------+-------------------------------------------------------
+ File              | Implementation
+===================+=======================================================
+fibonacci_naive.py | A naive, simple implementation
+-------------------+-------------------------------------------------------
+fibonacci_memo.py  | Using a dictionary to memoize the function
+-------------------+-------------------------------------------------------
+fibonacci_tail.py  | Using tail recursion
+-------------------+-------------------------------------------------------
+fibonacci_iter.py  | An iterative implementation to test against
+-------------------+-------------------------------------------------------
+
+The *test_fib.py* file runs all Fibonacci implementations for number given
+and lists the results and relative performances::
 
     $ python3 test_fib.py 40
      FILE              |  RUNTIME   | RESULTS
