@@ -1,12 +1,13 @@
-import sys
-import time
-
 """
 Use it like this:
 
 $ python3 fibonacci_memo.py 40
 fibonacci_memo(40)=102334155     took 0.0000539s
 """
+
+import sys
+import time
+
 
 fib_memo = {0: 0, 1: 1}     # memo + base cases
 

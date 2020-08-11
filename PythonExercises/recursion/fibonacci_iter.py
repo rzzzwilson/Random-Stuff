@@ -1,6 +1,3 @@
-import sys
-import time
-
 """
 Use it like this:
 
@@ -9,6 +6,10 @@ fibonacci_iter(40)=102334155     took 0.0000069s
 
 This uses a standard iterative approach, no recursion.
 """
+
+import sys
+import time
+
 
 def fibonacci_iter(n):
     (a, b) = (0, 1)

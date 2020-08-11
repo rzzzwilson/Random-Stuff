@@ -1,6 +1,3 @@
-import sys
-import time
-
 """
 Use it like this:
 
@@ -13,6 +10,10 @@ See https://www.youtube.com/watch?v=_JtPhF8MshA
 Due to the flexibility of python we can write the fibonacci()
 function as if it were the "go()" function in the video.
 """
+
+import sys
+import time
+
 
 def fibonacci(num, a=0, b=1):
     if num == 0:

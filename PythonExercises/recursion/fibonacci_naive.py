@@ -1,12 +1,13 @@
-import sys
-import time
-
 """
 Use it like this:
 
 $ python3 fibonacci.py 40
 fibonacci(40)=102334155     took 67.0459089s
 """
+
+import sys
+import time
+
 
 def fibonacci(n):
     if n == 0:
