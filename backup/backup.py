@@ -9,6 +9,7 @@ usage: backup [-f] [-h]
 where -d <level>  sets debug to <level> ("debug", "info", etc)
       -f          disable fsck of the target BACKUP media
       -h          prints this help
+      -p          show progress
 
 To restore:
     /usr/local/bin/rsync  -aE -r --protect-args ./ /Volumes/DATA/
@@ -39,7 +40,7 @@ Sources = [
 Target = ('/Volumes/BACKUP', '.diskid', 'backup 2.2')
 
 # number of old backups to keep
-NumOldBackups = 15
+NumOldBackups = 3
 
 # maximum target used space before deleting old backups (%)
 MaxPercentUsed = 95
@@ -61,7 +62,7 @@ ProgVersion = '2.1'
 # the logging file
 LogFile = os.path.expanduser(f'~/{ProgName}.log')
 
-# path to the 'rsync' to use
+# path to the 'rsync' to use (NOT the ancient apple one!)
 RsyncPath = '/usr/local/bin/rsync'
 
 # miscellaneous
@@ -94,6 +95,7 @@ def abort(msg):
 
     log.critical('Abort: ' + msg)
     print(msg)
+    sys.exit(1)     # DEBUG
     cmd = ('osascript -e "display dialog \\"%s\\" buttons {\\"OK\\"} '
            'default button \\"OK\\"" >/dev/null 2>&1' % (msg))
     os.system(cmd)
@@ -104,7 +106,7 @@ def say(msg):
     """Speak the error message."""
 
     cmd = 'say "%s"' % (msg)
-    os.system('say "%s"' % msg)
+    os.system(cmd)
 
 
 def alert(msg):
@@ -112,9 +114,9 @@ def alert(msg):
 
     log.critical(f'Alert: {msg}')
     print(msg)
-    cmd = ('osascript -e "display dialog \\"%s\\" buttons {\\"OK\\"} '
-           'default button \\"OK\\"" >/dev/null 2>&1' % (msg))
-    os.system(cmd)
+#    cmd = ('osascript -e "display dialog \\"%s\\" buttons {\\"OK\\"} '
+#           'default button \\"OK\\"" >/dev/null 2>&1' % (msg))
+#    os.system(cmd)
 
 
 def get_space_used_remain(target):
@@ -142,39 +144,6 @@ def get_space_used_remain(target):
     used = int(space_used / space_available * 100)
 
     return (used, remain)
-
-
-def prune_target_size(target, max_percent):
-    """Check 'target' size and prune if above limit.
-
-    target       path to the target disk
-    max_percent  maximum percent used allowed
-    """
-
-    log.debug(f'prune_target_size: target={target}, max_percent={max_percent}')
-
-    # get list of existing directories, sorted
-    path = os.path.join(target, '[0-9][0-9][0-9][0-9]*')
-    dirs = glob.glob(path)
-    dirs.sort()
-    log.debug(f'prune_target_size: dirs={dirs}')
-
-    # now keep deleting oldest until we are under the limit
-    while len(dirs) > 1:
-        # get free space percentage
-        (used, _) = get_space_used_remain(target)
-
-        # if enough space free, bomb out
-        if used < max_percent:
-            break
-
-        # get oldest directory remaining, remove from dir list
-        oldest_dir = dirs.pop(0)
-
-        # delete the directory
-        cmd = f'rm -Rf "{oldest_dir}"'
-        log.debug(f"prune_target_size: deleting '{oldest_dir}'")
-        os.system(cmd)
 
 
 def create_target(target):
@@ -231,7 +200,7 @@ def get_links_dir(target, bname):
     return None
 
 
-def do_backup(code_path, sources, target_base):
+def do_backup(code_path, sources, target_base, user_options):
     """Perform a backup.
 
     code_path    path to the executable doing the backup
@@ -288,12 +257,15 @@ def do_backup(code_path, sources, target_base):
         log.debug(f"do_backup: doing '{cmd}'")
         os.system(cmd)
 
+        # get user options
+        user_options = ' '.join(user_options)
+
         # actually do the backup now
         if links_dir:
-            cmd = (f'{RsyncPath} {RsyncOptions} {exclude} '
+            cmd = (f'{RsyncPath} {RsyncOptions} {user_options} {exclude} '
                    f'--link-dest="{links_dir}" "{source_path}/" "{target_dir}/"')
         else:
-            cmd = (f'{RsyncPath} {RsyncOptions} {exclude} '
+            cmd = (f'{RsyncPath} {RsyncOptions} {user_options} {exclude} '
                    f'"{source_path}/" "{target_dir}/"')
         log.debug(f"do_backup: cmd='{cmd}'")
         os.system(cmd)
@@ -383,14 +355,16 @@ def check_filesystem(fs_base):
         result = subprocess.check_output(cmd).decode("utf-8")
     except subprocess.CalledProcessError as e:
         say('Error found when checking file system')
-        print(f"Error found when checking filesystem, check log in file '{LogFile}'")
-        abort(f'Error found when checking filesystem on {fs_base} ({device}), error status {e.returncode}')
+        print(f"Error found when checking filesystem on {fs_base}, check log in file '{LogFile}'")
+#        abort(f'Error found when checking filesystem on {fs_base} ({device}), error status {e.returncode}')
+        return
 
     log.debug(result)
     log.debug(Delim2)
 
 
-def backup(fsck, code_path, sources, target, max_percent, exclude_files):
+def backup(fsck, code_path, sources, target, max_percent,
+           exclude_files, user_options):
     """Perform the backup.
     
     fsck           True if we need to do 'fsck' check of target volume
@@ -399,6 +373,7 @@ def backup(fsck, code_path, sources, target, max_percent, exclude_files):
     target         tuple (path, id_file, id_string)
     max_percent    maximum percent of target used before pruning
     exclude_files  list of source files that are excluded from backup
+    user_options   list of extra options for rsync
     """
 
     # unpack the target information
@@ -409,11 +384,8 @@ def backup(fsck, code_path, sources, target, max_percent, exclude_files):
         say('Target file system not found')
         abort(f'{target_base} not mounted or disk ID file not found.')
 
-    # delete old directories, if required, until below configured size
-#    prune_target_size(target_base, max_percent)
-
     # do the backup
-    do_backup(code_path, sources, target_base)
+    do_backup(code_path, sources, target_base, user_options)
 
     # check source and target filesystems, if required
     if fsck:
@@ -439,17 +411,17 @@ def del_old_backups(sources, target):
         work_dir = os.path.join(target_base, target_dir)
 
         # delete old backup directories if more than NumOldBackups
-        result = subprocess.check_output(['ls', work_dir]).decode("utf-8")
-        result = result.split()
-        result.sort()
-        num_backups = len(result)
-        if num_backups > NumOldBackups:
-            for path in result[:num_backups - NumOldBackups]:
-                del_path = os.path.join(work_dir, path)
-                log.info(f"Deleting '{del_path}' ...")
-                result = subprocess.check_output(['rm','-Rf', del_path]).decode("utf-8")
-                if result:
-                    log.info(f"result={result}")
+        backups = subprocess.check_output(['ls', work_dir]).decode("utf-8")
+        backups = backups.split()
+        backups.sort(reverse=True)
+        log.debug(f'del_old_backups: backups={backups}')
+        while len(backups) > NumOldBackups:
+            path = backups.pop()
+            del_path = os.path.join(work_dir, path)
+            log.info(f"Deleting '{del_path}' ...")
+            result = subprocess.check_output(['rm','-Rf', del_path]).decode("utf-8")
+            if result:
+                log.info(f"result={result}")
 
 
 if __name__ == '__main__':
@@ -489,8 +461,8 @@ if __name__ == '__main__':
 
     # parse the CLI params
     try:
-        (opts, args) = getopt.getopt(sys.argv[1:], 'd:fh',
-                                     ['debug=', 'fsck', 'help'])
+        (opts, args) = getopt.getopt(sys.argv[1:], 'd:fhp',
+                                     ['debug=', 'fsck', 'help', 'progress'])
     except getopt.GetoptError as err:
         usage(err)
         os.chdir(current_dir)
@@ -499,6 +471,7 @@ if __name__ == '__main__':
     # default parameters
     fsck = True                 # always check target filesystem
     debug = logger.Log.DEBUG    # log at DEBUG level
+    user_options = []           # additional rsync options from user
 
     for (opt, param) in opts:
         if opt in ['-d', '--debug']:
@@ -514,6 +487,8 @@ if __name__ == '__main__':
             usage()
             os.chdir(current_dir)
             sys.exit(0)
+        elif opt in ['-p', '--progress']:
+            user_options.append('--progress')
 
     # get absolute path to this file
     code_path = os.path.abspath(__file__)
@@ -522,14 +497,15 @@ if __name__ == '__main__':
     log = logger.Log(LogFile, debug)
 
     # run the program code
-    res = backup(fsck, code_path, Sources, Target, MaxPercentUsed, ExcludeFiles)
-
-    # delete old backups
-    del_old_backups(Sources, Target)
+    res = backup(fsck, code_path, Sources, Target,
+                 MaxPercentUsed, ExcludeFiles, user_options)
 
     # check source disk(s), always
     for (src, _, _) in Sources:
         check_filesystem(src)
+
+    # delete old backups
+    del_old_backups(Sources, Target)
 
     # report on space left on target
     (target_base, _, _) =  Target
