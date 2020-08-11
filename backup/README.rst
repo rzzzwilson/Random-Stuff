@@ -10,7 +10,7 @@ features are:
 * use the rsync "link to old backup" feature to save space and time
 * performs a target filesystem check if requested
 
-This program will eventually be rewritten into python and enhanced with
+This program has now been rewritten into python and enhanced with
 things like:
 
 * allow external and local source directories
@@ -18,6 +18,5 @@ things like:
 * use "volume ID" file on external source/target disks
 * etc
 
-The basic functionality of the bash program has been implemented in python.
 The file "backup.py" is this new rewrite.  The "issues" system will be used
 to keep track of desired enhancements and progress.
