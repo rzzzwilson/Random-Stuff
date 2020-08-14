@@ -2,14 +2,18 @@
 Code to run each Fibonacci implementation and compare run times.
 
 Runs each file in this directory that start "fibonacci*.py".
+Imports and executes each module found.
 
 Usage: python3 test_fib.py <fib_num>
 """
 
 import sys
 import os
+import time
 import glob
 import subprocess
+
+LOOP = 1000
 
 def usage(msg=None):
     if msg:
@@ -36,23 +40,35 @@ except ValueError:
 # get all executable python files that start "fibonacci".
 files = glob.glob('./fibonacci*.py')
 
-# now execute each file passing the test number
+# import each module
+fib_modules = []
+for path in files:
+    # get module name
+    (module_name, _) = os.path.splitext(os.path.basename(path))
+    imp_mod = __import__(module_name)
+    fib_modules.append((module_name, imp_mod))
+
+# now execute fibonacci() from each module passing the test number
 # accumulate times in a dictionary
 results = {}
-for path in files:
-    path = os.path.basename(path)
-    results[path] = subprocess.check_output(['python3', path, f'{num}']).decode("utf-8")
+for (module_name, imp_mod) in fib_modules:
+    fib_func = getattr(imp_mod, 'fibonacci')
+    start = time.time()
+    fib_n = fib_func(num)
+    delta = time.time() - start
+# this doesn't work since the "memo" functions are really quick the second time!
+#    if delta < 1:
+#        start = time.time()
+#        for _ in range(LOOP):
+#            fib_n = fib_func(num)
+#        delta = (time.time() - start) / LOOP
+    results[module_name] = delta
 
-# parse each result string and replace with the time value
-# each value string has the form "fibonacci_memo(40)=102334155     took 0.0000310s\n"
-# also gather the fastest file name and the time
+# figure out the maximum module name width
 max_path_width = 0
-for (key, value) in results.items():
-    (_, time) = value.split('took ')
-    time = float(time[:-2])
-    results[key] = time
-    if len(key) > max_path_width:
-        max_path_width = len(key)
+for (module_name, time) in results.items():
+    if len(module_name) > max_path_width:
+        max_path_width = len(module_name)
 
 # get file+time into a list of tuples and sort by ascending time
 results = sorted(results.items(), key=lambda x: x[1])

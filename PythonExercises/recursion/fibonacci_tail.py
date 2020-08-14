@@ -11,9 +11,6 @@ Due to the flexibility of python we can write the fibonacci()
 function as if it were the "go()" function in the video.
 """
 
-import sys
-import time
-
 
 def fibonacci(num, a=0, b=1):
     if num == 0:
@@ -22,10 +19,14 @@ def fibonacci(num, a=0, b=1):
         return b
     return fibonacci(num-1, b, a+b)
 
-number = int(sys.argv[1])
-
-start = time.time()
-fib_n = fibonacci(number)
-delta = time.time() - start
-
-print('fibonacci_tail(%d)=%d     took %.7fs' % (number, fib_n, delta))
+if __name__ == '__main__':
+    import sys
+    import time
+    
+    number = int(sys.argv[1])
+    
+    start = time.time()
+    fib_n = fibonacci(number)
+    delta = time.time() - start
+    
+    print('fibonacci_tail(%d)=%d     took %.7fs' % (number, fib_n, delta))

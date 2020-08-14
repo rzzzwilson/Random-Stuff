@@ -7,20 +7,21 @@ fibonacci_iter(40)=102334155     took 0.0000069s
 This uses a standard iterative approach, no recursion.
 """
 
-import sys
-import time
 
-
-def fibonacci_iter(n):
+def fibonacci(n):
     (a, b) = (0, 1)
     for _ in range(n):
         (a, b) = (b, a+b)
     return a
 
-number = int(sys.argv[1])
+if __name__ == '__main__':
+    import sys
+    import time
 
-start = time.time()
-fib_n = fibonacci_iter(number)
-delta = time.time() - start
+    number = int(sys.argv[1])
 
-print('fibonacci_iter(%d)=%d     took %.7fs' % (number, fib_n, delta))
+    start = time.time()
+    fib_n = fibonacci(number)
+    delta = time.time() - start
+
+    print('fibonacci_iter(%d)=%d     took %.7fs' % (number, fib_n, delta))
