@@ -11,7 +11,7 @@ implementations of a Fibonacci function:
 +-------------------------+-------------------------------------------------------------+
 |fibonacci_memo_global.py | Using a global dictionary to memoize the function           |
 +-------------------------+-------------------------------------------------------------+
-|fibonacci_memo_param.py  | Using a local (parameter)dictionary to memoize the function |
+|fibonacci_memo_param.py  | Using a local (parameter) dictionary to memoize the function|
 +-------------------------+-------------------------------------------------------------+
 |fibonacci_tail.py        | Using tail recursion                                        |
 +-------------------------+-------------------------------------------------------------+
