@@ -34,7 +34,7 @@ the *subprocess* module and the time is reported by the module itself::
 The *test_fib_import.py* file runs all the implementations by importing them
 and calling the *fibonacci()* function directly with timing done by the calling
 code.  This was done to see if there is any difference in times.
-The results are:
+The results are::
 
     $ python3 test_fib2.py 40
      FILE                  |  RUNTIME    | RESULTS
