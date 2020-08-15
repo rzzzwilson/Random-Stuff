@@ -4,7 +4,7 @@ Code to run each Fibonacci implementation and compare run times.
 Runs each file in this directory that start "fibonacci*.py".
 Imports and executes each module found.
 
-Usage: python3 test_fib.py <fib_num>
+Usage: python3 test_fib2.py <fib_num>
 """
 
 import sys
