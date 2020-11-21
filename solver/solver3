@@ -36,6 +36,7 @@ An example data file ('|' shows the start of column 1):
 import sys
 import os
 import glob
+import time
 import getopt
 import tkinter as tk
 
@@ -409,6 +410,7 @@ def solve(board, pieces, x, y, datafile, numsolns=0):
             board.save_sig()
             if GraphicsFlag:
                 board.save_solution(f'{datafile}.solution{numsolns:02d}.eps')
+                time.sleep(1)           # delay to show solution
     else:
         for p in pieces:
             if not p.is_inuse():
